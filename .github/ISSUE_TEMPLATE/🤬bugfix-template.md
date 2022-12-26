@@ -2,7 +2,7 @@
 name: "\U0001F92CBugFix Template"
 about: 버그Fix 템플릿
 title: "\U0001F92C[발견한 버그를 작성해주세요]"
-labels: ''
+labels: "\U0001F92CBugFix"
 assignees: ''
 
 ---
