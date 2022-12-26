@@ -2,7 +2,7 @@
 name: "❗[FE] Issue Template"
 about: 프론트엔드 이슈 템플릿
 title: "❗[FE][Stack][Issue를 적어주세요] "
-labels: "\U0001F92CBugFix"
+labels: "❕Issue"
 assignees: ''
 
 ---
