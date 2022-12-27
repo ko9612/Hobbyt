@@ -7,7 +7,6 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "@typescript-eslint/parser",
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "airbnb/hooks",
@@ -24,10 +23,20 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react", "@typescript-eslint"],
+  ignorePatterns: [
+    ".eslintrc.js",
+    "next.config.js",
+    "postcss.config.js",
+    "tailwind.config.js",
+  ],
   rules: {
     "react/prop-types": "off",
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
+    "no-alert": "off",
+    "no-console": "off",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+    "react/button-has-type": "off",
   },
 };
