@@ -1,6 +1,7 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 import BlogList from "./BlogList";
+import SaleList from "./SaleList";
 
 export default function BlogTab() {
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
@@ -8,9 +9,12 @@ export default function BlogTab() {
 
   const TabMenu = tw.ul`
     flex justify-center items-center flex-row
-    m-auto
-    list-none w-[52rem]
+    w-[52rem] m-auto
+    list-none bg-white
     text-2xl
+  `;
+
+  const TabContent = tw.div`
   `;
 
   const menuArr = [
@@ -42,10 +46,11 @@ export default function BlogTab() {
           </li>
         ))}
       </TabMenu>
-      <div>
+      <TabContent>
         {/* <p>{menuArr[curIndex].content}</p> */}
         {menuArr[curIndex].idx === 0 ? <BlogList /> : null}
-      </div>
+        {menuArr[curIndex].idx === 1 ? <SaleList /> : null}
+      </TabContent>
     </>
   );
 }

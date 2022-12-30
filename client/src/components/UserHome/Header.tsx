@@ -1,9 +1,13 @@
 import Image from "next/image";
+import tw from "tailwind-styled-components";
 import headerImage from "../../image/header_ex.jpg"; // 헤더 이미지 임시입니다
 
 export default function Header() {
+  const HContainer = tw.header`
+  `;
+
   return (
-    <header>
+    <HContainer>
       <Image
         src={headerImage}
         alt="개인홈 이미지 헤더"
@@ -11,6 +15,10 @@ export default function Header() {
         height={100}
         className="overflow-hidden border border-red-700 h-80 w-[75rem] ml-auto"
       />
-    </header>
+    </HContainer>
   );
 }
+
+// const HContainer = tw.header`
+// sticky top-0
+// `;
