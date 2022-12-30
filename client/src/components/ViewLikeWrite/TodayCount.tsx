@@ -1,13 +1,10 @@
 import tw from "tailwind-styled-components";
 
 export default function TodayCount() {
-  const TodayContainer = tw.div`
-  `;
-  const TodayContent = tw.div`
-  flex
-  `;
-
+  const TodayContainer = tw.div`w-[8rem] m-auto mt-32`;
+  const TodayContent = tw.div`flex justify-between`;
   const TodayTitle = tw.p`
+  text-gray-400
   `;
   return (
     <TodayContainer>
@@ -17,7 +14,7 @@ export default function TodayCount() {
       </TodayContent>
       <TodayContent>
         <TodayTitle>TOTAL</TodayTitle>
-        <p className="">123,512</p>
+        <p>123,512</p>
       </TodayContent>
     </TodayContainer>
   );

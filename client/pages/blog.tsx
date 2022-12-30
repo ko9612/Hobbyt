@@ -7,16 +7,16 @@ import BlogTab from "../src/components/Tab/BlogTab";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 
 export default function Blog() {
-  const Content = tw.main`
-    flex
-  `;
+  const Content = tw.main`flex`;
 
-  const UserInfo = tw.aside`
+  const UserContent = tw.aside`
    w-[16rem] h-full
    justify-center items-center
    ml-auto
-   border border-red-500
+   border border-blue-500
    relative -top-32
+  `;
+  const UserInfo = tw.div`
   `;
 
   const BlogContent = tw.main`
@@ -31,15 +31,21 @@ export default function Blog() {
         <BlogContent>
           <BlogTab />
         </BlogContent>
-        <UserInfo>
-          <UserProfileImage />
-          <UserProfile />
-          <div className="w-[10rem] m-auto">
-            <Followig />
-          </div>
-          <TodayCount />
-        </UserInfo>
+        <UserContent>
+          <UserInfo>
+            <UserProfileImage />
+            <UserProfile />
+            <div className="w-[10rem] m-auto">
+              <Followig />
+            </div>
+            <TodayCount />
+          </UserInfo>
+        </UserContent>
       </Content>
     </>
   );
 }
+
+// const UserInfo = tw.div`
+// sticky top-32
+// `;
