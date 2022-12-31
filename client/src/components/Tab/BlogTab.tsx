@@ -2,6 +2,8 @@ import { useState } from "react";
 import tw from "tailwind-styled-components";
 import BlogList from "./BlogList";
 import SaleList from "./SaleList";
+import MyCommentList from "./MyCommentList";
+import LikeList from "./LikeList";
 
 export default function BlogTab() {
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
@@ -50,6 +52,8 @@ export default function BlogTab() {
         {/* <p>{menuArr[curIndex].content}</p> */}
         {menuArr[curIndex].idx === 0 ? <BlogList /> : null}
         {menuArr[curIndex].idx === 1 ? <SaleList /> : null}
+        {menuArr[curIndex].idx === 2 ? <MyCommentList /> : null}
+        {menuArr[curIndex].idx === 3 ? <LikeList /> : null}
       </TabContent>
     </>
   );
