@@ -1,35 +1,25 @@
-import tw from "tailwind-styled-components";
+import dynamic from "next/dynamic";
 import Header from "../src/components/UserHome/Header";
 import UserProfileImage from "../src/components/UserHome/UserProfileImage";
 import UserProfile from "../src/components/UserHome/UserProfile";
 import Followig from "../src/components/UserHome/Following";
-import BlogTab from "../src/components/Tab/BlogTab";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
+import TitleInput from "../src/components/ToastUI/TitleInput";
+import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 
-export const Content = tw.main`flex`;
+export default function BlogWrite() {
+  const ToastEditor = dynamic(
+    () => import("../src/components/ToastUI/TextEditor"),
+    { ssr: false },
+  );
 
-export const UserContent = tw.aside`
- w-[16rem] h-full
- justify-center items-center
- ml-auto
- border border-blue-500
- relative -top-32
-`;
-export const UserInfo = tw.div`
-`;
-
-export const BlogContent = tw.main`
-  border-2 border-green-500
-  w-[59rem] ml-[5rem]
-`;
-
-function Blog() {
   return (
     <>
       <Header />
       <Content>
         <BlogContent>
-          <BlogTab />
+          <TitleInput />
+          <ToastEditor />
         </BlogContent>
         <UserContent>
           <UserInfo>
@@ -45,9 +35,3 @@ function Blog() {
     </>
   );
 }
-
-export default Blog;
-
-// const UserInfo = tw.div`
-// sticky top-32
-// `;
