@@ -19,4 +19,28 @@
   .tab-focused {
     @apply bg-MainColor/60 font-bold p-6 w-[13rem] text-center cursor-pointer border-b-4 border-SubColor text-SubColor;
   }
+  .togle-container {
+    @apply w-12 h-6 rounded-3xl bg-slate-300 transition-all;
+  }
+  .togle-checked {
+    @apply bg-MainColor;
+  }
+  .togle-circle {
+    @apply absolute top-0.5 left-1 w-5 h-5 rounded-full bg-white transition-all;
+  }
+  .togle-circle-checked {
+    @apply left-6;
+  }
+  .tag {
+    @apply w-auto h-8 flex items-center justify-center px-2 list-none rounded-md mr-2 mb-2 bg-slate-300;
+  }
+  .tag-close-icon {
+    @apply block w-5 h-5 text-center ml-1 rounded-full cursor-pointer;
+  }
+  .tag-ul {
+    @apply flex flex-wrap p-0 mt-2;
+  }
+  .tag-input {
+    @apply flex-1 border-none h-11 pt-1 focus:outline-none;
+  }
 }
