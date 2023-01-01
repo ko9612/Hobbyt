@@ -33,7 +33,7 @@ public class User extends BaseEntity {
 	private String zipcode;
 	private String streetAddress;
 	private String detailAddress;
-	private String bank;
+	private String accountBank;
 	private String accountNumber;
 
 	@Enumerated(EnumType.STRING)
