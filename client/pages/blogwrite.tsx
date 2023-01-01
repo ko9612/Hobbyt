@@ -5,6 +5,8 @@ import UserProfile from "../src/components/UserHome/UserProfile";
 import Followig from "../src/components/UserHome/Following";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import TitleInput from "../src/components/ToastUI/TitleInput";
+import DefalutTag from "../src/components/Tag/DefalutTag";
+import DefalutButton from "../src/components/Button/DefalutButton";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 
 export default function BlogWrite() {
@@ -20,6 +22,8 @@ export default function BlogWrite() {
         <BlogContent>
           <TitleInput />
           <ToastEditor />
+          <DefalutTag />
+          <DefalutButton>저장</DefalutButton>
         </BlogContent>
         <UserContent>
           <UserInfo>
