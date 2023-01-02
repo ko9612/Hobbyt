@@ -24,6 +24,6 @@ public class ChatUser extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chatroom_id")
+	@JoinColumn(name = "chat_room_id")
 	private ChatRoom chatRoom;
 }

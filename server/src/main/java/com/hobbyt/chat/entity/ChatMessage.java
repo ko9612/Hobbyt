@@ -2,9 +2,12 @@ package com.hobbyt.chat.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.hobbyt.global.entity.BaseEntity;
 
@@ -25,4 +28,7 @@ public class ChatMessage extends BaseEntity {
 	private String image;
 	@Column(nullable = false)
 	private boolean modified = false;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "chat_user_id")
+	private ChatUser chatUser;
 }
