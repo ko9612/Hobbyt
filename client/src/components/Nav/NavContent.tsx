@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 import logo from "../../image/logo.png";
 
 export const Logo = tw.div`
-    inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300
+    inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]
 `;
 
 export const NavList = tw.ul`
@@ -40,13 +40,7 @@ export default function NavContent() {
   return (
     <>
       <Logo>
-        <Image
-          src={logo}
-          role="button"
-          alt="Home"
-          width={45}
-          onClick={handleHomeClick}
-        />
+        <Image src={logo} role="button" alt="Home" onClick={handleHomeClick} />
       </Logo>
       <SearchBar />
       <NavList>
@@ -60,7 +54,7 @@ export default function NavContent() {
                 }`}
               >
                 <span className="text-2xl block float-left">{menu.icon}</span>
-                <span className="text-base font-medium flex-1 duration-200">
+                <span className="text-base font-medium flex-1 duration-200 w-">
                   {menu.title}
                 </span>
                 {menu.submenu && (

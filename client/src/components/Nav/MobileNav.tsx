@@ -39,13 +39,14 @@ export default function BurgerNav() {
           <BurgerLine className={menu ? "-rotate-45 -translate-y-2" : ""} />
         </button>
       </Button>
-      <Image
-        src={logoText}
-        alt="Home"
-        role="button"
-        width={120}
-        onClick={handleHomeClick}
-      />
+      <div className="w-40">
+        <Image
+          src={logoText}
+          alt="Home"
+          role="button"
+          onClick={handleHomeClick}
+        />
+      </div>
       <NavOpen>
         <Nav
           className={`w-72 transitions duration-300 ${
