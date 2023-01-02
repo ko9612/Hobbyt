@@ -5,6 +5,7 @@ import UserProfile from "../src/components/UserHome/UserProfile";
 import Followig from "../src/components/UserHome/Following";
 import BlogTab from "../src/components/Tab/BlogTab";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
+import Navbar from "../src/components/Nav/NavBar";
 
 export const Content = tw.main`flex`;
 
@@ -20,12 +21,13 @@ export const UserInfo = tw.div`
 
 export const BlogContent = tw.main`
   border-2 border-green-500
-  w-[59rem] ml-[5rem]
+  w-[59rem] sm:ml-[15rem]
 `;
 
 function Blog() {
   return (
     <>
+      <Navbar />
       <Header />
       <Content>
         <BlogContent>
