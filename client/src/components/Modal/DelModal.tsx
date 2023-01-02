@@ -1,12 +1,31 @@
-// import tw from "tailwind-styled-components";
-import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
+import tw from "tailwind-styled-components";
+
+import {
+  ModalContainer,
+  ModalBackdrop,
+  ModalView,
+  Content,
+  Button,
+} from "./MsgModal";
 
 export interface DelModalProps {
   setOpenModal(state: boolean): void;
   msg: string;
-  subMsg: string;
+  subMsg: string[];
   buttonString: string;
 }
+
+export const Msg = tw.div`
+font-semibold mb-3
+`;
+
+export const SubMsg = tw.div`
+w-60 text-sm text-center
+`;
+
+export const ButtonDiv = tw.div`
+flex
+`;
 
 export default function DelModal({
   setOpenModal,
@@ -22,17 +41,23 @@ export default function DelModal({
     <ModalContainer>
       <ModalBackdrop onClick={handleClose}>
         <ModalView onClick={e => e.stopPropagation()}>
-          <Content className="flex flex-col items-center">
-            <span className="font-semibold">{msg}</span>
-            <span className="w-[10rem] text-sm">{subMsg}</span>
+          <Content className="flex-col">
+            <Msg>{msg}</Msg>
+            <SubMsg>
+              {subMsg && subMsg.map((el, index) => <div key={index}>{el}</div>)}
+            </SubMsg>
           </Content>
-          <button
-            onClick={handleClose}
-            className="w-full px-4 py-3 text-white bg-MainColor hover:bg-SubColor"
-          >
-            확인
-          </button>
-          <button>{buttonString}</button>
+          <ButtonDiv>
+            <Button
+              onClick={handleClose}
+              className="bg-slate-200 hover:bg-slate-300"
+            >
+              취소
+            </Button>
+            <Button className=" text-white bg-red-500 hover:bg-red-600">
+              {buttonString}
+            </Button>
+          </ButtonDiv>
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>
