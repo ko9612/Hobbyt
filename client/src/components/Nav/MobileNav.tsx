@@ -3,10 +3,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import logoText from "../../image/logoText.png";
-import Navbar from "./PcNav";
+import { Nav } from "./PcNav";
+import NavContent from "./NavContent";
 
 const Header = tw.header`
-flex items-center justify-center px-4 pt-4 pb-2 sm:hidden text-MainColor z-10 sticky h-16
+flex items-center justify-center px-4 pt-4 pb-2 lg:hidden text-MainColor z-10 sticky h-16
 `;
 const Button = tw.span`
 rounded-full p-2 flex hover:bg-MainColor/10 absolute left-2
@@ -45,17 +46,21 @@ export default function BurgerNav() {
         width={120}
         onClick={handleHomeClick}
       />
+      <NavOpen>
+        <Nav
+          className={`w-72 transitions duration-300 ${
+            menu ? "left-0" : "left-[-72rem]"
+          }`}
+        >
+          <NavContent />
+        </Nav>
+      </NavOpen>
       {menu ? (
-        <>
-          <div
-            role="presentation"
-            onClick={onBurgerClicked}
-            className="fixed bottom-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm"
-          />
-          <NavOpen>
-            <Navbar />
-          </NavOpen>
-        </>
+        <div
+          role="presentation"
+          onClick={onBurgerClicked}
+          className="fixed bottom-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm"
+        />
       ) : null}
     </Header>
   );
