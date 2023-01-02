@@ -4,6 +4,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,12 @@ public class MailService {
 	private static final String ENCODING = "UTF-8";
 	private final JavaMailSender mailSender;
 
-	//@Async
+	@Async
 	public void sendMail(final NotificationEmail notificationEmail) {
 		MimeMessagePreparator messagePreparator = toMimeMessagePreparator(notificationEmail);
 
 		try {
+			log.info("MailService: " + Thread.currentThread().getName());
 			mailSender.send(messagePreparator);
 		} catch (MailException e) {
 			// log.error("인증메일 전송에러", e.getStackTrace());

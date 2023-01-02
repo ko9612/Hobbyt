@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -25,7 +27,7 @@ public class AuthService {
 		contents.put(CODE_KEY, code);
 		String message = mailContentBuilder.build(AUTH_CODE_TEMPLATE, contents);
 		NotificationEmail notificationEmail = new NotificationEmail(receiver, AUTH_CODE_MAIL_TITLE, message);
-
+		log.info("AuthService: " + Thread.currentThread().getName());
 		mailService.sendMail(notificationEmail);
 
 		return code;
