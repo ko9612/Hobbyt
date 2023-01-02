@@ -13,7 +13,7 @@ export default function Header() {
         alt="개인홈 이미지 헤더"
         width={1200}
         height={100}
-        className="overflow-hidden border border-red-700 h-80 w-[75rem] ml-auto"
+        className="overflow-hidden border border-red-700 h-80 w-[78rem] ml-auto"
       />
     </HContainer>
   );

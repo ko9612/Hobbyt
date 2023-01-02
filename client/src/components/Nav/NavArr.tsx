@@ -51,7 +51,7 @@ export const LoginMenus = [
       {
         id: 6,
         title: "내 정보",
-        href: "/#",
+        href: "/mypage",
       },
       {
         id: 7,
