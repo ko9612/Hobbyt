@@ -1,6 +1,7 @@
 package com.hobbyt.domain.user.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.hobbyt.domain.entity.Account;
+import com.hobbyt.domain.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -30,11 +33,12 @@ public class User extends BaseEntity {
 	private String nickname;
 	private String profileImage;
 	private String description;
-	private String zipcode;
-	private String streetAddress;
-	private String detailAddress;
-	private String accountBank;
-	private String accountNumber;
+
+	@Embedded
+	private Address address;
+
+	@Embedded
+	private Account account;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
