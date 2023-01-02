@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.user.entity.User;
 import com.hobbyt.global.entity.Article;
 
 import lombok.AccessLevel;

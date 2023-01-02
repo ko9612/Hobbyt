@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.hobbyt.domain.user.entity.User;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
