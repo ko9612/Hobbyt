@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
-	private final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
-	private final String CODE_KEY = "code";
-	private final String AUTH_CODE_TEMPLATE = "authCodeMail";
+	private static final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
+	private static final String CODE_KEY = "code";
+	private static final String AUTH_CODE_TEMPLATE = "authCodeMail";
 
 	private final MailService mailService;
 	private final MailContentBuilder mailContentBuilder;
