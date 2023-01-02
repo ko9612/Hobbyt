@@ -1,10 +1,11 @@
 import tw from "tailwind-styled-components";
-import { BsCalendar4, BsThreeDots } from "react-icons/bs";
+import { BsCalendar4 } from "react-icons/bs";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import BlogSaleInfo from "../UserHome/BlogSaleInfo";
+import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 export default function SaleList() {
-  const SLContainer = tw.div` w-[52rem] m-auto`;
+  const SLContainer = tw.div` w-[56rem] m-auto`;
 
   const SLComponent = tw.div`grid grid-cols-3 mt-4 border gap-6`;
 
@@ -24,7 +25,7 @@ export default function SaleList() {
       <SLComponent>
         <SLContent>
           <SLImage>
-            <BsThreeDots size="28" color="#d6d6d6" />
+            <ThreeDotsBox>작품</ThreeDotsBox>
           </SLImage>
           <SLProductInfo>
             <p className="">작품 이름</p>
