@@ -4,10 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.entity.User;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -30,4 +34,7 @@ public class Notification extends BaseEntity {
 	private String title;
 	@Column(nullable = false)
 	private boolean checked = false;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reciever_id")
+	private User user;
 }
