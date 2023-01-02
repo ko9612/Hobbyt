@@ -14,11 +14,15 @@ export const ModalBackdrop = tw.div`
 `;
 
 export const ModalView = tw.div`
-w-[30rem] rounded-md overflow-hidden z-40 text-xl bg-white mx-4
+w-[30rem] rounded-md overflow-hidden z-40 text-xl bg-white mx-4 shadow-xl
 `;
 
 export const Content = tw.div`
-px-4 text-center my-16
+flex items-center justify-center px-4 h-[12rem]
+`;
+
+export const Button = tw.button`
+w-full px-4 py-3
 `;
 
 export default function MsgModal({ setOpenModal, msg }: ModalProps) {
@@ -33,12 +37,12 @@ export default function MsgModal({ setOpenModal, msg }: ModalProps) {
           <Content>
             <span>{msg}</span>
           </Content>
-          <button
+          <Button
             onClick={handleClose}
-            className="w-full px-4 py-3 text-white bg-MainColor hover:bg-SubColor"
+            className=" text-white bg-MainColor hover:bg-SubColor"
           >
             확인
-          </button>
+          </Button>
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>
