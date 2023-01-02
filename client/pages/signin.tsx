@@ -1,6 +1,6 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
-import NavBar from "../src/components/Nav/PcNav";
+import NavBar from "../src/components/Nav/NavBar";
 
 export default function SignIn() {
   const Button = tw.div`

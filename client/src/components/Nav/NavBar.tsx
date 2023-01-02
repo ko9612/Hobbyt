@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <>
       <MobileNav />
-      <div className="hidden sm:block">
+      <div className="hidden lg:block">
         <PcNav />
       </div>
     </>
