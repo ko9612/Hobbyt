@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.entity.User;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -21,4 +24,10 @@ public class PostComment extends BaseEntity {
 	private Long id;
 	@Column(nullable = false)
 	private String content;
+	@ManyToOne
+	@JoinColumn(name = "writer_id")
+	private User writer;
+	@ManyToOne
+	@JoinColumn(name = "post_id")
+	private Post post;
 }

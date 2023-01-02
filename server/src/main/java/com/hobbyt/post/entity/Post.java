@@ -24,5 +24,5 @@ public class Post extends Article {
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
-	private User user;
+	private User writer;
 }
