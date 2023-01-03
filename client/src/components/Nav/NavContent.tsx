@@ -1,6 +1,5 @@
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { LoginMenus } from "./NavArr";
@@ -59,7 +58,13 @@ export default function NavContent() {
               {menu.submenu && (
                 <>
                   {menu.submenuItems.map(submenuItem => (
-                    <SubList key={menu.id}>
+                    <SubList
+                      key={menu.id}
+                      className={`${
+                        router.pathname === submenuItem.href &&
+                        "text-yellow-200"
+                      }`}
+                    >
                       <Link href={submenuItem.href}>{submenuItem.title}</Link>
                     </SubList>
                   ))}

@@ -49,7 +49,7 @@ export default function BurgerNav() {
       </div>
       <NavOpen>
         <Nav
-          className={`w-72 transitions duration-300 ${
+          className={`transitions duration-300 ${
             menu ? "left-0" : "left-[-72rem]"
           }`}
         >
