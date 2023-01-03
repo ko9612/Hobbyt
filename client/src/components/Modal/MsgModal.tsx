@@ -10,7 +10,7 @@ export const ModalContainer = tw.div`
 `;
 
 export const ModalBackdrop = tw.div`
-    bg-black/20 backdrop-blur-sm flex justify-center items-center inset-0 absolute z-20
+    bg-black/30 backdrop-blur-sm flex justify-center items-center inset-0 absolute z-20
 `;
 
 export const ModalView = tw.div`
