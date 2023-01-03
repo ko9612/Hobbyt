@@ -39,13 +39,14 @@ export default function BurgerNav() {
           <BurgerLine className={menu ? "-rotate-45 -translate-y-2" : ""} />
         </button>
       </Button>
-      <Image
-        src={logoText}
-        alt="Home"
-        role="button"
-        width={120}
-        onClick={handleHomeClick}
-      />
+      <div className="w-40">
+        <Image
+          src={logoText}
+          alt="Home"
+          role="button"
+          onClick={handleHomeClick}
+        />
+      </div>
       <NavOpen>
         <Nav
           className={`w-72 transitions duration-300 ${
@@ -59,7 +60,7 @@ export default function BurgerNav() {
         <div
           role="presentation"
           onClick={onBurgerClicked}
-          className="fixed bottom-0 left-0 w-full h-full bg-black/20 backdrop-blur-sm"
+          className="fixed bottom-0 left-0 w-full h-full bg-black/30 backdrop-blur-sm"
         />
       ) : null}
     </Header>
