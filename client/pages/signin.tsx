@@ -5,7 +5,7 @@ import sideImg from "../src/image/header_ex.jpg";
 import mainLogo from "../src/image/mainLogo.png";
 import WideButton from "../src/components/Button/WideButton";
 import SocialLoginButton from "../src/components/Button/SocialButton";
-import SignupButton from "../src/components/Button/SignupButton";
+import SignGuideButton from "../src/components/Button/SignGuideButton";
 import LoginInput from "../src/components/Input/LoginInput";
 
 export const Main = tw.main`
@@ -48,7 +48,7 @@ export default function SignIn() {
         </RightContent>
         <LeftContent>
           <LogoDiv>
-            <Link href="/" className="w-64">
+            <Link href="/" className="w-72">
               <Image src={mainLogo} alt="로고" />
             </Link>
           </LogoDiv>
@@ -67,7 +67,11 @@ export default function SignIn() {
               <WideButton onClick={() => {}}>로그인</WideButton>
             </form>
             <SocialLoginButton />
-            <SignupButton />
+            <SignGuideButton
+              msg="아직 회원이 아니신가요?"
+              sign="회원가입"
+              href="/signup"
+            />
           </InputDiv>
         </LeftContent>
       </Content>
