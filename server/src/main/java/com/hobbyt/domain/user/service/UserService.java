@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hobbyt.domain.user.dto.request.SignupRequest;
 import com.hobbyt.domain.user.entity.User;
 import com.hobbyt.domain.user.repository.UserRepository;
-import com.hobbyt.global.error.exception.UserExist;
-import com.hobbyt.global.error.exception.UserNotExist;
+import com.hobbyt.global.error.exception.UserExistException;
+import com.hobbyt.global.error.exception.UserNotExistException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,12 +30,12 @@ public class UserService {
 	}
 
 	private User findByEmail(final String email) {
-		return userRepository.findByEmail(email).orElseThrow(UserNotExist::new);
+		return userRepository.findByEmail(email).orElseThrow(UserNotExistException::new);
 	}
 
 	private void checkUserExist(String email) {
 		if (userRepository.existsByEmail(email)) {
-			throw new UserExist();
+			throw new UserExistException();
 		}
 	}
 }

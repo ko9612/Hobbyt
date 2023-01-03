@@ -25,7 +25,7 @@ public class AuthService {
 
 	public String sendAuthenticationCodeEmail(final EmailRequest emailRequest) {
 		Map<String, String> contents = new HashMap<>();
-		String code = new AuthenticationCode().getCode();
+		String code = AuthenticationCode.createCode().getCode();
 		contents.put(CODE_KEY, code);
 		String message = mailContentBuilder.build(AUTH_CODE_TEMPLATE, contents);
 		NotificationEmail notificationEmail = new NotificationEmail(emailRequest.getEmail(), AUTH_CODE_MAIL_TITLE,

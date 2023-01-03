@@ -14,23 +14,26 @@ public class AuthenticationCode {
 
 	private final String code;
 
-	public AuthenticationCode() {
-		this.code = createCode();
+	private AuthenticationCode(String code) {
+		this.code = code;
 	}
 
-	private String createCode() {
+	public static AuthenticationCode createCode() {
 		StringBuffer code = new StringBuffer();
-		Random random = new Random();
+		assemble(code);
+		// 인증코드 검증 로직 필요?
+		return new AuthenticationCode(code.toString());
+	}
 
+	private static void assemble(final StringBuffer code) {
+		Random random = new Random();
 		int index = 0;
 		while (index++ < CODE_COUNT) {
 			addNextCode(code, random);
 		}
-
-		return code.toString();
 	}
 
-	private void addNextCode(StringBuffer code, Random random) {
+	private static void addNextCode(final StringBuffer code, final Random random) {
 		switch (random.nextInt(NUMBER_OF_CASES)) {
 			case LOWER_CASE:    // a~z (ex. 1+97=98 => (char)98 = 'b')
 				code.append((char)((random.nextInt(26)) + 97));
