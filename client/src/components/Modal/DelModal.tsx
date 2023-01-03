@@ -1,12 +1,7 @@
 import tw from "tailwind-styled-components";
+import ModalButton from "../Button/ModalButton";
 
-import {
-  ModalContainer,
-  ModalBackdrop,
-  ModalView,
-  Content,
-  Button,
-} from "./MsgModal";
+import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 
 export interface DelModalProps {
   setOpenModal(state: boolean): void;
@@ -48,15 +43,8 @@ export default function DelModal({
             </SubMsg>
           </Content>
           <ButtonDiv>
-            <Button
-              onClick={handleClose}
-              className="bg-slate-200 hover:bg-slate-300"
-            >
-              취소
-            </Button>
-            <Button className=" text-white bg-red-500 hover:bg-red-600">
-              {buttonString}
-            </Button>
+            <ModalButton onClick={handleClose}>취소</ModalButton>
+            <ModalButton onClick={() => {}}>{buttonString}</ModalButton>
           </ButtonDiv>
         </ModalView>
       </ModalBackdrop>

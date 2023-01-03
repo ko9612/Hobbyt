@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components";
+import ModalButton from "../Button/ModalButton";
 
 export interface ModalProps {
   setOpenModal(state: boolean): void;
@@ -21,10 +22,6 @@ export const Content = tw.div`
 flex items-center justify-center px-4 h-[12rem]
 `;
 
-export const Button = tw.button`
-w-full px-4 py-3
-`;
-
 export default function MsgModal({ setOpenModal, msg }: ModalProps) {
   const handleClose = () => {
     setOpenModal(false);
@@ -37,12 +34,7 @@ export default function MsgModal({ setOpenModal, msg }: ModalProps) {
           <Content>
             <span>{msg}</span>
           </Content>
-          <Button
-            onClick={handleClose}
-            className=" text-white bg-MainColor hover:bg-SubColor"
-          >
-            확인
-          </Button>
+          <ModalButton onClick={handleClose}>확인</ModalButton>
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>
