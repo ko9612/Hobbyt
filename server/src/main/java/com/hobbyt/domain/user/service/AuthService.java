@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class AuthService {
 	private static final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
 	private static final String CODE_KEY = "code";
@@ -24,15 +24,19 @@ public class AuthService {
 	private final MailContentBuilder mailContentBuilder;
 
 	public String sendAuthenticationCodeEmail(final EmailRequest emailRequest) {
-		Map<String, String> contents = new HashMap<>();
 		String code = AuthenticationCode.createCode().getCode();
-		contents.put(CODE_KEY, code);
-		String message = mailContentBuilder.build(AUTH_CODE_TEMPLATE, contents);
-		NotificationEmail notificationEmail = new NotificationEmail(emailRequest.getEmail(), AUTH_CODE_MAIL_TITLE,
-			message);
-		log.info("AuthService: " + Thread.currentThread().getName());
+		String message = createAuthenticationCodeEmailContent(code);
+		NotificationEmail notificationEmail =
+			NotificationEmail.of(emailRequest.getEmail(), AUTH_CODE_MAIL_TITLE, message);
+		log.info("AuthService Thread: " + Thread.currentThread().getName());
 		mailService.sendMail(notificationEmail);
 
 		return code;
+	}
+
+	private String createAuthenticationCodeEmailContent(final String code) {
+		Map<String, String> contents = new HashMap<>();
+		contents.put(CODE_KEY, code);
+		return mailContentBuilder.build(AUTH_CODE_TEMPLATE, contents);
 	}
 }
