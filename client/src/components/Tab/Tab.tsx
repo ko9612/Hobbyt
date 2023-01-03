@@ -5,13 +5,16 @@ import SaleList from "../List/SaleList";
 import MyCommentList from "../List/MyCommentList";
 import LikeList from "../List/LikeList";
 import ProductstList from "../List/ProductsList";
-// import { TabType } from "./TabArr";
 
-// type TabProps = {
-//   Menus: TabType;
-// };
+interface TabProps {
+  Menus: {
+    id: number;
+    name: string;
+    content: string;
+  }[];
+}
 
-export default function Tab({ Menus }) {
+export default function Tab({ Menus }: TabProps) {
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
 
@@ -29,44 +32,32 @@ export default function Tab({ Menus }) {
     setIndex(index);
   };
 
-  console.log(`Menus`, Menus);
-
   return (
     <>
       <TabMenu>
-        {Menus.map(section => (
+        {Menus.map((section, index: number) => (
           <li
             role="presentation"
-            key={section.id}
+            key={index}
             className={
-              curIndex === section.idx
-                ? "tab-submenu tab-focused"
-                : "tab-submenu"
+              curIndex === index ? "tab-submenu tab-focused" : "tab-submenu"
             }
-            onClick={() => onClickMenuHandler(section.idx)}
+            onClick={() => onClickMenuHandler(index)}
           >
             {section.name}
           </li>
         ))}
       </TabMenu>
       <TabContent>
-        {/* <p>{menuArr[curIndex].content}</p> */}
-        {Menus[curIndex].id === 0 ? <BlogList /> : null}
-        {Menus[curIndex].id === 1 ? <SaleList /> : null}
-        {Menus[curIndex].id === 2 ? <MyCommentList /> : null}
-        {Menus[curIndex].id === 3 ? <LikeList /> : null}
-        {Menus[curIndex].id === 4 ? <ProductstList /> : null}
-        {Menus[curIndex].id === 5 ? <ProductstList /> : null}
-        {Menus[curIndex].id === 6 ? <ProductstList /> : null}
-        {Menus[curIndex].id === 7 ? <ProductstList /> : null}
+        {Menus[curIndex].name === "블로그" ? <BlogList /> : null}
+        {Menus[curIndex].name === "판매" ? <SaleList /> : null}
+        {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
+        {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
+        {Menus[curIndex].name === "내 정보 관리" ? <ProductstList /> : null}
+        {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
+        {Menus[curIndex].name === "구매 작품" ? <ProductstList /> : null}
+        {Menus[curIndex].name === "판매 관리" ? <ProductstList /> : null}
       </TabContent>
     </>
   );
 }
-
-// const menuArr = [
-//   { name: "블로그", idx: 0, content: "Tab menu 블로그" },
-//   { name: "판매", idx: 1, content: "Tab menu 판매" },
-//   { name: "댓글", idx: 2, content: "Tab menu 댓글" },
-//   { name: "좋아요", idx: 3, content: "Tab menu 좋아요" },
-// ];
