@@ -25,8 +25,9 @@ public class UserService {
 		String profileImage = "S3 default image";    // S3의 기본 프로필 이미지
 		User user = signupRequest.toEntity(passwordEncoder, profileImage);
 
-		userRepository.save(user);
-		return findByEmail(user.getEmail()).getId();
+		/*userRepository.save(user);
+		return findByEmail(user.getEmail()).getId();*/
+		return userRepository.save(user).getId();
 	}
 
 	private User findByEmail(final String email) {
