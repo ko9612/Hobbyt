@@ -54,9 +54,6 @@ public class User extends BaseEntity {
 	@Column(nullable = false)
 	private UserStatus status = UserStatus.MEMBER;    // 회원 상태: 탈퇴,,,
 
-	// @Column(nullable = false)
-	// private boolean emailVerified;    // 회원가입시 이메일 인증여부
-
 	@Column(nullable = false)
 	private boolean dmReceive = true;    // DM 수신여부
 
