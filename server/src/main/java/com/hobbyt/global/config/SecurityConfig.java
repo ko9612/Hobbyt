@@ -43,7 +43,7 @@ public class SecurityConfig {
 			.cors(Customizer.withDefaults())
 
 			.authorizeRequests()
-			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers("/api/auth/**", "/api/users/signup").permitAll()
 			.anyRequest().authenticated();
 
 		return http.build();
