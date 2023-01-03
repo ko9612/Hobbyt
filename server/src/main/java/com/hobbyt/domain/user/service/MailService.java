@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MailService {
 	private static final String ENCODING = "UTF-8";
+
 	private final JavaMailSender mailSender;
 
 	@Async
@@ -24,10 +25,9 @@ public class MailService {
 		MimeMessagePreparator messagePreparator = toMimeMessagePreparator(notificationEmail);
 
 		try {
-			log.info("MailService: " + Thread.currentThread().getName());
+			log.info("MailService Thread: " + Thread.currentThread().getName());
 			mailSender.send(messagePreparator);
 		} catch (MailException e) {
-			// log.error("인증메일 전송에러", e.getStackTrace());
 			throw new CMailException();
 		}
 	}
