@@ -1,6 +1,5 @@
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import { BsFillCaretDownFill } from "react-icons/bs";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,16 +22,15 @@ transitions duration-300 text-xl hover:text-white hover:font-bold
 `;
 
 export const SubNavList = tw.ul`
-bg-SubColor rounded-md
+rounded-md
 `;
 
 export const SubList = tw.li`
-text-white/60 text-sm flex items-center gap-x-4 p-2 p-5 
+text-white/80 text-sm flex items-center gap-x-4 p-4 
 hover:bg-white/30 rounded-md transitions duration-300 hover:text-white
 `;
 
 export default function NavContent() {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
   const handleHomeClick = () => {
     router.push("/");
@@ -54,27 +52,11 @@ export default function NavContent() {
                 }`}
               >
                 <span className="text-2xl block float-left">{menu.icon}</span>
-                <span className="text-base font-medium flex-1 duration-200 w-">
-                  {menu.title}
-                </span>
-                {menu.submenu && (
-                  <BsFillCaretDownFill
-                    size="25px"
-                    role="button"
-                    className={`transtions duration-300 ${
-                      submenuOpen && "rotate-180"
-                    }`}
-                    onClick={() => setSubmenuOpen(!submenuOpen)}
-                  />
-                )}
+                <span className="text-base font-medium">{menu.title}</span>
               </List>
             </Link>
-            <SubNavList
-              className={`${
-                menu.submenu && submenuOpen ? "translate-y-1" : ""
-              } duration-300 relative`}
-            >
-              {menu.submenu && submenuOpen && (
+            <SubNavList>
+              {menu.submenu && (
                 <>
                   {menu.submenuItems.map(submenuItem => (
                     <SubList key={menu.id}>
