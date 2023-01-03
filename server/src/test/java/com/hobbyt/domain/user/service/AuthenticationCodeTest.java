@@ -20,14 +20,14 @@ class AuthenticationCodeTest {
 
 	@DisplayName("정상 인증코드 길이")
 	@Test
-	public void validateByLength() {
+	void validateByLength() {
 		assertThat(authenticationCode.getCode().length())
 			.isEqualTo(8);
 	}
 
 	@DisplayName("정상 인증코드 구성")
 	@Test
-	public void validateByPattern() {
+	void validateByPattern() {
 		boolean result = Pattern.matches(CODE_PATTERN, authenticationCode.getCode());
 
 		assertThat(result).isTrue();
