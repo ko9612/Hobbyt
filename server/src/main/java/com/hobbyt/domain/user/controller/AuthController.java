@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.user.dto.EmailRequest;
+import com.hobbyt.domain.user.dto.request.EmailRequest;
 import com.hobbyt.domain.user.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
