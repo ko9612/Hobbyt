@@ -13,7 +13,7 @@ bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar
 export default function Navbar() {
   return (
     <NavBar>
-      <Nav className="web">
+      <Nav>
         <NavContent />
       </Nav>
     </NavBar>

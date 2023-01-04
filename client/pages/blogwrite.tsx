@@ -25,7 +25,7 @@ export default function BlogWrite() {
           <TitleInput />
           <ToastEditor />
           <DefalutTag />
-          <DefalutButton>저장</DefalutButton>
+          <DefalutButton onClick={() => {}}>저장</DefalutButton>
         </BlogContent>
         <UserContent>
           <UserInfo>
