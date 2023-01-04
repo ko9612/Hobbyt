@@ -8,7 +8,6 @@ import com.hobbyt.domain.user.dto.request.SignupRequest;
 import com.hobbyt.domain.user.entity.User;
 import com.hobbyt.domain.user.repository.UserRepository;
 import com.hobbyt.global.error.exception.UserExistException;
-import com.hobbyt.global.error.exception.UserNotExistException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,13 +24,7 @@ public class UserService {
 		String profileImage = "S3 default image";    // S3의 기본 프로필 이미지
 		User user = signupRequest.toEntity(passwordEncoder, profileImage);
 
-		/*userRepository.save(user);
-		return findByEmail(user.getEmail()).getId();*/
 		return userRepository.save(user).getId();
-	}
-
-	private User findByEmail(final String email) {
-		return userRepository.findByEmail(email).orElseThrow(UserNotExistException::new);
 	}
 
 	private void checkUserExist(String email) {
