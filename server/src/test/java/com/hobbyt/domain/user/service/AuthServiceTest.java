@@ -1,9 +1,10 @@
 package com.hobbyt.domain.user.service;
 
+import static org.mockito.BDDMockito.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,14 +26,13 @@ class AuthServiceTest {
 	@Test
 	void sendAuthenticationCodeEmail() {
 		//given
-		String code = AuthenticationCode.createCode().getCode();
 		EmailRequest emailRequest = new EmailRequest("test@gmail.com");
 
 		//when
-		String result = authService.sendAuthenticationCodeEmail(emailRequest);
+		authService.sendAuthenticationCodeEmail(emailRequest);
 
 		//then
-		BDDMockito.then(mailService).should().sendMail(BDDMockito.any(NotificationEmail.class));
-		BDDMockito.then(mailContentBuilder).should().build(BDDMockito.anyString(), BDDMockito.anyMap());
+		then(mailService).should(times(1)).sendMail(any(NotificationEmail.class));
+		then(mailContentBuilder).should(times(1)).build(anyString(), anyMap());
 	}
 }
