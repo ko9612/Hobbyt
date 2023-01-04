@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupRequest {
-	@NotBlank
+	@NotBlank(message = "활동을 위한 닉네임을 설정해주세요.")
 	private String nickname;
 
-	@Email
-	@NotBlank
+	@Email(message = "이메일 형식으로 입력해주세요.")
+	@NotBlank(message = "이메일을 입력해주세요.")
 	private String email;
 
-	@NotBlank
+	@NotBlank(message = "비밀번호를 입력해주세요.")
 	private String password;
 
 	public User toEntity(PasswordEncoder passwordEncoder, String profileImage) {
