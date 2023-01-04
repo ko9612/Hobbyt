@@ -30,7 +30,7 @@ export default function ProfileEdit() {
           className="p-2 mt-2 bg-gray-200 rounded-lg w-80"
         />
       </ProfileContent>
-      <DefalutButton>저장</DefalutButton>
+      <DefalutButton onClick={() => {}}>저장</DefalutButton>
     </ProfileContainer>
   );
 }

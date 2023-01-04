@@ -1,5 +1,6 @@
 import { BsThreeDots } from "react-icons/bs";
-import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogList";
+// import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogList";
+import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogItem"; // 새로 추가
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";

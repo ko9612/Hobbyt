@@ -3,8 +3,7 @@ import { RiGithubFill } from "react-icons/ri";
 import tw from "tailwind-styled-components";
 
 const Footer = tw.footer`
-sm:flex justify-between items-center flex-wrap w-full max-w-[62rem] text-gray-400 p-4
-absolute bottom-0
+flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem]
 `;
 
 const Text = tw.span`
@@ -16,7 +15,7 @@ py-3
 `;
 
 const Content = tw.div`
-inline-flex sm:mx-3 mr-3 
+inline-flex mx-3 
 `;
 
 export default function NavBar() {
@@ -30,14 +29,14 @@ export default function NavBar() {
   return (
     <Footer>
       <FooterContent>
-        <Link href="https://github.com/ko9612/Hobbyt">
-          <Content>
+        <Content>
+          <Link href="https://github.com/ko9612/Hobbyt" className="flex">
             <RiGithubFill className="mr-2" size="30px" />
             <Text>Team Github</Text>
             <span className="mx-4 border-l border-solid" />
             <Text>Hobbyt</Text>
-          </Content>
-        </Link>
+          </Link>
+        </Content>
       </FooterContent>
       <FooterContent>
         {member.map(memberInfo => (

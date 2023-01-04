@@ -4,21 +4,21 @@ import LikeCount from "../ViewLikeWrite/LikeCount";
 import BlogSaleInfo from "../UserHome/BlogSaleInfo";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
+export const SLContainer = tw.div` w-[56rem] m-auto`;
+
+export const SLComponent = tw.div`grid grid-cols-3 mt-4 border gap-6`;
+
+export const SLContent = tw.div`
+w-full inline-block bg-gray-100 rounded-lg justify-center items-center
+`;
+
+export const SLImage = tw.div`
+ h-[13rem] border border-red-300 rounded-lg mb-2
+`;
+
+export const SLProductInfo = tw.div`mx-4`;
+
 export default function SaleList() {
-  const SLContainer = tw.div` w-[56rem] m-auto`;
-
-  const SLComponent = tw.div`grid grid-cols-3 mt-4 border gap-6`;
-
-  const SLContent = tw.div`
-  w-full inline-block bg-gray-100 rounded-lg justify-center items-center
-  `;
-
-  const SLImage = tw.div`
-   h-[13rem] border border-red-300 rounded-lg mb-2
-  `;
-
-  const SLProductInfo = tw.div`mx-4`;
-
   return (
     <SLContainer>
       <BlogSaleInfo />

@@ -1,8 +1,8 @@
 import tw from "tailwind-styled-components";
 import SignGuide from "../src/components/Sign/SignGuide";
-import RightContent from "../src/components/Sign/RightContent";
-import Logo from "../src/components/Sign/Logo";
-import SocialLogin from "../src/components/Sign/SocialLogin";
+import SignRightContent from "../src/components/Sign/SignRightContent";
+import Logo from "../src/components/Sign/SignLogo";
+import SocialLogin from "../src/components/Sign/SocialForm";
 import SigninForm from "../src/components/Sign/SigninForm";
 
 export const Main = tw.main`
@@ -25,7 +25,7 @@ export default function SignIn() {
   return (
     <Main>
       <Content>
-        <RightContent />
+        <SignRightContent />
         <LeftContent>
           <Logo />
           <InputDiv>
