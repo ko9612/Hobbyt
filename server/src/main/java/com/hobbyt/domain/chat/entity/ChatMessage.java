@@ -1,7 +1,6 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.chat.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,31 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.global.entity.Article;
+import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Sale extends Article {
+@Getter
+public class ChatMessage extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false)
 	private Long id;
-
+	@Column
+	private String content;
+	@Column
+	private String image;
+	@Column(nullable = false)
+	private boolean modified = false;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "writer_id")
-	private Member writer;
-
-	@Column(nullable = false, columnDefinition = "MEDIUMTEXT")
-	private String refundPolicy;
-
-	@Embedded
-	@Column(nullable = false)
-	private Period period;
-
-	@Column(nullable = false)
-	private Account account;
+	@JoinColumn(name = "chat_user_id")
+	private ChatUser chatUser;
 }
