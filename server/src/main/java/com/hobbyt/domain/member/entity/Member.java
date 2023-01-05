@@ -56,11 +56,12 @@ public class Member extends BaseEntity {
 	private boolean dmReceive = true;    // DM 수신여부
 
 	@Builder
-	public Member(Long id, String nickname, String email, String password, String profileImage) {
+	public Member(Long id, String nickname, String email, String password, String profileImage, Authority authority) {
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
 		this.profileImage = profileImage;
+		this.authority = authority;
 	}
 }
