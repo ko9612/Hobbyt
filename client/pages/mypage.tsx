@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import Navbar from "../src/components/Nav/NavBar";
-import BlogTab from "../src/components/Tab/Tab";
+import Tab from "../src/components/Tab/Tab";
 import { SaleMenus } from "../src/components/Tab/TabArr";
 import Footer from "../src/components/Footer/Footer";
 
@@ -20,7 +20,7 @@ export default function Mypage() {
       <MypageContent>
         <MypageTitle>
           <h1 className="mb-10 text-3xl font-bold">내 정보</h1>
-          <BlogTab Menus={SaleMenus} />
+          <Tab Menus={SaleMenus} />
         </MypageTitle>
       </MypageContent>
       <Footer />

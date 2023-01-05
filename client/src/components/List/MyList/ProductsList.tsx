@@ -33,11 +33,14 @@ export default function ProductstList() {
       <PContent>
         {saleProduct.map((product, idx) => (
           <>
-            <ul key={idx} className="flex justify-between p-4 text-center">
-              <li className="w-[16rem] text-left">{product.title}</li>
-              <li className="w-[10rem] mr-10">{product.salesPeriod}</li>
-              <li className="w-[5rem] mr-20">{product.salesRate}</li>
-              <li className="w-[5rem] mr-10">{product.date}</li>
+            <ul
+              key={idx}
+              className="flex items-center justify-between p-[1.5rem] text-center"
+            >
+              <li className="w-[13rem] text-left truncate">{product.title}</li>
+              <li className="w-[10rem] mr-[6rem]">{product.salesPeriod}</li>
+              <li className="w-[5rem] mr-[8rem]">{product.salesRate}</li>
+              <li className="w-[5rem] mr-[2rem]">{product.date}</li>
             </ul>
             <hr />
           </>

@@ -42,3 +42,18 @@ export const SaleManagementMenus = [
     title: "진행상황",
   },
 ];
+
+export const ProgressArr = [
+  {
+    title: "입금완료",
+  },
+  {
+    title: "배송준비중",
+  },
+  {
+    title: "배송시작",
+  },
+  {
+    title: "거래종료",
+  },
+];

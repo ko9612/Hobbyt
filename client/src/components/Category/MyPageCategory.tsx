@@ -8,7 +8,7 @@ interface ICategory {
 
 export default function MyPageCategory({ Menus }: ICategory) {
   const Container = tw.div`
-    flex bg-MainColor w-[54rem] p-5 justify-between items-center m-auto mt-10 rounded-2xl text-white
+    flex bg-MainColor w-[52rem] p-4 justify-between items-center m-auto mt-10 rounded-2xl text-white
     `;
 
   return (

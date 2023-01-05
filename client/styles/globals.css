@@ -12,10 +12,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* @layer base {
-
-} */
-
 @layer components {
   .tab-submenu {
     @apply list-none cursor-pointer border-b-4 border-MainColor/60 p-6 w-[14rem] text-center;

@@ -29,11 +29,15 @@ export default function SalesManagementList() {
       <PContent>
         {purchaseProduct.map((product, idx) => (
           <>
-            <ul key={idx} className="flex justify-between p-4 text-center">
-              <li className="w-[16rem] text-left">{product.title}</li>
-              <li className="w-[10rem] mr-10">{product.purchaser}</li>
-              <li className="w-[8rem] mr-20">{product.date}</li>
-              {/* <li className="w-[5rem] mr-10">{product.progress}</li> */}
+            <ul
+              key={idx}
+              className="flex items-center justify-between p-[1rem] text-center"
+            >
+              <li className="w-[13rem] text-left truncate">{product.title}</li>
+              <li className="w-[10rem] mr-[4rem] pr-[1.9rem]">
+                {product.purchaser}
+              </li>
+              <li className="w-[8rem] mr-[5rem] pr-[1.8rem]">{product.date}</li>
               <ProgressCategory />
             </ul>
             <hr />

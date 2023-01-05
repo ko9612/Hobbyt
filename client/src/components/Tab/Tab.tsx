@@ -22,8 +22,7 @@ export default function Tab({ Menus }: TabProps) {
   const [curIndex, setIndex] = useState(0);
 
   const TabMenu = tw.ul`
-    flex justify-center items-center flex-row
-    w-[48rem] m-auto
+    flex justify-center items-center flex-row m-auto
     list-none bg-white
     text-xl
   `;
