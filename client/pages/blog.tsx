@@ -3,7 +3,7 @@ import Header from "../src/components/UserHome/Header";
 import UserProfileImage from "../src/components/UserHome/UserProfileImage";
 import UserProfile from "../src/components/UserHome/UserProfile";
 import Followig from "../src/components/UserHome/Following";
-import BlogTab from "../src/components/Tab/Tab";
+import Tab from "../src/components/Tab/Tab";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import Navbar from "../src/components/Nav/NavBar";
 import ProfileButton from "../src/components/Button/ProfileButton";
@@ -28,13 +28,19 @@ export const UserContent = tw.aside`
 `;
 
 function Blog() {
+  const BlogTab = tw.div`
+  w-[43rem] m-auto
+  `;
+
   return (
     <>
       <Navbar />
       <Header />
       <Content>
         <BlogContent>
-          <BlogTab Menus={BlogMenus} />
+          <BlogTab>
+            <Tab Menus={BlogMenus} />
+          </BlogTab>
         </BlogContent>
         <UserContent>
           <UserInfo>

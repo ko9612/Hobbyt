@@ -5,7 +5,7 @@ import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 export default function MyCommentList() {
   const CommentContainer = tw.div`
-  block w-[46rem] border-2 m-auto mt-8
+  block border-2 m-auto mt-8
   `;
 
   return (
@@ -13,7 +13,7 @@ export default function MyCommentList() {
       <div className="flex justify-between">
         <div className="flex">
           <BsArrow90DegRight size={28} className="ml-10" color="#d6d6d6" />
-          <p className="ml-3 text-gray-400 truncate w-[38rem]">
+          <p className="ml-3 text-gray-400 truncate w-[35rem]">
             댓글 남겼던 게시글 제목 댓글 남겼던 게시글 제목 댓글 남겼던 게시글
             제목 댓글 남겼던 게시글 제목 댓글 남겼던 게시글 제목 댓글 남겼던
             게시글 제목
@@ -25,7 +25,7 @@ export default function MyCommentList() {
         <div className="w-[5rem] border-none">
           <UserProfileImage />
         </div>
-        <div className="w-[40rem] ml-3 mt-3">
+        <div className="w-[35rem] ml-3 mt-3">
           <p className="truncate">
             내가 작성한 댓글 내용 내가 작성한 댓글 내용 내가 작성한 댓글 내용
             내가 작성한 댓글 내용 내가 작성한 댓글 내용 내가 작성한 댓글 내용

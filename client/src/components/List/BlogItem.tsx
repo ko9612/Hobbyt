@@ -7,7 +7,7 @@ import WriteDate from "../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 import ExampleImg from "../../image/header_ex.jpg";
 
-export const BLContainer = tw.div`w-[48rem] m-auto`;
+export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg`;
 export const BLImage = tw.div`  border border-red-300`;
 export const BLContent = tw.div` ml-5 border border-red-300 mb-5`;
