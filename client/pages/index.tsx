@@ -6,7 +6,7 @@ import BestProduct from "../src/components/List/BestList/BestProduct";
 import Navbar from "../src/components/Nav/NavBar";
 
 const Main = tw.main`
-w-[80rem] border ml-auto
+w-[62rem] border-2 ml-auto border-red-400
 `;
 // J: w-[80rem] border ml-auto
 // H: lg:ml-[18rem] py-10 px-3

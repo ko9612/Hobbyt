@@ -16,7 +16,7 @@ export const UserInfo = tw.div`
 
 export const BlogContent = tw.main`
   border-2 border-green-500
-  w-[62rem] sm:ml-[18rem]
+  w-[48rem] sm:ml-[18rem]
 `;
 
 export const UserContent = tw.aside`

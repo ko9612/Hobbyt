@@ -6,11 +6,11 @@ import Footer from "../src/components/Footer/Footer";
 
 export default function Mypage() {
   const MypageContent = tw.div`
-    w-[80rem] border ml-auto
+    w-[62rem] border-2 ml-auto border-red-500
     `;
 
   const MypageTitle = tw.div`
-    border-2 border-green-400 w-[62rem] m-auto pt-10
+    border-2 border-green-400 w-[52rem] m-auto pt-10
     `;
   // pt 얼마나 해야할까..
 
@@ -19,9 +19,7 @@ export default function Mypage() {
       <Navbar />
       <MypageContent>
         <MypageTitle>
-          <h1 className="text-3xl font-bold border border-red-500 mb-10">
-            내 정보
-          </h1>
+          <h1 className="mb-10 text-3xl font-bold">내 정보</h1>
           <BlogTab Menus={SaleMenus} />
         </MypageTitle>
       </MypageContent>

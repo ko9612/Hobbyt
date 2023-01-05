@@ -7,7 +7,7 @@ import BlogSaleInfo from "../UserHome/BlogSaleInfo";
 
 import BlogItem from "./BlogItem"; // 새로 추가
 
-export const BLContainer = tw.div`w-[56rem] m-auto`;
+export const BLContainer = tw.div`w-[48rem] m-auto`;
 // export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg`;
 // export const BLImage = tw.div` w-[15rem] h-[9rem] border border-red-300`;
 // export const BLContent = tw.div` ml-5 border border-red-300 mb-5`;
