@@ -1,16 +1,4 @@
-// import { useState } from "react";
-// import tw from "tailwind-styled-components";
 import DefaultProfileImg from "../UserHome/DefaultProfileImg";
-
-// interface INotice {
-//   noticeArr: [
-//     {
-//       username: string;
-//       title: string;
-//       progress: string;
-//     },
-//   ];
-// }
 
 const arr = [
   {
