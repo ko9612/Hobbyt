@@ -8,6 +8,7 @@ import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import Navbar from "../src/components/Nav/NavBar";
 import ProfileButton from "../src/components/Button/ProfileButton";
 import { BlogMenus } from "../src/components/Tab/TabArr";
+import Footer from "../src/components/Footer/Footer";
 
 export const Content = tw.main`flex`;
 
@@ -54,6 +55,7 @@ function Blog() {
           </UserInfo>
         </UserContent>
       </Content>
+      <Footer />
     </>
   );
 }
