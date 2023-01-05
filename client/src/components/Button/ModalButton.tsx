@@ -1,4 +1,4 @@
-import { WideB } from "./WideButton";
+import { WideB } from "./SubmitButton";
 
 interface ModalButProps {
   children: string;

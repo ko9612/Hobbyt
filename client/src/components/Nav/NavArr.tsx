@@ -1,7 +1,7 @@
 import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
-import { AiOutlineLogin } from "react-icons/ai";
+import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
-import { CgMoreO } from "react-icons/cg";
+import DefaultProfileImg from "../UserHome/DefaultProfileImg";
 
 export const LogoutMenus = [
   {
@@ -33,41 +33,15 @@ export const LoginMenus = [
   },
   {
     id: 3,
-    title: "더 보기",
-    href: "",
-    icon: <CgMoreO size="35px" />,
-    submenu: true,
-    submenuItems: [
-      {
-        id: 4,
-        title: "로그아웃",
-        href: "/#",
-      },
-      {
-        id: 5,
-        title: "회원 탈퇴",
-        href: "/#",
-      },
-      {
-        id: 6,
-        title: "내 정보",
-        href: "/mypage",
-      },
-      {
-        id: 7,
-        title: "판매 관리",
-        href: "/#",
-      },
-      {
-        id: 8,
-        title: "구매한 작품",
-        href: "/#",
-      },
-      {
-        id: 9,
-        title: "판매한 작품",
-        href: "/#",
-      },
-    ],
+    title: "user_name",
+    href: "/mypage",
+    icon: <DefaultProfileImg width={35} height={35} borderW={2} />,
+    // <div className="bg-white rounded-full w-9 h-9" />,
+  },
+  {
+    id: 4,
+    title: "로그아웃",
+    href: "/#",
+    icon: <AiOutlineLogout size="35px" />,
   },
 ];

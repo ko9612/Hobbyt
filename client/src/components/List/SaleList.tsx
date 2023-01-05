@@ -6,7 +6,7 @@ import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 export const SLContainer = tw.div` w-[56rem] m-auto`;
 
-export const SLComponent = tw.div`grid grid-cols-3 mt-4 border gap-6`;
+export const SLComponent = tw.div`grid grid-cols-3 mt-4 border`;
 
 export const SLContent = tw.div`
 w-full inline-block bg-gray-100 rounded-lg justify-center items-center
