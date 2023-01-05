@@ -7,7 +7,7 @@ export const NavBar = tw.nav`
 `;
 
 export const Nav = tw.nav`
-bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar
+bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar w-[18rem]
 `;
 
 export default function Navbar() {

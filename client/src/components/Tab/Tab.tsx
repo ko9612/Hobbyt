@@ -6,6 +6,8 @@ import MyCommentList from "../List/MyCommentList";
 import LikeList from "../List/LikeList";
 import ProductstList from "../List/MyList/ProductsList";
 import MyInfoList from "../List/MyList/MyInfoList";
+import PurchaseList from "../List/MyList/PurchaseList";
+import SalesManagementList from "../List/MyList/SalesManagementList";
 
 interface TabProps {
   Menus: {
@@ -21,9 +23,9 @@ export default function Tab({ Menus }: TabProps) {
 
   const TabMenu = tw.ul`
     flex justify-center items-center flex-row
-    w-[62rem] m-auto
+    w-[48rem] m-auto
     list-none bg-white
-    text-2xl
+    text-xl
   `;
 
   const TabContent = tw.div`
@@ -56,8 +58,8 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
         {Menus[curIndex].name === "내 정보 관리" ? <MyInfoList /> : null}
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
-        {Menus[curIndex].name === "구매 작품" ? <ProductstList /> : null}
-        {Menus[curIndex].name === "판매 관리" ? <ProductstList /> : null}
+        {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
+        {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}
       </TabContent>
     </>
   );

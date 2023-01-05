@@ -4,7 +4,7 @@ import LikeCount from "../ViewLikeWrite/LikeCount";
 import BlogSaleInfo from "../UserHome/BlogSaleInfo";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
-export const SLContainer = tw.div` w-[56rem] m-auto`;
+export const SLContainer = tw.div` w-[48rem] m-auto`;
 
 export const SLComponent = tw.div`grid grid-cols-3 mt-4 border`;
 

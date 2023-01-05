@@ -1,14 +1,13 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
+import MyPageCategory from "../../Category/MyPageCategory";
+import { ProductMenus } from "../../Category/CategoryArr";
 
-export default function ProductstList() {
-  const PTitle = tw.div`
-  flex bg-MainColor w-[54rem] p-5 justify-between items-center m-auto mt-10 rounded-2xl text-white
-  `;
-  const PContent = tw.div`
+export const PContent = tw.div`
   w-[50rem] justify-center items-center m-auto
   `;
 
+export default function ProductstList() {
   const [saleProduct] = useState([
     {
       userID: "jieun",
@@ -30,12 +29,7 @@ export default function ProductstList() {
 
   return (
     <>
-      <PTitle>
-        <p className="ml-20 text-2xl font-semibold">작품명</p>
-        <p className="ml-20 text-2xl font-semibold">판매기간</p>
-        <p className="text-2xl font-semibold">판매량</p>
-        <p className="mr-16 text-2xl font-semibold">게시날짜</p>
-      </PTitle>
+      <MyPageCategory Menus={ProductMenus} />
       <PContent>
         {saleProduct.map((product, idx) => (
           <>
