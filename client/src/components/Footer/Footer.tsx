@@ -3,7 +3,7 @@ import { RiGithubFill } from "react-icons/ri";
 import tw from "tailwind-styled-components";
 
 const Footer = tw.footer`
-flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem]
+flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem] mt-20
 `;
 
 const Text = tw.span`
