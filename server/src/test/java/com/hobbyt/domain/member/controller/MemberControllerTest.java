@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.service.UserService;
+import com.hobbyt.domain.member.service.MemberService;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -29,7 +29,7 @@ class MemberControllerTest {
 	private ObjectMapper objectMapper;
 
 	@MockBean
-	private UserService userService;
+	private MemberService memberService;
 
 	@DisplayName("정상 회원가입")
 	@Test
@@ -37,11 +37,11 @@ class MemberControllerTest {
 		//given
 		SignupRequest signupRequest = new SignupRequest("test", "test@gmail.com", "!test1234");
 		Long id = 1L;
-		given(userService.createUser(any(SignupRequest.class))).willReturn(id);
+		given(memberService.createUser(any(SignupRequest.class))).willReturn(id);
 
 		//when
 		ResultActions actions = mockMvc.perform(
-			post("/api/users/signup")
+			post("/api/members/signup")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(signupRequest))

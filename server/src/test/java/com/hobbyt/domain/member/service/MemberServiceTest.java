@@ -14,17 +14,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.domain.member.repository.UserRepository;
+import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.UserExistException;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 	@Mock
-	private UserRepository userRepository;
+	private MemberRepository memberRepository;
 	@Mock
 	private PasswordEncoder passwordEncoder;
 	@InjectMocks
-	private UserService userService;
+	private MemberService memberService;
 
 	private SignupRequest signupRequest;
 	private String profileImage;
@@ -40,30 +40,30 @@ class MemberServiceTest {
 	public void create_user() {
 		//given
 		Member result = createUser();
-		given(userRepository.existsByEmail(anyString())).willReturn(false);
-		given(userRepository.save(any(Member.class))).willReturn(result);
+		given(memberRepository.existsByEmail(anyString())).willReturn(false);
+		given(memberRepository.save(any(Member.class))).willReturn(result);
 
 		//when
-		Long id = userService.createUser(signupRequest);
+		Long id = memberService.createUser(signupRequest);
 
 		//then
 		// TODO argThat 부분 모든 값 비교하게끔?
 		assertThat(id).isEqualTo(result.getId());
-		then(userRepository).should(times(1))
+		then(memberRepository).should(times(1))
 			.existsByEmail(argThat(email -> email.equals(signupRequest.getEmail())));
-		then(userRepository).should(times(1))
+		then(memberRepository).should(times(1))
 			.save(argThat(user -> user.getEmail().equals(signupRequest.getEmail())));
 	}
 
 	@DisplayName("UserExistException 예외: 중복 회원 존재")
 	@Test
 	public void validate_duplication_by_email() {
-		willThrow(UserExistException.class).given(userRepository).existsByEmail(anyString());
+		willThrow(UserExistException.class).given(memberRepository).existsByEmail(anyString());
 
-		assertThatThrownBy(() -> userService.createUser(signupRequest))
+		assertThatThrownBy(() -> memberService.createUser(signupRequest))
 			.isInstanceOf(UserExistException.class);
 
-		then(userRepository).should(times(1)).existsByEmail(argThat(email -> email.equals(signupRequest.getEmail())));
+		then(memberRepository).should(times(1)).existsByEmail(argThat(email -> email.equals(signupRequest.getEmail())));
 	}
 
 	private Member createUser() {

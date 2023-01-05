@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.service.UserService;
+import com.hobbyt.domain.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
-public class UserController {
+public class MemberController {
 
-	private final UserService userService;
+	private final MemberService memberService;
 
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
-		Long id = userService.createUser(signupRequest);
+		Long id = memberService.createUser(signupRequest);
 		return new ResponseEntity(id, HttpStatus.CREATED);
 	}
 }

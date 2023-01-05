@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.domain.member.repository.UserRepository;
+import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.UserExistException;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UserService {
-	private final UserRepository userRepository;
+public class MemberService {
+	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
@@ -24,11 +24,11 @@ public class UserService {
 		String profileImage = "S3 default image";    // S3의 기본 프로필 이미지
 		Member member = signupRequest.toEntity(passwordEncoder, profileImage);
 
-		return userRepository.save(member).getId();
+		return memberRepository.save(member).getId();
 	}
 
 	private void checkUserExist(String email) {
-		if (userRepository.existsByEmail(email)) {
+		if (memberRepository.existsByEmail(email)) {
 			throw new UserExistException();
 		}
 	}
