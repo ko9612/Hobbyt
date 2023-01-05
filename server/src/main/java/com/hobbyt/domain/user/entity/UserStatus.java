@@ -1,4 +1,4 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.user.entity;
 
 public enum UserStatus {
 	MEMBER,

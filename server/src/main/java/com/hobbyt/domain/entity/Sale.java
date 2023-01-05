@@ -1,8 +1,7 @@
 package com.hobbyt.domain.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.user.entity.User;
 import com.hobbyt.global.entity.Article;
 
 import lombok.AccessLevel;
@@ -31,12 +31,10 @@ public class Sale extends Article {
 	@Column(nullable = false, columnDefinition = "MEDIUMTEXT")
 	private String refundPolicy;
 
+	@Embedded
 	@Column(nullable = false)
-	private LocalDateTime startedAt;
+	private Period period;
+
 	@Column(nullable = false)
-	private LocalDateTime endAt;
-	@Column(nullable = false)
-	private String accountBank;
-	@Column(nullable = false)
-	private String accountNumber;
+	private Account account;
 }
