@@ -1,6 +1,6 @@
 import { BsEnvelopeFill } from "react-icons/bs";
 import { useState } from "react";
-import WideButton from "../Button/WideButton";
+import SubmitButton from "../Button/SubmitButton";
 import LoginInput from "../Input/LoginInput";
 import DefalutButton from "../Button/DefalutButton";
 import { Input } from "./SigninForm";
@@ -59,7 +59,7 @@ export default function SignupForm() {
           />
         </Input>
       </div>
-      <WideButton onClick={() => {}}>회원가입</WideButton>
+      <SubmitButton onClick={() => {}}>회원가입</SubmitButton>
     </form>
   );
 }

@@ -2,7 +2,10 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { LoginMenus } from "./NavArr";
+import {
+  LoginMenus,
+  // LogoutMenus
+} from "./NavArr";
 import SearchBar from "./SearchBar";
 import logo from "../../image/logo.png";
 
@@ -54,7 +57,7 @@ export default function NavContent() {
                 <span className="text-base font-medium">{menu.title}</span>
               </List>
             </Link>
-            <SubNavList>
+            {/* <SubNavList>
               {menu.submenu && (
                 <>
                   {menu.submenuItems.map(submenuItem => (
@@ -70,9 +73,10 @@ export default function NavContent() {
                   ))}
                 </>
               )}
-            </SubNavList>
+            </SubNavList> */}
           </>
         ))}
+        {/* <div className="bg-white rounded-lg mt-10 h-20" /> */}
       </NavList>
     </>
   );

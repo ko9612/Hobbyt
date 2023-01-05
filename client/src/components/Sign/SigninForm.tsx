@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import WideButton from "../Button/WideButton";
+import SubmitButton from "../Button/SubmitButton";
 import LoginInput from "../Input/LoginInput";
 
 export const Input = tw.div`
@@ -15,7 +15,7 @@ export default function SigninForm() {
       <Input className="mb-10">
         <LoginInput type="password" id="password" placeholder="비밀번호" />
       </Input>
-      <WideButton onClick={() => {}}>로그인</WideButton>
+      <SubmitButton onClick={() => {}}>로그인</SubmitButton>
     </form>
   );
 }

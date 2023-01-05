@@ -11,7 +11,7 @@ focus:border-white focus:outline-none focus:ring-4 focus:ring-white/40 transitio
 
 export default function SearchBar() {
   return (
-    <SearchForm id="searchForm">
+    <SearchForm>
       <SearchInput
         type="text"
         aria-label="search "

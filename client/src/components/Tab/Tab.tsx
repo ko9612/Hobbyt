@@ -4,7 +4,8 @@ import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/MyCommentList";
 import LikeList from "../List/LikeList";
-import ProductstList from "../List/ProductsList";
+import ProductstList from "../List/MyList/ProductsList";
+import MyInfoList from "../List/MyList/MyInfoList";
 
 interface TabProps {
   Menus: {
@@ -53,7 +54,7 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "판매" ? <SaleList /> : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
-        {Menus[curIndex].name === "내 정보 관리" ? <ProductstList /> : null}
+        {Menus[curIndex].name === "내 정보 관리" ? <MyInfoList /> : null}
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <ProductstList /> : null}

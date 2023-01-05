@@ -1,8 +1,9 @@
-import Image from "next/image";
+// import Image from "next/image";
+// import userProfile from "../../image/userProfile_ex.jpeg";
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 import { SubMsg, ButtonDiv } from "./DelModal";
-import userProfile from "../../image/userProfile_ex.jpeg";
 import ModalButton from "../Button/ModalButton";
+import DefaultProfileImg from "../UserHome/DefaultProfileImg";
 
 export interface FollowModalProps {
   setOpenModal(state: boolean): void;
@@ -19,11 +20,7 @@ export default function FollowModal({ setOpenModal }: FollowModalProps) {
         <ModalView onClick={e => e.stopPropagation()}>
           <Content className="flex-col">
             <div className="w-14 mb-3">
-              <Image
-                src={userProfile}
-                alt="유저 프로필 사진"
-                className="rounded-full"
-              />
+              <DefaultProfileImg width={60} height={60} borderW={2} />
             </div>
             <SubMsg className="flex flex-col">
               <span>
