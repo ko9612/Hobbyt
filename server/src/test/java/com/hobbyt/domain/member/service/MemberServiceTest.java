@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.error.exception.UserExistException;
+import com.hobbyt.global.error.exception.MemberExistException;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -58,10 +58,10 @@ class MemberServiceTest {
 	@DisplayName("UserExistException 예외: 중복 회원 존재")
 	@Test
 	public void validate_duplication_by_email() {
-		willThrow(UserExistException.class).given(memberRepository).existsByEmail(anyString());
+		willThrow(MemberExistException.class).given(memberRepository).existsByEmail(anyString());
 
 		assertThatThrownBy(() -> memberService.createUser(signupRequest))
-			.isInstanceOf(UserExistException.class);
+			.isInstanceOf(MemberExistException.class);
 
 		then(memberRepository).should(times(1)).existsByEmail(argThat(email -> email.equals(signupRequest.getEmail())));
 	}

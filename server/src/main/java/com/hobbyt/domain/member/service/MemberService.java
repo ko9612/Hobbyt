@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.error.exception.UserExistException;
+import com.hobbyt.global.error.exception.MemberExistException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,7 @@ public class MemberService {
 
 	private void checkUserExist(String email) {
 		if (memberRepository.existsByEmail(email)) {
-			throw new UserExistException();
+			throw new MemberExistException();
 		}
 	}
 }
