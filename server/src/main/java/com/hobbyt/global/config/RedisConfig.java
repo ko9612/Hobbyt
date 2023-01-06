@@ -30,4 +30,14 @@ public class RedisConfig {
 
 		return redisTemplate;
 	}
+
+	@Bean
+	public RedisTemplate<String, String> redisBlackListTemplate() {
+		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(redisConnectionFactory());
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+		return redisTemplate;
+	}
 }

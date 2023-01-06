@@ -1,4 +1,4 @@
-package com.hobbyt.global.security.service;
+package com.hobbyt.global.redis;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedisService {
 	private final RedisTemplate<String, String> redisRefreshTokenTemplate;
+	private final RedisTemplate<String, String> redisBlackListTemplate;
 
 	public void setRefreshToken(final String key, final String value, final Long expiration) {
 		ValueOperations<String, String> valueOperations = redisRefreshTokenTemplate.opsForValue();
@@ -21,5 +22,10 @@ public class RedisService {
 	public String getRefreshToken(final String key) {
 		ValueOperations<String, String> valueOperations = redisRefreshTokenTemplate.opsForValue();
 		return valueOperations.get(key);
+	}
+
+	public void setBlackListValues(final String key, final String value, final Long expiration) {
+		ValueOperations<String, String> valueOperations = redisBlackListTemplate.opsForValue();
+		valueOperations.set(key, value, expiration, TimeUnit.MILLISECONDS);
 	}
 }

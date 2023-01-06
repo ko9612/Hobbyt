@@ -19,10 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.error.exception.InputNotFoundException;
 import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
+import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
-import com.hobbyt.global.security.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
 

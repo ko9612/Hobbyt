@@ -20,11 +20,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.error.filter.ExceptionHandlerFilter;
+import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
 import com.hobbyt.global.security.filter.JwtVerificationFilter;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.service.MemberDetailsService;
-import com.hobbyt.global.security.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
 
