@@ -3,11 +3,11 @@ import DefalutButton from "../Button/DefalutButton";
 
 export default function ProfileEdit() {
   const ProfileContainer = tw.div`
-  border w-[56rem] m-auto
+  w-[40rem] m-auto
     `;
 
   const ProfileContent = tw.div`
- mb-32
+  mb-20
  `;
 
   return (
@@ -23,7 +23,7 @@ export default function ProfileEdit() {
           className="p-2 mt-2 bg-gray-200 rounded-lg w-80"
           placeholder="닉네임"
         />
-        <h3 className="text-xl font-semibold mt-14">자기소개</h3>
+        <h3 className="mt-10 text-xl font-semibold">자기소개</h3>
         <textarea
           cols={50}
           rows={2}

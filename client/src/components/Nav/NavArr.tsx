@@ -1,6 +1,6 @@
 import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { FaUserCircle } from "react-icons/fa";
+import { FaBlogger } from "react-icons/fa";
 import DefaultProfileImg from "../UserHome/DefaultProfileImg";
 
 export const LogoutMenus = [
@@ -29,7 +29,7 @@ export const LoginMenus = [
     id: 2,
     title: "내 블로그",
     href: "/blog",
-    icon: <FaUserCircle size="35px" />,
+    icon: <FaBlogger size="35px" />,
   },
   {
     id: 3,

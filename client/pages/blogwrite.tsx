@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import tw from "tailwind-styled-components";
 import Header from "../src/components/UserHome/Header";
 import Navbar from "../src/components/Nav/NavBar";
 import UserProfileImage from "../src/components/UserHome/UserProfileImage";
@@ -17,16 +18,22 @@ export default function BlogWrite() {
     { ssr: false },
   );
 
+  const EditorContent = tw.div`
+  w-[43rem] m-auto
+  `;
+
   return (
     <>
       <Navbar />
       <Header />
       <Content>
         <BlogContent>
-          <TitleInput />
-          <ToastEditor />
-          <DefalutTag />
-          <DefalutButton onClick={() => {}}>저장</DefalutButton>
+          <EditorContent>
+            <TitleInput />
+            <ToastEditor />
+            <DefalutTag />
+            <DefalutButton onClick={() => {}}>저장</DefalutButton>
+          </EditorContent>
         </BlogContent>
         <UserContent>
           <UserInfo>
