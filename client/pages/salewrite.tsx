@@ -42,7 +42,7 @@ export default function SaleWrite() {
           <ShippingInfoInput />
           <SendTimeInput />
           <DefalutTag />
-          <div className="flex justify-center">
+          <div className="flex justify-center px-5">
             <SubmitButton onClick={() => {}}>저장</SubmitButton>
           </div>
         </BlogContent>
