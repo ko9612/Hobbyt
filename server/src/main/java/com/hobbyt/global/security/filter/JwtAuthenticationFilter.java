@@ -1,7 +1,11 @@
 package com.hobbyt.global.security.filter;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
+
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,14 +19,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.domain.member.dto.request.LoginRequest;
 import com.hobbyt.global.error.exception.InputNotFoundException;
 import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
+import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
 	private final RedisService redisService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -54,5 +61,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 			throw new InputNotFoundException();
 		}
 		return loginRequest;
+	}
+
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+		Authentication authentication) throws ServletException, IOException {
+
+		MemberDetails principal = (MemberDetails)authentication.getPrincipal();
+		String accessToken = jwtTokenProvider.createAccessToken(principal.getEmail(), principal.getAuthority());
+		String refreshToken = jwtTokenProvider.createRefreshToken(principal.getEmail());
+
+		redisService.setRefreshToken(principal.getEmail(), refreshToken,
+			jwtTokenProvider.calculateExpiration(refreshToken));
+
+		response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + accessToken);
+		response.addHeader(REFRESH_TOKEN, refreshToken);
 	}
 }
