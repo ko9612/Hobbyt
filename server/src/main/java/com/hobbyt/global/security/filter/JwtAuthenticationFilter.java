@@ -16,9 +16,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobbyt.domain.member.dto.request.LoginRequest;
 import com.hobbyt.global.error.exception.InputNotFoundException;
 import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
+import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.service.RedisService;
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		LoginRequest loginRequest = getLoginRequest(request);
 
 		validateAlreadyLoggedIn(loginRequest);
-		
+
 		UsernamePasswordAuthenticationToken authenticationToken =
 			new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
 

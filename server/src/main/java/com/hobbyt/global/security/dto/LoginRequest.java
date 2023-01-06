@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.dto.request;
+package com.hobbyt.global.security.dto;
 
 import javax.validation.constraints.NotBlank;
 
