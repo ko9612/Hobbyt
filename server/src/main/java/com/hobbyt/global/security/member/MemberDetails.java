@@ -2,13 +2,13 @@ package com.hobbyt.global.security.member;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
 
 import lombok.AccessLevel;
@@ -22,13 +22,11 @@ public class MemberDetails implements UserDetails {
 	private final Long id;
 	private final String email;
 	private final String password;
-	private final Collection<? extends GrantedAuthority> authorities;
+	private final Authority authority;
 
 	public static MemberDetails of(Member member) {
-		List<GrantedAuthority> authorities = Collections.singletonList(
-			new SimpleGrantedAuthority(member.getAuthority().toString()));
 		return new MemberDetails(member.getId(), member.getEmail(),
-			member.getPassword(), authorities);
+			member.getPassword(), member.getAuthority());
 	}
 
 	@Override
@@ -50,7 +48,7 @@ public class MemberDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return Collections.singletonList(new SimpleGrantedAuthority(authority.toString()));
 	}
 
 	@Override
