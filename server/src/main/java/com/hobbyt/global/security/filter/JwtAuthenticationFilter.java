@@ -80,7 +80,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private void setHeader(HttpServletResponse response, String accessToken, String refreshToken) {
 		response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + accessToken);
-		response.addHeader(REFRESH_TOKEN, refreshToken);
+		response.addHeader(REFRESH_TOKEN_HEADER, refreshToken);
 	}
 
 	private void saveRefreshToken(Member member, String refreshToken) {

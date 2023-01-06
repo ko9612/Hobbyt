@@ -34,13 +34,13 @@ public class AuthController {
 	@PostMapping("/reissue")
 	public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
-		String refreshToken = request.getHeader(REFRESH_TOKEN);
+		String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
 		String reissuedAccessToken = authService.reissueAccessToken(accessToken, refreshToken);
 		String reissuedRefreshToken = authService.reissueRefreshToken(refreshToken);
 
 		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken);
-		response.setHeader(REFRESH_TOKEN, reissuedRefreshToken);
+		response.setHeader(REFRESH_TOKEN_HEADER, reissuedRefreshToken);
 
 		return new ResponseEntity(HttpStatus.OK);
 	}
