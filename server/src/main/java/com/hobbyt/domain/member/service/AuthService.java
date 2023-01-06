@@ -66,4 +66,14 @@ public class AuthService {
 	private Member findMemberByEmail(final String email) {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 	}
+
+	public String reissueRefreshToken(final String refreshToken) {
+		String email = jwtTokenProvider.parseEmail(refreshToken);
+		String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(email);
+
+		redisService.setRefreshToken(email, reissuedRefreshToken,
+			jwtTokenProvider.calculateExpiration(reissuedRefreshToken));
+
+		return reissuedRefreshToken;
+	}
 }

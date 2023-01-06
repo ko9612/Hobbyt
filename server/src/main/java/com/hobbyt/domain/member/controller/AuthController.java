@@ -1,5 +1,10 @@
 package com.hobbyt.domain.member.controller;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,5 +29,19 @@ public class AuthController {
 		String code = authService.sendAuthenticationCodeEmail(emailRequest);
 
 		return new ResponseEntity(code, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/reissue")
+	public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
+		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
+		String refreshToken = request.getHeader(REFRESH_TOKEN);
+
+		String reissuedAccessToken = authService.reissueAccessToken(accessToken, refreshToken);
+		String reissuedRefreshToken = authService.reissueRefreshToken(refreshToken);
+
+		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken);
+		response.setHeader(REFRESH_TOKEN, reissuedRefreshToken);
+
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }
