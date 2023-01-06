@@ -13,8 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.hobbyt.domain.member.entity.Authority;
+import com.hobbyt.global.error.exception.TokenNotValidException;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -26,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-	private static final String CLAIM_EMAIL = "email";
+	public static final String CLAIM_EMAIL = "email";
 	private static final String CLAIM_AUTHORITY = "authority";
 
 	@Value("${jwt.secret-key}")
@@ -124,5 +128,19 @@ public class JwtTokenProvider {
 		String refreshToken = refreshTokenAssembly(subject, expiration);
 
 		return refreshToken;
+	}
+
+	public Jws<Claims> getClaims(String jws) {
+		Key key = getKeyFromBase64EncodedKey(secretKey);
+
+		try {
+			Jws<Claims> claimsJws = Jwts.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(jws);
+			return claimsJws;
+		} catch (JwtException e) {
+			throw new TokenNotValidException();
+		}
 	}
 }

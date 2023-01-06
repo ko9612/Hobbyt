@@ -20,7 +20,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
+import com.hobbyt.global.security.filter.JwtVerificationFilter;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.service.MemberDetailsService;
 import com.hobbyt.global.security.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class SecurityConfig {
 
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberDetailsService memberDetailsService;
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
@@ -101,9 +104,14 @@ public class SecurityConfig {
 			JwtAuthenticationFilter jwtAuthenticationFilter =
 				new JwtAuthenticationFilter(authenticationManager, redisService, jwtTokenProvider);
 
+			JwtVerificationFilter jwtVerificationFilter =
+				new JwtVerificationFilter(jwtTokenProvider, memberDetailsService);
+
 			jwtAuthenticationFilter.setFilterProcessesUrl("/api/members/login");
 
-			builder.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			builder
+				.addFilter(jwtAuthenticationFilter)
+				.addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class);
 		}
 	}
 }
