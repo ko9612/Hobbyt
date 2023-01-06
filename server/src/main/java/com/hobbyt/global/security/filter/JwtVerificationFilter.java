@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.hobbyt.global.error.exception.TokenNotValidException;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.service.MemberDetailsService;
@@ -37,18 +38,23 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 			String jws = accessToken.replace(TOKEN_TYPE + " ", "");
 			Map<String, Object> claims = jwtTokenProvider.getClaims(jws).getBody();
 
-			String email = (String)claims.get(JwtTokenProvider.CLAIM_EMAIL);
-			MemberDetails memberDetails = (MemberDetails)memberDetailsService.loadUserByUsername(email);
-			Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null,
-				memberDetails.getAuthorities());
-
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			setAuthenticationToSecurityContext(claims);
 
 		} catch (Exception e) {
-			request.setAttribute("exception", e);
+			// TODO 예외처리 고민, authenticationEntryPoint, accessDeniedHandler 파악
+			throw new TokenNotValidException();
 		}
 
 		filterChain.doFilter(request, response);
+	}
+
+	private void setAuthenticationToSecurityContext(Map<String, Object> claims) {
+		String email = (String)claims.get(JwtTokenProvider.CLAIM_EMAIL);
+		MemberDetails memberDetails = (MemberDetails)memberDetailsService.loadUserByUsername(email);
+		Authentication authentication =
+			new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
 	@Override
