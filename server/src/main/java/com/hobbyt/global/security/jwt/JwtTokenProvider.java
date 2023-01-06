@@ -61,6 +61,20 @@ public class JwtTokenProvider {
 		return expiration;
 	}
 
+	public Long calculateExpiration(String jws) {
+		Key key = getKeyFromBase64EncodedKey(secretKey);
+
+		Date expiration = Jwts.parserBuilder()
+			.setSigningKey(key)
+			.build()
+			.parseClaimsJws(jws)
+			.getBody().getExpiration();
+
+		long now = new Date().getTime();
+
+		return expiration.getTime() - now;
+	}
+
 	public String accessTokenAssembly(Map<String, Object> claims, String subject, Date expiration) {
 		Key key = getKeyFromBase64EncodedKey(secretKey);
 
