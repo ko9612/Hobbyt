@@ -1,5 +1,7 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.global.error.exception.MemberNotExistException;
+import com.hobbyt.global.redis.RedisService;
+import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +29,9 @@ public class AuthService {
 
 	private final MailService mailService;
 	private final MailContentBuilder mailContentBuilder;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberRepository memberRepository;
+	private final RedisService redisService;
 
 	public String sendAuthenticationCodeEmail(final EmailRequest emailRequest) {
 		String code = AuthenticationCode.createCode().getCode();
@@ -38,5 +48,22 @@ public class AuthService {
 		Map<String, String> contents = new HashMap<>();
 		contents.put(CODE_KEY, code);
 		return mailContentBuilder.build(AUTH_CODE_TEMPLATE, contents);
+	}
+
+	public String reissueAccessToken(final String accessToken, final String refreshToken) {
+		String email = jwtTokenProvider.parseEmail(refreshToken);
+		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
+
+		// 음수일 경우 무제한 처리됨
+		if (expiration > 0) {
+			redisService.setBlackListValues(accessToken, BLACK_LIST, expiration);
+		}
+
+		Member member = findMemberByEmail(email);
+		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
+	}
+
+	private Member findMemberByEmail(final String email) {
+		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 	}
 }

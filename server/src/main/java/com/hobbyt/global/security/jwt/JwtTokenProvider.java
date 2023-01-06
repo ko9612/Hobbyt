@@ -144,4 +144,8 @@ public class JwtTokenProvider {
 			throw new TokenNotValidException();
 		}
 	}
+
+	public String parseEmail(String jws) {
+		return getClaims(jws).getBody().getSubject();
+	}
 }
