@@ -46,17 +46,18 @@ export default function NavContent() {
       <NavList>
         {LoginMenus.map(menu => (
           <>
-            <Link href={menu.href}>
-              <List
-                key={menu.id}
-                className={`${
-                  router.pathname === menu.href && "text-yellow-200"
-                }`}
-              >
+            <List
+              key={menu.id}
+              className={`${
+                router.pathname === menu.href && "text-yellow-200"
+              }`}
+            >
+              <Link href={menu.href}>
                 <span className="text-2xl block float-left">{menu.icon}</span>
-                <span className="text-base font-medium">{menu.title}</span>
-              </List>
-            </Link>
+                <span className="text-base font-medium p-5">{menu.title}</span>
+              </Link>
+            </List>
+
             {/* <SubNavList>
               {menu.submenu && (
                 <>

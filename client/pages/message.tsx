@@ -21,8 +21,8 @@ export default function Message() {
         <MContent>
           <MessageList />
         </MContent>
-        <Footer />
       </Main>
+      <Footer />
     </>
   );
 }

@@ -28,8 +28,8 @@ export default function Notice() {
         <Content>
           <NoticeList />
         </Content>
-        <Footer />
       </Main>
+      <Footer />
     </>
   );
 }

@@ -1,9 +1,13 @@
 export default function FilterButton() {
   return (
     <div className="flex">
-      <button className="mr-2">최신순</button>
+      <button type="button" className="mr-2">
+        최신순
+      </button>
       <p>|</p>
-      <button className="ml-2">인기순</button>
+      <button type="button" className="ml-2">
+        인기순
+      </button>
     </div>
   );
 }

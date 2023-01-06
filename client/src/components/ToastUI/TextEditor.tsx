@@ -6,8 +6,11 @@ import { useRef } from "react";
 export default function TextEditor() {
   const editorRef = useRef<Editor>(null);
   return (
-    <div>
-      <p className="mb-5 ml-2 mr-5">본문</p>
+    <div className="px-5">
+      {/* mb-5 ml-2 mr-5 font-semibold */}
+      <p className="mb-5 font-semibold">
+        본문 <span className="text-red-500">&#42;</span>
+      </p>
       <Editor
         ref={editorRef}
         previewStyle="vertical"

@@ -24,8 +24,8 @@ export default function Mypage() {
           </MypageTitle>
           <Tab Menus={SaleMenus} />
         </MypageContent>
-        <Footer />
       </Main>
+      <Footer />
     </>
   );
 }

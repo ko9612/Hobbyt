@@ -1,14 +1,14 @@
-import { WideB } from "./SubmitButton";
+import tw from "tailwind-styled-components";
+import { DefaultProps } from "./DefalutButton";
 
-interface ModalButProps {
-  children: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
+const ModalB = tw.button`
+w-full px-4 py-3 text-white duration-100 bg-MainColor hover:bg-SubColor
+ focus:bg-SubColor`;
 
-export default function ModalButton({ children, onClick }: ModalButProps) {
+export default function ModalButton({ children, onClick }: DefaultProps) {
   return (
-    <WideB
-      className={`py-3 focus:ring-0 rounded-none ${
+    <ModalB
+      className={`${
         ((children === "아니오" || children === "취소") &&
           "bg-slate-200 hover:bg-slate-300 focus:bg-slate-300 text-black") ||
         ((children === "삭제" || children === "탈퇴") &&
@@ -17,6 +17,6 @@ export default function ModalButton({ children, onClick }: ModalButProps) {
       onClick={onClick}
     >
       {children}
-    </WideB>
+    </ModalB>
   );
 }

@@ -21,7 +21,7 @@ export const SLProductInfo = tw.div`mx-4`;
 export default function SaleList() {
   return (
     <SLContainer>
-      <BlogSaleInfo />
+      <BlogSaleInfo url="/salewrite" />
       <SLComponent>
         <SLContent>
           <SLImage>

@@ -11,5 +11,9 @@ export default function DefalutButton({ children, onClick }: DefaultProps) {
     focus:bg-SubColor focus:ring focus:ring-MainColor/40 whitespace-nowrap
     `;
 
-  return <DButton onClick={onClick}>{children}</DButton>;
+  return (
+    <DButton type="button" onClick={onClick}>
+      {children}
+    </DButton>
+  );
 }

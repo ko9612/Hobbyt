@@ -2,7 +2,7 @@ import Link from "next/link";
 import { RiGithubFill } from "react-icons/ri";
 import tw from "tailwind-styled-components";
 
-const Footer = tw.footer`
+const FooterDiv = tw.footer`
 flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem] mt-20
 `;
 
@@ -18,7 +18,7 @@ const Content = tw.div`
 inline-flex mx-3 
 `;
 
-export default function NavBar() {
+export default function Footer() {
   const member = [
     { id: 0, name: "고하나", github: "https://github.com/ko9612" },
     { id: 1, name: "안지은", github: "https://github.com/Heera1" },
@@ -27,7 +27,7 @@ export default function NavBar() {
   ];
 
   return (
-    <Footer>
+    <FooterDiv>
       <FooterContent>
         <Content>
           <Link href="https://github.com/ko9612/Hobbyt" className="flex">
@@ -48,6 +48,6 @@ export default function NavBar() {
           </Content>
         ))}
       </FooterContent>
-    </Footer>
+    </FooterDiv>
   );
 }

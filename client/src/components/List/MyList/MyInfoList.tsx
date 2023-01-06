@@ -6,7 +6,7 @@ import RefundInfo from "../../UserInfo/RefundInfo";
 import SubmitButton from "../../Button/SubmitButton";
 
 const InfoContent = tw.main`
-w-[54rem] justify-center items-center mx-auto mb-[10rem]
+justify-center items-center mx-auto
 `;
 
 export default function MyInfoList() {
@@ -16,7 +16,7 @@ export default function MyInfoList() {
       <PasswordInfo />
       <AddressInfo />
       <RefundInfo />
-      <div className="pt-20 text-xl">
+      <div className="pt-20">
         <SubmitButton onClick={() => {}}>내 정보 저장하기</SubmitButton>
       </div>
     </InfoContent>

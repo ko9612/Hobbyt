@@ -1,9 +1,9 @@
 import { BsEnvelopeFill } from "react-icons/bs";
 import { useState } from "react";
 import SubmitButton from "../Button/SubmitButton";
-import LoginInput from "../Input/LoginInput";
+// import LoginInput from "../Input/LoginInput";
 import DefalutButton from "../Button/DefalutButton";
-import { Input } from "./SigninForm";
+import { Input, LoginInput } from "./SigninForm";
 
 export default function SignupForm() {
   const [emailBut, setEmailBut] = useState(false);
@@ -11,14 +11,19 @@ export default function SignupForm() {
     <form className="mb-10">
       {/* 닉네임 */}
       <Input>
-        <LoginInput type="text" id="name" placeholder="닉네임" />
+        <LoginInput type="text" id="name" placeholder="닉네임" maxLength={6} />
       </Input>
 
       {/* 이메일 */}
       <Input>
         <div className="flex">
           <div className="flex-1">
-            <LoginInput type="email" id="email" placeholder="이메일" />
+            <LoginInput
+              type="email"
+              id="email"
+              placeholder="이메일"
+              maxLength={25}
+            />
           </div>
           <div className="ml-2">
             <DefalutButton onClick={() => setEmailBut(true)}>
@@ -37,6 +42,7 @@ export default function SignupForm() {
                 type="text"
                 id="emailCertification"
                 placeholder="인증 번호 입력"
+                maxLength={10}
               />
             </div>
             {/* 인증번호 완료버튼 */}
@@ -49,13 +55,19 @@ export default function SignupForm() {
       {/* 비밀번호 */}
       <div className="mb-10">
         <Input>
-          <LoginInput type="password" id="password" placeholder="비밀번호" />
+          <LoginInput
+            type="password"
+            id="password"
+            placeholder="비밀번호"
+            maxLength={15}
+          />
         </Input>
         <Input>
           <LoginInput
             type="password"
-            id="password"
+            id="passwordConfrim"
             placeholder="비밀번호 확인"
+            maxLength={15}
           />
         </Input>
       </div>

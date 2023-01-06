@@ -8,6 +8,7 @@ import Navbar from "../src/components/Nav/NavBar";
 export const Main = tw.main`
 w-[62rem] border-2 ml-auto border-red-400
 `;
+
 // J: w-[80rem] border ml-auto
 // H: lg:ml-[18rem] py-10 px-3
 

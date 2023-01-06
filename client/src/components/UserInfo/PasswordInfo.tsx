@@ -3,10 +3,10 @@ import {
   InfoTitle,
   InfoContent,
   EditList,
+  InputDiv,
   Input,
   InputLabel,
 } from "./InfoStyle";
-import DefaultInput from "../Input/DefaultInput";
 import DefalutButton from "../Button/DefalutButton";
 
 export default function PasswordInfo() {
@@ -22,21 +22,21 @@ export default function PasswordInfo() {
       <InfoContent>
         <EditList>
           <InputLabel htmlFor="curPassword">현재 비밀번호</InputLabel>
-          <Input>
-            <DefaultInput type="password" id="curPassword" />
-          </Input>
+          <InputDiv>
+            <Input type="password" id="curPassword" maxLength={15} />
+          </InputDiv>
         </EditList>
         <EditList>
           <InputLabel htmlFor="newPassword">새 비밀번호 </InputLabel>
-          <Input>
-            <DefaultInput type="password" id="newPassword" />
-          </Input>
+          <InputDiv>
+            <Input type="password" id="newPassword" maxLength={15} />
+          </InputDiv>
         </EditList>
         <EditList>
           <InputLabel htmlFor="ConfirmPassword">새 비밀번호 확인</InputLabel>
-          <Input>
-            <DefaultInput type="password" id="ConfirmPassword" />
-          </Input>
+          <InputDiv>
+            <Input type="password" id="ConfirmPassword" maxLength={15} />
+          </InputDiv>
         </EditList>
         <div className="flex justify-end">
           <DefalutButton onClick={() => {}}>비밀번호 변경</DefalutButton>

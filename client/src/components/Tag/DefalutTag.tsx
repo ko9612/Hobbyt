@@ -6,8 +6,9 @@ export default function DefalutTag() {
   const [tags, setTags] = useState(initialTags);
 
   const TagInput = tw.div`
-    mt-3 mb-10 flex w-[52rem] border-2 rounded-lg px-3 ml-2
+  mt-3 mb-10 flex w-full border-2 rounded-lg px-3 border-slate-200
     `;
+  // mt-3 mb-10 flex w-[52rem] border-2 rounded-lg px-3 ml-2
 
   // 수정해야 함
   const addTags = (event: any) => {
@@ -27,8 +28,10 @@ export default function DefalutTag() {
     setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
   };
   return (
-    <div className="mt-10">
-      <p>태그</p>
+    <div className="mt-10 px-5">
+      <p className="font-semibold">
+        태그 <span className="text-red-500">&#42;</span>
+      </p>
       <TagInput>
         <ul className="tag-ul">
           {tags.map((tag, idx) => (
@@ -36,6 +39,7 @@ export default function DefalutTag() {
             <li className="tag" key={idx}>
               <span className="tag-title">{tag}</span>
               <button
+                type="button"
                 className="tag-close-icon"
                 onClick={() => removeTags(idx)}
               >

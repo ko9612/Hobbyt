@@ -33,7 +33,12 @@ export default function BurgerNav() {
   return (
     <Header>
       <Button>
-        <button className="px-1" onClick={onBurgerClicked}>
+        <button
+          aria-label="menu"
+          type="button"
+          className="px-1"
+          onClick={onBurgerClicked}
+        >
           <BurgerLine className={menu ? "rotate-45 translate-y-2" : ""} />
           <BurgerLine className={menu ? "opacity-0 " : ""} />
           <BurgerLine className={menu ? "-rotate-45 -translate-y-2" : ""} />

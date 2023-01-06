@@ -1,19 +1,21 @@
+import { ComponentProps, useState } from "react";
 import {
   InfoSection,
   InfoTitle,
   InfoContent,
   EditList,
+  InputDiv,
   Input,
   InputLabel,
 } from "./InfoStyle";
-import DefaultInput from "../Input/DefaultInput";
+
+const phoneNumRegex = /^[-?\d+]{0,11}$/;
 
 export default function AccountInfo() {
-  // const [isEditPhone, setIsEditPhone] = useState(false);
-
-  // const EditPhonelHandler = () => {
-  //   setIsEditPhone(!isEditPhone);
-  // };
+  const [isEditPhone, setIsEditPhone] = useState("");
+  const EditPhonelHandler: ComponentProps<"input">["onChange"] = e => {
+    if (phoneNumRegex.test(e.target.value)) setIsEditPhone(e.target.value);
+  };
 
   return (
     <InfoSection>
@@ -26,8 +28,17 @@ export default function AccountInfo() {
         </EditList>
         <EditList>
           <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>
-          <Input>
-            <DefaultInput type="text" id="phoneNumber" />
+          <InputDiv>
+            <Input
+              type="tel"
+              id="phoneNumber"
+              maxLength={11}
+              placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
+              pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+              value={isEditPhone}
+              onChange={e => EditPhonelHandler(e)}
+              required
+            />
             {/* 버튼 컴포넌트화 고려
             <InfoButtonDiv>
               {isEditPhone ? (
@@ -38,8 +49,13 @@ export default function AccountInfo() {
                 </InfoEditButton>
               )}
             </InfoButtonDiv> */}
-          </Input>
+          </InputDiv>
         </EditList>
+        <div className="text-sm text-gray-500 text-end ">
+          <button type="button" className="focus:underline hover:underline">
+            회원탈퇴
+          </button>
+        </div>
       </InfoContent>
     </InfoSection>
   );
