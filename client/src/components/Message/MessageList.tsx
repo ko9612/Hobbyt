@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useState } from "react";
 import DefaultProfileImg from "../UserHome/DefaultProfileImg";
 import DefaultMessage from "./DefaultMessage";
+import ChatRoom from "./ChatRoom";
 
 const arr = [
   {
@@ -10,6 +11,7 @@ const arr = [
     message:
       "메세지 내용입니다. 메세지 내용입니다. 메세지 내용입니다. 메세지 내용입니다. 메세지 내용입니다. ",
     date: "23.01.01",
+    idx: 0,
   },
   {
     profile: <DefaultProfileImg width={50} height={50} borderW={0} />,
@@ -42,7 +44,7 @@ const arr = [
 ];
 
 export default function MessageList() {
-  const [curIndex, setIndex] = useState("0");
+  const [curIndex, setIndex] = useState(0);
   const messageArr = arr;
 
   const MContainer = tw.div`flex w-[62rem] content-start`;
@@ -50,19 +52,19 @@ export default function MessageList() {
   const Info = tw.div`w-[14rem]`;
   const Title = tw.div`flex`;
 
-  const MList = tw.ul`w-[31rem] mt-5`;
+  const MList = tw.ul`w-[31rem] mt-5 cursor-pointer`;
   const MContent = tw.div`w-[31rem] text-center m-auto`;
   const HR = tw.div`bg-gray-200 p-0.5 h-[40rem]`;
 
-  const onClickHandler = (name: string) => {
-    setIndex(name);
+  const onClickHandler = (index: number) => {
+    setIndex(index);
   };
 
   return (
     <MContainer>
       <MList>
         {messageArr.map((user, idx) => (
-          <List key={idx} onClick={() => onClickHandler(user.name)}>
+          <List key={idx} onClick={() => onClickHandler(idx)}>
             <p className="w-[4rem]">{user.profile}</p>
             <Info>
               <Title>
@@ -76,8 +78,8 @@ export default function MessageList() {
       </MList>
       <HR />
       <MContent>
-        {messageArr[curIndex].name === curIndex ? (
-          <DefaultMessage />
+        {messageArr[curIndex].idx === curIndex ? (
+          <ChatRoom />
         ) : (
           <DefaultMessage />
         )}

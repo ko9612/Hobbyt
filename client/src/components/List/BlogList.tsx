@@ -15,7 +15,7 @@ export const BLContainer = tw.div`w-[43rem] m-auto`;
 function BlogList() {
   return (
     <BLContainer>
-      <BlogSaleInfo url="/blogwrite" />
+      <BlogSaleInfo>블로그</BlogSaleInfo>
       {/* <BLComponent>
         <BLImage>이미지 자리</BLImage>
         <BLContent>
