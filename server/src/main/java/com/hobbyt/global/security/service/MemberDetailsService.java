@@ -18,8 +18,8 @@ public class MemberDetailsService implements UserDetailsService {
 	private final MemberRepository memberRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Member member = memberRepository.findByEmail(username).orElseThrow(MemberNotExistException::new);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 
 		return MemberDetails.of(member);
 	}
