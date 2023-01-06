@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.error.exception.InputNotFoundException;
 import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
 import com.hobbyt.global.security.dto.LoginRequest;
@@ -67,14 +68,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 		Authentication authentication) throws ServletException, IOException {
 
-		MemberDetails principal = (MemberDetails)authentication.getPrincipal();
-		String accessToken = jwtTokenProvider.createAccessToken(principal.getEmail(), principal.getAuthority());
-		String refreshToken = jwtTokenProvider.createRefreshToken(principal.getEmail());
+		MemberDetails memberDetails = (MemberDetails)authentication.getPrincipal();
+		Member member = memberDetails.getMember();
+		String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
+		String refreshToken = jwtTokenProvider.createRefreshToken(member.getEmail());
 
-		redisService.setRefreshToken(principal.getEmail(), refreshToken,
-			jwtTokenProvider.calculateExpiration(refreshToken));
+		saveRefreshToken(member, refreshToken);
 
+		setHeader(response, accessToken, refreshToken);
+	}
+
+	private void setHeader(HttpServletResponse response, String accessToken, String refreshToken) {
 		response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + accessToken);
 		response.addHeader(REFRESH_TOKEN, refreshToken);
+	}
+
+	private void saveRefreshToken(Member member, String refreshToken) {
+		redisService.setRefreshToken(member.getEmail(), refreshToken,
+			jwtTokenProvider.calculateExpiration(refreshToken));
 	}
 }

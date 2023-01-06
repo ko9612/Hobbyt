@@ -65,6 +65,7 @@ public class JwtTokenProvider {
 		return expiration;
 	}
 
+	// redis 데이터 유효시간 지정을 위해 사용
 	public Long calculateExpiration(String jws) {
 		Key key = getKeyFromBase64EncodedKey(secretKey);
 
