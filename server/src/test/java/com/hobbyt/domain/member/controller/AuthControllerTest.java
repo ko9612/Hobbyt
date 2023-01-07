@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.controller;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -50,6 +51,31 @@ class AuthControllerTest {
 
 		//then
 		actions.andExpect(status().isCreated())
+			.andDo(print());
+	}
+
+	@DisplayName("토큰 재발급")
+	@Test
+	void reissue() throws Exception {
+		//given
+		String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOiJST0xFX1VTRVIiLCJlbWFpbCI6InBqNTAxNkBuYXZlci5jb20iLCJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjoxNjczMDc5OTAyLCJleHAiOjE2NzMyNjE3MDJ9.2tlaHBrLJBPijNNDdUxvo77Ec2XuOQNrRNotxTUOnIQ";
+		String refreshToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjoxNjczMDc5OTAyLCJleHAiOjYyMTUzNjg0NzAyfQ.NtCbbucwL4HXotVH3ZxPuirBphSmtKeS4BEgfcGkYoQ";
+		String reissuedAccessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOiJST0xFX1VTRVIiLCJlbWFpbCI6InBqNTAxNkBuYXZlci5jb20iLCJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjasfdasDc5OTAyLCJleHAiOjE2NzMyNjE3MDJ9.2tlaHBrLJBPijNNDdUxvo77Ec2XuOQNrRNotxTUOnIQ";
+		String reissuedRefreshToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjoxNjczMDc5OTAyLCJleHAiOjYyMTUzNjg0NzAyfQ.NtCbbucwL4HXotVH3ZxPuirBasdfeS4BEgfcGkYoQ";
+
+		given(authService.reissueAccessToken(anyString(), anyString())).willReturn(reissuedAccessToken);
+		given(authService.reissueRefreshToken(anyString())).willReturn(reissuedRefreshToken);
+		//when
+		ResultActions actions = mockMvc.perform(
+			post("/api/auth/reissue")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+				.header(REFRESH_TOKEN_HEADER, refreshToken)
+		);
+
+		//then
+		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
 }
