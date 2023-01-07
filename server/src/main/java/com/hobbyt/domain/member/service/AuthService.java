@@ -54,7 +54,9 @@ public class AuthService {
 		String email = jwtTokenProvider.parseEmail(refreshToken);
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
-		redisService.setValue(accessToken, BLACK_LIST, expiration);
+		if (expiration > 0) {
+			redisService.setValue(accessToken, BLACK_LIST, expiration);
+		}
 
 		Member member = findMemberByEmail(email);
 		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
