@@ -106,7 +106,7 @@ public class SecurityConfig {
 				new JwtAuthenticationFilter(authenticationManager, redisService, jwtTokenProvider);
 
 			JwtVerificationFilter jwtVerificationFilter =
-				new JwtVerificationFilter(jwtTokenProvider, memberDetailsService);
+				new JwtVerificationFilter(jwtTokenProvider, memberDetailsService, redisService);
 
 			jwtAuthenticationFilter.setFilterProcessesUrl("/api/members/login");
 

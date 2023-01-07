@@ -22,17 +22,7 @@ public class RedisConfig {
 	}
 
 	@Bean
-	public RedisTemplate<String, String> redisRefreshTokenTemplate() {
-		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(redisConnectionFactory());
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new StringRedisSerializer());
-
-		return redisTemplate;
-	}
-
-	@Bean
-	public RedisTemplate<String, String> redisBlackListTemplate() {
+	public RedisTemplate<String, String> redisTemplate() {
 		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		redisTemplate.setKeySerializer(new StringRedisSerializer());

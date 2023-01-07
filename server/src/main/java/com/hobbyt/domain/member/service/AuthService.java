@@ -54,10 +54,7 @@ public class AuthService {
 		String email = jwtTokenProvider.parseEmail(refreshToken);
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
-		// 음수일 경우 무제한 처리됨
-		if (expiration > 0) {
-			redisService.setBlackListValues(accessToken, BLACK_LIST, expiration);
-		}
+		redisService.setValue(accessToken, BLACK_LIST, expiration);
 
 		Member member = findMemberByEmail(email);
 		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
@@ -71,7 +68,7 @@ public class AuthService {
 		String email = jwtTokenProvider.parseEmail(refreshToken);
 		String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(email);
 
-		redisService.setRefreshToken(email, reissuedRefreshToken,
+		redisService.setValue(email, reissuedRefreshToken,
 			jwtTokenProvider.calculateExpiration(reissuedRefreshToken));
 
 		return reissuedRefreshToken;

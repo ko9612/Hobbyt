@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hobbyt.global.error.exception.TokenNotValidException;
+import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.service.MemberDetailsService;
@@ -27,16 +28,20 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberDetailsService memberDetailsService;
+	private final RedisService redisService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
 		try {
-			String accessToken = request.getHeader(AUTH_HEADER);
+			String accessToken = request.getHeader(AUTH_HEADER).substring(7);
+			String email = jwtTokenProvider.parseEmail(accessToken);
+			Map<String, Object> claims = jwtTokenProvider.getClaims(accessToken).getBody();
 
-			String jws = accessToken.replace(TOKEN_TYPE + " ", "");
-			Map<String, Object> claims = jwtTokenProvider.getClaims(jws).getBody();
+			if (redisService.isBlackList(accessToken)) {
+				throw new TokenNotValidException();
+			}
 
 			setAuthenticationToSecurityContext(claims);
 

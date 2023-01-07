@@ -11,21 +11,19 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class RedisService {
-	private final RedisTemplate<String, String> redisRefreshTokenTemplate;
-	private final RedisTemplate<String, String> redisBlackListTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
-	public void setRefreshToken(final String key, final String value, final Long expiration) {
-		ValueOperations<String, String> valueOperations = redisRefreshTokenTemplate.opsForValue();
+	public void setValue(final String key, final String value, final Long expiration) {
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		valueOperations.set(key, value, expiration, TimeUnit.MILLISECONDS);
 	}
 
-	public String getRefreshToken(final String key) {
-		ValueOperations<String, String> valueOperations = redisRefreshTokenTemplate.opsForValue();
+	public String getValue(final String key) {
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		return valueOperations.get(key);
 	}
 
-	public void setBlackListValues(final String key, final String value, final Long expiration) {
-		ValueOperations<String, String> valueOperations = redisBlackListTemplate.opsForValue();
-		valueOperations.set(key, value, expiration, TimeUnit.MILLISECONDS);
+	public boolean isBlackList(final String key) {
+		return redisTemplate.hasKey(key);
 	}
 }

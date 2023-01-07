@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 	private void validateAlreadyLoggedIn(LoginRequest loginRequest) {
-		if (redisService.getRefreshToken(loginRequest.getEmail()) != null) {
+		if (redisService.getValue(loginRequest.getEmail()) != null) {
 			throw new MemberAlreadyLoggedInException();
 		}
 	}
@@ -84,7 +84,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 	private void saveRefreshToken(Member member, String refreshToken) {
-		redisService.setRefreshToken(member.getEmail(), refreshToken,
+		redisService.setValue(member.getEmail(), refreshToken,
 			jwtTokenProvider.calculateExpiration(refreshToken));
 	}
 }
