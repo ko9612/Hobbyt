@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
@@ -17,7 +18,6 @@ import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.redis.RedisService;
-import com.hobbyt.global.security.constants.AuthConstants;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -80,7 +80,7 @@ class AuthServiceTest {
 		then(jwtTokenProvider).should().parseEmail(argThat(jws -> jws.equals(refreshToken)));
 		then(jwtTokenProvider).should().calculateExpiration(argThat(jws -> jws.equals(accessToken)));
 		then(redisService).should().setValue(argThat(key -> key.equals(accessToken)), argThat(value -> value.equals(
-			AuthConstants.BLACK_LIST)), argThat(timeout -> timeout == expiration));
+			BLACK_LIST)), argThat(timeout -> timeout == expiration));
 		then(memberRepository).should().findByEmail(argThat(email -> email.equals(member.getEmail())));
 		then(jwtTokenProvider).should()
 			.createAccessToken(argThat(email -> email.equals(member.getEmail())),
