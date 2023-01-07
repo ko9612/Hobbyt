@@ -15,6 +15,9 @@ import com.hobbyt.global.error.code.ErrorCode;
 import com.hobbyt.global.error.dto.ErrorResponse;
 import com.hobbyt.global.error.exception.TokenNotValidException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -23,6 +26,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 		try {
 			filterChain.doFilter(request, response);
 		} catch (TokenNotValidException e) {
+			log.error("[exceptionHandler] ex", e);
 			setErrorResponse(response, ErrorCode.TOKEN_NOT_VALID_EXCEPTION);
 		}
 	}

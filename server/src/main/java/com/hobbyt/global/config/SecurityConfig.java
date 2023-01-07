@@ -43,9 +43,10 @@ public class SecurityConfig {
 			web.ignoring()
 				//.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
 				.antMatchers(
-					"/api-document/**"
+					"/api-document/**", "/api/auth/reissue"
 				);
 		};
+		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 에러 발생(MemberDetailsService의 MemberNotExistException)
 	}
 
 	@Bean
