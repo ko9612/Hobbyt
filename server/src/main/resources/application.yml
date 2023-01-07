@@ -20,3 +20,12 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: ${ACCESS_TOKEN_EXPIRATION_MINUTES} 30
+  refresh-token-expiration-minutes: ${REFRESH_TOKEN_EXPIRATION_MINUTES} 10080
