@@ -36,7 +36,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 		try {
 			String accessToken = request.getHeader(AUTH_HEADER).substring(7);
-			String email = jwtTokenProvider.parseEmail(accessToken);
 			Map<String, Object> claims = jwtTokenProvider.getClaims(accessToken).getBody();
 
 			if (redisService.isBlackList(accessToken)) {
