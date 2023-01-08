@@ -46,7 +46,7 @@ public class SecurityConfig {
 					"/api-document/**", "/api/auth/reissue"
 				);
 		};
-		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 에러 발생(MemberDetailsService의 MemberNotExistException)
+		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 컨트롤러 test시 에러 발생(MemberDetailsService의 MemberNotExistException)
 	}
 
 	@Bean
