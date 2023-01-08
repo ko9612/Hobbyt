@@ -1,5 +1,6 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
+import { useRouter } from "next/router";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/MyCommentList";
@@ -8,6 +9,8 @@ import ProductstList from "../List/MyList/ProductsList";
 import MyInfoList from "../List/MyList/MyInfoList";
 import PurchaseList from "../List/MyList/PurchaseList";
 import SalesManagementList from "../List/MyList/SalesManagementList";
+import SearchBlog from "../Search/SearchBlog";
+import SearchSales from "../Search/SearchSales";
 
 interface TabProps {
   Menus: {
@@ -18,11 +21,12 @@ interface TabProps {
 }
 
 export default function Tab({ Menus }: TabProps) {
+  const router = useRouter();
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
 
   const TabMenu = tw.ul`
-    flex justify-center items-center flex-row m-auto
+    flex items-center flex-row m-auto
     list-none bg-white
     text-xl
   `;
@@ -33,6 +37,9 @@ export default function Tab({ Menus }: TabProps) {
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
   };
+
+  const keyword = router.query.keywords;
+  console.log(keyword);
 
   return (
     <>
@@ -51,8 +58,18 @@ export default function Tab({ Menus }: TabProps) {
         ))}
       </TabMenu>
       <TabContent>
-        {Menus[curIndex].name === "블로그" ? <BlogList /> : null}
-        {Menus[curIndex].name === "판매" ? <SaleList /> : null}
+        {Menus[curIndex].name === "블로그" && router.pathname === "/blog" ? (
+          <BlogList />
+        ) : null}
+        {Menus[curIndex].name === "판매" && router.pathname === "/blog" ? (
+          <SaleList />
+        ) : null}
+        {Menus[curIndex].name === "블로그" && router.pathname === "/search" ? (
+          <SearchBlog keyword={keyword} />
+        ) : null}
+        {Menus[curIndex].name === "판매" && router.pathname === "/search" ? (
+          <SearchSales keyword={keyword} />
+        ) : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
         {Menus[curIndex].name === "내 정보 관리" ? <MyInfoList /> : null}
