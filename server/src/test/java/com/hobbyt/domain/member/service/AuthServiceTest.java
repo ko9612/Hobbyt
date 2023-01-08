@@ -111,4 +111,24 @@ class AuthServiceTest {
 	private Member createMember() {
 		return Member.builder().id(1L).nickname("test").email("test@gmail.com").password("1234").build();
 	}
+
+	@DisplayName("로그아웃")
+	@Test
+	void logout() {
+		//given
+		String email = "user1@gmail.com";
+		Long expiration = 1000L;
+		given(jwtTokenProvider.parseEmail(anyString())).willReturn(email);
+		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(expiration);
+
+		//when
+		authService.logout(accessToken, refreshToken);
+
+		//then
+		then(jwtTokenProvider).should(times(1)).parseEmail(argThat(jws -> jws.equals(refreshToken)));
+		then(jwtTokenProvider).should(times(1)).calculateExpiration(argThat(jws -> jws.equals(accessToken)));
+		then(redisService).should(times(1)).deleteValue(argThat(key -> key.equals(email)));
+		then(redisService).should().setValue(argThat(key -> key.equals(accessToken)), argThat(value -> value.equals(
+			BLACK_LIST)), argThat(timeout -> timeout == expiration));
+	}
 }
