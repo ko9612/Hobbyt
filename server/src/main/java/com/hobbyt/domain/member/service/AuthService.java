@@ -75,4 +75,15 @@ public class AuthService {
 
 		return reissuedRefreshToken;
 	}
+
+	public void logout(final String accessToken, final String refreshToken) {
+		String email = jwtTokenProvider.parseEmail(refreshToken);
+		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
+
+		redisService.deleteValue(email);
+		
+		if (expiration > 0) {
+			redisService.setValue(accessToken, BLACK_LIST, expiration);
+		}
+	}
 }

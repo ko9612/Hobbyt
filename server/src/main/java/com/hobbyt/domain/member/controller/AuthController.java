@@ -44,4 +44,14 @@ public class AuthController {
 
 		return new ResponseEntity(HttpStatus.OK);
 	}
+
+	@PostMapping("/logout")
+	public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
+		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
+		String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
+
+		authService.logout(accessToken, refreshToken);
+
+		return new ResponseEntity(HttpStatus.OK);
+	}
 }
