@@ -6,7 +6,7 @@ import {
   LoginMenus,
   // LogoutMenus
 } from "./NavArr";
-import SearchBar from "./SearchBar";
+import SearchBar from "../Search/SearchBar";
 import logo from "../../image/logo.png";
 
 export const Logo = tw.div`
@@ -45,39 +45,16 @@ export default function NavContent() {
       <SearchBar />
       <NavList>
         {LoginMenus.map(menu => (
-          <>
-            <List
-              key={menu.id}
-              className={`${
-                router.pathname === menu.href && "text-yellow-200"
-              }`}
-            >
-              <Link href={menu.href}>
-                <span className="text-2xl block float-left">{menu.icon}</span>
-                <span className="text-base font-medium p-5">{menu.title}</span>
-              </Link>
-            </List>
-
-            {/* <SubNavList>
-              {menu.submenu && (
-                <>
-                  {menu.submenuItems.map(submenuItem => (
-                    <SubList
-                      key={menu.id}
-                      className={`${
-                        router.pathname === submenuItem.href &&
-                        "text-yellow-200"
-                      }`}
-                    >
-                      <Link href={submenuItem.href}>{submenuItem.title}</Link>
-                    </SubList>
-                  ))}
-                </>
-              )}
-            </SubNavList> */}
-          </>
+          <List
+            key={menu.id}
+            className={`${router.pathname === menu.href && "text-yellow-200"}`}
+          >
+            <Link href={menu.href}>
+              <span className="text-2xl block float-left">{menu.icon}</span>
+              <span className="text-base font-medium p-5">{menu.title}</span>
+            </Link>
+          </List>
         ))}
-        {/* <div className="bg-white rounded-lg mt-10 h-20" /> */}
       </NavList>
     </>
   );

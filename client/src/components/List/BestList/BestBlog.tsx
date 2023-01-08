@@ -3,7 +3,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import BlogItem from "../BlogItem";
 
 export const Section = tw.section`
-lg:w-[62rem] mx-auto py-10
+w-[52rem] mx-auto py-10
 `;
 // pt 얼마나 해야할까..
 // J: lg:w-[62rem] mx-auto mb-20 pt-32

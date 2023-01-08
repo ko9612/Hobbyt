@@ -69,7 +69,6 @@ export default function ShippingInfoInput() {
                 id="shippingFee"
                 placeholder="배송비"
                 value={isFee}
-                defaultValue="0"
                 onChange={e => FeeHandler(e)}
               />
             </SubLabel>

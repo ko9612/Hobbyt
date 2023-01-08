@@ -9,6 +9,10 @@ export const Main = tw.main`
 w-[62rem] border-2 ml-auto border-red-400
 `;
 
+export const MainContent = tw.div`
+w-[52rem] m-auto
+  `;
+
 // J: w-[80rem] border ml-auto
 // H: lg:ml-[18rem] py-10 px-3
 
@@ -17,9 +21,11 @@ export default function Home() {
     <>
       <Navbar />
       <Main>
-        <BestBlog />
-        <BestBlogger />
-        <BestProduct />
+        <MainContent>
+          <BestBlog />
+          <BestBlogger />
+          <BestProduct />
+        </MainContent>
       </Main>
       <Footer />
     </>

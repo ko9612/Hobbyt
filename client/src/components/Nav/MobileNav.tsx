@@ -19,7 +19,7 @@ const NavOpen = tw.div`
 absolute top-0 bottom-0 left-0
 `;
 
-export default function BurgerNav() {
+export default function MobileNav() {
   const [menu, setMenu] = useState(false);
   const router = useRouter();
   const handleHomeClick = () => {

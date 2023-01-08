@@ -1,4 +1,7 @@
-import { useState, useRef } from "react";
+import {
+  useState,
+  // useRef
+} from "react";
 import tw from "tailwind-styled-components";
 import { RiImageAddFill } from "react-icons/ri";
 import { MdRemoveCircle } from "react-icons/md";
@@ -25,14 +28,6 @@ const TextInfo = tw.div`
   flex flex-wrap
 `;
 
-interface Product {
-  id: number;
-  name: string;
-  itemImg: string;
-  수량: number;
-  가격: string;
-}
-
 // const priceRegex = /^-?\d+$/;
 // const [isPrice, setIsPrice] = useState(0);
 // const priceHandler: ComponentProps<"input">["onChange"] = e => {
@@ -40,51 +35,55 @@ interface Product {
 // };
 
 export default function ProductInfoInput() {
-  const nextId = useRef<number>(1);
-  const [productList, setProductList] = useState<Product[]>([
-    { id: 0, name: "" },
+  // const [productList, setProductList]=({});
+
+  const [products, setProducts] = useState([
+    { pdName: "", itemImg: "", quantity: 0, price: "" },
   ]);
 
   const handleProductAdd = () => {
-    setProductList([...productList, { id: nextId.current, name: "" }]);
-    nextId.current += 1;
+    setProducts([
+      ...products,
+      { pdName: "", itemImg: "", quantity: 0, price: "" },
+    ]);
   };
 
   const handleProductRemove = (index: number) => {
-    setProductList(productList.filter(item => item.id !== index));
+    const filteredPd = [...products];
+    filteredPd.splice(index, 1);
+    setProducts(filteredPd);
   };
 
-  const handleProductImgChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+  const handleChange = (
     index: number,
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const { name, value } = e.target;
-    const list = [...productList];
-    list[index][name] = value;
-    setProductList(list);
+    const list = [...products] as any;
+    list[index][e.target.id] = e.target.value;
+    setProducts(list);
   };
-
   return (
     <PostWriteContent>
       <PostWriteList className="flex flex-col">
         <PostWriteLabel className="mb-2">
           제품정보 <Sign>&#42;</Sign>
         </PostWriteLabel>
-        {productList.map((item, idx) => (
+        {products.map((item, index) => (
           <>
-            <InfoContent key={idx}>
+            <InfoContent key={index}>
+              {/* key값 그냥 uuid 사용할까 */}
               <ImgBox>
                 <label
-                  htmlFor="productImg"
+                  htmlFor="itemImg"
                   className="text-MainColor cursor-pointer"
                 >
                   <RiImageAddFill size="4rem" className="hover:text-SubColor" />
                   <input
                     type="file"
-                    id="productImg"
-                    value={item.itemImg}
-                    onChange={e => handleProductImgChange(e, idx)}
+                    id="itemImg"
                     className="hidden"
+                    value={item.itemImg}
+                    onChange={e => handleChange(index, e)}
                   />
                 </label>
               </ImgBox>
@@ -92,9 +91,11 @@ export default function ProductInfoInput() {
                 <SubLabel className="px-5 w-3/5">
                   <PostInput
                     type="text"
-                    id="productName"
+                    id="pdName"
                     maxLength={20}
                     placeholder="제품명"
+                    value={item.pdName}
+                    onChange={e => handleChange(index, e)}
                   />
                 </SubLabel>
                 <SubLabel className="w-1/5">
@@ -103,8 +104,9 @@ export default function ProductInfoInput() {
                     id="quantity"
                     min="0"
                     max="100"
-                    defaultValue={0}
                     placeholder="수량"
+                    value={item.quantity}
+                    onChange={e => handleChange(index, e)}
                   />
                 </SubLabel>
                 <SubLabel className="px-5">
@@ -113,27 +115,23 @@ export default function ProductInfoInput() {
                     id="price"
                     maxLength={20}
                     placeholder="가격"
+                    value={item.price}
+                    onChange={e => handleChange(index, e)}
                   />
                 </SubLabel>
-                <span>
-                  {item.id}
-                  {idx}
-                </span>
               </TextInfo>
-              {productList.length > 1 && (
+              {products.length > 1 && (
                 <span>
                   <MdRemoveCircle
                     role="button"
-                    onClick={() => {
-                      handleProductRemove(item.id);
-                    }}
+                    onClick={() => handleProductRemove(index)}
                     size="2rem"
                     className="text-MainColor hover:text-SubColor focus:text-SubColor"
                   />
                 </span>
               )}
             </InfoContent>
-            {productList.length - 1 === idx && productList.length <= 10 && (
+            {products.length - 1 === index && products.length <= 10 && (
               <span className="text-center">
                 <DefalutButton onClick={handleProductAdd}>
                   제품정보 추가
