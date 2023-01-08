@@ -13,21 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hobbyt.global.error.exception.TokenNotValidException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
-import com.hobbyt.global.security.service.MemberDetailsService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final MemberDetailsService memberDetailsService;
+	private final UserDetailsService userDetailsService;
 	private final RedisService redisService;
 
 	@Override
@@ -46,6 +48,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 			setAuthenticationToSecurityContext(claims);
 
 		} catch (Exception e) {
+			log.error("[exceptionHandler] ex", e);
 			// TODO 예외처리 고민, authenticationEntryPoint, accessDeniedHandler 파악
 			throw new TokenNotValidException();
 		}
@@ -55,7 +58,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 	private void setAuthenticationToSecurityContext(Map<String, Object> claims) {
 		String email = (String)claims.get(JwtTokenProvider.CLAIM_EMAIL);
-		MemberDetails memberDetails = (MemberDetails)memberDetailsService.loadUserByUsername(email);
+		MemberDetails memberDetails = (MemberDetails)userDetailsService.loadUserByUsername(email);
 		Authentication authentication =
 			new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
 

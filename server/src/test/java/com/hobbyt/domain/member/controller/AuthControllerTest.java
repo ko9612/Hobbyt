@@ -13,16 +13,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hobbyt.domain.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.AuthenticationCode;
+import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
+@SpringBootTest(classes = TestMemberDetailService.class)
 @AutoConfigureMockMvc
-@SpringBootTest
 class AuthControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,7 +37,10 @@ class AuthControllerTest {
 	@MockBean
 	private AuthService authService;
 
-	@DisplayName("메일 인증")
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
+	@DisplayName("메일 인증 api")
 	@Test
 	void mail_confirm() throws Exception {
 		//given
@@ -54,7 +61,7 @@ class AuthControllerTest {
 			.andDo(print());
 	}
 
-	@DisplayName("토큰 재발급")
+	@DisplayName("토큰 재발급 api")
 	@Test
 	void reissue() throws Exception {
 		//given
@@ -75,6 +82,29 @@ class AuthControllerTest {
 		);
 
 		//then
+		actions.andExpect(status().isOk())
+			.andDo(print());
+	}
+
+	@DisplayName("로그아웃 api")
+	@WithMockUser(username = "user1@gmail.com", password = "user1Pass")
+	@Test
+	void logout() throws Exception {
+		// String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOiJST0xFX1VTRVIiLCJlbWFpbCI6InBqNTAxNkBuYXZlci5jb20iLCJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjoxNjczMDc5OTAyLCJleHAiOjE2NzMyNjE3MDJ9.2tlaHBrLJBPijNNDdUxvo77Ec2XuOQNrRNotxTUOnIQ";
+		// String refreshToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwajUwMTZAbmF2ZXIuY29tIiwiaWF0IjoxNjczMDc5OTAyLCJleHAiOjYyMTUzNjg0NzAyfQ.NtCbbucwL4HXotVH3ZxPuirBphSmtKeS4BEgfcGkYoQ";
+		String accessToken = jwtTokenProvider.createAccessToken("test@gmail.com", Authority.ROLE_USER);
+		String refreshToken = jwtTokenProvider.createRefreshToken("test@gmail.com");
+
+		// willDoNothing().given(authService).logout(anyString(), anyString());
+
+		ResultActions actions = mockMvc.perform(
+			post("/api/auth/logout")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+				.header(REFRESH_TOKEN_HEADER, refreshToken)
+		);
+
 		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
