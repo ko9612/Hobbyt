@@ -81,9 +81,23 @@ public class AuthService {
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
 		redisService.deleteValue(email);
-		
+
 		if (expiration > 0) {
 			redisService.setValue(accessToken, BLACK_LIST, expiration);
 		}
+	}
+
+	@Transactional
+	public void withdraw(final String accessToken, final String email) {
+		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
+
+		redisService.deleteValue(email);
+
+		if (expiration > 0) {
+			redisService.setValue(accessToken, BLACK_LIST, expiration);
+		}
+
+		Member member = findMemberByEmail(email);
+		member.withdraw();
 	}
 }
