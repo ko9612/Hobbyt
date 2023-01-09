@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import MyPageCategory from "../../Category/MyPageCategory";
 import { PurchaseMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
 
 export default function PurchaseList() {
+  const router = useRouter();
   const [purchaseProduct] = useState([
     {
       userID: "jieun",
@@ -32,7 +34,13 @@ export default function PurchaseList() {
               key={idx}
               className="flex items-center justify-between p-[1.5rem] text-center"
             >
-              <li className="w-[13rem] text-left truncate">{product.title}</li>
+              <li
+                role="presentation"
+                className="w-[13rem] text-left truncate cursor-pointer"
+                onClick={() => router.push("/orderdetail")}
+              >
+                {product.title}
+              </li>
               <li className="w-[10rem] mr-[4.8rem]">{product.seller}</li>
               <li className="w-[8rem] mr-[6.6rem]">{product.date}</li>
               <li className="w-[5rem] mr-[2rem]">{product.progress}</li>

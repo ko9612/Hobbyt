@@ -9,17 +9,15 @@ import { SearchMenus } from "../src/components/Tab/TabArr";
 import { Main, MainContent } from "./index";
 import SearchBar from "../src/components/Search/SearchBar";
 
-export default function search() {
-  const BlogTab = tw.div`
-  w-[43rem] m-auto
-  `;
+const BlogTab = tw.div`w-[52rem] m-auto`;
 
+export default function search() {
   return (
     <>
       <Navbar />
       <Main>
         <MainContent className=" flex flex-col items-center">
-          <div className="w-[43rem] mt-[5rem]">
+          <div className="w-[52rem] mt-[5rem]">
             <SearchBar />
           </div>
           <BlogTab className="mt-[5rem]">

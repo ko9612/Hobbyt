@@ -1,8 +1,8 @@
-// import tw from "tailwind-styled-components";
+import tw from "tailwind-styled-components";
 // import BlogItem from "../List/BlogItem";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { BLContainer } from "../List/BlogList";
+// import { BLContainer } from "../List/BlogList";
 import { BLComponent, BLImage, BLContent } from "../List/BlogItem";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
@@ -11,10 +11,12 @@ import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 import ExampleImg from "../../image/header_ex.jpg";
 import FilterButton from "../Button/FilterButton";
 
+const SRContainer = tw.div`w-[52rem] m-auto`;
+
 function SearchBlog({ keyword }: { keyword: string | string[] | undefined }) {
   const router = useRouter();
   return (
-    <BLContainer>
+    <SRContainer>
       <div className="py-10">
         <span className="text-MainColor font-semibold text-xl">{keyword} </span>
         블로그 검색결과
@@ -53,7 +55,7 @@ function SearchBlog({ keyword }: { keyword: string | string[] | undefined }) {
         ))}
 
       {/* <BlogItem /> */}
-    </BLContainer>
+    </SRContainer>
   );
 }
 export default SearchBlog;
