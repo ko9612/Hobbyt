@@ -25,7 +25,9 @@ import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
@@ -59,6 +61,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
 		} catch (IOException e) {
+			log.error("[exceptionHandler] ex", e);
 			throw new InputNotFoundException();
 		}
 		return loginRequest;

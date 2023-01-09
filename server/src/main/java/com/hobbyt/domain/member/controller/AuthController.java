@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +43,27 @@ public class AuthController {
 
 		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken);
 		response.setHeader(REFRESH_TOKEN_HEADER, reissuedRefreshToken);
+
+		return new ResponseEntity(HttpStatus.OK);
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
+		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
+		String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
+
+		authService.logout(accessToken, refreshToken);
+
+		return new ResponseEntity(HttpStatus.OK);
+	}
+
+	@PostMapping("/withdrawal")
+	public ResponseEntity withdraw(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request,
+		HttpServletResponse response) {
+
+		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
+
+		authService.withdraw(accessToken, memberDetails.getUsername());
 
 		return new ResponseEntity(HttpStatus.OK);
 	}
