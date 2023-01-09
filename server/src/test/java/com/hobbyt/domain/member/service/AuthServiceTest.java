@@ -1,6 +1,8 @@
 package com.hobbyt.domain.member.service;
 
 import static com.hobbyt.global.security.constants.AuthConstants.*;
+import static com.hobbyt.util.TestUtil.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
@@ -16,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -130,5 +133,23 @@ class AuthServiceTest {
 		then(redisService).should(times(1)).deleteValue(argThat(key -> key.equals(email)));
 		then(redisService).should().setValue(argThat(key -> key.equals(accessToken)), argThat(value -> value.equals(
 			BLACK_LIST)), argThat(timeout -> timeout == expiration));
+	}
+
+	@DisplayName("회원 탈퇴")
+	@Test
+	void withdraw() {
+		Member member = createMember();
+		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+
+		authService.withdraw(ACCESS_TOKEN, EMAIL);
+
+		assertThat(member.getStatus()).isEqualTo(MemberStatus.WITHDRAWAL);
+		then(jwtTokenProvider).should(times(1)).calculateExpiration(argThat(jws -> jws.equals(ACCESS_TOKEN)));
+		then(redisService).should(times(1)).deleteValue(argThat(key -> key.equals(EMAIL)));
+		then(redisService).should(times(1))
+			.setValue(argThat(key -> key.equals(ACCESS_TOKEN)), argThat(value -> value.equals(BLACK_LIST)),
+				argThat(timeout -> timeout == TIMEOUT));
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}
 }
