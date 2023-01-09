@@ -66,6 +66,7 @@ public class SecurityConfig {
 
 			.authorizeRequests()
 			.antMatchers("/api/auth/**", "/api/members/signup").permitAll()
+			.antMatchers("/api/**").permitAll()
 			.anyRequest().authenticated();
 
 		return http.build();
