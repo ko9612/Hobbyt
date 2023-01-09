@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -23,6 +24,7 @@ import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.AuthenticationCode;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 
 @SpringBootTest(classes = TestMemberDetailService.class)
 @AutoConfigureMockMvc
@@ -92,6 +94,23 @@ class AuthControllerTest {
 				.accept(MediaType.APPLICATION_JSON)
 				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 				.header(REFRESH_TOKEN_HEADER, refreshToken)
+		);
+
+		actions.andExpect(status().isOk())
+			.andDo(print());
+	}
+
+	@DisplayName("회원 탈퇴 api")
+	@WithMockUser(username = EMAIL, password = PASSWORD)
+	@Test
+	void withdraw() throws Exception {
+		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
+		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+
+		ResultActions actions = mockMvc.perform(post("/api/auth/withdrawal")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 		);
 
 		actions.andExpect(status().isOk())
