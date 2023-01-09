@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,7 +25,6 @@ import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
 import com.hobbyt.global.security.filter.JwtVerificationFilter;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.service.MemberDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +35,7 @@ public class SecurityConfig {
 
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
-	private final MemberDetailsService memberDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
@@ -46,7 +46,7 @@ public class SecurityConfig {
 					"/api-document/**", "/api/auth/reissue"
 				);
 		};
-		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 에러 발생(MemberDetailsService의 MemberNotExistException)
+		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 컨트롤러 test시 에러 발생(MemberDetailsService의 MemberNotExistException)
 	}
 
 	@Bean
@@ -67,6 +67,7 @@ public class SecurityConfig {
 			.authorizeRequests()
 			.antMatchers("/api/auth/**", "/api/members/signup").permitAll()
 			.antMatchers("/api/**").permitAll()
+			.antMatchers("/api/healthcheck", "/api/auth/**", "/api/members/signup").permitAll()
 			.anyRequest().authenticated();
 
 		return http.build();
@@ -108,7 +109,7 @@ public class SecurityConfig {
 				new JwtAuthenticationFilter(authenticationManager, redisService, jwtTokenProvider);
 
 			JwtVerificationFilter jwtVerificationFilter =
-				new JwtVerificationFilter(jwtTokenProvider, memberDetailsService, redisService);
+				new JwtVerificationFilter(jwtTokenProvider, userDetailsService, redisService);
 
 			jwtAuthenticationFilter.setFilterProcessesUrl("/api/members/login");
 

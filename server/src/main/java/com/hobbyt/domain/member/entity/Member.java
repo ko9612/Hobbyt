@@ -63,4 +63,8 @@ public class Member extends BaseEntity {
 		this.password = password;
 		this.profileImage = profileImage;
 	}
+
+	public void withdraw() {
+		status = MemberStatus.WITHDRAWAL;
+	}
 }

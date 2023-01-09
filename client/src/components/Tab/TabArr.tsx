@@ -13,6 +13,6 @@ export const SaleMenus = [
 ];
 
 export const SearchMenus = [
-  { name: "블로그", content: "Tab 검색 블로그" },
-  { name: "판매", content: "Tab 검색 판매" },
+  { id: 8, name: "블로그", content: "Tab 검색 블로그" },
+  { id: 9, name: "판매", content: "Tab 검색 판매" },
 ];
