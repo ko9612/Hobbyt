@@ -38,6 +38,8 @@ public class Member extends BaseEntity {
 	private String profileImage;
 	private String description;
 
+	private String phoneNumber;
+
 	@Embedded
 	private Address address;
 
