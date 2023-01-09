@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.controller;
 
+import static com.hobbyt.util.TestUtil.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -31,13 +32,12 @@ class MemberControllerTest {
 	@MockBean
 	private MemberService memberService;
 
-	@DisplayName("정상 회원가입")
+	@DisplayName("정상 회원가입 api")
 	@Test
 	void signup() throws Exception {
 		//given
-		SignupRequest signupRequest = new SignupRequest("test", "test@gmail.com", "!test1234");
-		Long id = 1L;
-		given(memberService.createUser(any(SignupRequest.class))).willReturn(id);
+		SignupRequest signupRequest = new SignupRequest(NICKNAME, EMAIL, PASSWORD);
+		given(memberService.createUser(any(SignupRequest.class))).willReturn(1L);
 
 		//when
 		ResultActions actions = mockMvc.perform(

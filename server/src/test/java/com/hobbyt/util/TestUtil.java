@@ -1,6 +1,8 @@
 package com.hobbyt.util;
 
 import com.hobbyt.domain.member.entity.Authority;
+import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,18 @@ public class TestUtil {
 	public static final Long TIMEOUT = 1000L;
 
 	// Member
+	public static final String NICKNAME = "test";
 	public static final String EMAIL = "test@gmail.com";
 	public static final String PASSWORD = "1234";
 	public static final Authority USER_AUTHORITY = Authority.ROLE_USER;
 	public static final Authority ADMIN_AUTHORITY = Authority.ROLE_ADMIN;
+	public static final String PROFILE_IMAGE = "default image";
+
+	public static Member dummyMember(Long id, String nickname, String email, String password) {
+		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
+	}
+
+	public static MemberDetails dummyMemberDetails(Long id, String nickname, String email, String password) {
+		return MemberDetails.of(dummyMember(id, nickname, email, password));
+	}
 }
