@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.controller;
 
+import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static com.hobbyt.util.TestUtil.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -13,15 +14,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hobbyt.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(classes = TestMemberDetailService.class)
 class MemberControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -31,6 +36,9 @@ class MemberControllerTest {
 
 	@MockBean
 	private MemberService memberService;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 
 	@DisplayName("정상 회원가입 api")
 	@Test
@@ -49,6 +57,23 @@ class MemberControllerTest {
 
 		//then
 		actions.andExpect(status().isCreated())
+			.andDo(print());
+	}
+
+	@DisplayName("회원 탈퇴 api")
+	@WithMockUser(username = EMAIL, password = PASSWORD)
+	@Test
+	void withdraw() throws Exception {
+		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
+		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+
+		ResultActions actions = mockMvc.perform(post("/api/members/myPage/delete")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+		);
+
+		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
 }
