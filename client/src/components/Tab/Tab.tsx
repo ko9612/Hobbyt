@@ -3,7 +3,7 @@ import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
-import MyCommentList from "../List/MyCommentList";
+import MyCommentList from "../List/Comment/MyCommentList";
 import LikeList from "../List/LikeList";
 import ProductstList from "../List/MyList/ProductsList";
 import MyInfoList from "../List/MyList/MyInfoList";
