@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobbyt.domain.config.TestMemberDetailService;
+import com.hobbyt.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.service.AuthService;

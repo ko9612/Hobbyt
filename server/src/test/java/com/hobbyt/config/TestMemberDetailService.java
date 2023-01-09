@@ -1,4 +1,4 @@
-package com.hobbyt.domain.config;
+package com.hobbyt.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
