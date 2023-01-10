@@ -6,13 +6,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.entity.Account;
+import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
 import com.hobbyt.global.error.exception.MemberNotExistException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,5 +61,20 @@ public class MemberService {
 
 	private Member findMemberByEmail(final String email) {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
+	}
+
+	@Transactional
+	public UpdateMemberResponse update(MemberDetails memberDetails, UpdateMemberRequest updateMemberRequest) {
+		String email = memberDetails.getUsername();
+		Member member = findMemberByEmail(email);
+
+		Account account = updateMemberRequest.getAccount().toEntity();
+		Address address = updateMemberRequest.getAddress().toEntity();
+
+		member.update(updateMemberRequest.getEmail(), updateMemberRequest.getNickname(),
+			updateMemberRequest.getDescription(),
+			updateMemberRequest.getPhoneNumber(), address, account);
+
+		return UpdateMemberResponse.of(member);
 	}
 }

@@ -69,4 +69,32 @@ public class Member extends BaseEntity {
 	public void withdraw() {
 		status = MemberStatus.WITHDRAWAL;
 	}
+
+	public void update(String email, String nickname, String description, String phoneNumber,
+		Address address, Account account) {
+
+		this.email = email == null ? this.email : email;
+		this.nickname = nickname == null ? this.nickname : nickname;
+		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
+		this.description = description == null ? this.description : description;
+		this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;
+		this.address = address == null ? this.address : address;
+		this.account = account == null ? this.account : account;
+
+		/*if (email != null && !this.email.equals(email)) {
+			this.email = email;
+		}
+		if (nickname != null && !this.nickname.equals(nickname)) {
+			this.nickname = nickname;
+		}
+		if (profileImage != null && !this.profileImage.equals(profileImage)) {
+			this.profileImage = profileImage;
+		}
+		if (description != null && !this.description.equals(description)) {
+			this.description = description;
+		}
+		if (phoneNumber != null && !this.phoneNumber.equals(phoneNumber)) {
+			this.phoneNumber = phoneNumber;
+		}*/
+	}
 }
