@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { BsArrow90DegRight } from "react-icons/bs";
-import UserProfileImage from "../../UserHome/UserProfileImage";
+import UserProfileImage from "../../Page/UserHome/UserProfileImage";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 
 export default function MyCommentList() {

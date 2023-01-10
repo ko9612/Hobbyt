@@ -9,8 +9,8 @@ import ProductstList from "../List/MyList/ProductsList";
 import MyInfoList from "../List/MyList/MyInfoList";
 import PurchaseList from "../List/MyList/PurchaseList";
 import SalesManagementList from "../List/MyList/SalesManagementList";
-import SearchBlog from "../Search/SearchBlog";
-import SearchSales from "../Search/SearchSales";
+import SearchBlog from "../Page/Search/SearchBlog";
+import SearchSales from "../Page/Search/SearchSales";
 
 interface TabProps {
   Menus: {

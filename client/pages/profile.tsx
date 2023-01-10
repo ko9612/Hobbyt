@@ -1,10 +1,10 @@
-import Header from "../src/components/UserHome/Header";
-import UserProfileImage from "../src/components/UserHome/UserProfileImage";
-import UserProfile from "../src/components/UserHome/UserProfile";
-import Followig from "../src/components/UserHome/Following";
+import Header from "../src/components/Page/UserHome/Header";
+import UserProfileImage from "../src/components/Page/UserHome/UserProfileImage";
+import UserProfile from "../src/components/Page/UserHome/UserProfile";
+import Followig from "../src/components/Page/UserHome/Following";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import Navbar from "../src/components/Nav/NavBar";
-import ProfileEdit from "../src/components/UserHome/ProfileEdit";
+import ProfileEdit from "../src/components/Page/UserHome/ProfileEdit";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 
 export default function Profile() {

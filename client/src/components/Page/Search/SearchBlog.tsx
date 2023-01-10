@@ -3,13 +3,13 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 // import { BLContainer } from "../List/BlogList";
-import { BLComponent, BLImage, BLContent } from "../List/BlogItem";
-import ViewCount from "../ViewLikeWrite/ViewCount";
-import LikeCount from "../ViewLikeWrite/LikeCount";
-import WriteDate from "../ViewLikeWrite/WriteDate";
-import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
+import { BLComponent, BLImage, BLContent } from "../../List/BlogItem";
+import ViewCount from "../../ViewLikeWrite/ViewCount";
+import LikeCount from "../../ViewLikeWrite/LikeCount";
+import WriteDate from "../../ViewLikeWrite/WriteDate";
+import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import ExampleImg from "../../image/header_ex.jpg";
-import FilterButton from "../Button/FilterButton";
+import FilterButton from "../../Button/FilterButton";
 
 const SRContainer = tw.div`w-[52rem] m-auto`;
 

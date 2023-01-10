@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
-import FilterButton from "../Button/FilterButton";
-import DefalutButton from "../Button/DefalutButton";
+import FilterButton from "../../Button/FilterButton";
+import DefalutButton from "../../Button/DefalutButton";
 
 interface IProps {
   children: string;

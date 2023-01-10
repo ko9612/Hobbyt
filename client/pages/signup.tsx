@@ -1,8 +1,8 @@
 import { Main, Content, LeftContent, InputDiv } from "./signin";
-import RightContent from "../src/components/Sign/SignRightContent";
-import Logo from "../src/components/Sign/SignLogo";
-import SignGuide from "../src/components/Sign/SignGuide";
-import SignupForm from "../src/components/Sign/SignupForm";
+import RightContent from "../src/components/Page/Sign/SignRightContent";
+import Logo from "../src/components/Page/Sign/SignLogo";
+import SignGuide from "../src/components/Page/Sign/SignGuide";
+import SignupForm from "../src/components/Page/Sign/SignupForm";
 
 export default function SignUp() {
   // 인증메일 전송버튼 클릭 여부

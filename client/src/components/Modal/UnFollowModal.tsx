@@ -3,7 +3,7 @@
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 import { SubMsg, ButtonDiv } from "./DelModal";
 import ModalButton from "../Button/ModalButton";
-import DefaultProfileImg from "../UserHome/DefaultProfileImg";
+import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 export interface FollowModalProps {
   setOpenModal(state: boolean): void;

@@ -1,5 +1,5 @@
-import DMButton from "../Button/DMButton";
-import FollowButton from "../Button/FollowButton";
+import DMButton from "../../Button/DMButton";
+import FollowButton from "../../Button/FollowButton";
 
 export default function Followig() {
   return (

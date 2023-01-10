@@ -9,7 +9,7 @@ import {
 } from "react-icons/ri";
 import Image from "next/image";
 import example from "src/image/header_ex.jpg";
-import { DButton } from "../Button/DefalutButton";
+import { DButton } from "../../Button/DefalutButton";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white

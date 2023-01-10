@@ -1,8 +1,8 @@
 import tw from "tailwind-styled-components";
-import AccountInfo from "../../UserInfo/AccountInfo";
-import PasswordInfo from "../../UserInfo/PasswordInfo";
-import AddressInfo from "../../UserInfo/AddressInfo";
-import RefundInfo from "../../UserInfo/RefundInfo";
+import AccountInfo from "../../Page/UserInfo/AccountInfo";
+import PasswordInfo from "../../Page/UserInfo/PasswordInfo";
+import AddressInfo from "../../Page/UserInfo/AddressInfo";
+import RefundInfo from "../../Page/UserInfo/RefundInfo";
 import SubmitButton from "../../Button/SubmitButton";
 
 const InfoContent = tw.main`

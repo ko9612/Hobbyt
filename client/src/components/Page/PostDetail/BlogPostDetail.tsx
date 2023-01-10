@@ -1,10 +1,10 @@
 import tw from "tailwind-styled-components";
 import { BsHeart } from "react-icons/bs";
-import ViewCount from "../ViewLikeWrite/ViewCount";
-import WriteDate from "../ViewLikeWrite/WriteDate";
-import { HR } from "../../../pages/notice";
-import CommentList from "../List/Comment/CommentList";
-import CommentInput from "../List/Comment/CommentInput";
+import ViewCount from "../../ViewLikeWrite/ViewCount";
+import WriteDate from "../../ViewLikeWrite/WriteDate";
+import { HR } from "../../../../pages/notice";
+import CommentList from "../../List/Comment/CommentList";
+import CommentInput from "../../List/Comment/CommentInput";
 
 export default function BlogPostDetail({ data }: { data: IdataProps }) {
   const Detail = tw.div`border-2 border-red-400 mt-6`;

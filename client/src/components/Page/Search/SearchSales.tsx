@@ -1,14 +1,14 @@
 import tw from "tailwind-styled-components";
 import { BsCalendar4 } from "react-icons/bs";
-import LikeCount from "../ViewLikeWrite/LikeCount";
-import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-import FilterButton from "../Button/FilterButton";
+import LikeCount from "../../ViewLikeWrite/LikeCount";
+import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
+import FilterButton from "../../Button/FilterButton";
 import {
   SLContainer,
   SLContent,
   SLImage,
   SLProductInfo,
-} from "../List/SaleList";
+} from "../../List/SaleList";
 
 export const Content = tw.article`
 flex items-center pt-5
@@ -26,7 +26,7 @@ export default function SearchSales({
   return (
     <SLContainer>
       <div className="py-10">
-        <span className="text-MainColor font-semibold text-xl">{keyword} </span>
+        <span className="text-xl font-semibold text-MainColor">{keyword} </span>
         작품 검색결과
         <span> 12건</span>
       </div>
@@ -49,7 +49,7 @@ export default function SearchSales({
                     <p>22.12.14 ~ 22.12.16</p>
                   </div>
                   <div className="float-right">
-                    <LikeCount />
+                    <LikeCount>123</LikeCount>
                   </div>
                 </SLProductInfo>
               </SLContent>

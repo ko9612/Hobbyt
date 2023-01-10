@@ -13,7 +13,7 @@ import {
   PostInput,
   SubLabel,
 } from "./PostWriteStyle";
-import DefalutButton from "../Button/DefalutButton";
+import DefalutButton from "../../Button/DefalutButton";
 // import PostInput from "../Input/PostInput";
 
 const InfoContent = tw.div`

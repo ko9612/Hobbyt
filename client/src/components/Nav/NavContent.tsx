@@ -6,7 +6,7 @@ import {
   LoginMenus,
   // LogoutMenus
 } from "./NavArr";
-import SearchBar from "../Search/SearchBar";
+import SearchBar from "../Page/Search/SearchBar";
 import logo from "../../image/logo.png";
 
 export const Logo = tw.div`

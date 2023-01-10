@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import DefalutButton from "../Button/DefalutButton";
+import DefalutButton from "../../Button/DefalutButton";
 
 export default function ProfileEdit() {
   const ProfileContainer = tw.div`

@@ -9,7 +9,7 @@ import {
   InputLabel,
   SubLabel,
 } from "./InfoStyle";
-import DefalutButton from "../Button/DefalutButton";
+import DefalutButton from "../../Button/DefalutButton";
 
 const contactNumRegex = /^[-?\d+]{0,11}$/;
 
