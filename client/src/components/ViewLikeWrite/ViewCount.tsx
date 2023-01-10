@@ -2,11 +2,11 @@ import tw from "tailwind-styled-components";
 import { BsEye } from "react-icons/bs";
 
 interface IView {
-  children: number;
+  children: number | string;
 }
 
 export default function ViewCount({ children }: IView) {
-  const VComponent = tw.div`flex`;
+  const VComponent = tw.div`flex items-center`;
 
   return (
     <VComponent>

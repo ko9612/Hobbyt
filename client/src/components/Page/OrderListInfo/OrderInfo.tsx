@@ -22,6 +22,10 @@ export default function OrderInfo() {
         <ItemTitle>배송비</ItemTitle>
         <div>4000 원</div>
       </OLIItem>
+      <OLIItem>
+        <ItemTitle>주문시간</ItemTitle>
+        <div>2022-10-31 11:30</div>
+      </OLIItem>
     </OLISection>
   );
 }

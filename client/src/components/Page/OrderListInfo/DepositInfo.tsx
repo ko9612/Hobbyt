@@ -12,10 +12,6 @@ export default function DepositInfo() {
         <ItemTitle>입금액</ItemTitle>
         <div>34,500 원</div>
       </OLIItem>
-      <OLIItem>
-        <ItemTitle>입금시간</ItemTitle>
-        <div>2022-10-31 11:30</div>
-      </OLIItem>
     </OLISection>
   );
 }

@@ -41,7 +41,7 @@ export default function SignupForm() {
               <LoginInput
                 type="text"
                 id="emailCertification"
-                placeholder="인증 번호 입력"
+                placeholder="인증번호 입력"
                 maxLength={10}
               />
             </div>

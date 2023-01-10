@@ -1,6 +1,6 @@
 import Image from "next/image";
 import tw from "tailwind-styled-components";
-import headerImage from "../../image/header_ex.jpg"; // 헤더 이미지 임시입니다
+import headerImage from "../../../image/header_ex.jpg"; // 헤더 이미지 임시입니다
 
 export default function Header() {
   const HContainer = tw.header`
