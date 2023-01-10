@@ -84,14 +84,12 @@ class AuthControllerTest {
 	@Test
 	void logout() throws Exception {
 		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
 
 		ResultActions actions = mockMvc.perform(
 			post("/api/auth/logout")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
-				.header(REFRESH_TOKEN_HEADER, refreshToken)
 		);
 
 		actions.andExpect(status().isOk())

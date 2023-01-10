@@ -45,12 +45,12 @@ public class AuthController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
+	// TODO refresh token 없어도 되지 않을까
 	@PostMapping("/logout")
 	public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
-		String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
-		authService.logout(accessToken, refreshToken);
+		authService.logout(accessToken);
 
 		return new ResponseEntity(HttpStatus.OK);
 	}

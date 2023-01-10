@@ -67,7 +67,7 @@ class MemberControllerTest {
 		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
 		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
 
-		ResultActions actions = mockMvc.perform(post("/api/members/myPage/delete")
+		ResultActions actions = mockMvc.perform(delete("/api/members/myPage/delete")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
 			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)

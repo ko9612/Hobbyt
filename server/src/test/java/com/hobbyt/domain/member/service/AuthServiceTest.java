@@ -104,10 +104,10 @@ class AuthServiceTest {
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 
 		//when
-		authService.logout(ACCESS_TOKEN, REFRESH_TOKEN);
+		authService.logout(ACCESS_TOKEN);
 
 		//then
-		then(jwtTokenProvider).should(times(1)).parseEmail(argThat(jws -> jws.equals(REFRESH_TOKEN)));
+		then(jwtTokenProvider).should(times(1)).parseEmail(argThat(jws -> jws.equals(ACCESS_TOKEN)));
 		then(jwtTokenProvider).should(times(1)).calculateExpiration(argThat(jws -> jws.equals(ACCESS_TOKEN)));
 		then(redisService).should(times(1)).deleteValue(argThat(key -> key.equals(EMAIL)));
 		then(redisService).should(times(1))
