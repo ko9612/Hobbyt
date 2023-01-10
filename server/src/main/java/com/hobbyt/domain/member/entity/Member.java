@@ -97,4 +97,8 @@ public class Member extends BaseEntity {
 			this.phoneNumber = phoneNumber;
 		}*/
 	}
+
+	public void updatePassword(String password) {
+		this.password = password == null ? this.password : password;
+	}
 }

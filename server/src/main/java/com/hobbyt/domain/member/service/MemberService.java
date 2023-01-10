@@ -10,11 +10,13 @@ import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
 import com.hobbyt.global.error.exception.MemberNotExistException;
+import com.hobbyt.global.error.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -76,5 +78,24 @@ public class MemberService {
 			updateMemberRequest.getPhoneNumber(), address, account);
 
 		return UpdateMemberResponse.of(member);
+	}
+
+	@Transactional
+	public void updatePassword(String email, UpdatePassword updatePassword) {
+		Member member = findMemberByEmail(email);
+
+		if (isOldPasswordEqualsNewPassword(updatePassword) || !isNewPasswordEqualsCheckPassword(updatePassword)) {
+			throw new PasswordException();
+		}
+
+		member.updatePassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+	}
+
+	private boolean isOldPasswordEqualsNewPassword(UpdatePassword updatePassword) {
+		return updatePassword.getOldPassword().equals(updatePassword.getNewPassword());
+	}
+	
+	private boolean isNewPasswordEqualsCheckPassword(UpdatePassword updatePassword) {
+		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}
 }
