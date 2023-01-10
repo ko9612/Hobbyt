@@ -1,9 +1,9 @@
 import tw from "tailwind-styled-components";
-import SignGuide from "../src/components/Sign/SignGuide";
-import SignRightContent from "../src/components/Sign/SignRightContent";
-import Logo from "../src/components/Sign/SignLogo";
-import SocialLogin from "../src/components/Sign/SocialForm";
-import SigninForm from "../src/components/Sign/SigninForm";
+import SignGuide from "../src/components/Page/Sign/SignGuide";
+import SignRightContent from "../src/components/Page/Sign/SignRightContent";
+import Logo from "../src/components/Page/Sign/SignLogo";
+import SocialLogin from "../src/components/Page/Sign/SocialForm";
+import SigninForm from "../src/components/Page/Sign/SigninForm";
 
 export const Main = tw.main`
 flex items-center justify-center h-screen bg-slate-200

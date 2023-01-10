@@ -1,4 +1,4 @@
-import DefaultProfileImg from "../UserHome/DefaultProfileImg";
+import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 const arr = [
   {

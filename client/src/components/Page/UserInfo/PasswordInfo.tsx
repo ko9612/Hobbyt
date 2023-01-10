@@ -7,7 +7,7 @@ import {
   Input,
   InputLabel,
 } from "./InfoStyle";
-import DefalutButton from "../Button/DefalutButton";
+import DefalutButton from "../../Button/DefalutButton";
 
 export default function PasswordInfo() {
   return (

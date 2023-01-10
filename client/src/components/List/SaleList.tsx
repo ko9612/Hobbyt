@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import { BsCalendar4 } from "react-icons/bs";
 import LikeCount from "../ViewLikeWrite/LikeCount";
-import BlogSaleInfo from "../UserHome/BlogSaleInfo";
+import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 export const SLContainer = tw.div`m-auto`;

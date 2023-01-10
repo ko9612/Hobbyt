@@ -1,14 +1,14 @@
 import tw from "tailwind-styled-components";
 import { blogdummyData } from "../dummy/blogdummy";
 import Navbar from "../src/components/Nav/NavBar";
-import Header from "../src/components/UserHome/Header";
+import Header from "../src/components/Page/UserHome/Header";
 import Footer from "../src/components/Footer/Footer";
-import UserProfile from "../src/components/UserHome/UserProfile";
-import UserProfileImage from "../src/components/UserHome/UserProfileImage";
-import Followig from "../src/components/UserHome/Following";
+import UserProfile from "../src/components/Page/UserHome/UserProfile";
+import UserProfileImage from "../src/components/Page/UserHome/UserProfileImage";
+import Followig from "../src/components/Page/UserHome/Following";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
-import BlogPostDetail from "../src/components/PostDetail/BlogPostDetail";
+import BlogPostDetail from "../src/components/Page/PostDetail/BlogPostDetail";
 
 export default function BlogDetail() {
   const [data] = blogdummyData; // 나중에 useCallback 사용하기

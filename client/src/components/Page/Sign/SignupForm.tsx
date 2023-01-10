@@ -1,8 +1,8 @@
 import { BsEnvelopeFill } from "react-icons/bs";
 import { useState } from "react";
-import SubmitButton from "../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 // import LoginInput from "../Input/LoginInput";
-import DefalutButton from "../Button/DefalutButton";
+import DefalutButton from "../../Button/DefalutButton";
 import { Input, LoginInput } from "./SigninForm";
 
 export default function SignupForm() {

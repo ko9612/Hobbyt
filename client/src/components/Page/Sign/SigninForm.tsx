@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import SubmitButton from "../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 // import LoginInput from "../Input/LoginInput";
 
 export const Input = tw.div`

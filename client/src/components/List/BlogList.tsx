@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 // import ViewCount from "../ViewLikeWrite/ViewCount";
 // import LikeCount from "../ViewLikeWrite/LikeCount";
 // import WriteDate from "../ViewLikeWrite/WriteDate";
-import BlogSaleInfo from "../UserHome/BlogSaleInfo";
+import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 // import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 import BlogItem from "./BlogItem"; // 새로 추가

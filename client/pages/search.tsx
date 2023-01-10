@@ -7,7 +7,7 @@ import Navbar from "../src/components/Nav/NavBar";
 import Tab from "../src/components/Tab/Tab";
 import { SearchMenus } from "../src/components/Tab/TabArr";
 import { Main, MainContent } from "./index";
-import SearchBar from "../src/components/Search/SearchBar";
+import SearchBar from "../src/components/Page/Search/SearchBar";
 
 const BlogTab = tw.div`w-[52rem] m-auto`;
 

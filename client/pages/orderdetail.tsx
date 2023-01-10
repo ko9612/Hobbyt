@@ -2,11 +2,11 @@
 import Navbar from "../src/components/Nav/NavBar";
 import Footer from "../src/components/Footer/Footer";
 import { Main, MainContent } from "./index";
-import OrderProgress from "../src/components/OrderListInfo/OrderProgress";
-import SellerInfo from "../src/components/OrderListInfo/SellerInfo";
-import PurchaserInfo from "../src/components/OrderListInfo/PurChaserInfo";
-import DepositInfo from "../src/components/OrderListInfo/DepositInfo";
-import OrderInfo from "../src/components/OrderListInfo/OrderInfo";
+import OrderProgress from "../src/components/Page/OrderListInfo/OrderProgress";
+import SellerInfo from "../src/components/Page/OrderListInfo/SellerInfo";
+import PurchaserInfo from "../src/components/Page/OrderListInfo/PurChaserInfo";
+import DepositInfo from "../src/components/Page/OrderListInfo/DepositInfo";
+import OrderInfo from "../src/components/Page/OrderListInfo/OrderInfo";
 
 export default function orderdetail() {
   return (
