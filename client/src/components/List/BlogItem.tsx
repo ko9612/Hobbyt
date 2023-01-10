@@ -30,9 +30,9 @@ export default function BlogItem() {
           더미 데이터입니다.
         </p>
         <div className="flex justify-end ">
-          <ViewCount />
-          <LikeCount />
-          <WriteDate />
+          <ViewCount>123</ViewCount>
+          <LikeCount>123</LikeCount>
+          <WriteDate>2023.01.10</WriteDate>
         </div>
       </BLContent>
     </BLComponent>

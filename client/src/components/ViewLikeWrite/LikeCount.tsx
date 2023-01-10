@@ -6,7 +6,7 @@ interface ILike {
 }
 
 export default function LikeCount({ children }: ILike) {
-  const LComponent = tw.div`flex`;
+  const LComponent = tw.div`flex items-center`;
 
   return (
     <LComponent>

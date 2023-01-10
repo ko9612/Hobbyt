@@ -5,10 +5,10 @@ import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
 import LikeList from "../List/LikeList";
-import ProductstList from "../List/MyList/ProductsList";
-import MyInfoList from "../List/MyList/MyInfoList";
-import PurchaseList from "../List/MyList/PurchaseList";
-import SalesManagementList from "../List/MyList/SalesManagementList";
+import ProductstList from "../Page/MyList/ProductsList";
+import MyInfoList from "../Page/MyList/MyInfoList";
+import PurchaseList from "../Page/MyList/PurchaseList";
+import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
 

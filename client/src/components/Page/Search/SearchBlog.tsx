@@ -8,7 +8,7 @@ import ViewCount from "../../ViewLikeWrite/ViewCount";
 import LikeCount from "../../ViewLikeWrite/LikeCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
-import ExampleImg from "../../image/header_ex.jpg";
+import ExampleImg from "../../../image/header_ex.jpg";
 import FilterButton from "../../Button/FilterButton";
 
 const SRContainer = tw.div`w-[52rem] m-auto`;
@@ -46,9 +46,9 @@ function SearchBlog({ keyword }: { keyword: string | string[] | undefined }) {
                 게시글 본문 더미 데이터입니다.
               </p>
               <div className="flex justify-end ">
-                <ViewCount />
-                <LikeCount />
-                <WriteDate />
+                <ViewCount>1234</ViewCount>
+                <LikeCount>123</LikeCount>
+                <WriteDate>2023.01.10</WriteDate>
               </div>
             </BLContent>
           </BLComponent>

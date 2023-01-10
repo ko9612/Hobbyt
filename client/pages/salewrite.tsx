@@ -19,7 +19,7 @@ import SendTimeInput from "../src/components/Page/SaleWrite/SendTimeInput";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 import ProductInfoInput from "../src/components/Page/SaleWrite/ProductInfoInput";
 
-export default function SaleWrite() {
+export default function saleWrite() {
   const ToastEditor = dynamic(
     () => import("../src/components/ToastUI/TextEditor"),
     { ssr: false },

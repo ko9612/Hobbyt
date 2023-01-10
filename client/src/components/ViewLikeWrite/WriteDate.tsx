@@ -6,7 +6,7 @@ interface IDate {
 }
 
 export default function WriteDate({ children }: IDate) {
-  const WComponent = tw.div`flex`;
+  const WComponent = tw.div`flex items-center`;
 
   return (
     <WComponent>

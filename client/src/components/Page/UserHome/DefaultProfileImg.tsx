@@ -1,5 +1,5 @@
 import Image from "next/image";
-import userProfile from "../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
 
 interface ImgProps {
   width: number;
