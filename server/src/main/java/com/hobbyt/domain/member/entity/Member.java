@@ -80,20 +80,26 @@ public class Member extends BaseEntity {
 		this.address = address == null ? this.address : address;
 		this.account = account == null ? this.account : account;
 
-		/*if (email != null && !this.email.equals(email)) {
+		/*if (email != null && !email.equals(this.email)) {
 			this.email = email;
 		}
-		if (nickname != null && !this.nickname.equals(nickname)) {
+		if (nickname != null && !nickname.equals(this.nickname)) {
 			this.nickname = nickname;
 		}
-		if (profileImage != null && !this.profileImage.equals(profileImage)) {
+		if (profileImage != null && !profileImage.equals(this.profileImage)) {
 			this.profileImage = profileImage;
 		}
-		if (description != null && !this.description.equals(description)) {
+		if (description != null && !description.equals(this.description)) {
 			this.description = description;
 		}
-		if (phoneNumber != null && !this.phoneNumber.equals(phoneNumber)) {
+		if (phoneNumber != null && !phoneNumber.equals(this.phoneNumber)) {
 			this.phoneNumber = phoneNumber;
+		}
+		if (account != null && !account.equals(this.account)) {
+			this.account = account;
+		}
+		if (address != null && !address.equals(this.address)) {
+			this.address = address;
 		}*/
 	}
 

@@ -54,8 +54,8 @@ public class UpdateMemberResponse {
 		// this.profileImage = profileImage;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
-		this.account = new AccountDto(account);
-		this.address = new AddressDto(address);
+		this.address = address == null ? new AddressDto() : new AddressDto(address);
+		this.account = account == null ? new AccountDto() : new AccountDto(account);
 	}
 
 	public static UpdateMemberResponse of(Member member) {

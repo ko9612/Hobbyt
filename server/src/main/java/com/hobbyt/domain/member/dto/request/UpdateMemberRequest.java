@@ -1,5 +1,7 @@
 package com.hobbyt.domain.member.dto.request;
 
+import javax.validation.constraints.NotBlank;
+
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.entity.Member;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateMemberRequest {
+	@NotBlank(message = "닉네임은 필수값입니다.")
 	private String nickname;
 	// TODO 프로필 이미지 처리
 	// private MultipartFile profileImage;
