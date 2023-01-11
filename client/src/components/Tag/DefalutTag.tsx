@@ -1,31 +1,35 @@
-import { useState } from "react";
 import tw from "tailwind-styled-components";
+import { useRecoilState } from "recoil";
+import TagState from "../../state/Blog/TagState";
 
 export default function DefalutTag() {
-  const initialTags = ["솜인형", "개인제작"];
-  const [tags, setTags] = useState(initialTags);
+  const [tags, setTags] = useRecoilState(TagState);
 
   const TagInput = tw.div`
     mt-3 mb-10 flex border-2 rounded-lg px-3 ml-2
     `;
 
-  // 수정해야 함
-  // const addTags = (event: any) => {
-  // const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (
-  //     event.key === "Enter" &&
-  //     event.target.value !== "" &&
-  //     !tags.includes(event.target.value)
-  //   ) {
-  //     setTags([...tags, event.target.value]);
-  //     event.target.value = "";
-  //   }
-  //   console.log(event);
-  // };
-
-  const removeTags = (index: any) => {
-    setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
+  const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log(`event.currentTarget.value`, event.currentTarget.value);
+    if (
+      event.key === "Enter" &&
+      event.currentTarget.value !== "" &&
+      !tags?.includes(event.currentTarget.value)
+    ) {
+      setTags([...tags, event.currentTarget.value]);
+      // eslint-disable-next-line no-param-reassign
+      event.currentTarget.value = "";
+      console.log(`초기화 됐닝?`, event.currentTarget.value);
+    }
+    console.log(event);
   };
+
+  // 태그 지우는 함수
+  const removeTags = (index: number) => {
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    setTags([...tags?.filter((tag: string) => tags.indexOf(tag) !== index)]);
+  };
+
   return (
     <div className="px-5 mt-10">
       <p className="font-semibold">
@@ -33,7 +37,7 @@ export default function DefalutTag() {
       </p>
       <TagInput>
         <ul className="tag-ul">
-          {tags.map((tag, idx) => (
+          {tags?.map((tag: string, idx: number) => (
             // eslint-disable-next-line react/no-array-index-key
             <li className="tag" key={idx}>
               <span className="tag-title">{tag}</span>
@@ -47,12 +51,12 @@ export default function DefalutTag() {
             </li>
           ))}
         </ul>
-        {/* <input
+        <input
           className="tag-input"
           type="text"
           onKeyUp={event => (event.key === "Enter" ? addTags(event) : null)}
           placeholder="엔터로 태그를 추가하세요"
-        /> */}
+        />
       </TagInput>
     </div>
   );

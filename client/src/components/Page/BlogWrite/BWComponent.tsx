@@ -6,6 +6,7 @@ import DefalutButton from "../../Button/DefalutButton";
 import TitleState from "../../../state/Blog/TitleState";
 import ContentState from "../../../state/Blog/ContentState";
 import { postBlogContent } from "../../../api/blogApi";
+import TagState from "../../../state/Blog/TagState";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,
@@ -14,12 +15,13 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
 export default function BlogWriteComponent() {
   const [titleData] = useRecoilState(TitleState);
   const [contentData] = useRecoilState(ContentState);
+  const [tagData] = useRecoilState(TagState);
 
   const onSubmitClick = async () => {
     const data = {
       title: titleData,
       content: contentData,
-      tags: ["포트폴리오", "공예"],
+      tags: tagData,
     };
 
     if (titleData?.length !== 0 && contentData?.length !== 0) {
