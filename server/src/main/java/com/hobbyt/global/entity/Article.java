@@ -18,4 +18,12 @@ public abstract class Article extends BaseEntity {
 	private long viewCount;
 	@Column(nullable = false)
 	private long likeCount;
+
+	public void updateTitle(String title) {
+		this.title = title;
+	}
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
 }

@@ -1,8 +1,11 @@
-package com.hobbyt.global.repository;
+package com.hobbyt.domain.tag.repository;
+
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hobbyt.domain.tag.entity.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
+	Optional<Tag> findByContent(String content);
 }

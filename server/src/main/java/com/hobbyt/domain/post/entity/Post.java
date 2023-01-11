@@ -24,5 +24,17 @@ public class Post extends Article {
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
-	private Member member;
+	private Member writer;
+
+	public static Post of(String title, String content) {
+		Post post = new Post();
+		post.updateTitle(title);
+		post.updateContent(content);
+
+		return post;
+	}
+
+	public void setWriter(Member writer) {
+		this.writer = writer;
+	}
 }

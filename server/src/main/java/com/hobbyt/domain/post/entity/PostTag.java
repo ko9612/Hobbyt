@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.hobbyt.global.entity.Tag;
+import com.hobbyt.domain.tag.entity.Tag;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,4 +26,13 @@ public class PostTag {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "tag_id")
 	private Tag tag;
+
+	public static PostTag of(Post post, Tag tag) {
+		return new PostTag(post, tag);
+	}
+
+	private PostTag(Post post, Tag tag) {
+		this.post = post;
+		this.tag = tag;
+	}
 }
