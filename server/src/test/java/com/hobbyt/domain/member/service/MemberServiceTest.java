@@ -43,7 +43,7 @@ class MemberServiceTest {
 	@Test
 	public void create_user() {
 		//given
-		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		SignupRequest signupRequest = new SignupRequest(NICKNAME, EMAIL, PASSWORD);
 		given(memberRepository.existsByEmail(anyString())).willReturn(false);
 		given(memberRepository.save(any(Member.class))).willReturn(member);
@@ -76,7 +76,7 @@ class MemberServiceTest {
 	@DisplayName("회원 탈퇴")
 	@Test
 	void withdraw() {
-		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 
@@ -94,8 +94,8 @@ class MemberServiceTest {
 	@DisplayName("회원정보 변경")
 	@Test
 	void update() {
-		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
-		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		MemberDetails memberDetails = dummyMemberDetails(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		UpdateMemberRequest updateMemberRequest = dummyUpdateMemberRequest(NICKNAME, DESCRIPTION, PHONE_NUMBER, ZIPCODE,
 			STREET, DETAIL, BANK, ACCOUNT_NUMBER);
 		UpdateMemberResponse response = dummyUpdateMemberResponse(NICKNAME, DESCRIPTION, PHONE_NUMBER,

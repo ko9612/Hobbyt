@@ -57,7 +57,7 @@ class AuthServiceTest {
 	@Test
 	void reissue_access_token() {
 		//given
-		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		given(jwtTokenProvider.parseEmail(anyString())).willReturn(EMAIL);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
@@ -81,7 +81,7 @@ class AuthServiceTest {
 	@Test
 	void reissue_refresh_token() {
 		//given
-		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		given(jwtTokenProvider.parseEmail(anyString())).willReturn(EMAIL);
 		given(jwtTokenProvider.createRefreshToken(anyString())).willReturn(REISSUED_REFRESH_TOKEN);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
