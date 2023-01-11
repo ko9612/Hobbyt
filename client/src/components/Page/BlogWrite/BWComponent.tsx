@@ -12,28 +12,22 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
 });
 
 export default function BlogWriteComponent() {
-  const [title] = useRecoilState(TitleState);
-  const [content] = useRecoilState(ContentState);
+  const [titleData] = useRecoilState(TitleState);
+  const [contentData] = useRecoilState(ContentState);
 
   const onSubmitClick = async () => {
     const data = {
-      title,
-      content,
-      tags: ["#포트폴리오", "#공예"],
+      title: titleData,
+      content: contentData,
+      tags: ["포트폴리오", "공예"],
     };
 
-    if (title?.length !== 0 && content?.length !== 0) {
-      const submit = await postBlogContent(data);
-      console.log(`blogSubmit`, submit);
-      // console.log(`submit.data`, submit.data);
-      // eslint-disable-next-line default-case
-      switch (submit.status) {
-        case 201:
-          console.log("완료");
-          break;
-        case 404:
-          console.error(`${submit.status}error`);
-          break;
+    if (titleData?.length !== 0 && contentData?.length !== 0) {
+      try {
+        const submit = await postBlogContent(data);
+        console.log(`blogSubmit`, submit);
+      } catch (err: unknown) {
+        console.error(err);
       }
     }
   };
