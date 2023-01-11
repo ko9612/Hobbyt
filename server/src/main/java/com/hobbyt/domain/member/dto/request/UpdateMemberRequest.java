@@ -1,7 +1,5 @@
 package com.hobbyt.domain.member.dto.request;
 
-import javax.validation.constraints.Email;
-
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.entity.Member;
@@ -13,8 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateMemberRequest {
-	@Email(message = "이메일 형식으로 입력해주세요.")
-	private String email;
 	private String nickname;
 	// TODO 프로필 이미지 처리
 	// private MultipartFile profileImage;
@@ -58,10 +54,9 @@ public class UpdateMemberRequest {
 	}
 
 	@Builder
-	private UpdateMemberRequest(String email, String nickname, String profileImage, String description,
+	private UpdateMemberRequest(String nickname, String profileImage, String description,
 		String phoneNumber, Account account, Address address) {
 
-		this.email = email;
 		this.nickname = nickname;
 		// this.profileImage = profileImage;
 		this.description = description;
@@ -72,7 +67,6 @@ public class UpdateMemberRequest {
 
 	public static UpdateMemberRequest of(Member member) {
 		return UpdateMemberRequest.builder()
-			.email(member.getEmail())
 			.nickname(member.getNickname())
 			// .profileImage(member.getProfileImage())
 			.description(member.getDescription())

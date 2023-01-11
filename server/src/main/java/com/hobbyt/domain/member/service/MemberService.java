@@ -73,7 +73,7 @@ public class MemberService {
 		Account account = updateMemberRequest.getAccount().toEntity();
 		Address address = updateMemberRequest.getAddress().toEntity();
 
-		member.update(updateMemberRequest.getEmail(), updateMemberRequest.getNickname(),
+		member.update(updateMemberRequest.getNickname(),
 			updateMemberRequest.getDescription(),
 			updateMemberRequest.getPhoneNumber(), address, account);
 
@@ -94,7 +94,7 @@ public class MemberService {
 	private boolean isOldPasswordEqualsNewPassword(UpdatePassword updatePassword) {
 		return updatePassword.getOldPassword().equals(updatePassword.getNewPassword());
 	}
-	
+
 	private boolean isNewPasswordEqualsCheckPassword(UpdatePassword updatePassword) {
 		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}

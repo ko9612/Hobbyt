@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateMemberResponse {
-	private String email;
 	private String nickname;
 	// TODO 프로필 이미지 처리
 	// private String profileImage;
@@ -48,10 +47,9 @@ public class UpdateMemberResponse {
 	}
 
 	@Builder
-	private UpdateMemberResponse(String email, String nickname, String profileImage, String description,
+	private UpdateMemberResponse(String nickname, String profileImage, String description,
 		String phoneNumber, Account account, Address address) {
 
-		this.email = email;
 		this.nickname = nickname;
 		// this.profileImage = profileImage;
 		this.description = description;
@@ -62,7 +60,6 @@ public class UpdateMemberResponse {
 
 	public static UpdateMemberResponse of(Member member) {
 		return UpdateMemberResponse.builder()
-			.email(member.getEmail())
 			.nickname(member.getNickname())
 			// .profileImage(member.getProfileImage())
 			.description(member.getDescription())

@@ -70,10 +70,9 @@ public class Member extends BaseEntity {
 		status = MemberStatus.WITHDRAWAL;
 	}
 
-	public void update(String email, String nickname, String description, String phoneNumber,
+	public void update(String nickname, String description, String phoneNumber,
 		Address address, Account account) {
 
-		this.email = email == null ? this.email : email;
 		this.nickname = nickname == null ? this.nickname : nickname;
 		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
 		this.description = description == null ? this.description : description;
