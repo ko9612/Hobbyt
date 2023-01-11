@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,11 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
+import com.hobbyt.global.error.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -106,5 +110,32 @@ class MemberServiceTest {
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		assertThat(updateMemberResponse).usingRecursiveComparison().isEqualTo(response);
+	}
+
+	@DisplayName("정상 비밀번호 변경")
+	@Test
+	void update_password() {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		given(memberRepository.findByEmail(EMAIL)).willReturn(Optional.of(member));
+		UpdatePassword updatePassword = dummyUpdatePassword(PASSWORD, NEW_PASSWORD, NEW_PASSWORD);
+		given(passwordEncoder.encode(anyString())).willReturn(ENCODED_PASSWORD);
+
+		memberService.updatePassword(EMAIL, updatePassword);
+
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(member.getPassword()).isEqualTo(ENCODED_PASSWORD);
+	}
+
+	@DisplayName("PasswordException 예외: 이전 pw와 새로운 pw가 같은 경우, 새로운 pw와 체크용 pw가 다른경우")
+	@ParameterizedTest(name = "{index} => old: {0}, new: {1}, check: {2}")
+	@CsvSource(value = {"1234:1234:1234", "1234:12345:123456"}, delimiter = ':')
+	void exception_update_password(String oldPassword, String newPassword, String checkPassword) {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		given(memberRepository.findByEmail(EMAIL)).willReturn(Optional.of(member));
+		UpdatePassword updatePassword = dummyUpdatePassword(oldPassword, newPassword, checkPassword);
+
+		assertThatThrownBy(() -> memberService.updatePassword(EMAIL, updatePassword))
+			.isInstanceOf(PasswordException.class);
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}
 }
