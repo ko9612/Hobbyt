@@ -3,6 +3,7 @@ package com.hobbyt.util;
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
@@ -25,6 +26,8 @@ public class TestUtil {
 	public static final String NICKNAME = "test";
 	public static final String EMAIL = "test@gmail.com";
 	public static final String PASSWORD = "1234";
+	public static final String NEW_PASSWORD = "12345678";
+	public static final String ENCODED_PASSWORD = "{bcrypt}$2a$10$r3VAdb9nKwIUZ.1CYMO8D.iZjzqFE69mVP./xuNRMtvmxPH.KGyTO";
 	public static final Authority USER_AUTHORITY = Authority.ROLE_USER;
 	public static final Authority ADMIN_AUTHORITY = Authority.ROLE_ADMIN;
 	public static final String PROFILE_IMAGE = "default image";
@@ -67,5 +70,9 @@ public class TestUtil {
 			.address(new Address(zipcode, street, detail))
 			.account(new Account(bank, number))
 			.build();
+	}
+
+	public static UpdatePassword dummyUpdatePassword(String oldPassword, String newPassword, String checkPassword) {
+		return new UpdatePassword(oldPassword, newPassword, checkPassword);
 	}
 }

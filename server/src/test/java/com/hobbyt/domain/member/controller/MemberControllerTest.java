@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -118,4 +119,19 @@ class MemberControllerTest {
 			.andDo(print());
 	}
 
+	@DisplayName("비밀번호 변경 api")
+	@Test
+	void updatePassword() throws Exception {
+		UpdatePassword updatePassword = dummyUpdatePassword(PASSWORD, NEW_PASSWORD, NEW_PASSWORD);
+
+		ResultActions actions = mockMvc.perform(patch("/api/members/myPage/password")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+			.content(objectMapper.writeValueAsString(updatePassword))
+		);
+
+		actions.andExpect(status().isOk())
+			.andDo(print());
+	}
 }
