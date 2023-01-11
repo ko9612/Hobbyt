@@ -4,6 +4,7 @@ import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
+import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
@@ -60,8 +61,7 @@ public class TestUtil {
 	}
 
 	public static UpdateMemberResponse dummyUpdateMemberResponse(String nickname, String description,
-		String phoneNumber,
-		String zipcode, String street, String detail, String bank, String number) {
+		String phoneNumber, String zipcode, String street, String detail, String bank, String number) {
 
 		return UpdateMemberResponse.builder()
 			.nickname(nickname)
@@ -74,5 +74,27 @@ public class TestUtil {
 
 	public static UpdatePassword dummyUpdatePassword(String oldPassword, String newPassword, String checkPassword) {
 		return new UpdatePassword(oldPassword, newPassword, checkPassword);
+	}
+
+	public static MyInfoResponse dummyMyInfoResponse(String email, String nickname, String profileImage,
+		String description, String phoneNumber, String zipcode, String street,
+		String detail, String bank, String number) {
+
+		return MyInfoResponse.builder()
+			.email(email)
+			.nickname(nickname)
+			.profileImage(profileImage)
+			.description(description)
+			.phoneNumber(phoneNumber)
+			.address(new Address(zipcode, street, detail))
+			.account(new Account(bank, number))
+			.build();
+	}
+
+	public static MyInfoResponse dummyMyInfoResponse(String nickname, String email) {
+		return MyInfoResponse.builder()
+			.nickname(nickname)
+			.email(email)
+			.build();
 	}
 }

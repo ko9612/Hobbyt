@@ -3,6 +3,7 @@ package com.hobbyt.domain.member.controller;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static com.hobbyt.util.TestUtil.*;
 import static org.mockito.BDDMockito.*;
+import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -24,6 +24,7 @@ import com.hobbyt.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
+import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -63,14 +64,14 @@ class MemberControllerTest {
 		//when
 		ResultActions actions = mockMvc.perform(
 			post("/api/members/signup")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+				.contentType(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(signupRequest))
 		);
 
 		//then
 		actions.andExpect(status().isCreated())
-			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
 			.andExpect(content().string("1"))
 			.andDo(print());
 	}
@@ -80,8 +81,8 @@ class MemberControllerTest {
 	@Test
 	void withdraw() throws Exception {
 		ResultActions actions = mockMvc.perform(delete("/api/members/myPage/delete")
-			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
 			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 		);
 
@@ -100,14 +101,14 @@ class MemberControllerTest {
 			.willReturn(response);
 
 		ResultActions actions = mockMvc.perform(patch("/api/members/myPage")
-			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
 			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 			.content(objectMapper.writeValueAsString(request))
 		);
 
 		actions.andExpect(status().isOk())
-			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
 			.andExpect(jsonPath("$.nickname").value(NICKNAME))
 			.andExpect(jsonPath("$.description").value(DESCRIPTION))
 			.andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
@@ -125,13 +126,41 @@ class MemberControllerTest {
 		UpdatePassword updatePassword = dummyUpdatePassword(PASSWORD, NEW_PASSWORD, NEW_PASSWORD);
 
 		ResultActions actions = mockMvc.perform(patch("/api/members/myPage/password")
-			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
 			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 			.content(objectMapper.writeValueAsString(updatePassword))
 		);
 
 		actions.andExpect(status().isOk())
+			.andDo(print());
+	}
+
+	@DisplayName("내 정보 관리의 내용 조회 api")
+	@Test
+	void get_my_info_Details() throws Exception {
+		MyInfoResponse myInfoResponse = dummyMyInfoResponse(EMAIL, NICKNAME, PROFILE_IMAGE, DESCRIPTION, PHONE_NUMBER,
+			ZIPCODE, STREET, DETAIL, BANK, ACCOUNT_NUMBER);
+		given(memberService.getMyInfo(anyString())).willReturn(myInfoResponse);
+
+		ResultActions actions = mockMvc.perform(get("/api/members/myPage/info")
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+		);
+
+		actions.andExpect(status().isOk())
+			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+			.andExpect(jsonPath("$.email").value(EMAIL))
+			.andExpect(jsonPath("$.nickname").value(NICKNAME))
+			.andExpect(jsonPath("$.profileImage").value(PROFILE_IMAGE))
+			.andExpect(jsonPath("$.description").value(DESCRIPTION))
+			.andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
+			.andExpect(jsonPath("$.address.zipcode").value(ZIPCODE))
+			.andExpect(jsonPath("$.address.street").value(STREET))
+			.andExpect(jsonPath("$.address.detail").value(DETAIL))
+			.andExpect(jsonPath("$.account.bank").value(BANK))
+			.andExpect(jsonPath("$.account.number").value(ACCOUNT_NUMBER))
 			.andDo(print());
 	}
 }

@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
+import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
@@ -137,5 +138,18 @@ class MemberServiceTest {
 		assertThatThrownBy(() -> memberService.updatePassword(EMAIL, updatePassword))
 			.isInstanceOf(PasswordException.class);
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+	}
+
+	@DisplayName("내 정보 관리의 내용 조회")
+	@Test
+	void get_my_info_Details() {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+		MyInfoResponse myInfo = dummyMyInfoResponse(NICKNAME, EMAIL);
+
+		MyInfoResponse result = memberService.getMyInfo(EMAIL);
+
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(result).usingRecursiveComparison().isEqualTo(myInfo);
 	}
 }
