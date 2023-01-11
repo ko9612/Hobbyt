@@ -18,7 +18,7 @@ function SearchBlog({ keyword }: { keyword: string | string[] | undefined }) {
   return (
     <SRContainer>
       <div className="py-10">
-        <span className="text-MainColor font-semibold text-xl">{keyword} </span>
+        <span className="text-xl font-semibold text-MainColor">{keyword} </span>
         블로그 검색결과
         <span> 5건</span>
       </div>

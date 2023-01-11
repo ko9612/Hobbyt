@@ -10,18 +10,18 @@ export default function DefalutTag() {
     `;
 
   // 수정해야 함
-  const addTags = (event: any) => {
-    //   const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (
-    //       event.key === "Enter" &&
-    //       event.target.value !== "" &&
-    //       !tags.includes(event.target.value)
-    //     ) {
-    // setTags([...tags, event.target.value]);
-    //       event.target.value = "";
-    //     }
-    console.log(event);
-  };
+  // const addTags = (event: any) => {
+  // const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (
+  //     event.key === "Enter" &&
+  //     event.target.value !== "" &&
+  //     !tags.includes(event.target.value)
+  //   ) {
+  //     setTags([...tags, event.target.value]);
+  //     event.target.value = "";
+  //   }
+  //   console.log(event);
+  // };
 
   const removeTags = (index: any) => {
     setTags([...tags.filter(tag => tags.indexOf(tag) !== index)]);
@@ -47,12 +47,12 @@ export default function DefalutTag() {
             </li>
           ))}
         </ul>
-        <input
+        {/* <input
           className="tag-input"
           type="text"
           onKeyUp={event => (event.key === "Enter" ? addTags(event) : null)}
           placeholder="엔터로 태그를 추가하세요"
-        />
+        /> */}
       </TagInput>
     </div>
   );

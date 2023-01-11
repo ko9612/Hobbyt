@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import tw from "tailwind-styled-components";
 import Header from "../src/components/Page/UserHome/Header";
 import Navbar from "../src/components/Nav/NavBar";
@@ -6,18 +5,11 @@ import UserProfileImage from "../src/components/Page/UserHome/UserProfileImage";
 import UserProfile from "../src/components/Page/UserHome/UserProfile";
 import Followig from "../src/components/Page/UserHome/Following";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
-import TitleInput from "../src/components/ToastUI/TitleInput";
-import DefalutTag from "../src/components/Tag/DefalutTag";
-import DefalutButton from "../src/components/Button/DefalutButton";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 import Footer from "../src/components/Footer/Footer";
+import BlogWriteComponent from "../src/components/Page/BlogWrite/BWComponent";
 
 export default function BlogWrite() {
-  const ToastEditor = dynamic(
-    () => import("../src/components/ToastUI/TextEditor"),
-    { ssr: false },
-  );
-
   const EditorContent = tw.div`
   w-[43rem] m-auto
   `;
@@ -29,10 +21,7 @@ export default function BlogWrite() {
       <Content>
         <BlogContent>
           <EditorContent>
-            <TitleInput />
-            <ToastEditor />
-            <DefalutTag />
-            <DefalutButton onClick={() => {}}>저장</DefalutButton>
+            <BlogWriteComponent />
           </EditorContent>
         </BlogContent>
         <UserContent>

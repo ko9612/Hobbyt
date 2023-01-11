@@ -8,7 +8,7 @@ import UserProfileImage from "../src/components/Page/UserHome/UserProfileImage";
 import Followig from "../src/components/Page/UserHome/Following";
 import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
-import BlogPostDetail from "../src/components/Page/PostDetail/BlogPostDetail";
+import BlogPostDetail from "../src/components/Page/BlogWrite/BlogPostDetail";
 
 export default function BlogDetail() {
   const [data] = blogdummyData; // 나중에 useCallback 사용하기
