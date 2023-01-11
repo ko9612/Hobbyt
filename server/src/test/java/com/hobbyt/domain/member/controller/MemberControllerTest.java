@@ -49,7 +49,7 @@ class MemberControllerTest {
 	@BeforeEach
 	void setup() {
 		accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+		memberDetails = dummyMemberDetails(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 	}
 
 	@DisplayName("정상 회원가입 api")
@@ -57,7 +57,7 @@ class MemberControllerTest {
 	void signup() throws Exception {
 		//given
 		SignupRequest signupRequest = new SignupRequest(NICKNAME, EMAIL, PASSWORD);
-		given(memberService.createUser(any(SignupRequest.class))).willReturn(1L);
+		given(memberService.createUser(any(SignupRequest.class))).willReturn(MEMBER_ID);
 
 		//when
 		ResultActions actions = mockMvc.perform(
@@ -69,6 +69,8 @@ class MemberControllerTest {
 
 		//then
 		actions.andExpect(status().isCreated())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().string("1"))
 			.andDo(print());
 	}
 
@@ -76,9 +78,6 @@ class MemberControllerTest {
 	@WithMockUser(username = EMAIL, password = PASSWORD)
 	@Test
 	void withdraw() throws Exception {
-		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
-
 		ResultActions actions = mockMvc.perform(delete("/api/members/myPage/delete")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
@@ -89,7 +88,7 @@ class MemberControllerTest {
 			.andDo(print());
 	}
 
-	@DisplayName("회원정보 변경")
+	@DisplayName("회원정보 변경 api")
 	@Test
 	void update() throws Exception {
 		UpdateMemberRequest request = dummyUpdateMemberRequest(NICKNAME, DESCRIPTION, PHONE_NUMBER, ZIPCODE,

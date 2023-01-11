@@ -21,6 +21,7 @@ public class TestUtil {
 	public static final Long TIMEOUT = 1000L;
 
 	// Member
+	public static final Long MEMBER_ID = 1L;
 	public static final String NICKNAME = "test";
 	public static final String EMAIL = "test@gmail.com";
 	public static final String PASSWORD = "1234";

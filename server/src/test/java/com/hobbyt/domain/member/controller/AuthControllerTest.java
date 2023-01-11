@@ -45,7 +45,7 @@ class AuthControllerTest {
 		//given
 		String code = AuthenticationCode.createCode().getCode();
 		EmailRequest emailRequest = new EmailRequest(EMAIL);
-		given(authService.sendAuthenticationCodeEmail(emailRequest)).willReturn(code);
+		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(code);
 
 		//when
 		ResultActions actions = mockMvc.perform(
@@ -57,6 +57,8 @@ class AuthControllerTest {
 
 		//then
 		actions.andExpect(status().isCreated())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().string(code))
 			.andDo(print());
 	}
 
@@ -77,6 +79,8 @@ class AuthControllerTest {
 
 		//then
 		actions.andExpect(status().isOk())
+			.andExpect(header().string(AUTH_HEADER, TOKEN_TYPE + " " + REISSUED_ACCESS_TOKEN))
+			.andExpect(header().string(REFRESH_TOKEN_HEADER, REISSUED_REFRESH_TOKEN))
 			.andDo(print());
 	}
 
