@@ -11,6 +11,7 @@ import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
+import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -97,5 +98,13 @@ public class MemberService {
 
 	private boolean isNewPasswordEqualsCheckPassword(UpdatePassword updatePassword) {
 		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
+	}
+
+	public MyInfoResponse getMyInfo(final String email) {
+		Member member = findMemberByEmail(email);
+
+		MyInfoResponse myInfoResponse = MyInfoResponse.of(member);
+
+		return myInfoResponse;
 	}
 }

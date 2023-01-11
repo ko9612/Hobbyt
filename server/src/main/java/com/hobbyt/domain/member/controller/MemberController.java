@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
+import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -33,7 +34,7 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	// test용 api
+	// test용 api >> 나중에 제거
 	@GetMapping("/check")
 	public ResponseEntity check() {
 		System.out.println("========== check ok ==========");
@@ -57,7 +58,6 @@ public class MemberController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	// TODO 문제점: 이메일을 변경하면 기존 토큰이 유효하지 않게된다.
 	@PatchMapping("/myPage")
 	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestBody UpdateMemberRequest updateMemberRequest) {
@@ -74,5 +74,12 @@ public class MemberController {
 		memberService.updatePassword(memberDetails.getUsername(), updatePassword);
 
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/myPage/info")
+	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
+		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getUsername());
+
+		return ResponseEntity.ok(myInfoResponse);
 	}
 }
