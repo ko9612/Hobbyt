@@ -16,12 +16,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -86,5 +89,22 @@ class MemberServiceTest {
 			.setValue(argThat(key -> key.equals(ACCESS_TOKEN)), argThat(value -> value.equals(BLACK_LIST)),
 				argThat(timeout -> timeout == TIMEOUT));
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+	}
+
+	@DisplayName("회원정보 변경")
+	@Test
+	void update() {
+		Member member = dummyMember(1L, NICKNAME, EMAIL, PASSWORD);
+		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+		UpdateMemberRequest updateMemberRequest = dummyUpdateMemberRequest(NICKNAME, DESCRIPTION, PHONE_NUMBER, ZIPCODE,
+			STREET, DETAIL, BANK, ACCOUNT_NUMBER);
+		UpdateMemberResponse response = dummyUpdateMemberResponse(NICKNAME, DESCRIPTION, PHONE_NUMBER,
+			ZIPCODE, STREET, DETAIL, BANK, ACCOUNT_NUMBER);
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+
+		UpdateMemberResponse updateMemberResponse = memberService.update(memberDetails, updateMemberRequest);
+
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(updateMemberResponse).usingRecursiveComparison().isEqualTo(response);
 	}
 }

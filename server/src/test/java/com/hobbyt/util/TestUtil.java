@@ -1,5 +1,9 @@
 package com.hobbyt.util;
 
+import com.hobbyt.domain.entity.Account;
+import com.hobbyt.domain.entity.Address;
+import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -23,6 +27,13 @@ public class TestUtil {
 	public static final Authority USER_AUTHORITY = Authority.ROLE_USER;
 	public static final Authority ADMIN_AUTHORITY = Authority.ROLE_ADMIN;
 	public static final String PROFILE_IMAGE = "default image";
+	public static final String DESCRIPTION = "안녕하세요~~~";
+	public static final String PHONE_NUMBER = "010-1234-5678";
+	public static final String ZIPCODE = "우편번호";
+	public static final String STREET = "도로명 주소";
+	public static final String DETAIL = "상세주소";
+	public static final String BANK = "oo은행";
+	public static final String ACCOUNT_NUMBER = "000-000000-00-000";
 
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
 		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
@@ -30,5 +41,30 @@ public class TestUtil {
 
 	public static MemberDetails dummyMemberDetails(Long id, String nickname, String email, String password) {
 		return MemberDetails.of(dummyMember(id, nickname, email, password));
+	}
+
+	public static UpdateMemberRequest dummyUpdateMemberRequest(String nickname, String description, String phoneNumber,
+		String zipcode, String street, String detail, String bank, String number) {
+
+		return UpdateMemberRequest.builder()
+			.nickname(nickname)
+			.description(description)
+			.phoneNumber(phoneNumber)
+			.address(new Address(zipcode, street, detail))
+			.account(new Account(bank, number))
+			.build();
+	}
+
+	public static UpdateMemberResponse dummyUpdateMemberResponse(String nickname, String description,
+		String phoneNumber,
+		String zipcode, String street, String detail, String bank, String number) {
+
+		return UpdateMemberResponse.builder()
+			.nickname(nickname)
+			.description(description)
+			.phoneNumber(phoneNumber)
+			.address(new Address(zipcode, street, detail))
+			.account(new Account(bank, number))
+			.build();
 	}
 }
