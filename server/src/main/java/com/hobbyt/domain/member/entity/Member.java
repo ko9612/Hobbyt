@@ -10,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.hobbyt.domain.entity.Account;
-import com.hobbyt.domain.entity.Address;
+import com.hobbyt.domain.entity.Recipient;
+import com.hobbyt.domain.entity.Views;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -40,11 +41,21 @@ public class Member extends BaseEntity {
 
 	private String phoneNumber;
 
+	// 팔로워 수
+	private int followerCount;
+
+	// 팔로잉 수
+	private int followingCount;
+
 	@Embedded
-	private Address address;
+	private Recipient recipient;
+	// private Address address;
 
 	@Embedded
 	private Account account;
+
+	@Embedded
+	private Views views;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -58,26 +69,27 @@ public class Member extends BaseEntity {
 	private boolean dmReceive = true;    // DM 수신여부
 
 	@Builder
-	public Member(Long id, String nickname, String email, String password, String profileImage) {
+	public Member(Long id, String nickname, String email, String password, String profileImage, String description,
+		String phoneNumber) {
+		
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
 		this.profileImage = profileImage;
+		this.description = description;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public void withdraw() {
 		status = MemberStatus.WITHDRAWAL;
 	}
 
-	public void update(String nickname, String description, String phoneNumber,
-		Address address, Account account) {
+	public void updateMemberInfo(String phoneNumber, Recipient recipient, Account account) {
 
-		this.nickname = nickname == null ? this.nickname : nickname;
-		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
-		this.description = description == null ? this.description : description;
 		this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;
-		this.address = address == null ? this.address : address;
+		this.recipient = recipient == null ? this.recipient : recipient;
+		// this.address = address == null ? this.address : address;
 		this.account = account == null ? this.account : account;
 
 		/*if (email != null && !email.equals(this.email)) {
@@ -105,5 +117,21 @@ public class Member extends BaseEntity {
 
 	public void updatePassword(String password) {
 		this.password = password == null ? this.password : password;
+	}
+
+	public void followerUp() {
+		this.followerCount++;
+	}
+
+	public void followerDown() {
+		this.followerCount--;
+	}
+
+	public void followingUp() {
+		this.followingCount++;
+	}
+
+	public void followingDown() {
+		this.followingCount--;
 	}
 }

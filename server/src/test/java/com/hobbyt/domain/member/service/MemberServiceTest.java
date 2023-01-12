@@ -18,10 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -29,7 +28,6 @@ import com.hobbyt.global.error.exception.MemberExistException;
 import com.hobbyt.global.error.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.member.MemberDetails;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -100,17 +98,16 @@ class MemberServiceTest {
 	@Test
 	void update() {
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
-		MemberDetails memberDetails = dummyMemberDetails(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
-		UpdateMemberRequest updateMemberRequest = dummyUpdateMemberRequest(NICKNAME, DESCRIPTION, PHONE_NUMBER, ZIPCODE,
-			STREET, DETAIL, BANK, ACCOUNT_NUMBER);
-		UpdateMemberResponse response = dummyUpdateMemberResponse(NICKNAME, DESCRIPTION, PHONE_NUMBER,
-			ZIPCODE, STREET, DETAIL, BANK, ACCOUNT_NUMBER);
+		UpdateMyInfoRequest updateMyInfoRequest = dummyUpdateMyInfoRequest(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE,
+			STREET, DETAIL, NAME, BANK, ACCOUNT_NUMBER);
+		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
+			NAME, BANK, ACCOUNT_NUMBER);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 
-		UpdateMemberResponse updateMemberResponse = memberService.update(memberDetails, updateMemberRequest);
+		MyInfoResponse result = memberService.update(EMAIL, updateMyInfoRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(updateMemberResponse).usingRecursiveComparison().isEqualTo(response);
+		assertThat(result).usingRecursiveComparison().isEqualTo(myInfoResponse);
 	}
 
 	@DisplayName("정상 비밀번호 변경")
@@ -143,13 +140,13 @@ class MemberServiceTest {
 	@DisplayName("내 정보 관리의 내용 조회")
 	@Test
 	void get_my_info_Details() {
-		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
-		MyInfoResponse myInfo = dummyMyInfoResponse(NICKNAME, EMAIL);
+		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER);
 
 		MyInfoResponse result = memberService.getMyInfo(EMAIL);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(result).usingRecursiveComparison().isEqualTo(myInfo);
+		assertThat(result).usingRecursiveComparison().isEqualTo(myInfoResponse);
 	}
 }

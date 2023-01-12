@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -60,9 +59,9 @@ public class MemberController {
 
 	@PatchMapping("/myPage")
 	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody UpdateMemberRequest updateMemberRequest) {
+		@RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		UpdateMemberResponse response = memberService.update(memberDetails, updateMemberRequest);
+		MyInfoResponse response = memberService.update(memberDetails.getUsername(), updateMyInfoRequest);
 
 		return ResponseEntity.ok(response);
 	}

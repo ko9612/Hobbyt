@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.entity.Account;
-import com.hobbyt.domain.entity.Address;
+import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
@@ -20,7 +19,6 @@ import com.hobbyt.global.error.exception.MemberNotExistException;
 import com.hobbyt.global.error.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,18 +65,15 @@ public class MemberService {
 	}
 
 	@Transactional
-	public UpdateMemberResponse update(MemberDetails memberDetails, UpdateMemberRequest updateMemberRequest) {
-		String email = memberDetails.getUsername();
+	public MyInfoResponse update(String email, UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
-		Account account = updateMemberRequest.getAccount().toEntity();
-		Address address = updateMemberRequest.getAddress().toEntity();
+		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();
+		Account account = updateMyInfoRequest.getAccount().toEntity();
 
-		member.update(updateMemberRequest.getNickname(),
-			updateMemberRequest.getDescription(),
-			updateMemberRequest.getPhoneNumber(), address, account);
+		member.updateMemberInfo(updateMyInfoRequest.getPhoneNumber(), recipient, account);
 
-		return UpdateMemberResponse.of(member);
+		return MyInfoResponse.of(member);
 	}
 
 	@Transactional

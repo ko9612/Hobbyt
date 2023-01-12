@@ -1,9 +1,8 @@
 package com.hobbyt.domain.member.dto.request;
 
-import javax.validation.constraints.NotBlank;
-
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
+import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.entity.Member;
 
 import lombok.Builder;
@@ -12,15 +11,28 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateMemberRequest {
-	@NotBlank(message = "닉네임은 필수값입니다.")
-	private String nickname;
-	// TODO 프로필 이미지 처리
-	// private MultipartFile profileImage;
-	private String description;
+public class UpdateMyInfoRequest {
 	private String phoneNumber;
-	private AddressDto address;
+	private RecipientDto recipient;
 	private AccountDto account;
+
+	@Getter
+	@NoArgsConstructor
+	public static class RecipientDto {
+		private AddressDto address;
+		private String name;
+		private String phoneNumber;
+
+		private RecipientDto(Recipient recipient) {
+			this.address = new AddressDto(recipient.getAddress());
+			this.name = recipient.getName();
+			this.phoneNumber = recipient.getPhoneNumber();
+		}
+
+		public Recipient toEntity() {
+			return new Recipient(name, phoneNumber, address.toEntity());
+		}
+	}
 
 	@Getter
 	@NoArgsConstructor
@@ -43,39 +55,33 @@ public class UpdateMemberRequest {
 	@Getter
 	@NoArgsConstructor
 	public static class AccountDto {
+		private String holder;
 		private String bank;
 		private String number;
 
 		private AccountDto(Account account) {
+			this.holder = account.getHolder();
 			this.bank = account.getBank();
 			this.number = account.getNumber();
 		}
 
 		public Account toEntity() {
-			return new Account(bank, number);
+			return new Account(holder, bank, number);
 		}
 	}
 
 	@Builder
-	private UpdateMemberRequest(String nickname, String profileImage, String description,
-		String phoneNumber, Account account, Address address) {
-
-		this.nickname = nickname;
-		// this.profileImage = profileImage;
-		this.description = description;
+	private UpdateMyInfoRequest(String phoneNumber, Recipient recipient, Account account) {
 		this.phoneNumber = phoneNumber;
 		this.account = new AccountDto(account);
-		this.address = new AddressDto(address);
+		this.recipient = new RecipientDto(recipient);
 	}
 
-	public static UpdateMemberRequest of(Member member) {
-		return UpdateMemberRequest.builder()
-			.nickname(member.getNickname())
-			// .profileImage(member.getProfileImage())
-			.description(member.getDescription())
+	public static UpdateMyInfoRequest of(Member member) {
+		return UpdateMyInfoRequest.builder()
 			.phoneNumber(member.getPhoneNumber())
+			.recipient(member.getRecipient())
 			.account(member.getAccount())
-			.address(member.getAddress())
 			.build();
 	}
 }

@@ -22,10 +22,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.config.TestMemberDetailService;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
-import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -93,28 +92,30 @@ class MemberControllerTest {
 	@DisplayName("회원정보 변경 api")
 	@Test
 	void update() throws Exception {
-		UpdateMemberRequest request = dummyUpdateMemberRequest(NICKNAME, DESCRIPTION, PHONE_NUMBER, ZIPCODE,
-			STREET, DETAIL, BANK, ACCOUNT_NUMBER);
-		UpdateMemberResponse response = dummyUpdateMemberResponse(NICKNAME, DESCRIPTION, PHONE_NUMBER,
-			ZIPCODE, STREET, DETAIL, BANK, ACCOUNT_NUMBER);
-		given(memberService.update(any(MemberDetails.class), any(UpdateMemberRequest.class)))
-			.willReturn(response);
+		UpdateMyInfoRequest updateMyInfoRequest = dummyUpdateMyInfoRequest(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE,
+			STREET, DETAIL, NAME, BANK, ACCOUNT_NUMBER);
+		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
+			NAME, BANK, ACCOUNT_NUMBER);
+
+		given(memberService.update(anyString(), any(UpdateMyInfoRequest.class)))
+			.willReturn(myInfoResponse);
 
 		ResultActions actions = mockMvc.perform(patch("/api/members/myPage")
 			.contentType(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
 			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
-			.content(objectMapper.writeValueAsString(request))
+			.content(objectMapper.writeValueAsString(updateMyInfoRequest))
 		);
 
 		actions.andExpect(status().isOk())
 			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-			.andExpect(jsonPath("$.nickname").value(NICKNAME))
-			.andExpect(jsonPath("$.description").value(DESCRIPTION))
 			.andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
-			.andExpect(jsonPath("$.address.zipcode").value(ZIPCODE))
-			.andExpect(jsonPath("$.address.street").value(STREET))
-			.andExpect(jsonPath("$.address.detail").value(DETAIL))
+			.andExpect(jsonPath("$.recipient.address.zipcode").value(ZIPCODE))
+			.andExpect(jsonPath("$.recipient.address.street").value(STREET))
+			.andExpect(jsonPath("$.recipient.address.detail").value(DETAIL))
+			.andExpect(jsonPath("$.recipient.name").value(NAME))
+			.andExpect(jsonPath("$.recipient.phoneNumber").value(PHONE_NUMBER))
+			.andExpect(jsonPath("$.account.holder").value(NAME))
 			.andExpect(jsonPath("$.account.bank").value(BANK))
 			.andExpect(jsonPath("$.account.number").value(ACCOUNT_NUMBER))
 			.andDo(print());
@@ -139,8 +140,8 @@ class MemberControllerTest {
 	@DisplayName("내 정보 관리의 내용 조회 api")
 	@Test
 	void get_my_info_Details() throws Exception {
-		MyInfoResponse myInfoResponse = dummyMyInfoResponse(EMAIL, NICKNAME, PROFILE_IMAGE, DESCRIPTION, PHONE_NUMBER,
-			ZIPCODE, STREET, DETAIL, BANK, ACCOUNT_NUMBER);
+		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
+			NAME, BANK, ACCOUNT_NUMBER);
 		given(memberService.getMyInfo(anyString())).willReturn(myInfoResponse);
 
 		ResultActions actions = mockMvc.perform(get("/api/members/myPage/info")
@@ -151,14 +152,13 @@ class MemberControllerTest {
 
 		actions.andExpect(status().isOk())
 			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-			.andExpect(jsonPath("$.email").value(EMAIL))
-			.andExpect(jsonPath("$.nickname").value(NICKNAME))
-			.andExpect(jsonPath("$.profileImage").value(PROFILE_IMAGE))
-			.andExpect(jsonPath("$.description").value(DESCRIPTION))
 			.andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
-			.andExpect(jsonPath("$.address.zipcode").value(ZIPCODE))
-			.andExpect(jsonPath("$.address.street").value(STREET))
-			.andExpect(jsonPath("$.address.detail").value(DETAIL))
+			.andExpect(jsonPath("$.recipient.address.zipcode").value(ZIPCODE))
+			.andExpect(jsonPath("$.recipient.address.street").value(STREET))
+			.andExpect(jsonPath("$.recipient.address.detail").value(DETAIL))
+			.andExpect(jsonPath("$.recipient.name").value(NAME))
+			.andExpect(jsonPath("$.recipient.phoneNumber").value(PHONE_NUMBER))
+			.andExpect(jsonPath("$.account.holder").value(NAME))
 			.andExpect(jsonPath("$.account.bank").value(BANK))
 			.andExpect(jsonPath("$.account.number").value(ACCOUNT_NUMBER))
 			.andDo(print());

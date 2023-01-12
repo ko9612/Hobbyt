@@ -2,7 +2,6 @@ package com.hobbyt.domain.member.dto.response;
 
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
-import com.hobbyt.domain.member.entity.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -58,7 +57,7 @@ public class UpdateMemberResponse {
 		this.account = account == null ? new AccountDto() : new AccountDto(account);
 	}
 
-	public static UpdateMemberResponse of(Member member) {
+	/*public static UpdateMemberResponse of(Member member) {
 		return UpdateMemberResponse.builder()
 			.nickname(member.getNickname())
 			// .profileImage(member.getProfileImage())
@@ -67,5 +66,5 @@ public class UpdateMemberResponse {
 			.account(member.getAccount())
 			.address(member.getAddress())
 			.build();
-	}
+	}*/
 }

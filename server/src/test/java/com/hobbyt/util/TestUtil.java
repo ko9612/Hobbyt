@@ -2,10 +2,10 @@ package com.hobbyt.util;
 
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
-import com.hobbyt.domain.member.dto.request.UpdateMemberRequest;
+import com.hobbyt.domain.entity.Recipient;
+import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.UpdateMemberResponse;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -37,64 +37,61 @@ public class TestUtil {
 	public static final String ZIPCODE = "우편번호";
 	public static final String STREET = "도로명 주소";
 	public static final String DETAIL = "상세주소";
-	public static final String BANK = "oo은행";
+	public static final String BANK = "OO은행";
 	public static final String ACCOUNT_NUMBER = "000-000000-00-000";
+	public static final String NAME = "홍길동";
 
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
 		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
+	}
+
+	public static Member dummyMember(Long id, String nickname, String email, String password, String description,
+		String phoneNumber) {
+
+		return Member.builder()
+			.id(id)
+			.nickname(nickname)
+			.email(email)
+			.password(password)
+			.description(description)
+			.phoneNumber(phoneNumber)
+			.build();
 	}
 
 	public static MemberDetails dummyMemberDetails(Long id, String nickname, String email, String password) {
 		return MemberDetails.of(dummyMember(id, nickname, email, password));
 	}
 
-	public static UpdateMemberRequest dummyUpdateMemberRequest(String nickname, String description, String phoneNumber,
-		String zipcode, String street, String detail, String bank, String number) {
+	public static UpdateMyInfoRequest dummyUpdateMyInfoRequest(String phoneNumber, String recipientName,
+		String recipientPhoneNumber, String zipcode, String street, String detail, String accountHolder, String bank,
+		String accountNumber) {
 
-		return UpdateMemberRequest.builder()
-			.nickname(nickname)
-			.description(description)
+		return UpdateMyInfoRequest.builder()
 			.phoneNumber(phoneNumber)
-			.address(new Address(zipcode, street, detail))
-			.account(new Account(bank, number))
+			.recipient(new Recipient(recipientName, recipientPhoneNumber, new Address(zipcode, street, detail)))
+			.account(new Account(accountHolder, bank, accountNumber))
 			.build();
 	}
 
-	public static UpdateMemberResponse dummyUpdateMemberResponse(String nickname, String description,
-		String phoneNumber, String zipcode, String street, String detail, String bank, String number) {
+	public static MyInfoResponse dummyMyInfoResponse(String phoneNumber, String recipientName,
+		String recipientPhoneNumber, String zipcode, String street, String detail, String accountHolder, String bank,
+		String accountNumber) {
 
-		return UpdateMemberResponse.builder()
-			.nickname(nickname)
-			.description(description)
+		return MyInfoResponse.builder()
 			.phoneNumber(phoneNumber)
-			.address(new Address(zipcode, street, detail))
-			.account(new Account(bank, number))
+			.recipient(new Recipient(recipientName, recipientPhoneNumber, new Address(zipcode, street, detail)))
+			.account(new Account(accountHolder, bank, accountNumber))
+			.build();
+	}
+
+	public static MyInfoResponse dummyMyInfoResponse(String phoneNumber) {
+
+		return MyInfoResponse.builder()
+			.phoneNumber(phoneNumber)
 			.build();
 	}
 
 	public static UpdatePassword dummyUpdatePassword(String oldPassword, String newPassword, String checkPassword) {
 		return new UpdatePassword(oldPassword, newPassword, checkPassword);
-	}
-
-	public static MyInfoResponse dummyMyInfoResponse(String email, String nickname, String profileImage,
-		String description, String phoneNumber, String zipcode, String street,
-		String detail, String bank, String number) {
-
-		return MyInfoResponse.builder()
-			.email(email)
-			.nickname(nickname)
-			.profileImage(profileImage)
-			.description(description)
-			.phoneNumber(phoneNumber)
-			.address(new Address(zipcode, street, detail))
-			.account(new Account(bank, number))
-			.build();
-	}
-
-	public static MyInfoResponse dummyMyInfoResponse(String nickname, String email) {
-		return MyInfoResponse.builder()
-			.nickname(nickname)
-			.email(email)
-			.build();
 	}
 }
