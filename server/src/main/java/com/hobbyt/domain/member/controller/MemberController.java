@@ -21,6 +21,7 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -80,5 +81,12 @@ public class MemberController {
 		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getUsername());
 
 		return ResponseEntity.ok(myInfoResponse);
+	}
+
+	@GetMapping("/profile")
+	public ResponseEntity getProfile(@AuthenticationPrincipal MemberDetails memberDetails) {
+		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getUsername());
+
+		return ResponseEntity.ok(profileResponse);
 	}
 }

@@ -12,6 +12,7 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.MemberExistException;
@@ -101,5 +102,11 @@ public class MemberService {
 		MyInfoResponse myInfoResponse = MyInfoResponse.of(member);
 
 		return myInfoResponse;
+	}
+
+	public ProfileResponse getProfile(final String email) {
+		Member member = findMemberByEmail(email);
+
+		return ProfileResponse.of(member);
 	}
 }
