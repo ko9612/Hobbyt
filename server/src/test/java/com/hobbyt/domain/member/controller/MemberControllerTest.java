@@ -97,9 +97,6 @@ class MemberControllerTest {
 		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
 			NAME, BANK, ACCOUNT_NUMBER);
 
-		given(memberService.update(anyString(), any(UpdateMyInfoRequest.class)))
-			.willReturn(myInfoResponse);
-
 		ResultActions actions = mockMvc.perform(patch("/api/members/myPage")
 			.contentType(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
@@ -108,16 +105,6 @@ class MemberControllerTest {
 		);
 
 		actions.andExpect(status().isOk())
-			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-			.andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
-			.andExpect(jsonPath("$.recipient.address.zipcode").value(ZIPCODE))
-			.andExpect(jsonPath("$.recipient.address.street").value(STREET))
-			.andExpect(jsonPath("$.recipient.address.detail").value(DETAIL))
-			.andExpect(jsonPath("$.recipient.name").value(NAME))
-			.andExpect(jsonPath("$.recipient.phoneNumber").value(PHONE_NUMBER))
-			.andExpect(jsonPath("$.account.holder").value(NAME))
-			.andExpect(jsonPath("$.account.bank").value(BANK))
-			.andExpect(jsonPath("$.account.number").value(ACCOUNT_NUMBER))
 			.andDo(print());
 	}
 

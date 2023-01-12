@@ -62,9 +62,9 @@ public class MemberController {
 	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		MyInfoResponse response = memberService.update(memberDetails.getUsername(), updateMyInfoRequest);
+		memberService.update(memberDetails.getUsername(), updateMyInfoRequest);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage/password")

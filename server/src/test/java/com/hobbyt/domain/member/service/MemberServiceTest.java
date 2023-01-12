@@ -100,14 +100,11 @@ class MemberServiceTest {
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		UpdateMyInfoRequest updateMyInfoRequest = dummyUpdateMyInfoRequest(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE,
 			STREET, DETAIL, NAME, BANK, ACCOUNT_NUMBER);
-		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
-			NAME, BANK, ACCOUNT_NUMBER);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 
-		MyInfoResponse result = memberService.update(EMAIL, updateMyInfoRequest);
+		memberService.update(EMAIL, updateMyInfoRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(result).usingRecursiveComparison().isEqualTo(myInfoResponse);
 	}
 
 	@DisplayName("정상 비밀번호 변경")

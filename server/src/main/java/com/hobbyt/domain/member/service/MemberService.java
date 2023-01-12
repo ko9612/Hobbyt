@@ -66,15 +66,13 @@ public class MemberService {
 	}
 
 	@Transactional
-	public MyInfoResponse update(String email, UpdateMyInfoRequest updateMyInfoRequest) {
+	public void update(String email, UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
 		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();
 		Account account = updateMyInfoRequest.getAccount().toEntity();
 
 		member.updateMemberInfo(updateMyInfoRequest.getPhoneNumber(), recipient, account);
-
-		return MyInfoResponse.of(member);
 	}
 
 	@Transactional
