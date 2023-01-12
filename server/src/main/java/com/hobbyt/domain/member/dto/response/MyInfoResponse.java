@@ -35,9 +35,27 @@ public class MyInfoResponse {
 		public Recipient toEntity() {
 			return new Recipient(name, phoneNumber, address.toEntity());
 		}
+
+		@Getter
+		@NoArgsConstructor
+		public static class AddressDto {
+			private String zipcode;
+			private String street;
+			private String detail;
+
+			private AddressDto(Address address) {
+				this.zipcode = address.getZipcode();
+				this.street = address.getStreet();
+				this.detail = address.getDetail();
+			}
+
+			public Address toEntity() {
+				return new Address(zipcode, street, detail);
+			}
+		}
 	}
 
-	@Getter
+	/*@Getter
 	@NoArgsConstructor
 	public static class AddressDto {
 		private String zipcode;
@@ -53,7 +71,7 @@ public class MyInfoResponse {
 		public Address toEntity() {
 			return new Address(zipcode, street, detail);
 		}
-	}
+	}*/
 
 	@Getter
 	@NoArgsConstructor
