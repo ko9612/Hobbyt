@@ -102,7 +102,7 @@ class MemberServiceTest {
 			STREET, DETAIL, NAME, BANK, ACCOUNT_NUMBER);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 
-		memberService.update(EMAIL, updateMyInfoRequest);
+		memberService.updateMyInfo(EMAIL, updateMyInfoRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}

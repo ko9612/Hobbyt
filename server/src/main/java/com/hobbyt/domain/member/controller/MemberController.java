@@ -62,7 +62,7 @@ public class MemberController {
 	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		memberService.update(memberDetails.getUsername(), updateMyInfoRequest);
+		memberService.updateMyInfo(memberDetails.getUsername(), updateMyInfoRequest);
 
 		return ResponseEntity.ok().build();
 	}

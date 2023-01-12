@@ -66,7 +66,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void update(String email, UpdateMyInfoRequest updateMyInfoRequest) {
+	public void updateMyInfo(String email, UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
 		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();
