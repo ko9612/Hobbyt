@@ -1,5 +1,6 @@
 package com.hobbyt.domain.post.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,19 +23,30 @@ public class Post extends Article {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column
+	private boolean isPublic;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
 	private Member writer;
 
-	public static Post of(String title, String content) {
+	public static Post of(String title, String content, boolean isPublic) {
 		Post post = new Post();
 		post.updateTitle(title);
 		post.updateContent(content);
+		post.updateIsPublic(isPublic);
 
 		return post;
 	}
 
 	public void setWriter(Member writer) {
+		if (this.writer != null) {
+			throw new RuntimeException("Writer Already Exist. Writer Not Changed");
+		}
+
 		this.writer = writer;
+	}
+
+	public void updateIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }

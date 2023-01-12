@@ -27,4 +27,13 @@ public class PostLike extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	public static PostLike of(Member member, Post post) {
+		return new PostLike(member, post);
+	}
+
+	private PostLike(Member member, Post post) {
+		this.member = member;
+		this.post = post;
+	}
 }

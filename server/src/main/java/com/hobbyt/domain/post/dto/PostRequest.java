@@ -16,9 +16,10 @@ public class PostRequest {
 	private String title;
 	@NotNull
 	private String content;
+	private boolean isPublic;
 	private List<String> tags;
 
 	public Post toPost() {
-		return Post.of(title, content);
+		return Post.of(title, content, isPublic);
 	}
 }

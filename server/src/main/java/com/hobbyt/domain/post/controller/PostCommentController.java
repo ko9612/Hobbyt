@@ -29,21 +29,24 @@ public class PostCommentController {
 	private final PostCommentService postCommentService;
 
 	@PostMapping
-	public ResponseEntity<Long> postComment(@AuthenticationPrincipal Member member,
+	public ResponseEntity<Long> postComment(@AuthenticationPrincipal Member loginMember,
 		@Valid @RequestBody PostCommentRequest request) {
+		Long createdId = postCommentService.createPostComment(loginMember, request);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(1L);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdId);
 	}
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<Long> patchComment(@Min(value = 0) @PathVariable Long id,
 		@Valid @RequestBody PostCommentRequest request) {
+		Long updatedId = postCommentService.updatePostComment(id, request);
 
-		return ResponseEntity.ok(1L);
+		return ResponseEntity.ok(updatedId);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteComment(@Min(value = 0) @PathVariable Long id) {
+		postCommentService.deletePostCommentById(id);
 
 		return ResponseEntity.noContent().build();
 	}

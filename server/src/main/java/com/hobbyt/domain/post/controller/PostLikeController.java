@@ -24,13 +24,15 @@ public class PostLikeController {
 	@PostMapping
 	public ResponseEntity<Void> likePost(@AuthenticationPrincipal Member member,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.createPostLike(member, postId);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> cancleLike(@AuthenticationPrincipal Member member,
+	public ResponseEntity<Void> cancelLike(@AuthenticationPrincipal Member member,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.deletePostLike(member, postId);
 
 		return ResponseEntity.ok().build();
 	}

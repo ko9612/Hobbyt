@@ -1,15 +1,49 @@
 package com.hobbyt.domain.post.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.post.dto.PostCommentRequest;
+import com.hobbyt.domain.post.entity.Post;
+import com.hobbyt.domain.post.entity.PostComment;
 import com.hobbyt.domain.post.repository.PostCommentRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class PostCommentService {
 	private final PostCommentRepository postCommentRepository;
+	private final PostService postService;
+
+	public Long createPostComment(Member writer, PostCommentRequest request) {
+		Post post = postService.findVerifiedOneById(request.getPostId());
+		PostComment comment = PostComment.of(writer, post, request.getContent());
+
+		return postCommentRepository.save(comment).getId();
+	}
+
+	public Long updatePostComment(Long id, PostCommentRequest request) {
+		PostComment comment = findVerifiedCommentById(id);
+		comment.updateContent(request.getContent());
+
+		return comment.getId();
+	}
+
+	public void deletePostCommentById(Long id) {
+		PostComment comment = findVerifiedCommentById(id);
+		postCommentRepository.delete(comment);
+	}
+
+	public PostComment findVerifiedCommentById(Long id) {
+		Optional<PostComment> found = postCommentRepository.findById(id);
+
+		return found.orElseThrow(
+			() -> new RuntimeException("Comment Not Exist")
+		);
+	}
 }

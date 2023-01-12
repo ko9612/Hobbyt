@@ -1,5 +1,7 @@
 package com.hobbyt.domain.post.controller;
 
+import static com.hobbyt.domain.post.dto.PostResponse.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,22 +43,17 @@ public class PostController {
 
 	@GetMapping("{id}")
 	private ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
-		PostResponse.WriterBox writer = new PostResponse.WriterBox(
-			"호빗", null, LocalDateTime.now(), 50, 50
-		);
 
-		PostResponse.CommentBox comment1 = new PostResponse.CommentBox(
-			"엘프", null, LocalDateTime.now(), "굿굿"
-		);
-		PostResponse.CommentBox comment2 = new PostResponse.CommentBox(
-			"오크", null, LocalDateTime.now(), "ㄴㄴ"
-		);
+		CommentBox comment1 = new CommentBox(1L, "엘프", null, LocalDateTime.now(), "굿굿");
+		CommentBox comment2 = new CommentBox(1L, "호빗", null, LocalDateTime.now(), "ㄴㄴ");
 
-		List<PostResponse.CommentBox> comments = List.of(comment1, comment2);
+		List<CommentBox> comments = List.of(comment1, comment2);
+		List<String> tags = List.of("취미", "크리어처");
+
+		WriterBox writer = new WriterBox(1L, "잉간", null, LocalDateTime.now(), 50, 50);
 
 		PostResponse response = new PostResponse(
-			"제목", "본문", 100, 10, LocalDateTime.now(), writer, comments
-		);
+			1L, "제목", "본문", 100, 10, true, LocalDateTime.now(), writer, comments, tags);
 
 		return ResponseEntity.ok(response);
 	}
@@ -78,7 +75,7 @@ public class PostController {
 
 		Post updated = postService.updatePost(id, request.toPost());
 		List<Tag> tags = tagService.addTags(request.getTags());
-		postTagService.addTagsToPost(updated, tags);
+		postTagService.updateTagsToPost(updated, tags);
 
 		return ResponseEntity.ok(updated.getId());
 	}

@@ -1,7 +1,7 @@
 package com.hobbyt.domain.post.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +21,30 @@ public class PostTagService {
 
 	public void addTagsToPost(Post post, List<Tag> tags) {
 		tags.forEach(
-			tag -> createOrFindIfExist(post, tag));
+			tag -> createPostTag(post, tag));
 	}
 
-	private PostTag createOrFindIfExist(Post post, Tag tag) {
-		Optional<PostTag> found = postTagRepository.findByPostAndTag(post, tag);
+	public void updateTagsToPost(Post post, List<Tag> tags) {
+		Map<Tag, PostTag> map = postTagRepository.getTagPostTagMapByPostId(post.getId());
 
-		return found.orElseGet(
-			() -> PostTag.of(post, tag));
+		for (Tag tag : tags) {
+			if (map.containsKey(tag)) {
+				map.remove(tag);
+				continue;
+			}
+
+			createPostTag(post, tag);
+		}
+
+		removePostTags(map.values());
+	}
+
+	private void createPostTag(Post post, Tag tag) {
+		postTagRepository.save(
+			PostTag.of(post, tag));
+	}
+
+	private void removePostTags(Iterable<PostTag> tags) {
+		postTagRepository.deleteAllInBatch(tags);
 	}
 }

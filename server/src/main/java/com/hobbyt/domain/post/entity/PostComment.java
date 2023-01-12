@@ -27,8 +27,22 @@ public class PostComment extends BaseEntity {
 	private String content;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
-	private Member member;
+	private Member writer;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
+
+	public static PostComment of(Member writer, Post post, String content) {
+		return new PostComment(writer, post, content);
+	}
+
+	private PostComment(Member writer, Post post, String content) {
+		this.post = post;
+		this.writer = writer;
+		this.content = content;
+	}
 }
