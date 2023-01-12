@@ -42,9 +42,11 @@ public class Member extends BaseEntity {
 	private String phoneNumber;
 
 	// 팔로워 수
+	@Column(nullable = false)
 	private int followerCount;
 
 	// 팔로잉 수
+	@Column(nullable = false)
 	private int followingCount;
 
 	@Embedded
@@ -71,7 +73,7 @@ public class Member extends BaseEntity {
 	@Builder
 	public Member(Long id, String nickname, String email, String password, String profileImage, String description,
 		String phoneNumber) {
-		
+
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
@@ -79,6 +81,10 @@ public class Member extends BaseEntity {
 		this.profileImage = profileImage;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
+
+		this.followerCount = 0;
+		this.followingCount = 0;
+		this.views = new Views(0, 0);
 	}
 
 	public void withdraw() {
@@ -133,5 +139,12 @@ public class Member extends BaseEntity {
 
 	public void followingDown() {
 		this.followingCount--;
+	}
+
+	public void updateProfile(String nickname, String description) {
+		this.nickname = nickname == null ? this.nickname : nickname;
+		this.description = description == null ? this.description : description;
+		// TODO 나중에 S3 이미지 저장처리시 profileImage 도 추가
+		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
 	}
 }

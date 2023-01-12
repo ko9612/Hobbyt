@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class Views {
-	@Column(name = "today_views")
-	private int today;
-	@Column(name = "total_views")
-	private int total;
+	@Column(name = "today_views", nullable = false)
+	private int today = 0;
+	@Column(name = "total_views", nullable = false)
+	private int total = 0;
 }

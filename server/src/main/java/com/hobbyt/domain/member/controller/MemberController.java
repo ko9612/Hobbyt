@@ -1,6 +1,7 @@
 package com.hobbyt.domain.member.controller;
 
 import static com.hobbyt.global.security.constants.AuthConstants.*;
+import static org.springframework.http.MediaType.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
@@ -88,5 +92,15 @@ public class MemberController {
 		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getUsername());
 
 		return ResponseEntity.ok(profileResponse);
+	}
+
+	@PatchMapping(value = "/profile", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
+		@RequestPart MultipartFile profileImage,
+		@RequestPart ProfileRequest profileRequest) {
+
+		memberService.updateProfile(memberDetails.getUsername(), profileRequest, profileImage);
+
+		return ResponseEntity.ok().build();
 	}
 }

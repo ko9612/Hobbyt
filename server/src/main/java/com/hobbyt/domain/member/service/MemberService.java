@@ -5,9 +5,11 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Recipient;
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
@@ -106,5 +108,17 @@ public class MemberService {
 		Member member = findMemberByEmail(email);
 
 		return ProfileResponse.of(member);
+	}
+
+	@Transactional
+	public void updateProfile(final String email, final ProfileRequest profileRequest,
+		final MultipartFile profileImage) {
+		Member member = findMemberByEmail(email);
+
+		// S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
+		// S3 내부에서 이미지 null 체크
+		// String path = s3Service.updateImage(member.getProfileImage(), profileImage);
+
+		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription());
 	}
 }
