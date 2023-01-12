@@ -6,6 +6,7 @@ import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Authority;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -93,5 +94,9 @@ public class TestUtil {
 
 	public static UpdatePassword dummyUpdatePassword(String oldPassword, String newPassword, String checkPassword) {
 		return new UpdatePassword(oldPassword, newPassword, checkPassword);
+	}
+
+	public static ProfileResponse dummyProfileResponse(String nickname, String description) {
+		return ProfileResponse.builder().nickname(nickname).description(description).build();
 	}
 }

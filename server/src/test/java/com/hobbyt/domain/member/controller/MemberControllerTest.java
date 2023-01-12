@@ -94,8 +94,6 @@ class MemberControllerTest {
 	void update() throws Exception {
 		UpdateMyInfoRequest updateMyInfoRequest = dummyUpdateMyInfoRequest(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE,
 			STREET, DETAIL, NAME, BANK, ACCOUNT_NUMBER);
-		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
-			NAME, BANK, ACCOUNT_NUMBER);
 
 		ResultActions actions = mockMvc.perform(patch("/api/members/myPage")
 			.contentType(APPLICATION_JSON)
@@ -148,6 +146,19 @@ class MemberControllerTest {
 			.andExpect(jsonPath("$.account.holder").value(NAME))
 			.andExpect(jsonPath("$.account.bank").value(BANK))
 			.andExpect(jsonPath("$.account.number").value(ACCOUNT_NUMBER))
+			.andDo(print());
+	}
+
+	@DisplayName("프로필 조회 api")
+	@Test
+	void get_profile() throws Exception {
+		ResultActions actions = mockMvc.perform(get("/api/members/profile")
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+		);
+
+		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
 }

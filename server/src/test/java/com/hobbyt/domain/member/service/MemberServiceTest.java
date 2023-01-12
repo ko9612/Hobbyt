@@ -21,6 +21,7 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -145,5 +146,18 @@ class MemberServiceTest {
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		assertThat(result).usingRecursiveComparison().isEqualTo(myInfoResponse);
+	}
+
+	@DisplayName("프로필 조회")
+	@Test
+	void get_profile() {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+		ProfileResponse profileResponse = dummyProfileResponse(NICKNAME, DESCRIPTION);
+
+		ProfileResponse result = memberService.getProfile(EMAIL);
+
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(result).usingRecursiveComparison().isEqualTo(profileResponse);
 	}
 }
