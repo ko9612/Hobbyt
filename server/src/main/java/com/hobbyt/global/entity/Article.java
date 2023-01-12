@@ -15,7 +15,23 @@ public abstract class Article extends BaseEntity {
 	@Column
 	private String thumbnailImage;
 	@Column(nullable = false)
-	private long viewCount;
+	private long viewCount = 0;
 	@Column(nullable = false)
-	private long likeCount;
+	private long likeCount = 0;
+
+	public void updateTitle(String title) {
+		this.title = title;
+	}
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
+
+	public void updateLikeCount(int count) {
+		if (likeCount == 0) {
+			return;
+		}
+
+		likeCount += count;
+	}
 }

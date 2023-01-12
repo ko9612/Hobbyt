@@ -1,4 +1,4 @@
-package com.hobbyt.global.entity;
+package com.hobbyt.domain.tag.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,4 +17,12 @@ public class Tag {
 	private Long id;
 	@Column(nullable = false)
 	private String content;
+
+	public static Tag from(String content) {
+		return new Tag(content);
+	}
+
+	private Tag(String content) {
+		this.content = content;
+	}
 }
