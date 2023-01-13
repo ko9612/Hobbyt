@@ -1,8 +1,7 @@
 import tw from "tailwind-styled-components";
+import { DefaultProps } from "./SubmitButton";
 
-export interface DefaultProps {
-  children: string | JSX.Element;
-  id: string;
+export interface ButtonProps extends DefaultProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -12,7 +11,7 @@ focus:bg-SubColor focus:ring focus:ring-MainColor/40 whitespace-nowrap
 disabled:bg-gray-400
 `;
 
-export default function DefalutButton({ children, id, onClick }: DefaultProps) {
+export default function DefalutButton({ children, id, onClick }: ButtonProps) {
   return (
     <DButton type="button" id={id} onClick={onClick}>
       {children}

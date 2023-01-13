@@ -1,42 +1,47 @@
-import { useRecoilState } from "recoil";
 import { BsEnvelopeFill } from "react-icons/bs";
-import { useState, ComponentProps } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { signUpName, signUpEmail, signUpPW } from "../../../state/signupState";
-import { WideB } from "../../Button/SubmitButton";
+// react-hook-form에서 폼 만들기 위한 useForm
+import { useForm } from "react-hook-form";
+import SubmitButton from "../../Button/SubmitButton";
 import { DButton } from "../../Button/DefalutButton";
 import { Input, LoginInput, ErrMsg } from "./SigninForm";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import MsgModal from "../../Modal/MsgModal";
-import { postsignupSubmit, postSignupEmailBut } from "../../../api/signupApi";
+import { postsignupSubmit, postSignupEmailBut } from "../../../api/signApi";
 
-export default function SignupForm() {
+type SignupInputs = {
+  nickname: string;
+  email: string;
+  emailCheck: string;
+  password: string;
+  passwordCheck: string;
+};
+
+export default function ExamsignupFrom() {
   const router = useRouter();
 
-  // input value
-  const [nickname, setNickname] = useRecoilState(signUpName);
-  const [email, setEmail] = useRecoilState(signUpEmail);
-  const [password, setPassword] = useRecoilState(signUpPW);
-  const [rePassword, setRePassword] = useState("");
-  const [emailCheck, setEmailCheck] = useState("");
+  // form을 만들기위한 요소들
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<SignupInputs>();
 
-  // err msg
-  const [nicknameMsg, setNicknameMsg] = useState("");
-  const [emailMsg, setEmailMsg] = useState("");
-  const [passwordMsg, setPasswordMsg] = useState("");
-  const [rePasswordMsg, setRePasswordMsg] = useState("");
-
-  // 유효성 검사
-  const [isNickname, setIsNickname] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isRePassword, setIsRePassword] = useState(false);
+  // 리렌더링 방지
+  const email = useRef<string | null>();
+  email.current = watch("email");
+  const emailCheck = useRef<string | null>();
+  emailCheck.current = watch("emailCheck");
+  const password = useRef<string | null>();
+  password.current = watch("password");
 
   // 이메일 인증코드 전송 및 인증 완료 버튼
   const [isEmailBut, setIsEmailBut] = useState(false);
   const [emailComplete, setEmailComplete] = useState(false);
 
-  // 이메일 인증코드
+  // // 이메일 인증코드
   const [certificationCode, setCertificationCode] = useState("");
 
   const [showModal, setShowModal] = useState(false);
@@ -52,74 +57,18 @@ export default function SignupForm() {
   ];
   const [msg, setMsg] = useState(modalMsg[0]);
 
-  const nicknameHandler: ComponentProps<"input">["onChange"] = e => {
-    setNickname(e.target.value);
-
-    if (e.target.value.length < 2 || e.target.value.length > 6) {
-      setNicknameMsg("닉네임은 2~6글자로 설정할 수 있습니다.");
-      setIsNickname(false);
-    } else {
-      setNicknameMsg("");
-      setIsNickname(true);
-    }
-  };
-
-  const emailHandler: ComponentProps<"input">["onChange"] = e => {
-    setEmail(e.target.value);
-
-    if (!emailRegex.test(e.target.value)) {
-      setEmailMsg("이메일 형식이 올바르지 않습니다");
-      setIsEmail(false);
-    } else {
-      setEmailMsg("");
-      setIsEmail(true);
-    }
-  };
-
-  const emailCheckHandler: ComponentProps<"input">["onChange"] = e => {
-    setEmailCheck(e.target.value);
-  };
-
-  const passwordHandler: ComponentProps<"input">["onChange"] = e => {
-    setPassword(e.target.value);
-
-    if (!passwordRegex.test(e.target.value)) {
-      setPasswordMsg(
-        "8~15자의 영문 대/소문자, 숫자, 특수문자를 혼합해서 사용하실 수 있습니다.",
-      );
-      setIsPassword(false);
-    } else {
-      setPasswordMsg("");
-      setIsPassword(true);
-    }
-  };
-
-  const rePasswordHandler: ComponentProps<"input">["onChange"] = e => {
-    setRePassword(e.target.value);
-
-    if (password !== e.target.value) {
-      setRePasswordMsg("비밀번호가 일치하지 않습니다.");
-      setIsRePassword(false);
-    } else {
-      setIsRePassword(true);
-    }
-  };
-
   // 회원가입 버튼 Handler
-  const handleSubmit: ComponentProps<"button">["onClick"] = async e => {
-    e.preventDefault();
-
+  // 중복 이메일, 중복 닉네임xxx
+  const onSubmit = async (data: SignupInputs) => {
     if (!emailComplete) {
-      setMsg(modalMsg[6]);
+      setMsg(modalMsg[7]);
       setShowModal(true);
     } else {
       const signupData = {
-        nickname,
-        email,
-        password,
+        nickname: data.nickname,
+        email: data.email,
+        password: data.password,
       };
-
-      // 중복 이메일, 중복 닉네임xxx
 
       const signupSubmit = await postsignupSubmit(signupData);
 
@@ -130,7 +79,6 @@ export default function SignupForm() {
           if (!showModal) {
             router.push("/signin");
           }
-          console.log(signupSubmit);
           break;
         default:
       }
@@ -151,21 +99,18 @@ export default function SignupForm() {
   };
 
   // 이메일 인증 버튼 Handler
-  const handleEmailBut: ComponentProps<"button">["onClick"] = async e => {
+  const handleEmailBut = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsEmailBut(true);
     const emailData = {
-      email,
+      email: email.current,
     };
     const emailCheckBut = await postSignupEmailBut(emailData);
-    // console.log((emailCheckBut as any).status);
     switch ((emailCheckBut as any).status) {
       case 201:
         setMsg(modalMsg[1]);
         setShowModal(true);
         setIsEmailBut(true);
         setCertificationCode((emailCheckBut as any).data);
-        console.log(certificationCode);
         break;
       default:
     }
@@ -175,10 +120,12 @@ export default function SignupForm() {
   const handleEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (emailCheck?.length === 0) {
+    const emailCheckNum = watch("emailCheck");
+
+    if (emailCheckNum.length === 0) {
       setMsg(modalMsg[2]);
       setShowModal(true);
-    } else if (emailCheck !== certificationCode) {
+    } else if (emailCheckNum !== certificationCode) {
       setMsg(modalMsg[3]);
       setShowModal(true);
     } else {
@@ -192,18 +139,27 @@ export default function SignupForm() {
   return (
     <>
       {showModal && <MsgModal msg={msg} setOpenModal={setShowModal} />}
-      <form className="mb-10">
+      <form className="mb-10" onSubmit={handleSubmit(onSubmit)}>
         <Input>
           <LoginInput
             type="text"
             id="name"
             placeholder="닉네임"
-            maxLength={6}
-            value={nickname}
-            onChange={nicknameHandler}
             onKeyPress={e => handleEnter(e, "email")}
+            {...register("nickname", {
+              required: true,
+              minLength: 2,
+              maxLength: 6,
+            })}
           />
-          {!isNickname && <ErrMsg>{nicknameMsg}</ErrMsg>}
+          {errors.nickname && errors.nickname.type === "required" && (
+            <ErrMsg>닉네임을 입력해주세요.</ErrMsg>
+          )}
+          {errors.nickname &&
+            (errors.nickname.type === "minLength" ||
+              errors.nickname.type === "maxLength") && (
+              <ErrMsg>닉네임은 2~6글자로 설정할 수 있습니다.</ErrMsg>
+            )}
         </Input>
 
         <Input>
@@ -213,10 +169,14 @@ export default function SignupForm() {
                 type="email"
                 id="email"
                 placeholder="이메일"
-                maxLength={25}
-                value={email}
-                onChange={emailHandler}
                 onKeyDown={e => handleEnter(e, "emailCertificBut")}
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: emailRegex,
+                    message: "이메일 형식이 올바르지 않습니다",
+                  },
+                })}
               />
             </div>
             <div className="ml-2">
@@ -224,13 +184,18 @@ export default function SignupForm() {
                 id="emailCertificBut"
                 onClick={handleEmailBut}
                 onKeyDown={e => handleEnter(e, "emailCertification")}
-                disabled={!isEmail && true}
+                disabled={!emailRegex.test(email.current)}
               >
                 <BsEnvelopeFill size="25px" />
               </DButton>
             </div>
           </div>
-          {email.length > 5 && !isEmail && <ErrMsg>{emailMsg}</ErrMsg>}
+          {errors.email && errors.email.type === "required" && (
+            <ErrMsg>이메일을 입력해주세요.</ErrMsg>
+          )}
+          {errors.email && errors.email.type === "pattern" && (
+            <ErrMsg>{errors.email.message}</ErrMsg>
+          )}
         </Input>
 
         {isEmailBut && (
@@ -241,11 +206,14 @@ export default function SignupForm() {
                   type="text"
                   id="emailCertification"
                   placeholder="인증번호 입력"
-                  maxLength={10}
-                  value={emailCheck}
-                  onChange={emailCheckHandler}
                   onKeyDown={e => handleEnter(e, "confirmBut")}
+                  {...register("emailCheck", {
+                    required: true,
+                  })}
                 />
+                {errors.emailCheck && errors.emailCheck.type === "required" && (
+                  <ErrMsg>인증번호를 입력해주세요.</ErrMsg>
+                )}
               </div>
 
               <div className="ml-2">
@@ -267,37 +235,45 @@ export default function SignupForm() {
               type="password"
               id="password"
               placeholder="비밀번호"
-              maxLength={15}
-              value={password}
-              onChange={passwordHandler}
               onKeyPress={e => handleEnter(e, "passwordConfrim")}
+              {...register("password", {
+                required: true,
+                pattern: {
+                  value: passwordRegex,
+                  message:
+                    "8~15자의 영문 대/소문자, 숫자, 특수문자를 혼합해서 사용하실 수 있습니다.",
+                },
+              })}
             />
-            {!isPassword && <ErrMsg>{passwordMsg}</ErrMsg>}
+            {errors.password && errors.password.type === "required" && (
+              <ErrMsg>비밀번호를 입력해주세요.</ErrMsg>
+            )}
+            {errors.password && errors.password.type === "pattern" && (
+              <ErrMsg>{errors.password.message}</ErrMsg>
+            )}
           </Input>
           <Input>
             <LoginInput
               type="password"
               id="passwordConfrim"
               placeholder="비밀번호 확인"
-              maxLength={15}
-              value={rePassword}
-              onChange={rePasswordHandler}
               onKeyPress={e => handleEnter(e, "signupSubmitBut")}
+              {...register("passwordCheck", {
+                required: true,
+                validate: value => value === password.current,
+              })}
             />
-            {(!isRePassword || password !== rePassword) && (
-              <ErrMsg>{rePasswordMsg}</ErrMsg>
-            )}
+            {errors.passwordCheck &&
+              errors.passwordCheck.type === "required" && (
+                <ErrMsg>비밀번호 확인을 입력해주세요.</ErrMsg>
+              )}
+            {errors.passwordCheck &&
+              errors.passwordCheck.type === "validate" && (
+                <ErrMsg>비밀번호가 일치하지 않습니다.</ErrMsg>
+              )}
           </Input>
         </div>
-        <WideB
-          id="signupSubmitBut"
-          disabled={
-            (!isNickname || !isEmail || !isPassword || !isRePassword) && true
-          }
-          onClick={handleSubmit}
-        >
-          회원가입
-        </WideB>
+        <SubmitButton id="signupSubmitBut">회원가입</SubmitButton>
       </form>
     </>
   );
