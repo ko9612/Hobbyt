@@ -43,7 +43,9 @@ export default function saleWrite() {
           <SendTimeInput />
           <DefalutTag />
           <div className="flex justify-center px-5">
-            <SubmitButton onClick={() => {}}>저장</SubmitButton>
+            <SubmitButton id="salePostSubmit" onClick={() => {}}>
+              저장
+            </SubmitButton>
           </div>
         </BlogContent>
         <UserContent>

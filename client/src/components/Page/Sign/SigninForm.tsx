@@ -1,6 +1,5 @@
 import tw from "tailwind-styled-components";
 import SubmitButton from "../../Button/SubmitButton";
-// import LoginInput from "../Input/LoginInput";
 
 export const Input = tw.div`
   my-6
@@ -9,6 +8,10 @@ export const Input = tw.div`
 export const LoginInput = tw.input`
 w-full px-4 py-2 text-gray-700 placeholder-gray-400
 bg-white border border-slate-300 rounded-lg focus:border-MainColor focus:outline-none focus:ring focus:ring-MainColor/40 duration-200
+`;
+
+export const ErrMsg = tw.p`
+  text-sm text-MainColor p-1
 `;
 
 export default function SigninForm() {
@@ -30,7 +33,9 @@ export default function SigninForm() {
           maxLength={15}
         />
       </Input>
-      <SubmitButton onClick={() => {}}>로그인</SubmitButton>
+      <SubmitButton id="loginSubmitBut" onClick={() => {}}>
+        로그인
+      </SubmitButton>
     </form>
   );
 }

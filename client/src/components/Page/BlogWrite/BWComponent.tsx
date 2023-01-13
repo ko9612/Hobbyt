@@ -39,7 +39,9 @@ export default function BlogWriteComponent() {
       <TitleInput />
       <ToastEditor />
       <DefalutTag />
-      <DefalutButton onClick={() => onSubmitClick()}>저장</DefalutButton>
+      <DefalutButton id="postSubmitBut" onClick={() => onSubmitClick()}>
+        저장
+      </DefalutButton>
     </>
   );
 }
