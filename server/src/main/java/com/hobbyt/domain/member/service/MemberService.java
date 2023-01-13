@@ -117,7 +117,7 @@ public class MemberService {
 		final MultipartFile profileImage, final MultipartFile headerImage) {
 		Member member = findMemberByEmail(email);
 
-		// S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
+		// TODO S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
 		// S3 내부에서 이미지 null 체크
 		// String path = s3Service.updateImage(List.of(member.getProfileImage(), member.getHeaderImage()), List.of(profileImage, headerImage));
 

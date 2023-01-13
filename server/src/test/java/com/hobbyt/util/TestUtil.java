@@ -6,6 +6,7 @@ import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.entity.Views;
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
@@ -29,6 +30,7 @@ public class TestUtil {
 	// Member
 	public static final Long MEMBER_ID = 1L;
 	public static final String NICKNAME = "test";
+	public static final String UPDATE_NICKNAME = "변경후 닉네임";
 	public static final String EMAIL = "test@gmail.com";
 	public static final String PASSWORD = "1234";
 	public static final String NEW_PASSWORD = "12345678";
@@ -38,6 +40,7 @@ public class TestUtil {
 	public static final String PROFILE_IMAGE = "default profile image";
 	public static final String HEADER_IMAGE = "default header image";
 	public static final String DESCRIPTION = "안녕하세요~~~";
+	public static final String UPDATE_DESCRIPTION = "안녕하세요~~~ 변경되었습니다.";
 	public static final String PHONE_NUMBER = "010-1234-5678";
 	public static final String ZIPCODE = "우편번호";
 	public static final String STREET = "도로명 주소";
@@ -123,5 +126,9 @@ public class TestUtil {
 
 	public static ProfileResponse dummyProfileResponse(String nickname, String description) {
 		return ProfileResponse.builder().nickname(nickname).description(description).build();
+	}
+
+	public static ProfileRequest dummyProfileRequest(String nickname, String description) {
+		return new ProfileRequest(nickname, description);
 	}
 }

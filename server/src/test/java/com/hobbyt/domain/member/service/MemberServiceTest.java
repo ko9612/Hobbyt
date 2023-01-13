@@ -5,6 +5,8 @@ import static com.hobbyt.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +17,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
@@ -159,5 +163,25 @@ class MemberServiceTest {
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		assertThat(result).usingRecursiveComparison().isEqualTo(profileResponse);
+	}
+
+	@DisplayName("프로필 변경")
+	@Test
+	void update_profile() throws IOException {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
+		Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
+			PHONE_NUMBER);
+
+		MockMultipartFile headerImage = new MockMultipartFile("profileImage", "apple.png", "image/png",
+			new FileInputStream("src/test/resources/image/apple.png"));
+		MockMultipartFile profileImage = new MockMultipartFile("profileImage", "banana.jpg", "image/jpeg",
+			new FileInputStream("src/test/resources/image/banana.jpg"));
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+		ProfileRequest profileRequest = dummyProfileRequest(UPDATE_NICKNAME, UPDATE_DESCRIPTION);
+
+		memberService.updateProfile(EMAIL, profileRequest, profileImage, headerImage);
+
+		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(member).usingRecursiveComparison().isEqualTo(updateMember);
 	}
 }

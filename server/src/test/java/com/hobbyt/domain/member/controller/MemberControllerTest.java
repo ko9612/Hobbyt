@@ -8,6 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -173,6 +178,31 @@ class MemberControllerTest {
 			.andExpect(jsonPath("$.followingCount").value(FOLLOWING_COUNT))
 			.andExpect(jsonPath("$.views.today").value(TODAY_VIEWS))
 			.andExpect(jsonPath("$.views.total").value(TOTAL_VIEWS))
+			.andDo(print());
+	}
+
+	@DisplayName("프로필 변경 api")
+	@Test
+	void update_profile() throws Exception {
+
+		MockMultipartFile headerImage = new MockMultipartFile("profileImage", "apple.png", "image/png",
+			new FileInputStream("src/test/resources/image/apple.png"));
+		MockMultipartFile profileImage = new MockMultipartFile("profileImage", "banana.jpg", "image/jpeg",
+			new FileInputStream("src/test/resources/image/banana.jpg"));
+
+		String profileRequest = objectMapper.writeValueAsString(dummyProfileRequest(NICKNAME, DESCRIPTION));
+		MockMultipartFile profileRequestFile = new MockMultipartFile("profileRequest", "profileRequest",
+			"application/json", profileRequest.getBytes(StandardCharsets.UTF_8));
+
+		ResultActions actions = mockMvc.perform(multipart(HttpMethod.PATCH, "/api/members/profile")
+			.file(headerImage).file(profileImage).file(profileRequestFile)
+			.contentType(MULTIPART_FORM_DATA)
+			.contentType(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+		);
+
+		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
 }
