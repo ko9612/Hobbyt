@@ -1,6 +1,10 @@
 package com.hobbyt.util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
+
+import org.springframework.mock.web.MockMultipartFile;
 
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
@@ -130,5 +134,15 @@ public class TestUtil {
 
 	public static ProfileRequest dummyProfileRequest(String nickname, String description) {
 		return new ProfileRequest(nickname, description);
+	}
+
+	public static MockMultipartFile dummyProfileImage() throws IOException {
+		return new MockMultipartFile("profileImage", "apple.png", "image/png",
+			new FileInputStream("src/test/resources/image/apple.png"));
+	}
+
+	public static MockMultipartFile dummyHeaderImage() throws IOException {
+		return new MockMultipartFile("headerImage", "banana.jpg", "image/jpeg",
+			new FileInputStream("src/test/resources/image/banana.jpg"));
 	}
 }

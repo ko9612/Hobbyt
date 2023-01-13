@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -185,10 +184,8 @@ class MemberControllerTest {
 	@Test
 	void update_profile() throws Exception {
 
-		MockMultipartFile headerImage = new MockMultipartFile("profileImage", "apple.png", "image/png",
-			new FileInputStream("src/test/resources/image/apple.png"));
-		MockMultipartFile profileImage = new MockMultipartFile("profileImage", "banana.jpg", "image/jpeg",
-			new FileInputStream("src/test/resources/image/banana.jpg"));
+		MockMultipartFile headerImage = dummyHeaderImage();
+		MockMultipartFile profileImage = dummyProfileImage();
 
 		String profileRequest = objectMapper.writeValueAsString(dummyProfileRequest(NICKNAME, DESCRIPTION));
 		MockMultipartFile profileRequestFile = new MockMultipartFile("profileRequest", "profileRequest",

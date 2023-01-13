@@ -5,7 +5,6 @@ import static com.hobbyt.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -172,10 +171,8 @@ class MemberServiceTest {
 		Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
 			PHONE_NUMBER);
 
-		MockMultipartFile headerImage = new MockMultipartFile("profileImage", "apple.png", "image/png",
-			new FileInputStream("src/test/resources/image/apple.png"));
-		MockMultipartFile profileImage = new MockMultipartFile("profileImage", "banana.jpg", "image/jpeg",
-			new FileInputStream("src/test/resources/image/banana.jpg"));
+		MockMultipartFile headerImage = dummyHeaderImage();
+		MockMultipartFile profileImage = dummyProfileImage();
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 		ProfileRequest profileRequest = dummyProfileRequest(UPDATE_NICKNAME, UPDATE_DESCRIPTION);
 
