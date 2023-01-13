@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -24,10 +23,9 @@ import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.AuthenticationCode;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.member.MemberDetails;
 
-@SpringBootTest(classes = TestMemberDetailService.class)
 @AutoConfigureMockMvc
+@SpringBootTest(classes = TestMemberDetailService.class)
 class AuthControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -47,7 +45,7 @@ class AuthControllerTest {
 		//given
 		String code = AuthenticationCode.createCode().getCode();
 		EmailRequest emailRequest = new EmailRequest(EMAIL);
-		given(authService.sendAuthenticationCodeEmail(emailRequest)).willReturn(code);
+		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(code);
 
 		//when
 		ResultActions actions = mockMvc.perform(
@@ -59,6 +57,8 @@ class AuthControllerTest {
 
 		//then
 		actions.andExpect(status().isCreated())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().string(code))
 			.andDo(print());
 	}
 
@@ -79,6 +79,8 @@ class AuthControllerTest {
 
 		//then
 		actions.andExpect(status().isOk())
+			.andExpect(header().string(AUTH_HEADER, TOKEN_TYPE + " " + REISSUED_ACCESS_TOKEN))
+			.andExpect(header().string(REFRESH_TOKEN_HEADER, REISSUED_REFRESH_TOKEN))
 			.andDo(print());
 	}
 
@@ -86,31 +88,12 @@ class AuthControllerTest {
 	@Test
 	void logout() throws Exception {
 		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
 
 		ResultActions actions = mockMvc.perform(
 			post("/api/auth/logout")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
-				.header(REFRESH_TOKEN_HEADER, refreshToken)
-		);
-
-		actions.andExpect(status().isOk())
-			.andDo(print());
-	}
-
-	@DisplayName("회원 탈퇴 api")
-	@WithMockUser(username = EMAIL, password = PASSWORD)
-	@Test
-	void withdraw() throws Exception {
-		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
-
-		ResultActions actions = mockMvc.perform(post("/api/auth/withdrawal")
-			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON)
-			.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
 		);
 
 		actions.andExpect(status().isOk())

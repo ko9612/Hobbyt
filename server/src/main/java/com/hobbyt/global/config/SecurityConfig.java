@@ -65,9 +65,9 @@ public class SecurityConfig {
 			.and()
 
 			.authorizeRequests()
-			.antMatchers("/api/auth/**", "/api/members/signup").permitAll()
+			// .antMatchers("/api/members/signup").permitAll()
 			.antMatchers("/api/**").permitAll()
-			.antMatchers("/api/healthcheck", "/api/auth/**", "/api/members/signup").permitAll()
+			// .antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue" ,"/api/members/signup").permitAll()
 			.anyRequest().authenticated();
 
 		return http.build();
@@ -111,7 +111,7 @@ public class SecurityConfig {
 			JwtVerificationFilter jwtVerificationFilter =
 				new JwtVerificationFilter(jwtTokenProvider, userDetailsService, redisService);
 
-			jwtAuthenticationFilter.setFilterProcessesUrl("/api/members/login");
+			jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
 
 			// 로그인 처리 필터(JwtAuthenticationFilter) -> 로그인 상태인지 검증하는 필터(JwtVerificationFilter)
 			// 만약 Authorization 헤더 값이 없거나 access token 이 없으면 JwtVerificationFilter 를 건너뛴다

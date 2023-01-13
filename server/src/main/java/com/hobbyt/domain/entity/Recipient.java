@@ -2,10 +2,10 @@ package com.hobbyt.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +13,15 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-@EqualsAndHashCode
-public class Address {    // TODO Recipient 로 이름 변경?
-	private String zipcode;
-	@Column(name = "street_address")
-	private String street;
-	@Column(name = "detail_address")
-	private String detail;
+public class Recipient {
+	// 수령자명
+	@Column(name = "recipient_name")
+	private String name;
+
+	// 수령자 연락처
+	@Column(name = "recipient_phone_number")
+	private String phoneNumber;
+
+	@Embedded
+	private Address address;
 }

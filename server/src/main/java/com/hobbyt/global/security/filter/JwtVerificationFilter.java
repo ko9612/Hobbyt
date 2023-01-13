@@ -3,7 +3,6 @@ package com.hobbyt.global.security.filter;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,14 +37,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 		try {
 			String accessToken = request.getHeader(AUTH_HEADER).substring(7);
-			// Map<String, Object> claims = jwtTokenProvider.getClaims(refreshToken).getBody();
-			Map<String, Object> claims = jwtTokenProvider.getClaims(accessToken).getBody();
+			String email = jwtTokenProvider.parseEmail(accessToken);
 
 			if (redisService.isBlackList(accessToken)) {
 				throw new TokenNotValidException();
 			}
 
-			setAuthenticationToSecurityContext(claims);
+			setAuthenticationToSecurityContext(email);
 
 		} catch (Exception e) {
 			log.error("[exceptionHandler] ex", e);
@@ -56,8 +54,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	private void setAuthenticationToSecurityContext(Map<String, Object> claims) {
-		String email = (String)claims.get(JwtTokenProvider.CLAIM_EMAIL);
+	private void setAuthenticationToSecurityContext(final String email) {
 		MemberDetails memberDetails = (MemberDetails)userDetailsService.loadUserByUsername(email);
 		Authentication authentication =
 			new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
@@ -66,7 +63,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String authorization = request.getHeader(AUTH_HEADER);
 
 		return authorization == null || !authorization.startsWith(TOKEN_TYPE);
