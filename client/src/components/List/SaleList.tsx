@@ -1,7 +1,8 @@
 import tw from "tailwind-styled-components";
 import { BsCalendar4 } from "react-icons/bs";
+import Link from "next/link";
 import LikeCount from "../ViewLikeWrite/LikeCount";
-import BlogSaleInfo from "../UserHome/BlogSaleInfo";
+import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 
 export const SLContainer = tw.div`m-auto`;
@@ -28,11 +29,13 @@ export default function SaleList() {
             <ThreeDotsBox>작품</ThreeDotsBox>
           </SLImage>
           <SLProductInfo>
-            <p className="">작품 이름</p>
-            <div className="flex">
-              <BsCalendar4 />
-              <p>22.12.14 ~ 22.12.16</p>
-            </div>
+            <Link href="/saledetail">
+              <p className="">작품 이름</p>
+              <div className="flex">
+                <BsCalendar4 />
+                <p>22.12.14 ~ 22.12.16</p>
+              </div>
+            </Link>
             <div className="float-right">
               <LikeCount />
             </div>

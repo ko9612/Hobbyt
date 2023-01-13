@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import UserProfileImage from "../../UserHome/DefaultProfileImg";
+import UserProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
 export default function CommentList() {
   const Container = tw.div`

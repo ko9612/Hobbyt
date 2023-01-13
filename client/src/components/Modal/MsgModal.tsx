@@ -7,7 +7,7 @@ export interface ModalProps {
 }
 
 export const ModalContainer = tw.div`
-   h-full w-full
+fixed inset-0 z-30 h-full w-full
 `;
 
 export const ModalBackdrop = tw.div`

@@ -1,7 +1,7 @@
 import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { FaBlogger } from "react-icons/fa";
-import DefaultProfileImg from "../UserHome/DefaultProfileImg";
+import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 export const LogoutMenus = [
   {

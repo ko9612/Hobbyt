@@ -2,11 +2,11 @@ import tw from "tailwind-styled-components";
 import { BsHeart } from "react-icons/bs";
 
 interface ILike {
-  children: number;
+  children: number | string;
 }
 
 export default function LikeCount({ children }: ILike) {
-  const LComponent = tw.div`flex`;
+  const LComponent = tw.div`flex items-center`;
 
   return (
     <LComponent>

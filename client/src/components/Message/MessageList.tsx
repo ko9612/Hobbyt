@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { useState } from "react";
-import DefaultProfileImg from "../UserHome/DefaultProfileImg";
+import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 import DefaultMessage from "./DefaultMessage";
 import ChatRoom from "./ChatRoom";
 
