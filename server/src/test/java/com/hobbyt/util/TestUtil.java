@@ -1,8 +1,11 @@
 package com.hobbyt.util;
 
+import java.time.LocalDateTime;
+
 import com.hobbyt.domain.entity.Account;
 import com.hobbyt.domain.entity.Address;
 import com.hobbyt.domain.entity.Recipient;
+import com.hobbyt.domain.entity.Views;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
@@ -32,15 +35,21 @@ public class TestUtil {
 	public static final String ENCODED_PASSWORD = "{bcrypt}$2a$10$r3VAdb9nKwIUZ.1CYMO8D.iZjzqFE69mVP./xuNRMtvmxPH.KGyTO";
 	public static final Authority USER_AUTHORITY = Authority.ROLE_USER;
 	public static final Authority ADMIN_AUTHORITY = Authority.ROLE_ADMIN;
-	public static final String PROFILE_IMAGE = "default image";
+	public static final String PROFILE_IMAGE = "default profile image";
+	public static final String HEADER_IMAGE = "default header image";
 	public static final String DESCRIPTION = "안녕하세요~~~";
 	public static final String PHONE_NUMBER = "010-1234-5678";
 	public static final String ZIPCODE = "우편번호";
 	public static final String STREET = "도로명 주소";
 	public static final String DETAIL = "상세주소";
-	public static final String BANK = "OO은행";
+	public static final String BANK = "OO 은행";
 	public static final String ACCOUNT_NUMBER = "000-000000-00-000";
 	public static final String NAME = "홍길동";
+	public static final LocalDateTime CREATED_AT = LocalDateTime.of(2023, 1, 13, 12, 10, 39);
+	public static int FOLLOWER_COUNT = 0;
+	public static int FOLLOWING_COUNT = 0;
+	public static int TODAY_VIEWS = 0;
+	public static int TOTAL_VIEWS = 0;
 
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
 		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
@@ -94,6 +103,22 @@ public class TestUtil {
 
 	public static UpdatePassword dummyUpdatePassword(String oldPassword, String newPassword, String checkPassword) {
 		return new UpdatePassword(oldPassword, newPassword, checkPassword);
+	}
+
+	public static ProfileResponse dummyProfileResponse(String headerImage, String profileImage, String nickname,
+		LocalDateTime createdAt, String description, int followerCount, int followingCount, int today_views,
+		int total_views) {
+
+		return ProfileResponse.builder()
+			.headerImage(headerImage)
+			.profileImage(profileImage)
+			.nickname(nickname)
+			.createdAt(createdAt)
+			.description(description)
+			.followerCount(followerCount)
+			.followingCount(followingCount)
+			.views(new Views(today_views, total_views))
+			.build();
 	}
 
 	public static ProfileResponse dummyProfileResponse(String nickname, String description) {

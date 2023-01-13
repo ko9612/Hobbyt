@@ -96,10 +96,11 @@ public class MemberController {
 
 	@PatchMapping(value = "/profile", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestPart MultipartFile profileImage,
-		@RequestPart ProfileRequest profileRequest) {
+		@RequestPart(required = false) MultipartFile profileImage,
+		@RequestPart(required = false) MultipartFile headerImage,
+		ProfileRequest profileRequest) {
 
-		memberService.updateProfile(memberDetails.getUsername(), profileRequest, profileImage);
+		memberService.updateProfile(memberDetails.getUsername(), profileRequest, profileImage, headerImage);
 
 		return ResponseEntity.ok().build();
 	}

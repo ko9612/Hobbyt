@@ -37,8 +37,10 @@ public class MemberService {
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {
 		checkUserExist(signupRequest.getEmail());
-		String profileImage = "S3 default image";    // S3의 기본 프로필 이미지
-		Member member = signupRequest.toEntity(passwordEncoder, profileImage);
+		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
+		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
+		// 기본 이미지 저장 s3Service 이용해서 이미지 저장
+		Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
 
 		return memberRepository.save(member).getId();
 	}
@@ -112,12 +114,12 @@ public class MemberService {
 
 	@Transactional
 	public void updateProfile(final String email, final ProfileRequest profileRequest,
-		final MultipartFile profileImage) {
+		final MultipartFile profileImage, final MultipartFile headerImage) {
 		Member member = findMemberByEmail(email);
 
 		// S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
 		// S3 내부에서 이미지 null 체크
-		// String path = s3Service.updateImage(member.getProfileImage(), profileImage);
+		// String path = s3Service.updateImage(List.of(member.getProfileImage(), member.getHeaderImage()), List.of(profileImage, headerImage));
 
 		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription());
 	}

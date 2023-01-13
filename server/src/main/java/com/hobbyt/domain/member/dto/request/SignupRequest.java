@@ -25,12 +25,13 @@ public class SignupRequest {
 	@NotBlank(message = "비밀번호를 입력해주세요.")
 	private String password;
 
-	public Member toEntity(PasswordEncoder passwordEncoder, String profileImage) {
+	public Member toEntity(PasswordEncoder passwordEncoder, String profileImage, String headerImage) {
 		return Member.builder()
 			.nickname(nickname)
 			.email(email)
 			.password(passwordEncoder.encode(password))
 			.profileImage(profileImage)
+			.headerImage(headerImage)
 			.build();
 	}
 }

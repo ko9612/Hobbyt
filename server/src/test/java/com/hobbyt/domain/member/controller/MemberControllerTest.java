@@ -25,6 +25,7 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -152,6 +153,10 @@ class MemberControllerTest {
 	@DisplayName("프로필 조회 api")
 	@Test
 	void get_profile() throws Exception {
+		ProfileResponse profileResponse = dummyProfileResponse(HEADER_IMAGE, PROFILE_IMAGE, NICKNAME, CREATED_AT,
+			DESCRIPTION, FOLLOWER_COUNT, FOLLOWING_COUNT, TODAY_VIEWS, TOTAL_VIEWS);
+		given(memberService.getProfile(EMAIL)).willReturn(profileResponse);
+
 		ResultActions actions = mockMvc.perform(get("/api/members/profile")
 			.contentType(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
@@ -159,6 +164,15 @@ class MemberControllerTest {
 		);
 
 		actions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.headerImage").value(HEADER_IMAGE))
+			.andExpect(jsonPath("$.profileImage").value(PROFILE_IMAGE))
+			.andExpect(jsonPath("$.nickname").value(NICKNAME))
+			.andExpect(jsonPath("$.createdAt").value(CREATED_AT.toString()))
+			.andExpect(jsonPath("$.description").value(DESCRIPTION))
+			.andExpect(jsonPath("$.followerCount").value(FOLLOWER_COUNT))
+			.andExpect(jsonPath("$.followingCount").value(FOLLOWING_COUNT))
+			.andExpect(jsonPath("$.views.today").value(TODAY_VIEWS))
+			.andExpect(jsonPath("$.views.total").value(TOTAL_VIEWS))
 			.andDo(print());
 	}
 }

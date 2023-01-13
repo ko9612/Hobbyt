@@ -37,6 +37,7 @@ public class Member extends BaseEntity {
 	private String password;
 
 	private String profileImage;
+	private String headerImage;
 	private String description;
 
 	private String phoneNumber;
@@ -71,14 +72,15 @@ public class Member extends BaseEntity {
 	private boolean dmReceive = true;    // DM 수신여부
 
 	@Builder
-	public Member(Long id, String nickname, String email, String password, String profileImage, String description,
-		String phoneNumber) {
+	public Member(Long id, String nickname, String email, String password, String profileImage, String headerImage,
+		String description, String phoneNumber) {
 
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
 		this.profileImage = profileImage;
+		this.headerImage = headerImage;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
 

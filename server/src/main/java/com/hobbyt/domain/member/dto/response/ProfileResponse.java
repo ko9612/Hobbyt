@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProfileResponse {
+	private String headerImage;
 	private String profileImage;
 	private String nickname;
 	private LocalDateTime createdAt;
@@ -36,9 +37,10 @@ public class ProfileResponse {
 	}
 
 	@Builder
-	private ProfileResponse(String profileImage, String nickname, LocalDateTime createdAt, String description,
-		int followerCount, int followingCount, Views views) {
+	private ProfileResponse(String headerImage, String profileImage, String nickname, LocalDateTime createdAt,
+		String description, int followerCount, int followingCount, Views views) {
 
+		this.headerImage = headerImage;
 		this.profileImage = profileImage;
 		this.nickname = nickname;
 		this.createdAt = createdAt;
@@ -50,6 +52,7 @@ public class ProfileResponse {
 
 	public static ProfileResponse of(Member member) {
 		return ProfileResponse.builder()
+			.headerImage(member.getHeaderImage())
 			.profileImage(member.getProfileImage())
 			.nickname(member.getNickname())
 			.createdAt(member.getCreatedAt())
