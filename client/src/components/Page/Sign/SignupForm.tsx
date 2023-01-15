@@ -18,7 +18,7 @@ type SignupInputs = {
   passwordCheck: string;
 };
 
-export default function ExamsignupFrom() {
+export default function SignupForm() {
   const router = useRouter();
 
   // form을 만들기위한 요소들
@@ -38,13 +38,13 @@ export default function ExamsignupFrom() {
   password.current = watch("password");
 
   // 이메일 인증코드 전송 및 인증 완료 버튼
-  const [isEmailBut, setIsEmailBut] = useState(false);
-  const [emailComplete, setEmailComplete] = useState(false);
+  const [isEmailBut, setIsEmailBut] = useState<boolean>(false);
+  const [emailComplete, setEmailComplete] = useState<boolean>(false);
 
   // // 이메일 인증코드
-  const [certificationCode, setCertificationCode] = useState("");
+  const [certificationCode, setCertificationCode] = useState<string>("");
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const modalMsg = [
     "회원가입이 완료되었습니다.", //
     "이메일로 인증번호가 전송되었습니다.", //
@@ -55,7 +55,7 @@ export default function ExamsignupFrom() {
     "중복되는 닉네임 입니다.",
     "이메일을 인증해주세요.", //
   ];
-  const [msg, setMsg] = useState(modalMsg[0]);
+  const [msg, setMsg] = useState<string>(modalMsg[0]);
 
   // 회원가입 버튼 Handler
   // 중복 이메일, 중복 닉네임xxx

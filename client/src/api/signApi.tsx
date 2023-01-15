@@ -24,3 +24,28 @@ export const postSignupEmailBut = async (data: any) => {
     return ErrorHandler(err);
   }
 };
+
+export const postSignin = async (data: any) => {
+  try {
+    const signinUserData = await axios.post(
+      "http://localhost:8080/api/auth/login",
+      data,
+    );
+    return signinUserData;
+  } catch (err: unknown) {
+    console.log(err.response);
+    return ErrorHandler(err);
+  }
+};
+
+export const postReToken = async (data: any) => {
+  try {
+    const tokenData = await axios.post(
+      "http://localhost:8080/api/auth/reissue",
+      data,
+    );
+    return tokenData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
