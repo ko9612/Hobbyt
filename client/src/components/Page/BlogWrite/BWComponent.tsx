@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import TitleInput from "../../ToastUI/TitleInput";
 import DefalutTag from "../../Tag/DefalutTag";
-import DefalutButton from "../../Button/DefalutButton";
+import { DefalutButton } from "../../Button/DefalutButton";
 import TitleState from "../../../state/Blog/TitleState";
 import ContentState from "../../../state/Blog/ContentState";
 import { postBlogContent } from "../../../api/blogApi";

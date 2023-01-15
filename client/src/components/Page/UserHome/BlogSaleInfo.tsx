@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import FilterButton from "../../Button/FilterButton";
-import DefalutButton from "../../Button/DefalutButton";
+import { DefalutButton } from "../../Button/DefalutButton";
 
 interface IProps {
   children: string;
@@ -23,6 +23,7 @@ export default function BlogSaleInfo({ children }: IProps) {
     <div className="flex items-center justify-between mt-2">
       <FilterButton />
       <DefalutButton
+        id=""
         onClick={e => {
           onClickHandler(e);
         }}

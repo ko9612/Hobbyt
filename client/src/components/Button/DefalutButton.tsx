@@ -11,7 +11,7 @@ focus:bg-SubColor focus:ring focus:ring-MainColor/40 whitespace-nowrap
 disabled:bg-gray-400
 `;
 
-export default function DefalutButton({ children, id, onClick }: ButtonProps) {
+export function DefalutButton({ children, id, onClick }: ButtonProps) {
   return (
     <DButton type="button" id={id} onClick={onClick}>
       {children}
