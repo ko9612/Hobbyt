@@ -59,11 +59,14 @@ public class TestUtil {
 	public static int TOTAL_VIEWS = 0;
 
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
-		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
+		return Member.builder().id(id).nickname(nickname).email(email).password(password)
+			.profileImage(PROFILE_IMAGE)
+			.headerImage(HEADER_IMAGE)
+			.build();
 	}
 
-	public static Member dummyMember(Long id, String nickname, String email, String password, String description,
-		String phoneNumber) {
+	public static Member dummyMember(Long id, String nickname, String email, String password,
+		String description, String phoneNumber) {
 
 		return Member.builder()
 			.id(id)

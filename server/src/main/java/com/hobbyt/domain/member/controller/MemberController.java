@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +25,9 @@ import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.ProfileResponse;
+import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.global.security.member.MemberDetails;
+import com.hobbyt.global.annotation.AuthMember;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,59 +48,62 @@ public class MemberController {
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
 		Long id = memberService.createUser(signupRequest);
+
 		return new ResponseEntity(id, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/myPage/delete")
-	public ResponseEntity withdraw(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request,
+	public ResponseEntity withdraw(@AuthMember Member loginMember, HttpServletRequest request,
 		HttpServletResponse response) {
 
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
 
-		memberService.withdraw(accessToken, memberDetails.getUsername());
+		memberService.withdraw(accessToken, loginMember.getId());
 
-		return new ResponseEntity(HttpStatus.OK);
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage")
-	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
+	public ResponseEntity update(@AuthMember Member loginMember,
+		@Validated @RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		memberService.updateMyInfo(memberDetails.getUsername(), updateMyInfoRequest);
+		memberService.updateMyInfo(loginMember.getId(), updateMyInfoRequest);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage/password")
-	public ResponseEntity updatePassword(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody UpdatePassword updatePassword) {
+	public ResponseEntity updatePassword(@AuthMember Member loginMember,
+		@Validated @RequestBody UpdatePassword updatePassword) {
 
-		memberService.updatePassword(memberDetails.getUsername(), updatePassword);
+		memberService.updatePassword(loginMember.getId(), updatePassword);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/myPage/info")
-	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
-		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getUsername());
+	public ResponseEntity myInfoDetails(@AuthMember Member loginMember) {
+		// MyInfoResponse myInfoResponse = MyInfoResponse.of(loginMember);
+		MyInfoResponse myInfoResponse = memberService.getMyInfo(loginMember);
 
 		return ResponseEntity.ok(myInfoResponse);
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity getProfile(@AuthenticationPrincipal MemberDetails memberDetails) {
-		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getUsername());
-
+	public ResponseEntity getProfile(@AuthMember Member loginMember) {
+		// ProfileResponse profileResponse = ProfileResponse.of(loginMember);
+		ProfileResponse profileResponse = memberService.getProfile(loginMember);
+		
 		return ResponseEntity.ok(profileResponse);
 	}
 
 	@PatchMapping(value = "/profile", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
+	public ResponseEntity updateProfile(@AuthMember Member loginMember,
 		@RequestPart(required = false) MultipartFile profileImage,
 		@RequestPart(required = false) MultipartFile headerImage,
-		ProfileRequest profileRequest) {
+		@Validated ProfileRequest profileRequest) {
 
-		memberService.updateProfile(memberDetails.getUsername(), profileRequest, profileImage, headerImage);
+		memberService.updateProfile(loginMember.getId(), profileRequest, profileImage, headerImage);
 
 		return ResponseEntity.ok().build();
 	}

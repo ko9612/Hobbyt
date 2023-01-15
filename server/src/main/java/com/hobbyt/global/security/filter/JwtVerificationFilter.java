@@ -36,6 +36,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		try {
+			String authHeader = request.getHeader(AUTH_HEADER);
+
+			if (authHeaderIsInvalid(authHeader)) {
+				filterChain.doFilter(request, response);
+				return;
+			}
+
 			String accessToken = request.getHeader(AUTH_HEADER).substring(7);
 			String email = jwtTokenProvider.parseEmail(accessToken);
 
@@ -54,6 +61,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
+	private boolean authHeaderIsInvalid(String authHeader) {
+		return authHeader == null || !authHeader.startsWith(TOKEN_TYPE);
+	}
+
 	private void setAuthenticationToSecurityContext(final String email) {
 		MemberDetails memberDetails = (MemberDetails)userDetailsService.loadUserByUsername(email);
 		Authentication authentication =
@@ -62,11 +73,11 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
-	@Override
+	/*@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String authorization = request.getHeader(AUTH_HEADER);
 
 		return authorization == null || !authorization.startsWith(TOKEN_TYPE);
-	}
+	}*/
 
 }

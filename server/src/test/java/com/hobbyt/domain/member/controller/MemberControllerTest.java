@@ -30,6 +30,7 @@ import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.ProfileResponse;
+import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -128,11 +129,12 @@ class MemberControllerTest {
 	}
 
 	@DisplayName("내 정보 관리의 내용 조회 api")
+	@WithMockUser(username = EMAIL)
 	@Test
 	void get_my_info_Details() throws Exception {
 		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
 			NAME, BANK, ACCOUNT_NUMBER);
-		given(memberService.getMyInfo(anyString())).willReturn(myInfoResponse);
+		given(memberService.getMyInfo(any(Member.class))).willReturn(myInfoResponse);
 
 		ResultActions actions = mockMvc.perform(get("/api/members/myPage/info")
 			.contentType(APPLICATION_JSON)
@@ -155,11 +157,12 @@ class MemberControllerTest {
 	}
 
 	@DisplayName("프로필 조회 api")
+	@WithMockUser(username = EMAIL)
 	@Test
 	void get_profile() throws Exception {
 		ProfileResponse profileResponse = dummyProfileResponse(HEADER_IMAGE, PROFILE_IMAGE, NICKNAME, CREATED_AT,
 			DESCRIPTION, FOLLOWER_COUNT, FOLLOWING_COUNT, TODAY_VIEWS, TOTAL_VIEWS);
-		given(memberService.getProfile(EMAIL)).willReturn(profileResponse);
+		given(memberService.getProfile(any(Member.class))).willReturn(profileResponse);
 
 		ResultActions actions = mockMvc.perform(get("/api/members/profile")
 			.contentType(APPLICATION_JSON)
