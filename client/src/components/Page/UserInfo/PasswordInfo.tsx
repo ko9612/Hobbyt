@@ -7,12 +7,12 @@ import {
   Input,
   InputLabel,
 } from "./InfoStyle";
-import DefalutButton from "../../Button/DefalutButton";
+import { DefalutButton } from "../../Button/DefalutButton";
 
 export default function PasswordInfo() {
   return (
     <InfoSection>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <InfoTitle>비밀번호 설정</InfoTitle>
         <p className="text-sm text-gray-500">
           ※ 비밀번호는 8~15자의 영문 대/소문자, 숫자, 특수문자를 혼합해서
@@ -39,7 +39,9 @@ export default function PasswordInfo() {
           </InputDiv>
         </EditList>
         <div className="flex justify-end">
-          <DefalutButton onClick={() => {}}>비밀번호 변경</DefalutButton>
+          <DefalutButton id="" onClick={() => {}}>
+            비밀번호 변경
+          </DefalutButton>
         </div>
       </InfoContent>
     </InfoSection>

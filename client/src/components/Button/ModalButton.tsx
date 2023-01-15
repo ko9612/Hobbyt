@@ -1,11 +1,11 @@
 import tw from "tailwind-styled-components";
-import { DefaultProps } from "./DefalutButton";
+import { ButtonProps } from "./DefalutButton";
 
 const ModalB = tw.button`
 w-full px-4 py-3 text-white duration-100 bg-MainColor hover:bg-SubColor
  focus:bg-SubColor`;
 
-export default function ModalButton({ children, onClick }: DefaultProps) {
+export default function ModalButton({ children, onClick }: ButtonProps) {
   return (
     <ModalB
       className={`${

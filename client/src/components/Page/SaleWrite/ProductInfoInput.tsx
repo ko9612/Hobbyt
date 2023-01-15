@@ -13,7 +13,7 @@ import {
   PostInput,
   SubLabel,
 } from "./PostWriteStyle";
-import DefalutButton from "../../Button/DefalutButton";
+import { DefalutButton } from "../../Button/DefalutButton";
 // import PostInput from "../Input/PostInput";
 
 const InfoContent = tw.div`
@@ -75,7 +75,7 @@ export default function ProductInfoInput() {
               <ImgBox>
                 <label
                   htmlFor="itemImg"
-                  className="text-MainColor cursor-pointer"
+                  className="cursor-pointer text-MainColor"
                 >
                   <RiImageAddFill size="4rem" className="hover:text-SubColor" />
                   <input
@@ -88,7 +88,7 @@ export default function ProductInfoInput() {
                 </label>
               </ImgBox>
               <TextInfo>
-                <SubLabel className="px-5 w-3/5">
+                <SubLabel className="w-3/5 px-5">
                   <PostInput
                     type="text"
                     id="pdName"
@@ -133,7 +133,7 @@ export default function ProductInfoInput() {
             </InfoContent>
             {products.length - 1 === index && products.length <= 10 && (
               <span className="text-center">
-                <DefalutButton onClick={handleProductAdd}>
+                <DefalutButton id="" onClick={handleProductAdd}>
                   제품정보 추가
                 </DefalutButton>
               </span>

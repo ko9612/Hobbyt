@@ -9,7 +9,7 @@ import {
   InputLabel,
   SubLabel,
 } from "./InfoStyle";
-import DefalutButton from "../../Button/DefalutButton";
+import { DefalutButton } from "../../Button/DefalutButton";
 
 const contactNumRegex = /^[-?\d+]{0,11}$/;
 
@@ -47,7 +47,9 @@ export default function AddressInfo() {
           <InputDiv>
             <Input type="text" id="zipCode" maxLength={5} />
             <div className="pl-2">
-              <DefalutButton onClick={() => {}}>우편번호 찾기</DefalutButton>
+              <DefalutButton id="" onClick={() => {}}>
+                우편번호 찾기
+              </DefalutButton>
             </div>
           </InputDiv>
         </EditList>
