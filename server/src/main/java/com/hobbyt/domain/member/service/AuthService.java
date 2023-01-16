@@ -86,4 +86,8 @@ public class AuthService {
 			redisService.setValue(accessToken, BLACK_LIST, expiration);
 		}
 	}
+
+	/*public void login(LoginRequest loginRequest) {
+
+	}*/
 }

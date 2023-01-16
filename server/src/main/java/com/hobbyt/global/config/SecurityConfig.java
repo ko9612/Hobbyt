@@ -20,7 +20,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.hobbyt.global.error.filter.ExceptionHandlerFilter;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
 import com.hobbyt.global.security.filter.JwtVerificationFilter;
@@ -43,7 +42,7 @@ public class SecurityConfig {
 			web.ignoring()
 				//.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
 				.antMatchers(
-					"/api-document/**", "/api/auth/reissue"
+					"/api-document/**"
 				);
 		};
 		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 컨트롤러 test시 에러 발생(MemberDetailsService의 MemberNotExistException)
@@ -112,19 +111,11 @@ public class SecurityConfig {
 				new JwtVerificationFilter(jwtTokenProvider, userDetailsService, redisService);
 
 			jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
+			jwtAuthenticationFilter.setPostOnly(true);
 
-			// 로그인 처리 필터(JwtAuthenticationFilter) -> 로그인 상태인지 검증하는 필터(JwtVerificationFilter)
-			// 만약 Authorization 헤더 값이 없거나 access token 이 없으면 JwtVerificationFilter 를 건너뛴다
-
-			// 로그인의 경우 JwtAuthenticationFilter 로 필터가 이 부분에서 끊김 >> 이 클래스의 메서드에 doFilter 가 없다
-			// success(successfulAuthentication 메소드) 인지 unsuccess(unsuccessfulAuthentication 메소드) 인지에 따라 결과만 나올뿐
 			builder
 				.addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtAuthenticationFilter, JwtVerificationFilter.class)
-				.addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
-
-				/*.addFilter(jwtAuthenticationFilter)
-				.addFilterAfter(jwtVerificationFilter, jwtAuthenticationFilter.class);*/
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		}
 	}
 }

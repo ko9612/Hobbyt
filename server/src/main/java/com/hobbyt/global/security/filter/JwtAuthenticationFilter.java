@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.global.error.exception.InputNotFoundException;
-import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -34,36 +32,32 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
 
+	// TODO catch 처리로 response.sendError
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 		throws AuthenticationException {
 
-		LoginRequest loginRequest = getLoginRequest(request);
-
-		validateAlreadyLoggedIn(loginRequest);
-
-		UsernamePasswordAuthenticationToken authenticationToken =
-			new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-
-		setDetails(request, authenticationToken);
-		return authenticationManager.authenticate(authenticationToken);
-	}
-
-	private void validateAlreadyLoggedIn(LoginRequest loginRequest) {
-		if (redisService.getValue(loginRequest.getEmail()) != null) {
-			throw new MemberAlreadyLoggedInException();
-		}
-	}
-
-	private LoginRequest getLoginRequest(HttpServletRequest request) {
-		ObjectMapper objectMapper = new ObjectMapper();
-		LoginRequest loginRequest;
+		Authentication authenticate = null;
 		try {
-			loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
-		} catch (IOException e) {
+			LoginRequest loginRequest = getLoginRequest(request);
+
+			UsernamePasswordAuthenticationToken authenticationToken =
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+
+			setDetails(request, authenticationToken);
+			authenticate = authenticationManager.authenticate(authenticationToken);
+		} catch (Exception e) {
 			log.error("[exceptionHandler] ex", e);
-			throw new InputNotFoundException();
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
+
+		return authenticate;
+	}
+
+	private LoginRequest getLoginRequest(HttpServletRequest request) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+
 		return loginRequest;
 	}
 

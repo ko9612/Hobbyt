@@ -31,6 +31,14 @@ public class AuthController {
 		return new ResponseEntity(code, HttpStatus.CREATED);
 	}
 
+	/*@PostMapping("/login")
+	public ResponseEntity login(@Validated @RequestBody LoginRequest loginRequest) {
+
+		authService.login(loginRequest);
+
+		return ResponseEntity.ok().build();
+	}*/
+
 	@PostMapping("/reissue")
 	public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);

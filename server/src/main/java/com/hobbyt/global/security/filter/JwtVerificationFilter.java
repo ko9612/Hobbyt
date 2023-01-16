@@ -4,6 +4,7 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.io.IOException;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.hobbyt.global.error.exception.TokenNotValidException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -47,18 +47,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 			String email = jwtTokenProvider.parseEmail(accessToken);
 
 			if (redisService.isBlackList(accessToken)) {
-				throw new TokenNotValidException();
+				throw new AuthenticationException();
 			}
 
 			setAuthenticationToSecurityContext(email);
-
+			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			log.error("[exceptionHandler] ex", e);
-			// TODO 예외처리 고민, authenticationEntryPoint, accessDeniedHandler 파악
-			throw new TokenNotValidException();
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 
-		filterChain.doFilter(request, response);
+		// filterChain.doFilter(request, response);
 	}
 
 	private boolean authHeaderIsInvalid(String authHeader) {
