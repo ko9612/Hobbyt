@@ -21,7 +21,6 @@ public class AuthenticationCode {
 	public static AuthenticationCode createCode() {
 		StringBuffer code = new StringBuffer();
 		assemble(code);
-		// 인증코드 검증 로직 필요?
 		return new AuthenticationCode(code.toString());
 	}
 

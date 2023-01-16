@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.hobbyt.domain.member.dto.TokenDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
-import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -48,18 +48,20 @@ class AuthServiceTest {
 	@InjectMocks
 	private AuthService authService;
 
+	// TODO AuthenticationCode 의 static 메서드 처리 방법 고민
 	@DisplayName("인증코드 메일 전송")
 	@Test
 	void sendAuthenticationCodeEmail() {
 		//given
 		EmailRequest emailRequest = new EmailRequest(EMAIL);
+		NotificationEmail notificationEmail = NotificationEmail.of(EMAIL, TITLE, CONTENT);
+		given(mailContentBuilder.createAuthCodeMail(anyString(), anyString())).willReturn(notificationEmail);
 
 		//when
 		authService.sendAuthenticationCodeEmail(emailRequest);
 
 		//then
 		then(mailService).should(times(1)).sendMail(any(NotificationEmail.class));
-		then(mailContentBuilder).should(times(1)).build(anyString(), anyMap());
 	}
 
 	@DisplayName("access token 재발급")

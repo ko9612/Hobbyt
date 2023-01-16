@@ -18,10 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hobbyt.domain.member.dto.TokenDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
-import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.service.AuthService;
-import com.hobbyt.domain.member.service.AuthenticationCode;
+import com.hobbyt.domain.member.service.MailContentBuilder;
+import com.hobbyt.domain.member.service.MailService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
@@ -37,6 +38,12 @@ class AuthControllerTest {
 	@MockBean
 	private AuthService authService;
 
+	@MockBean
+	private MailContentBuilder mailContentBuilder;
+
+	@MockBean
+	private MailService mailService;
+
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
@@ -44,9 +51,11 @@ class AuthControllerTest {
 	@Test
 	void mail_confirm() throws Exception {
 		//given
-		String code = AuthenticationCode.createCode().getCode();
+		/*EmailRequest emailRequest = new EmailRequest(EMAIL);
+		NotificationEmail notificationEmail = NotificationEmail.of(EMAIL, TITLE, CONTENT);
+		given(mailContentBuilder.createAuthCodeMail(CODE, EMAIL)).willReturn(notificationEmail);*/
 		EmailRequest emailRequest = new EmailRequest(EMAIL);
-		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(code);
+		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(CODE);
 
 		//when
 		ResultActions actions = mockMvc.perform(
@@ -59,7 +68,7 @@ class AuthControllerTest {
 		//then
 		actions.andExpect(status().isCreated())
 			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(content().string(code))
+			.andExpect(content().string(CODE))
 			.andDo(print());
 	}
 

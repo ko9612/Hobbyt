@@ -58,6 +58,11 @@ public class TestUtil {
 	public static int TODAY_VIEWS = 0;
 	public static int TOTAL_VIEWS = 0;
 
+	// mail
+	public static final String TITLE = "Hobbyt 인증 코드";
+	public static final String CONTENT = "인증코드 메일 내용";
+	public static final String CODE = "A1Zqt9B1";
+
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
 		return Member.builder().id(id).nickname(nickname).email(email).password(password)
 			.profileImage(PROFILE_IMAGE)

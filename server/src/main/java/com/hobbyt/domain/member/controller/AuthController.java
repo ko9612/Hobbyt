@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.member.dto.TokenDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
-import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.service.AuthService;
+import com.hobbyt.domain.member.service.MailContentBuilder;
+import com.hobbyt.domain.member.service.MailService;
 import com.hobbyt.global.security.dto.LoginRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -25,10 +27,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
+	private final MailContentBuilder mailContentBuilder;
+	private final MailService mailService;
 
 	@PostMapping("/code")
 	public ResponseEntity mailConfirm(@Validated @RequestBody EmailRequest emailRequest) {
 		String code = authService.sendAuthenticationCodeEmail(emailRequest);
+		// String code = AuthenticationCode.createCode().getCode();
+		// NotificationEmail notificationEmail = mailContentBuilder.createAuthCodeMail(code, emailRequest.getEmail());
+		// mailService.sendMail(notificationEmail);
 
 		return new ResponseEntity(code, HttpStatus.CREATED);
 	}
