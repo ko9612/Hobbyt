@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.post.service.PostLikeService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,17 +21,17 @@ public class PostLikeController {
 	private PostLikeService postLikeService;
 
 	@PostMapping
-	public ResponseEntity<Void> likePost(@AuthenticationPrincipal Member member,
-		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.createPostLike(member, postId);
+	public ResponseEntity<Void> likePost(
+		@AuthenticationPrincipal String loginEmail, @Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.createPostLike(loginEmail, postId);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> cancelLike(@AuthenticationPrincipal Member member,
-		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.deletePostLike(member, postId);
+	public ResponseEntity<Void> cancelLike(
+		@AuthenticationPrincipal String loginEmail, @Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.deletePostLike(loginEmail, postId);
 
 		return ResponseEntity.ok().build();
 	}

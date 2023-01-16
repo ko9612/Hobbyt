@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.service.PostCommentService;
 
@@ -29,9 +28,9 @@ public class PostCommentController {
 	private final PostCommentService postCommentService;
 
 	@PostMapping
-	public ResponseEntity<Long> postComment(@AuthenticationPrincipal Member loginMember,
-		@Valid @RequestBody PostCommentRequest request) {
-		Long createdId = postCommentService.createPostComment(loginMember, request);
+	public ResponseEntity<Long> postComment(
+		@AuthenticationPrincipal String loginEmail, @Valid @RequestBody PostCommentRequest request) {
+		Long createdId = postCommentService.createPostComment(loginEmail, request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdId);
 	}

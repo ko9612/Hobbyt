@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.entity.PostComment;
@@ -19,9 +20,11 @@ import lombok.RequiredArgsConstructor;
 public class PostCommentService {
 	private final PostCommentRepository postCommentRepository;
 	private final PostService postService;
+	private final MemberService memberService;
 
-	public Long createPostComment(Member writer, PostCommentRequest request) {
+	public Long createPostComment(String email, PostCommentRequest request) {
 		Post post = postService.findVerifiedOneById(request.getPostId());
+		Member writer = memberService.findMemberByEmail(email);
 		PostComment comment = PostComment.of(writer, post, request.getContent());
 
 		return postCommentRepository.save(comment).getId();
