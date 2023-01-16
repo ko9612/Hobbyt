@@ -70,7 +70,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updateMyInfo(String email, UpdateMyInfoRequest updateMyInfoRequest) {
+	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
 		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();
@@ -80,14 +80,18 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updatePassword(String email, UpdatePassword updatePassword) {
+	public void updatePassword(final String email, final UpdatePassword updatePassword) {
 		Member member = findMemberByEmail(email);
 
+		checkUpdatePassword(updatePassword);
+
+		member.updatePassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+	}
+
+	private void checkUpdatePassword(UpdatePassword updatePassword) {
 		if (isOldPasswordEqualsNewPassword(updatePassword) || !isNewPasswordEqualsCheckPassword(updatePassword)) {
 			throw new PasswordException();
 		}
-
-		member.updatePassword(passwordEncoder.encode(updatePassword.getNewPassword()));
 	}
 
 	private boolean isOldPasswordEqualsNewPassword(UpdatePassword updatePassword) {
@@ -98,23 +102,22 @@ public class MemberService {
 		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}
 
+	// TODO 단순히 Member -> DTO 로 변환해주는 메소드인데 굳이 Service 내부에서 할필요가?
 	public MyInfoResponse getMyInfo(final String email) {
 		Member member = findMemberByEmail(email);
 
-		MyInfoResponse myInfoResponse = MyInfoResponse.of(member);
-
-		return myInfoResponse;
+		return MyInfoResponse.of(member);
 	}
 
 	public ProfileResponse getProfile(final String email) {
 		Member member = findMemberByEmail(email);
-
 		return ProfileResponse.of(member);
 	}
 
 	@Transactional
 	public void updateProfile(final String email, final ProfileRequest profileRequest,
 		final MultipartFile profileImage, final MultipartFile headerImage) {
+
 		Member member = findMemberByEmail(email);
 
 		// TODO S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경

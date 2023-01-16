@@ -14,7 +14,7 @@ public class TestMemberDetailService {
 	@Bean
 	@Primary
 	public UserDetailsService userDetailsService() {
-		MemberDetails memberDetails = dummyMemberDetails(1L, NICKNAME, EMAIL, PASSWORD);
+		MemberDetails memberDetails = dummyMemberDetails(EMAIL, USER_AUTHORITY.toString());
 
 		return username -> memberDetails;
 	}

@@ -10,22 +10,26 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.hobbyt.domain.member.entity.Authority;
-import com.hobbyt.global.error.exception.TokenNotValidException;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -93,7 +97,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createAccessToken(String email, Authority authority) {
+	public String createAccessToken(String email, String authority) {
 		Map<String, Object> claims = createClaims(email, authority);
 		Date expiration = getTokenExpiration(accessTokenExpirationMinutes);
 
@@ -102,10 +106,10 @@ public class JwtTokenProvider {
 		return accessToken;
 	}
 
-	private Map<String, Object> createClaims(String email, Authority authority) {
+	private Map<String, Object> createClaims(String email, String authority) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_EMAIL, email);
-		claims.put(CLAIM_AUTHORITY, authority.toString());
+		claims.put(CLAIM_AUTHORITY, authority);
 
 		return claims;
 	}
@@ -131,21 +135,42 @@ public class JwtTokenProvider {
 		return refreshToken;
 	}
 
+	public UserDetails parseToken(String jws) {
+		Claims body = getClaims(jws).getBody();
+
+		String email = body.getSubject();
+		String authority = body.get(CLAIM_AUTHORITY, String.class);
+
+		return new MemberDetails(email, authority);
+	}
+
 	public Jws<Claims> getClaims(String jws) {
 		Key key = getKeyFromBase64EncodedKey(secretKey);
 
-		try {
-			Jws<Claims> claimsJws = Jwts.parserBuilder()
-				.setSigningKey(key)
-				.build()
-				.parseClaimsJws(jws);
-			return claimsJws;
-		} catch (JwtException e) {
-			throw new TokenNotValidException();
-		}
+		Jws<Claims> claimsJws = Jwts.parserBuilder()
+			.setSigningKey(key)
+			.build()
+			.parseClaimsJws(jws);
+		return claimsJws;
 	}
 
 	public String parseEmail(String jws) {
 		return getClaims(jws).getBody().getSubject();
+	}
+
+	public boolean validate(String accessToken) {
+		try {
+			getClaims(accessToken);
+			return true;
+		} catch (SecurityException | MalformedJwtException e) {
+			log.error("잘못된 Jwt 서명입니다.");
+		} catch (ExpiredJwtException e) {
+			log.error("만료된 Jwt 토큰입니다.");
+		} catch (UnsupportedJwtException e) {
+			log.error("지원하지 않는 Jwt 토큰입니다.");
+		} catch (IllegalArgumentException e) {
+			log.error("잘못된 Jwt 토큰입니다.");
+		}
+		return false;
 	}
 }

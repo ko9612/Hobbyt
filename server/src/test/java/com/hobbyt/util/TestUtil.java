@@ -58,12 +58,20 @@ public class TestUtil {
 	public static int TODAY_VIEWS = 0;
 	public static int TOTAL_VIEWS = 0;
 
+	// mail
+	public static final String TITLE = "Hobbyt 인증 코드";
+	public static final String CONTENT = "인증코드 메일 내용";
+	public static final String CODE = "A1Zqt9B1";
+
 	public static Member dummyMember(Long id, String nickname, String email, String password) {
-		return Member.builder().id(id).nickname(nickname).email(email).password(password).build();
+		return Member.builder().id(id).nickname(nickname).email(email).password(password)
+			.profileImage(PROFILE_IMAGE)
+			.headerImage(HEADER_IMAGE)
+			.build();
 	}
 
-	public static Member dummyMember(Long id, String nickname, String email, String password, String description,
-		String phoneNumber) {
+	public static Member dummyMember(Long id, String nickname, String email, String password,
+		String description, String phoneNumber) {
 
 		return Member.builder()
 			.id(id)
@@ -75,8 +83,8 @@ public class TestUtil {
 			.build();
 	}
 
-	public static MemberDetails dummyMemberDetails(Long id, String nickname, String email, String password) {
-		return MemberDetails.of(dummyMember(id, nickname, email, password));
+	public static MemberDetails dummyMemberDetails(String email, String authority) {
+		return new MemberDetails(email, authority);
 	}
 
 	public static UpdateMyInfoRequest dummyUpdateMyInfoRequest(String phoneNumber, String recipientName,

@@ -48,6 +48,7 @@ public class MemberController {
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
 		Long id = memberService.createUser(signupRequest);
+
 		return new ResponseEntity(id, HttpStatus.CREATED);
 	}
 
@@ -57,39 +58,41 @@ public class MemberController {
 
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
 
-		memberService.withdraw(accessToken, memberDetails.getUsername());
+		memberService.withdraw(accessToken, memberDetails.getEmail());
 
-		return new ResponseEntity(HttpStatus.OK);
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage")
 	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
+		@Validated @RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		memberService.updateMyInfo(memberDetails.getUsername(), updateMyInfoRequest);
+		memberService.updateMyInfo(memberDetails.getEmail(), updateMyInfoRequest);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage/password")
 	public ResponseEntity updatePassword(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody UpdatePassword updatePassword) {
+		@Validated @RequestBody UpdatePassword updatePassword) {
 
-		memberService.updatePassword(memberDetails.getUsername(), updatePassword);
+		memberService.updatePassword(memberDetails.getEmail(), updatePassword);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/myPage/info")
 	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
-		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getUsername());
+		// MyInfoResponse myInfoResponse = MyInfoResponse.of(loginMember);
+		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getEmail());
 
 		return ResponseEntity.ok(myInfoResponse);
 	}
 
 	@GetMapping("/profile")
 	public ResponseEntity getProfile(@AuthenticationPrincipal MemberDetails memberDetails) {
-		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getUsername());
+		// ProfileResponse profileResponse = ProfileResponse.of(loginMember);
+		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getEmail());
 
 		return ResponseEntity.ok(profileResponse);
 	}
@@ -98,9 +101,9 @@ public class MemberController {
 	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestPart(required = false) MultipartFile profileImage,
 		@RequestPart(required = false) MultipartFile headerImage,
-		ProfileRequest profileRequest) {
+		@Validated ProfileRequest profileRequest) {
 
-		memberService.updateProfile(memberDetails.getUsername(), profileRequest, profileImage, headerImage);
+		memberService.updateProfile(memberDetails.getEmail(), profileRequest, profileImage, headerImage);
 
 		return ResponseEntity.ok().build();
 	}

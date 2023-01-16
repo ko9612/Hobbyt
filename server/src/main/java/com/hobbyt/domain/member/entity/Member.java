@@ -52,7 +52,6 @@ public class Member extends BaseEntity {
 
 	@Embedded
 	private Recipient recipient;
-	// private Address address;
 
 	@Embedded
 	private Account account;

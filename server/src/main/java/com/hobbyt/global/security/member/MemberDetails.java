@@ -7,34 +7,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.hobbyt.domain.member.entity.Member;
-
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class MemberDetails implements UserDetails {
-	private final Member member;
+	private final String email;
+	// private final String password;
+	private final String authority;
 
-	public static MemberDetails of(Member member) {
-		return new MemberDetails(member);
-	}
+	// private final Member member;
+
+	// public static MemberDetails of(Member member) {
+	// 	return new MemberDetails(member);
+	// }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singletonList(new SimpleGrantedAuthority(member.getAuthority().toString()));
+		return Collections.singletonList(new SimpleGrantedAuthority(authority.toString()));
 	}
 
 	@Override
 	public String getPassword() {
-		return member.getPassword();
+		return null;
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getEmail();
+		return email;
 	}
 
 	@Override

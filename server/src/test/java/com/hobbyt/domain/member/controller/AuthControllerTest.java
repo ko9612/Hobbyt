@@ -18,14 +18,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobbyt.config.TestMemberDetailService;
+import com.hobbyt.domain.member.dto.TokenDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
-import com.hobbyt.domain.member.service.AuthenticationCode;
+import com.hobbyt.domain.member.service.MailContentBuilder;
+import com.hobbyt.domain.member.service.MailService;
+import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 @AutoConfigureMockMvc
-@SpringBootTest(classes = TestMemberDetailService.class)
+@SpringBootTest
 class AuthControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -36,6 +38,12 @@ class AuthControllerTest {
 	@MockBean
 	private AuthService authService;
 
+	@MockBean
+	private MailContentBuilder mailContentBuilder;
+
+	@MockBean
+	private MailService mailService;
+
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
@@ -43,9 +51,11 @@ class AuthControllerTest {
 	@Test
 	void mail_confirm() throws Exception {
 		//given
-		String code = AuthenticationCode.createCode().getCode();
+		/*EmailRequest emailRequest = new EmailRequest(EMAIL);
+		NotificationEmail notificationEmail = NotificationEmail.of(EMAIL, TITLE, CONTENT);
+		given(mailContentBuilder.createAuthCodeMail(CODE, EMAIL)).willReturn(notificationEmail);*/
 		EmailRequest emailRequest = new EmailRequest(EMAIL);
-		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(code);
+		given(authService.sendAuthenticationCodeEmail(any(EmailRequest.class))).willReturn(CODE);
 
 		//when
 		ResultActions actions = mockMvc.perform(
@@ -58,7 +68,7 @@ class AuthControllerTest {
 		//then
 		actions.andExpect(status().isCreated())
 			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(content().string(code))
+			.andExpect(content().string(CODE))
 			.andDo(print());
 	}
 
@@ -66,28 +76,51 @@ class AuthControllerTest {
 	@Test
 	void reissue() throws Exception {
 		//given
-		given(authService.reissueAccessToken(anyString(), anyString())).willReturn(REISSUED_ACCESS_TOKEN);
-		given(authService.reissueRefreshToken(anyString())).willReturn(REISSUED_REFRESH_TOKEN);
+		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
+		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
+		String reissuedAccessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
+		String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
+		given(authService.reissueAccessToken(anyString(), anyString())).willReturn(reissuedAccessToken);
+		given(authService.reissueRefreshToken(anyString())).willReturn(reissuedRefreshToken);
 		//when
 		ResultActions actions = mockMvc.perform(
 			post("/api/auth/reissue")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.header(AUTH_HEADER, TOKEN_TYPE + " " + ACCESS_TOKEN)
-				.header(REFRESH_TOKEN_HEADER, REFRESH_TOKEN)
+				.header(AUTH_HEADER, TOKEN_TYPE + " " + accessToken)
+				.header(REFRESH_TOKEN_HEADER, refreshToken)
 		);
 
 		//then
 		actions.andExpect(status().isOk())
-			.andExpect(header().string(AUTH_HEADER, TOKEN_TYPE + " " + REISSUED_ACCESS_TOKEN))
-			.andExpect(header().string(REFRESH_TOKEN_HEADER, REISSUED_REFRESH_TOKEN))
+			.andExpect(header().string(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken))
+			.andExpect(header().string(REFRESH_TOKEN_HEADER, reissuedRefreshToken))
+			.andDo(print());
+	}
+
+	@DisplayName("로그인 api")
+	@Test
+	void login() throws Exception {
+		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
+		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
+		TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
+		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
+		given(authService.login(any(LoginRequest.class))).willReturn(tokenDto);
+
+		ResultActions actions = mockMvc.perform(post("/api/auth/login")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(loginRequest))
+			.accept(MediaType.APPLICATION_JSON)
+		);
+
+		actions.andExpect(status().isOk())
 			.andDo(print());
 	}
 
 	@DisplayName("로그아웃 api")
 	@Test
 	void logout() throws Exception {
-		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
+		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
 
 		ResultActions actions = mockMvc.perform(
 			post("/api/auth/logout")

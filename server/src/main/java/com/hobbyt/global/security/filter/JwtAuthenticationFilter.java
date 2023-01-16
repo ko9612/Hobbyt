@@ -4,90 +4,75 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.io.IOException;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.global.error.exception.InputNotFoundException;
-import com.hobbyt.global.error.exception.MemberAlreadyLoggedInException;
 import com.hobbyt.global.redis.RedisService;
-import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	private final AuthenticationManager authenticationManager;
-	private final RedisService redisService;
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
 	private final JwtTokenProvider jwtTokenProvider;
+	private final RedisService redisService;
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-		throws AuthenticationException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+		FilterChain filterChain) throws ServletException, IOException {
 
-		LoginRequest loginRequest = getLoginRequest(request);
-
-		validateAlreadyLoggedIn(loginRequest);
-
-		UsernamePasswordAuthenticationToken authenticationToken =
-			new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-
-		setDetails(request, authenticationToken);
-		return authenticationManager.authenticate(authenticationToken);
-	}
-
-	private void validateAlreadyLoggedIn(LoginRequest loginRequest) {
-		if (redisService.getValue(loginRequest.getEmail()) != null) {
-			throw new MemberAlreadyLoggedInException();
-		}
-	}
-
-	private LoginRequest getLoginRequest(HttpServletRequest request) {
-		ObjectMapper objectMapper = new ObjectMapper();
-		LoginRequest loginRequest;
 		try {
-			loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
-		} catch (IOException e) {
+			String authHeader = request.getHeader(AUTH_HEADER);
+
+			if (authHeaderIsInvalid(authHeader)) {
+				filterChain.doFilter(request, response);
+				return;
+			}
+
+			String accessToken = resolveToken(request);
+
+			checkTokenIsBlackList(accessToken);
+
+			setAuthenticationToSecurityContext(accessToken);
+			filterChain.doFilter(request, response);
+		} catch (Exception e) {
 			log.error("[exceptionHandler] ex", e);
-			throw new InputNotFoundException();
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
-		return loginRequest;
+
+		// filterChain.doFilter(request, response);
 	}
 
-	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-		Authentication authentication) throws ServletException, IOException {
-
-		MemberDetails memberDetails = (MemberDetails)authentication.getPrincipal();
-		Member member = memberDetails.getMember();
-		String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
-		String refreshToken = jwtTokenProvider.createRefreshToken(member.getEmail());
-
-		saveRefreshToken(member, refreshToken);
-
-		setHeader(response, accessToken, refreshToken);
+	private void checkTokenIsBlackList(String accessToken) throws AuthenticationException {
+		if (redisService.isBlackList(accessToken)) {
+			throw new AuthenticationException();
+		}
 	}
 
-	private void setHeader(HttpServletResponse response, String accessToken, String refreshToken) {
-		response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + accessToken);
-		response.addHeader(REFRESH_TOKEN_HEADER, refreshToken);
+	private String resolveToken(HttpServletRequest request) {
+		return request.getHeader(AUTH_HEADER).substring(7);
 	}
 
-	private void saveRefreshToken(Member member, String refreshToken) {
-		redisService.setValue(member.getEmail(), refreshToken,
-			jwtTokenProvider.calculateExpiration(refreshToken));
+	private boolean authHeaderIsInvalid(String authHeader) {
+		return authHeader == null || !authHeader.startsWith(TOKEN_TYPE);
+	}
+
+	private void setAuthenticationToSecurityContext(final String accessToken) {
+		UserDetails userDetails = jwtTokenProvider.parseToken(accessToken);
+		UsernamePasswordAuthenticationToken authentication =
+			new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 }

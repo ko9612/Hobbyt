@@ -54,8 +54,8 @@ class MemberControllerTest {
 
 	@BeforeEach
 	void setup() {
-		accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY);
-		memberDetails = dummyMemberDetails(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
+		accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
+		memberDetails = dummyMemberDetails(EMAIL, USER_AUTHORITY.toString());
 	}
 
 	@DisplayName("정상 회원가입 api")
@@ -76,7 +76,7 @@ class MemberControllerTest {
 		//then
 		actions.andExpect(status().isCreated())
 			.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-			.andExpect(content().string("1"))
+			.andExpect(content().string(String.valueOf(MEMBER_ID)))
 			.andDo(print());
 	}
 
@@ -128,6 +128,7 @@ class MemberControllerTest {
 	}
 
 	@DisplayName("내 정보 관리의 내용 조회 api")
+	@WithMockUser(username = EMAIL)
 	@Test
 	void get_my_info_Details() throws Exception {
 		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER, NAME, PHONE_NUMBER, ZIPCODE, STREET, DETAIL,
@@ -155,11 +156,12 @@ class MemberControllerTest {
 	}
 
 	@DisplayName("프로필 조회 api")
+	@WithMockUser(username = EMAIL)
 	@Test
 	void get_profile() throws Exception {
 		ProfileResponse profileResponse = dummyProfileResponse(HEADER_IMAGE, PROFILE_IMAGE, NICKNAME, CREATED_AT,
 			DESCRIPTION, FOLLOWER_COUNT, FOLLOWING_COUNT, TODAY_VIEWS, TOTAL_VIEWS);
-		given(memberService.getProfile(EMAIL)).willReturn(profileResponse);
+		given(memberService.getProfile(anyString())).willReturn(profileResponse);
 
 		ResultActions actions = mockMvc.perform(get("/api/members/profile")
 			.contentType(APPLICATION_JSON)

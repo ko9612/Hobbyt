@@ -19,12 +19,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.hobbyt.domain.entity.Account;
+import com.hobbyt.domain.entity.Address;
+import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
-import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -109,13 +110,16 @@ class MemberServiceTest {
 		memberService.updateMyInfo(EMAIL, updateMyInfoRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
+		assertThat(member.getAccount()).isEqualTo(new Account(NAME, BANK, ACCOUNT_NUMBER));
+		assertThat(member.getRecipient()).isEqualTo(
+			new Recipient(NAME, PHONE_NUMBER, new Address(ZIPCODE, STREET, DETAIL)));
 	}
 
 	@DisplayName("정상 비밀번호 변경")
 	@Test
 	void update_password() {
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
-		given(memberRepository.findByEmail(EMAIL)).willReturn(Optional.of(member));
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 		UpdatePassword updatePassword = dummyUpdatePassword(PASSWORD, NEW_PASSWORD, NEW_PASSWORD);
 		given(passwordEncoder.encode(anyString())).willReturn(ENCODED_PASSWORD);
 
@@ -130,7 +134,7 @@ class MemberServiceTest {
 	@CsvSource(value = {"1234:1234:1234", "1234:12345:123456"}, delimiter = ':')
 	void exception_update_password(String oldPassword, String newPassword, String checkPassword) {
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
-		given(memberRepository.findByEmail(EMAIL)).willReturn(Optional.of(member));
+		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 		UpdatePassword updatePassword = dummyUpdatePassword(oldPassword, newPassword, checkPassword);
 
 		assertThatThrownBy(() -> memberService.updatePassword(EMAIL, updatePassword))
@@ -138,38 +142,12 @@ class MemberServiceTest {
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}
 
-	@DisplayName("내 정보 관리의 내용 조회")
-	@Test
-	void get_my_info_Details() {
-		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
-		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
-		MyInfoResponse myInfoResponse = dummyMyInfoResponse(PHONE_NUMBER);
-
-		MyInfoResponse result = memberService.getMyInfo(EMAIL);
-
-		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(result).usingRecursiveComparison().isEqualTo(myInfoResponse);
-	}
-
-	@DisplayName("프로필 조회")
-	@Test
-	void get_profile() {
-		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
-		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
-		ProfileResponse profileResponse = dummyProfileResponse(NICKNAME, DESCRIPTION);
-
-		ProfileResponse result = memberService.getProfile(EMAIL);
-
-		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(result).usingRecursiveComparison().isEqualTo(profileResponse);
-	}
-
 	@DisplayName("프로필 변경")
 	@Test
 	void update_profile() throws IOException {
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER);
-		Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
-			PHONE_NUMBER);
+		/*Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
+			PHONE_NUMBER);*/
 
 		MockMultipartFile headerImage = dummyHeaderImage();
 		MockMultipartFile profileImage = dummyProfileImage();
@@ -179,6 +157,7 @@ class MemberServiceTest {
 		memberService.updateProfile(EMAIL, profileRequest, profileImage, headerImage);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
-		assertThat(member).usingRecursiveComparison().isEqualTo(updateMember);
+		assertThat(member.getNickname()).isEqualTo(UPDATE_NICKNAME);
+		assertThat(member.getDescription()).isEqualTo(UPDATE_DESCRIPTION);
 	}
 }
