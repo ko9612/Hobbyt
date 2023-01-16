@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.service.AuthService;
+import com.hobbyt.global.security.dto.LoginRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,13 +33,15 @@ public class AuthController {
 		return new ResponseEntity(code, HttpStatus.CREATED);
 	}
 
-	/*@PostMapping("/login")
-	public ResponseEntity login(@Validated @RequestBody LoginRequest loginRequest) {
+	@PostMapping("/login")
+	public ResponseEntity login(@Validated @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
-		authService.login(loginRequest);
+		TokenDto tokenDto = authService.login(loginRequest);
 
+		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + tokenDto.getAccessToken());
+		response.setHeader(REFRESH_TOKEN_HEADER, tokenDto.getRefreshToken());
 		return ResponseEntity.ok().build();
-	}*/
+	}
 
 	@PostMapping("/reissue")
 	public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {

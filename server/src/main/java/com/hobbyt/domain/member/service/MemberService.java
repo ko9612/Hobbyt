@@ -52,17 +52,17 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void withdraw(final String accessToken, final Long id) {
+	public void withdraw(final String accessToken, final String email) {
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
-		String email = jwtTokenProvider.parseEmail(accessToken);
-
+		// String email = jwtTokenProvider.parseEmail(accessToken);
+		
 		redisService.deleteValue(email);
 
 		if (expiration > 0) {
 			redisService.setValue(accessToken, BLACK_LIST, expiration);
 		}
 
-		Member member = findMemberById(id);
+		Member member = findMemberByEmail(email);
 		member.withdraw();
 	}
 
@@ -75,8 +75,9 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updateMyInfo(final Long id, final UpdateMyInfoRequest updateMyInfoRequest) {
-		Member member = findMemberById(id);
+	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
+		// Member member = findMemberById(id);
+		Member member = findMemberByEmail(email);
 
 		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();
 		Account account = updateMyInfoRequest.getAccount().toEntity();
@@ -85,8 +86,8 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updatePassword(final Long id, final UpdatePassword updatePassword) {
-		Member member = findMemberById(id);
+	public void updatePassword(final String email, final UpdatePassword updatePassword) {
+		Member member = findMemberByEmail(email);
 
 		checkUpdatePassword(updatePassword);
 
@@ -108,21 +109,22 @@ public class MemberService {
 	}
 
 	// TODO 단순히 Member -> DTO 로 변환해주는 메소드인데 굳이 Service 내부에서 할필요가?
-	public MyInfoResponse getMyInfo(final Member member) {
+	public MyInfoResponse getMyInfo(final String email) {
+		Member member = findMemberByEmail(email);
 
 		return MyInfoResponse.of(member);
 	}
 
-	public ProfileResponse getProfile(final Member member) {
-
+	public ProfileResponse getProfile(final String email) {
+		Member member = findMemberByEmail(email);
 		return ProfileResponse.of(member);
 	}
 
 	@Transactional
-	public void updateProfile(final Long id, final ProfileRequest profileRequest,
+	public void updateProfile(final String email, final ProfileRequest profileRequest,
 		final MultipartFile profileImage, final MultipartFile headerImage) {
 
-		Member member = findMemberById(id);
+		Member member = findMemberByEmail(email);
 
 		// TODO S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
 		// S3 내부에서 이미지 null 체크

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,8 @@ import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.ProfileResponse;
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.global.annotation.AuthMember;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -53,57 +53,57 @@ public class MemberController {
 	}
 
 	@DeleteMapping("/myPage/delete")
-	public ResponseEntity withdraw(@AuthMember Member loginMember, HttpServletRequest request,
+	public ResponseEntity withdraw(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request,
 		HttpServletResponse response) {
 
 		String accessToken = request.getHeader(AUTH_HEADER).substring(7);
 
-		memberService.withdraw(accessToken, loginMember.getId());
+		memberService.withdraw(accessToken, memberDetails.getEmail());
 
 		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage")
-	public ResponseEntity update(@AuthMember Member loginMember,
+	public ResponseEntity update(@AuthenticationPrincipal MemberDetails memberDetails,
 		@Validated @RequestBody UpdateMyInfoRequest updateMyInfoRequest) {
 
-		memberService.updateMyInfo(loginMember.getId(), updateMyInfoRequest);
+		memberService.updateMyInfo(memberDetails.getEmail(), updateMyInfoRequest);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/myPage/password")
-	public ResponseEntity updatePassword(@AuthMember Member loginMember,
+	public ResponseEntity updatePassword(@AuthenticationPrincipal MemberDetails memberDetails,
 		@Validated @RequestBody UpdatePassword updatePassword) {
 
-		memberService.updatePassword(loginMember.getId(), updatePassword);
+		memberService.updatePassword(memberDetails.getEmail(), updatePassword);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/myPage/info")
-	public ResponseEntity myInfoDetails(@AuthMember Member loginMember) {
+	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
 		// MyInfoResponse myInfoResponse = MyInfoResponse.of(loginMember);
-		MyInfoResponse myInfoResponse = memberService.getMyInfo(loginMember);
+		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getEmail());
 
 		return ResponseEntity.ok(myInfoResponse);
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity getProfile(@AuthMember Member loginMember) {
+	public ResponseEntity getProfile(@AuthenticationPrincipal MemberDetails memberDetails) {
 		// ProfileResponse profileResponse = ProfileResponse.of(loginMember);
-		ProfileResponse profileResponse = memberService.getProfile(loginMember);
-		
+		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getEmail());
+
 		return ResponseEntity.ok(profileResponse);
 	}
 
 	@PatchMapping(value = "/profile", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity updateProfile(@AuthMember Member loginMember,
+	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestPart(required = false) MultipartFile profileImage,
 		@RequestPart(required = false) MultipartFile headerImage,
 		@Validated ProfileRequest profileRequest) {
 
-		memberService.updateProfile(loginMember.getId(), profileRequest, profileImage, headerImage);
+		memberService.updateProfile(memberDetails.getEmail(), profileRequest, profileImage, headerImage);
 
 		return ResponseEntity.ok().build();
 	}

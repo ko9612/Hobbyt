@@ -10,9 +10,10 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.hobbyt.domain.member.entity.Authority;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -96,7 +97,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createAccessToken(String email, Authority authority) {
+	public String createAccessToken(String email, String authority) {
 		Map<String, Object> claims = createClaims(email, authority);
 		Date expiration = getTokenExpiration(accessTokenExpirationMinutes);
 
@@ -105,10 +106,10 @@ public class JwtTokenProvider {
 		return accessToken;
 	}
 
-	private Map<String, Object> createClaims(String email, Authority authority) {
+	private Map<String, Object> createClaims(String email, String authority) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_EMAIL, email);
-		claims.put(CLAIM_AUTHORITY, authority.toString());
+		claims.put(CLAIM_AUTHORITY, authority);
 
 		return claims;
 	}
@@ -132,6 +133,15 @@ public class JwtTokenProvider {
 		String refreshToken = refreshTokenAssembly(subject, expiration);
 
 		return refreshToken;
+	}
+
+	public UserDetails parseToken(String jws) {
+		Claims body = getClaims(jws).getBody();
+
+		String email = body.getSubject();
+		String authority = body.get(CLAIM_AUTHORITY, String.class);
+
+		return new MemberDetails(email, authority);
 	}
 
 	public Jws<Claims> getClaims(String jws) {

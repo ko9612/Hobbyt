@@ -5,14 +5,19 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.global.error.exception.LoginFailException;
 import com.hobbyt.global.error.exception.MemberNotExistException;
 import com.hobbyt.global.redis.RedisService;
+import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +37,7 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final RedisService redisService;
+	private final PasswordEncoder passwordEncoder;
 
 	public String sendAuthenticationCodeEmail(final EmailRequest emailRequest) {
 		String code = AuthenticationCode.createCode().getCode();
@@ -59,7 +65,7 @@ public class AuthService {
 		}
 
 		Member member = findMemberByEmail(email);
-		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority());
+		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority().toString());
 	}
 
 	private Member findMemberByEmail(final String email) {
@@ -87,7 +93,24 @@ public class AuthService {
 		}
 	}
 
-	/*public void login(LoginRequest loginRequest) {
+	public TokenDto login(LoginRequest loginRequest) {
+		Member member = findMemberByEmailAndNotWithdrawal(loginRequest.getEmail());
+		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+			throw new LoginFailException();
+		}
 
-	}*/
+		String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority().toString());
+		String refreshToken = jwtTokenProvider.createRefreshToken(member.getEmail());
+
+		redisService.setValue(member.getEmail(), refreshToken,
+			jwtTokenProvider.calculateExpiration(refreshToken));
+
+		return new TokenDto(accessToken, refreshToken);
+	}
+
+	private Member findMemberByEmailAndNotWithdrawal(String email) {
+
+		return memberRepository.findByEmailAndStatusNot(email, MemberStatus.WITHDRAWAL)
+			.orElseThrow(LoginFailException::new);
+	}
 }

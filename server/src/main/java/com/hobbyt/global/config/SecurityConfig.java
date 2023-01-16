@@ -4,14 +4,11 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,7 +19,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
-import com.hobbyt.global.security.filter.JwtVerificationFilter;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +30,6 @@ public class SecurityConfig {
 
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
-	private final UserDetailsService userDetailsService;
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
@@ -56,15 +51,17 @@ public class SecurityConfig {
 			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisService),
+				UsernamePasswordAuthenticationFilter.class)
 
 			.csrf().disable()
 			.cors(Customizer.withDefaults())
 
-			.apply(new CustomFilterConfigurer())
-			.and()
+			/*.apply(new CustomFilterConfigurer())
+			.and()*/
 
 			.authorizeRequests()
-			.antMatchers("/api/members/signup").permitAll()
+			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
 			// .antMatchers("/api/**").permitAll()
 			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup").permitAll()
 			.anyRequest().authenticated();
@@ -97,7 +94,7 @@ public class SecurityConfig {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-	public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+	/*public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
 		@Override
 		public void configure(HttpSecurity builder) throws Exception {
 
@@ -117,5 +114,5 @@ public class SecurityConfig {
 				.addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		}
-	}
+	}*/
 }

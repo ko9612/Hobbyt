@@ -78,8 +78,8 @@ public class TestUtil {
 			.build();
 	}
 
-	public static MemberDetails dummyMemberDetails(Long id, String nickname, String email, String password) {
-		return MemberDetails.of(dummyMember(id, nickname, email, password));
+	public static MemberDetails dummyMemberDetails(String email, String authority) {
+		return new MemberDetails(email, authority);
 	}
 
 	public static UpdateMyInfoRequest dummyUpdateMyInfoRequest(String phoneNumber, String recipientName,
