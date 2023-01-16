@@ -71,12 +71,4 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
-
-	/*@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) {
-		String authorization = request.getHeader(AUTH_HEADER);
-
-		return authorization == null || !authorization.startsWith(TOKEN_TYPE);
-	}*/
-
 }
