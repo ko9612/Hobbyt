@@ -2,6 +2,7 @@ package com.hobbyt.domain.member.service;
 
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static com.hobbyt.util.TestUtil.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
@@ -12,11 +13,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.TokenDto;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.global.error.exception.LoginFailException;
 import com.hobbyt.global.redis.RedisService;
+import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +41,9 @@ class AuthServiceTest {
 
 	@Mock
 	private RedisService redisService;
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	private AuthService authService;
@@ -74,14 +83,13 @@ class AuthServiceTest {
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		then(jwtTokenProvider).should(times(1))
 			.createAccessToken(argThat(email -> email.equals(EMAIL)),
-				argThat(authority -> authority == USER_AUTHORITY));
+				argThat(authority -> authority == USER_AUTHORITY.toString()));
 	}
 
 	@DisplayName("refresh token 재발급")
 	@Test
 	void reissue_refresh_token() {
 		//given
-		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		given(jwtTokenProvider.parseEmail(anyString())).willReturn(EMAIL);
 		given(jwtTokenProvider.createRefreshToken(anyString())).willReturn(REISSUED_REFRESH_TOKEN);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
@@ -113,5 +121,62 @@ class AuthServiceTest {
 		then(redisService).should(times(1))
 			.setValue(argThat(key -> key.equals(ACCESS_TOKEN)), argThat(value -> value.equals(
 				BLACK_LIST)), argThat(timeout -> timeout == TIMEOUT));
+	}
+
+	@DisplayName("로그인")
+	@Test
+	void login() {
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, ENCODED_PASSWORD);
+		given(memberRepository.findByEmailAndStatusNot(anyString(), any(MemberStatus.class))).willReturn(
+			Optional.of(member));
+		given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
+		given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn(ACCESS_TOKEN);
+		given(jwtTokenProvider.createRefreshToken(anyString())).willReturn(REFRESH_TOKEN);
+		TokenDto tokenDto = new TokenDto(ACCESS_TOKEN, REFRESH_TOKEN);
+		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
+		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
+
+		TokenDto result = authService.login(loginRequest);
+
+		then(memberRepository).should(times(1))
+			.findByEmailAndStatusNot(
+				argThat(email -> email.equals(EMAIL)), argThat(status -> status == MemberStatus.WITHDRAWAL));
+		then(passwordEncoder).should(times(1))
+			.matches(argThat(pw -> pw.equals(loginRequest.getPassword())),
+				argThat(encodedPw -> encodedPw.equals(member.getPassword())));
+		then(jwtTokenProvider).should(times(1))
+			.createAccessToken(argThat(email -> email.equals(EMAIL)),
+				argThat(authority -> authority.equals(USER_AUTHORITY.toString())));
+		then(jwtTokenProvider).should(times(1)).createRefreshToken(argThat(email -> email.equals(EMAIL)));
+		then(jwtTokenProvider).should(times(1)).calculateExpiration(argThat(jws -> jws.equals(REFRESH_TOKEN)));
+		then(redisService).should(times(1))
+			.setValue(argThat(key -> key.equals(EMAIL)), argThat(value -> value.equals(REFRESH_TOKEN)),
+				argThat(timeout -> timeout == TIMEOUT));
+		assertThat(result.getAccessToken()).isEqualTo(tokenDto.getAccessToken());
+		assertThat(result.getRefreshToken()).isEqualTo(tokenDto.getRefreshToken());
+	}
+
+	@DisplayName("LoginFailException 예외: 잘못된 비밀번호 입력")
+	@Test
+	void login_fail_by_password() {
+		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
+		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, ENCODED_PASSWORD);
+		given(memberRepository.findByEmailAndStatusNot(anyString(), any(MemberStatus.class))).willReturn(
+			Optional.of(member));
+		given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
+
+		assertThatThrownBy(() -> authService.login(loginRequest))
+			.isInstanceOf(LoginFailException.class);
+	}
+
+	@DisplayName("LoginFailException 예외: 잘못된 email 입력")
+	@Test
+	void login_fail_by_email() {
+		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
+		given(memberRepository.findByEmailAndStatusNot(anyString(), any(MemberStatus.class))).willThrow(
+			LoginFailException.class);
+
+		assertThatThrownBy(() -> authService.login(loginRequest))
+			.isInstanceOf(LoginFailException.class);
 	}
 }
