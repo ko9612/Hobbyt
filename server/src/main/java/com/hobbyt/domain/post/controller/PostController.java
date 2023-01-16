@@ -53,7 +53,7 @@ public class PostController {
 		WriterBox writer = new WriterBox(1L, "잉간", null, LocalDateTime.now(), 50, 50);
 
 		PostResponse response = new PostResponse(
-			1L, "제목", "본문", 100, 10, true, LocalDateTime.now(), writer, comments, tags);
+			1L, "제목", "본문", null, 100, 10, true, LocalDateTime.now(), writer, comments, tags);
 
 		return ResponseEntity.ok(response);
 	}

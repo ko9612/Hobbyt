@@ -12,6 +12,7 @@ public class PostResponse {
 	private Long id;
 	private String title;
 	private String content;
+	private String thumbnailImage;
 	private long viewCount;
 	private long likeCount;
 	private boolean isPublic;
