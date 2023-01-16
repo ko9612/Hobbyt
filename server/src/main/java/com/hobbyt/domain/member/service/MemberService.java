@@ -54,8 +54,7 @@ public class MemberService {
 	@Transactional
 	public void withdraw(final String accessToken, final String email) {
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
-		// String email = jwtTokenProvider.parseEmail(accessToken);
-		
+
 		redisService.deleteValue(email);
 
 		if (expiration > 0) {
@@ -70,13 +69,8 @@ public class MemberService {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 	}
 
-	private Member findMemberById(final Long id) {
-		return memberRepository.findById(id).orElseThrow(MemberNotExistException::new);
-	}
-
 	@Transactional
 	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
-		// Member member = findMemberById(id);
 		Member member = findMemberByEmail(email);
 
 		Recipient recipient = updateMyInfoRequest.getRecipient().toEntity();

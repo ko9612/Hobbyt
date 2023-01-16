@@ -40,12 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				return;
 			}
 
-			String accessToken = request.getHeader(AUTH_HEADER).substring(7);
-			String email = jwtTokenProvider.parseEmail(accessToken);
+			String accessToken = resolveToken(request);
 
-			if (redisService.isBlackList(accessToken)) {
-				throw new AuthenticationException();
-			}
+			checkTokenIsBlackList(accessToken);
 
 			setAuthenticationToSecurityContext(accessToken);
 			filterChain.doFilter(request, response);
@@ -55,6 +52,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		// filterChain.doFilter(request, response);
+	}
+
+	private void checkTokenIsBlackList(String accessToken) throws AuthenticationException {
+		if (redisService.isBlackList(accessToken)) {
+			throw new AuthenticationException();
+		}
+	}
+
+	private String resolveToken(HttpServletRequest request) {
+		return request.getHeader(AUTH_HEADER).substring(7);
 	}
 
 	private boolean authHeaderIsInvalid(String authHeader) {
