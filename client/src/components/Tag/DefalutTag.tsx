@@ -10,7 +10,6 @@ export default function DefalutTag() {
     `;
 
   const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log(`event.currentTarget.value`, event.currentTarget.value);
     if (
       event.key === "Enter" &&
       event.currentTarget.value !== "" &&

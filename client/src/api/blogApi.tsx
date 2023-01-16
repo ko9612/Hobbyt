@@ -3,6 +3,27 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
+// 블로그 게시글 리스트 조회 api
+// export const getBlogContent = async (data: any) => {
+//   try {
+//     const blogContent = await axios.get("/api/post", data);
+//     return blogContent;
+//   } catch (err: unknown) {
+//     return ErrorHandler(err);
+//   }
+// };
+
+// 블로그 게시글 상세 조회 api
+export const getBlogDetail = async (id: any) => {
+  try {
+    const blogContent = await axios.get(`/api/post/${id}`);
+    return blogContent;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 게시글 작성 api
 export const postBlogContent = async (data: any) => {
   try {
     const blogContent = await axios.post("/api/post", data);
@@ -12,23 +33,71 @@ export const postBlogContent = async (data: any) => {
   }
 };
 
-// 임시
-export const patchBlogContent = async (data: any) => {
+// 블로그 게시글 수정 api
+export const patchBlogContent = async (data: any, id: any) => {
   try {
-    const patchContent = await axios.patch("/api/post/{id}", data);
-    return patchContent;
+    const blogContent = await axios.patch(`/api/post/comment/${id}`, data);
+    return blogContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
   }
 };
 
-// 블로그 프로필 수정 api
-export const postBlogProfile = async (data: any) => {
+// 블로그 게시글 삭제 api
+export const deleteBlogContent = async (id: any) => {
   try {
-    const blogProfile = await axios.post("/api/members/profile", data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
-    return blogProfile;
+    const blogContent = await axios.delete(`/api/post/comment/${id}`);
+    return blogContent;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 댓글 작성 api
+export const postBlogComment = async (data: any) => {
+  try {
+    const blogComment = await axios.post("/api/post/comment", data);
+    return blogComment;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 댓글 수정 api
+export const patchBlogComment = async (data: any, id: any) => {
+  try {
+    const blogComment = await axios.patch(`/api/post/comment/${id}`, data);
+    return blogComment;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 댓글 삭제 api
+export const deleteBlogComment = async (id: any) => {
+  try {
+    const blogComment = await axios.delete(`/api/post/comment/${id}`);
+    return blogComment;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 좋아요 추가 api
+export const postLikePlus = async (id: any) => {
+  try {
+    const likeData = await axios.post(`/api/post/${id}/like`);
+    return likeData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 블로그 좋아요 취소 api
+export const deleteLikeMinus = async (id: any) => {
+  try {
+    const likeData = await axios.post(`/api/post/${id}/like`);
+    return likeData;
   } catch (err: unknown) {
     return ErrorHandler(err);
   }

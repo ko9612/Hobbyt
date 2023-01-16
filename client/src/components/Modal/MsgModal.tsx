@@ -34,7 +34,9 @@ export default function MsgModal({ setOpenModal, msg }: ModalProps) {
           <Content>
             <span>{msg}</span>
           </Content>
-          <ModalButton onClick={handleClose}>확인</ModalButton>
+          <ModalButton id="" onClick={handleClose}>
+            확인
+          </ModalButton>
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>

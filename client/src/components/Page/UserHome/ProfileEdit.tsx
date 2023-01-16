@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
 import { DefalutButton } from "../../Button/DefalutButton";
-import { postBlogProfile } from "../../../api/blogApi";
+import { postBlogProfile } from "../../../api/profileApi";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
