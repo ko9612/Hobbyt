@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.post.dto.PostRequest;
 import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
@@ -60,9 +59,9 @@ public class PostController {
 
 	@PostMapping
 	public ResponseEntity<Long> postPost(
-		@AuthenticationPrincipal Member loginMember, @Valid @RequestBody PostRequest request) {
+		@AuthenticationPrincipal String loginEmail, @Valid @RequestBody PostRequest request) {
 
-		Post created = postService.createPost(loginMember, request.toPost());
+		Post created = postService.createPost(loginEmail, request.toPost());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		postTagService.addTagsToPost(created, tags);
 
