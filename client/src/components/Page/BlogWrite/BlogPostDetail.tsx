@@ -6,23 +6,17 @@ import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
 
-export default function BlogPostDetail({ data }: { data: IdataProps }) {
-  const Detail = tw.div`border-2 border-red-400 mt-6`;
-  const Title = tw.h1`text-2xl font-bold`;
-  const Info = tw.div`flex justify-between`;
-  const Tag = tw.div`text-sm flex mr-1`;
-  const VWInfo = tw.div`flex`;
-  const Main = tw.main`
-  mt-2
-  `;
-  const Content = tw.main`
-  mb-10
-  `;
-  const Like = tw.div`
-  w-12 m-auto my-8 text-center cursor-pointer
-  `;
-  const Comment = tw.div``;
+const Detail = tw.div`border-2 border-red-400 mt-6`;
+const Title = tw.h1`text-2xl font-bold`;
+const Info = tw.div`flex justify-between`;
+const Tag = tw.div`text-sm flex mr-1`;
+const VWInfo = tw.div`flex`;
+const Main = tw.main`mt-2`;
+const Content = tw.main`mb-10`;
+const Like = tw.div`w-12 m-auto my-8 text-center cursor-pointer`;
+const Comment = tw.div``;
 
+export default function BlogPostDetail({ data }: { data: IdataProps }) {
   return (
     <Detail>
       <Title>{data.title}</Title>

@@ -43,8 +43,12 @@ export default function DelModal({
             </SubMsg>
           </Content>
           <ButtonDiv>
-            <ModalButton onClick={handleClose}>취소</ModalButton>
-            <ModalButton onClick={() => {}}>{buttonString}</ModalButton>
+            <ModalButton id="" onClick={handleClose}>
+              취소
+            </ModalButton>
+            <ModalButton id="" onClick={() => {}}>
+              {buttonString}
+            </ModalButton>
           </ButtonDiv>
         </ModalView>
       </ModalBackdrop>

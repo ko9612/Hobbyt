@@ -10,12 +10,10 @@ import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
 import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 import BlogPostDetail from "../src/components/Page/BlogWrite/BlogPostDetail";
 
+const BlogDetails = tw.div`w-[43rem] m-auto`;
+
 export default function BlogDetail() {
   const [data] = blogdummyData; // 나중에 useCallback 사용하기
-
-  const BlogDetails = tw.div`
-  w-[43rem] m-auto
-  `;
 
   return (
     <>
