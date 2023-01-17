@@ -21,7 +21,6 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
@@ -93,7 +92,7 @@ public class JwtTokenProvider {
 			.setSubject(subject)
 			.setIssuedAt(Calendar.getInstance().getTime())
 			.setExpiration(expiration)
-			.signWith(key, SignatureAlgorithm.HS256)
+			.signWith(key)
 			.compact();
 	}
 
@@ -122,7 +121,7 @@ public class JwtTokenProvider {
 			.setSubject(subject)
 			.setIssuedAt(Calendar.getInstance().getTime())
 			.setExpiration(expiration)
-			.signWith(key, SignatureAlgorithm.HS256)
+			.signWith(key)
 			.compact();
 	}
 
