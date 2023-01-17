@@ -1,3 +1,5 @@
+// 로그인 form
+import axios from "axios";
 import tw from "tailwind-styled-components";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
@@ -7,12 +9,14 @@ import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
   LoginState,
-  TokenState,
+  // AccessTokenState,
+  // RefreshTokenState,
   EmailState,
   PasswordState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
+import { SigninInputs } from "../../../type/userTypes";
 
 export const Input = tw.div`
   my-6
@@ -27,23 +31,20 @@ export const ErrMsg = tw.p`
   text-sm text-MainColor p-1
 `;
 
-type SigninInputs = {
-  email: string;
-  password: string;
-};
-
 export default function SigninForm() {
   const router = useRouter();
 
   const setIsLogin = useSetRecoilState(LoginState);
-  const setToken = useSetRecoilState(TokenState);
+  // const setAccessToken = useSetRecoilState(AccessTokenState);
+  // const setRefreshToken = useSetRecoilState(RefreshTokenState);
   const setEmail = useSetRecoilState(EmailState);
   const setPassword = useSetRecoilState(PasswordState);
 
   // 에러 방지
-  console.log(setToken);
+  // console.log(setToken);
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
 
   const {
     register,
@@ -59,29 +60,38 @@ export default function SigninForm() {
 
     const signinSubmit = await postSignin(signinData);
 
-    if ((signinSubmit as any).status === 200) {
-      setIsLogin(true);
-      // 내 정보 관리 페이지에서 필요한 이메일, 현재 비밀번호 state
-      setEmail(data.email);
-      setPassword(data.password);
-      console.log("로그인!");
-      router.push("/signin");
-    } else {
-      console.log("로그인 실패!");
-      setShowModal(true);
+    switch ((signinSubmit as any).status) {
+      case 401:
+        setErrMsg("등록되지 않은 E-mail 입니다.");
+        setShowModal(true);
+        break;
+      case 400:
+        setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
+        setShowModal(true);
+        break;
+      default:
+        // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+        console.log((signinSubmit as any).headers.authorization);
+        // axios.defaults.headers.common.authorization = (
+        //   signinSubmit as any
+        // ).headers.authorization;
+        localStorage.setItem(
+          "authorization",
+          (signinSubmit as any).headers.authorization,
+        );
+        localStorage.setItem(
+          "refresh",
+          (signinSubmit as any).headers.refreshToken,
+        );
+        setIsLogin(true);
+        setEmail(data.email);
+        setPassword(data.password);
+        setIsLogin(true);
+        console.log("로그인!");
+        console.log(localStorage.getItem("authorization"));
+        router.push("/");
+        break;
     }
-    // switch ((signinSubmit as any).status) {
-    //   case 200:
-    //     setIsLogin(true);
-    //     console.log("로그인!");
-    //     router.push("/signin");
-    //     break;
-    //   case 403:
-    //     console.log("로그인 실패!");
-    //     setShowModal(true);
-    //     break;
-    //   default:
-    // }
   };
 
   const handleEnter = (
@@ -99,12 +109,7 @@ export default function SigninForm() {
 
   return (
     <>
-      {showModal && (
-        <MsgModal
-          msg="이메일 또는 비밀번호를 다시 확인해주세요."
-          setOpenModal={setShowModal}
-        />
-      )}
+      {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input>
           <LoginInput

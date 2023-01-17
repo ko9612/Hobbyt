@@ -1,5 +1,5 @@
 import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
-import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 import { FaBlogger } from "react-icons/fa";
 import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
@@ -7,8 +7,14 @@ export const LogoutMenus = [
   {
     id: 0,
     title: "로그인",
-    href: "/sigin",
+    href: "/signin",
     icon: <AiOutlineLogin size="35px" />,
+  },
+  {
+    id: 1,
+    title: "회원가입",
+    href: "/signup",
+    icon: <AiOutlineUserAdd size="35px" />,
   },
 ];
 
@@ -37,11 +43,5 @@ export const LoginMenus = [
     href: "/mypage",
     icon: <DefaultProfileImg width={35} height={35} borderW={2} />,
     // <div className="bg-white rounded-full w-9 h-9" />,
-  },
-  {
-    id: 4,
-    title: "로그아웃",
-    href: "/#",
-    icon: <AiOutlineLogout size="35px" />,
   },
 ];
