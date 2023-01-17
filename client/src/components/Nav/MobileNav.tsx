@@ -20,8 +20,9 @@ absolute top-0 bottom-0 left-0
 `;
 
 export default function MobileNav() {
-  const [menu, setMenu] = useState(false);
+  const [menu, setMenu] = useState<boolean>(false);
   const router = useRouter();
+
   const handleHomeClick = () => {
     router.push("/");
   };

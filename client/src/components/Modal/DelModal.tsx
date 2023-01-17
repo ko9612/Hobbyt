@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components";
+import { useCallback } from "react";
 import ModalButton from "../Button/ModalButton";
 
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
@@ -8,6 +9,7 @@ export interface DelModalProps {
   msg: string;
   subMsg: string[];
   buttonString: string;
+  afterClick(): void;
 }
 
 export const Msg = tw.div`
@@ -27,10 +29,11 @@ export default function DelModal({
   msg,
   subMsg,
   buttonString,
+  afterClick,
 }: DelModalProps) {
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpenModal(false);
-  };
+  }, [setOpenModal]);
 
   return (
     <ModalContainer>
@@ -43,10 +46,10 @@ export default function DelModal({
             </SubMsg>
           </Content>
           <ButtonDiv>
-            <ModalButton id="" onClick={handleClose}>
+            <ModalButton id="noBut" onClick={handleClose}>
               취소
             </ModalButton>
-            <ModalButton id="" onClick={() => {}}>
+            <ModalButton id="yesBut" onClick={afterClick}>
               {buttonString}
             </ModalButton>
           </ButtonDiv>

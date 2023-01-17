@@ -1,4 +1,3 @@
-import tw from "tailwind-styled-components";
 import ModalButton from "../Button/ModalButton";
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 import { deleteBlogComment } from "../../api/blogApi";
