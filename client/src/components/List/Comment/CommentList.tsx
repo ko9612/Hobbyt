@@ -1,15 +1,14 @@
 import tw from "tailwind-styled-components";
 import UserProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
+const Container = tw.div`
+flex my-10 w-full
+  `;
+
+const Content = tw.div`ml-3 w-5/6`;
+
+const User = tw.div`flex`;
 export default function CommentList() {
-  const Container = tw.div`
-  flex my-10 w-full
-    `;
-
-  const Content = tw.div`ml-3 w-5/6`;
-
-  const User = tw.div`flex`;
-
   return (
     <Container>
       <UserProfileImage width={40} height={40} borderW={0} />

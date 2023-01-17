@@ -6,7 +6,7 @@ import logoText from "../../image/logoText.png";
 import { Nav } from "./PcNav";
 import NavContent from "./NavContent";
 
-const Header = tw.header`
+const Header = tw.div`
 flex items-center justify-center px-4 pt-4 pb-2 lg:hidden text-MainColor z-10 sticky h-16
 `;
 const Button = tw.span`

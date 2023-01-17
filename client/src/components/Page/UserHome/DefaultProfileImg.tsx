@@ -9,14 +9,12 @@ interface ImgProps {
 
 export default function UserProfileImage({ width, height, borderW }: ImgProps) {
   return (
-    <div>
-      <Image
-        src={userProfile}
-        alt="유저 프로필 사진"
-        width={width}
-        height={height}
-        className={`overflow-hide rounded-full border-${borderW} border-white`}
-      />
-    </div>
+    <Image
+      src={userProfile}
+      alt="유저 프로필 사진"
+      width={width}
+      height={height}
+      className={`overflow-hide rounded-full border-${borderW} border-white`}
+    />
   );
 }

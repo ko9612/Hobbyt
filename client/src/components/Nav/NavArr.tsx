@@ -20,25 +20,25 @@ export const LogoutMenus = [
 
 export const LoginMenus = [
   {
-    id: 0,
+    id: 2,
     title: "알림",
     href: "/notice",
     icon: <BsBellFill size="35px" />,
   },
   {
-    id: 1,
+    id: 3,
     title: "메세지",
     href: "/message",
     icon: <BsEnvelopeFill size="35px" />,
   },
   {
-    id: 2,
+    id: 4,
     title: "내 블로그",
     href: "/blog",
     icon: <FaBlogger size="35px" />,
   },
   {
-    id: 3,
+    id: 5,
     title: "user_name",
     href: "/mypage",
     icon: <DefaultProfileImg width={35} height={35} borderW={2} />,

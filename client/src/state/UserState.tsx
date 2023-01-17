@@ -4,7 +4,7 @@ import { recoilPersist } from "recoil-persist"; // 새로고침 or 페이지를 
 const { persistAtom } = recoilPersist();
 
 // 로그인 여부
-export const LoginState = atom<boolean>({
+export const LoginState = atom<boolean | null>({
   key: "LoginState",
   default: false,
   effects_UNSTABLE: [persistAtom],
