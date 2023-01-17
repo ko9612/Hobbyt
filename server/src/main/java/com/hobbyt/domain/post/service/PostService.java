@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.repository.PostRepository;
 import com.hobbyt.global.error.exception.PostNotExistException;
@@ -17,6 +18,11 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 	private final PostRepository postRepository;
 	private final MemberService memberService;
+
+	@Transactional(readOnly = true)
+	public PostResponse getPostDetail(Long id) {
+		return postRepository.getPostDetailById(id);
+	}
 
 	public Post createPost(String email, Post post) {
 		Member writer = memberService.findMemberByEmail(email);

@@ -5,8 +5,12 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class PostResponse {
 	private Long id;
@@ -25,6 +29,7 @@ public class PostResponse {
 	@AllArgsConstructor
 	public static class WriterBox {
 		private Long id;
+		private String email;
 		private String nickName;
 		private String profileImage;
 		private LocalDateTime signedUpAt;
