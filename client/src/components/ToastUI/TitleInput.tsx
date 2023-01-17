@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { ChangeEvent, useCallback } from "react";
 import DefalutTogle from "../Togle/DefalutTogle";
-import TitleState from "../../state/Blog/TitleState";
+import { TitleState } from "../../state/BlogPostState";
 
 const Title = tw.div`mt-10 mb-5 px-5`;
 

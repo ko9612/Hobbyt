@@ -63,6 +63,13 @@ export default function NavContent() {
     }
   };
 
+  console.log(`로그인 여부`, isLogin);
+
+  // const [butWord, setButWord] = useState("");
+  // useEffect(() => {
+  //   setIsLogin(getCookie("user"));
+  // }, []);
+
   return (
     <>
       {showModal && (
@@ -79,31 +86,37 @@ export default function NavContent() {
       </Logo>
       <SearchBar />
       <NavList>
-        {(isLogin ? LoginMenus : LogoutMenus).map(menu => (
-          <List
-            key={menu.id}
-            className={`${router.pathname === menu.href && "text-yellow-200"}`}
-          >
-            <Link href={menu.href}>
-              <span className="text-2xl block float-left">{menu.icon}</span>
-              <span className="text-base font-medium p-5">{menu.title}</span>
-            </Link>
-          </List>
-        ))}
-        {isLogin && (
-          <List>
-            <div
-              role="presentation"
-              onClick={() => setShowModal(true)}
-              className="cursor-pointer"
+        <NavList>
+          {/* {(isLogin === true ? LoginMenus : LogoutMenus).map(menu => ( */}
+          {(isLogin ? LoginMenus : LogoutMenus).map(menu => (
+            // {/* {LoginMenus.map(menu => ( */}
+            <List
+              key={menu.id}
+              className={`${
+                router.pathname === menu.href && "text-yellow-200"
+              }`}
             >
-              <span className="text-2xl block float-left">
-                <AiOutlineLogout size="35px" />
+              <Link href={menu.href}>
+                <span className="block float-left text-2xl">{menu.icon}</span>
+                <span className="p-5 text-base font-medium">{menu.title}</span>
+              </Link>
+            </List>
+          ))}
+          {isLogin && (
+            <List>
+              <span
+                role="presentation"
+                onClick={() => setShowModal(true)}
+                className="cursor-pointer"
+              >
+                <span className="block float-left text-2xl">
+                  <AiOutlineLogout size="35px" />
+                </span>
+                <span className="p-5 text-base font-medium">로그아웃</span>
               </span>
-              <span className="text-base font-medium p-5">로그아웃</span>
-            </div>
-          </List>
-        )}
+            </List>
+          )}
+        </NavList>
       </NavList>
     </>
   );

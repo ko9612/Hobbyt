@@ -60,38 +60,29 @@ export default function SigninForm() {
 
     const signinSubmit = await postSignin(signinData);
 
-    switch ((signinSubmit as any).status) {
-      case 401:
-        setErrMsg("등록되지 않은 E-mail 입니다.");
-        setShowModal(true);
-        break;
-      case 400:
-        setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
-        setShowModal(true);
-        break;
-      default:
-        // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-        console.log((signinSubmit as any).headers.authorization);
-        // axios.defaults.headers.common.authorization = (
-        //   signinSubmit as any
-        // ).headers.authorization;
-        localStorage.setItem(
-          "authorization",
-          (signinSubmit as any).headers.authorization,
-        );
-        localStorage.setItem(
-          "refresh",
-          (signinSubmit as any).headers.refreshToken,
-        );
-        setIsLogin(true);
-        setEmail(data.email);
-        setPassword(data.password);
-        setIsLogin(true);
-        console.log("로그인!");
-        console.log(localStorage.getItem("authorization"));
-        router.push("/");
-        break;
+    if ((signinSubmit as any).status === 200) {
+      localStorage.setItem(
+        "authorization",
+        (signinSubmit as any).headers.authorization,
+      );
+      localStorage.setItem(
+        "refresh",
+        (signinSubmit as any).headers.refreshtoken,
+      );
+      setIsLogin(true);
+      setEmail(data.email);
+      setPassword(data.password);
+      router.push("/");
+    } else {
+      setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
+      setShowModal(true);
     }
+    // 나중에 에러 처리
+    // switch ((signinSubmit as any).status) {
+    //   case 200:
+    //   case 400:
+    //   default:
+    // }
   };
 
   const handleEnter = (

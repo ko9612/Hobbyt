@@ -19,19 +19,23 @@ export default function FollowModal({ setOpenModal }: FollowModalProps) {
       <ModalBackdrop onClick={handleClose}>
         <ModalView onClick={e => e.stopPropagation()}>
           <Content className="flex-col">
-            <div className="w-14 mb-3">
+            <div className="mb-3 w-14">
               <DefaultProfileImg width={60} height={60} borderW={2} />
             </div>
             <SubMsg className="flex flex-col">
               <span>
-                <span className="font-semibold text-base">닉네임</span> 님을
+                <span className="text-base font-semibold">닉네임</span> 님을
               </span>
               <span>언팔로우 하시겠습니까?</span>
             </SubMsg>
           </Content>
           <ButtonDiv>
-            <ModalButton onClick={handleClose}>아니오</ModalButton>
-            <ModalButton onClick={() => {}}>예</ModalButton>
+            <ModalButton id="" onClick={handleClose}>
+              아니오
+            </ModalButton>
+            <ModalButton id="" onClick={() => {}}>
+              예
+            </ModalButton>
           </ButtonDiv>
         </ModalView>
       </ModalBackdrop>

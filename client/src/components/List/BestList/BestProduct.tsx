@@ -14,7 +14,7 @@ export default function BestBlogger() {
         <FilterButton />
       </div>
       <BestContent className="pt-5">
-        <BestItem className="grid sm:grid-cols-3 grid-cols-2 gap-8">
+        <BestItem className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           {Array(12)
             .fill(null)
             .map(idx => (
@@ -29,7 +29,7 @@ export default function BestBlogger() {
                     <p>22.12.14 ~ 22.12.16</p>
                   </div>
                   <div className="float-right">
-                    <LikeCount />
+                    <LikeCount>123123</LikeCount>
                   </div>
                 </SLProductInfo>
               </SLContent>

@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 import { BsPencil } from "react-icons/bs";
 
 interface IDate {
-  children: string;
+  children: string | undefined;
 }
 
 export default function WriteDate({ children }: IDate) {

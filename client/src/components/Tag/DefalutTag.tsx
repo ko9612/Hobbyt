@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
-import TagState from "../../state/Blog/TagState";
+import { TagState } from "../../state/BlogPostState";
 
 export default function DefalutTag() {
   const [tags, setTags] = useRecoilState(TagState);

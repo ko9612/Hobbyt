@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 import { BsEye } from "react-icons/bs";
 
 interface IView {
-  children: number | string;
+  children: number | string | undefined;
 }
 
 export default function ViewCount({ children }: IView) {
