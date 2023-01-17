@@ -1,8 +1,5 @@
 package com.hobbyt.domain.post.controller;
 
-import static com.hobbyt.domain.post.dto.PostResponse.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -42,18 +39,13 @@ public class PostController {
 	private final TagService tagService;
 
 	@GetMapping("{id}")
-	private ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
+	private ResponseEntity<PostResponse> getPost(
+		@AuthenticationPrincipal MemberDetails loginMember, @Min(value = 0) @PathVariable Long id) {
+		PostResponse response = postService.getPostDetail(id);
 
-		CommentBox comment1 = new CommentBox(1L, "엘프", null, LocalDateTime.now(), "굿굿");
-		CommentBox comment2 = new CommentBox(1L, "호빗", null, LocalDateTime.now(), "ㄴㄴ");
-
-		List<CommentBox> comments = List.of(comment1, comment2);
-		List<String> tags = List.of("취미", "크리어처");
-
-		WriterBox writer = new WriterBox(1L, "잉간", null, LocalDateTime.now(), 50, 50);
-
-		PostResponse response = new PostResponse(
-			1L, "제목", "본문", null, 100, 10, true, LocalDateTime.now(), writer, comments, tags);
+		if (!response.isPublic() && !loginMember.getEmail().equals(response.getWriter().getEmail())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
 
 		return ResponseEntity.ok(response);
 	}
