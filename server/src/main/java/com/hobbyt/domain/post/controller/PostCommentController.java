@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.service.PostCommentService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,8 +30,8 @@ public class PostCommentController {
 
 	@PostMapping
 	public ResponseEntity<Long> postComment(
-		@AuthenticationPrincipal String loginEmail, @Valid @RequestBody PostCommentRequest request) {
-		Long createdId = postCommentService.createPostComment(loginEmail, request);
+		@AuthenticationPrincipal MemberDetails loginMember, @Valid @RequestBody PostCommentRequest request) {
+		Long createdId = postCommentService.createPostComment(loginMember.getEmail(), request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdId);
 	}

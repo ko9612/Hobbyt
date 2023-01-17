@@ -28,6 +28,7 @@ import com.hobbyt.domain.post.service.PostService;
 import com.hobbyt.domain.post.service.PostTagService;
 import com.hobbyt.domain.tag.entity.Tag;
 import com.hobbyt.domain.tag.service.TagService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,9 +60,9 @@ public class PostController {
 
 	@PostMapping
 	public ResponseEntity<Long> postPost(
-		@AuthenticationPrincipal String loginEmail, @Valid @RequestBody PostRequest request) {
+		@AuthenticationPrincipal MemberDetails loginMember, @Valid @RequestBody PostRequest request) {
 
-		Post created = postService.createPost(loginEmail, request.toPost());
+		Post created = postService.createPost(loginMember.getEmail(), request.toPost());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		postTagService.addTagsToPost(created, tags);
 

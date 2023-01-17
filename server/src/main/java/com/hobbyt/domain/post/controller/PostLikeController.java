@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.post.service.PostLikeService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,16 +23,18 @@ public class PostLikeController {
 
 	@PostMapping
 	public ResponseEntity<Void> likePost(
-		@AuthenticationPrincipal String loginEmail, @Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.createPostLike(loginEmail, postId);
+		@AuthenticationPrincipal MemberDetails loginMember,
+		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.createPostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> cancelLike(
-		@AuthenticationPrincipal String loginEmail, @Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.deletePostLike(loginEmail, postId);
+		@AuthenticationPrincipal MemberDetails loginMember,
+		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+		postLikeService.deletePostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
 	}
