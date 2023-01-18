@@ -25,6 +25,7 @@ public class PostLikeController {
 	public ResponseEntity<Void> likePost(
 		@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+
 		postLikeService.createPostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
@@ -34,6 +35,7 @@ public class PostLikeController {
 	public ResponseEntity<Void> cancelLike(
 		@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
+
 		postLikeService.deletePostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();

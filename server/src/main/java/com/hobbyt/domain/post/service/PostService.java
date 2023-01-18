@@ -1,5 +1,7 @@
 package com.hobbyt.domain.post.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,17 +13,24 @@ import com.hobbyt.domain.post.repository.PostRepository;
 import com.hobbyt.global.error.exception.PostNotExistException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PostService {
 	private final PostRepository postRepository;
 	private final MemberService memberService;
 
-	@Transactional(readOnly = true)
-	public PostResponse getPostDetail(Long id) {
-		return postRepository.getPostDetailById(id);
+	public PostResponse getPostDetailById(Long id) {
+		Post post = findVerifiedOneById(id);
+		List<PostResponse.CommentBox> comments = postRepository.getPostCommentsByPostId(id);
+		List<String> tags = postRepository.getTagsByPostId(id);
+
+		post.increaseViewCount();
+
+		return new PostResponse(post, comments, tags);
 	}
 
 	public Post createPost(String email, Post post) {

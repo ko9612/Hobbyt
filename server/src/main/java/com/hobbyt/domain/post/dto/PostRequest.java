@@ -16,7 +16,7 @@ public class PostRequest {
 	private String title;
 	@NotNull
 	private String content;
-	private boolean isPublic;
+	private Boolean isPublic;
 	private List<String> tags;
 
 	public Post toPost() {
