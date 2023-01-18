@@ -30,7 +30,7 @@ import com.hobbyt.global.security.member.MemberDetails;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 @Validated
 public class PostController {
