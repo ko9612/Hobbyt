@@ -42,6 +42,5 @@ export const LoginMenus = [
     title: "user_name",
     href: "/mypage",
     icon: <DefaultProfileImg width={35} height={35} borderW={2} />,
-    // <div className="bg-white rounded-full w-9 h-9" />,
   },
 ];

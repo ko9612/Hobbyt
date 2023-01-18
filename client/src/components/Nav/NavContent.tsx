@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
-import { EmailState, PasswordState, LoginState } from "../../state/UserState";
+import {
+  EmailState,
+  PasswordState,
+  LoginState,
+} from "../../../state/UserState";
 import { LoginMenus, LogoutMenus } from "./NavArr";
 import SearchBar from "../Page/Search/SearchBar";
 import logo from "../../image/logo.png";
@@ -26,15 +30,6 @@ hover:bg-white/40  rounded-md mt-6
 transitions duration-300 text-xl hover:text-white hover:font-bold
 `;
 
-export const SubNavList = tw.ul`
-rounded-md
-`;
-
-export const SubList = tw.li`
-text-white/80 text-sm flex items-center gap-x-4 p-4 
-hover:bg-white/30 rounded-md transitions duration-300 hover:text-white
-`;
-
 export default function NavContent() {
   const router = useRouter();
   const setEmailState = useSetRecoilState(EmailState);
@@ -43,23 +38,38 @@ export default function NavContent() {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
-
   // 홈 버튼 클릭
   const handleHomeClick = () => {
     router.push("/");
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (
+        localStorage.getItem("refresh") &&
+        localStorage.getItem("authorization")
+      ) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    } else {
+      setIsLogin(false);
+    }
+  });
 
   // 로그아웃 버튼 클릭
   const signoutClick = async () => {
     const signOutSubmit = await postSignout();
 
     if ((signOutSubmit as any).status === 200) {
-      localStorage.removeItem("access-token");
+      localStorage.removeItem("authorization");
+      localStorage.removeItem("refresh");
       setIsLogin(false);
       setEmailState("");
       setPasswordState("");
       setShowModal(false);
-      router.push("/");
+      router.replace("/");
     }
   };
 
@@ -87,9 +97,7 @@ export default function NavContent() {
       <SearchBar />
       <NavList>
         <NavList>
-          {/* {(isLogin === true ? LoginMenus : LogoutMenus).map(menu => ( */}
           {(isLogin ? LoginMenus : LogoutMenus).map(menu => (
-            // {/* {LoginMenus.map(menu => ( */}
             <List
               key={menu.id}
               className={`${

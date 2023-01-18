@@ -1,5 +1,4 @@
 // 로그인 form
-import axios from "axios";
 import tw from "tailwind-styled-components";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
@@ -9,14 +8,13 @@ import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
   LoginState,
-  // AccessTokenState,
-  // RefreshTokenState,
   EmailState,
   PasswordState,
-} from "../../../state/UserState";
+} from "../../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
+import LoginRefresh from "../../../util/LoginRefresh";
 
 export const Input = tw.div`
   my-6
@@ -34,15 +32,9 @@ export const ErrMsg = tw.p`
 export default function SigninForm() {
   const router = useRouter();
 
-  const setIsLogin = useSetRecoilState(LoginState);
-  // const setAccessToken = useSetRecoilState(AccessTokenState);
-  // const setRefreshToken = useSetRecoilState(RefreshTokenState);
-  const setEmail = useSetRecoilState(EmailState);
-  const setPassword = useSetRecoilState(PasswordState);
-
-  // 에러 방지
-  // console.log(setToken);
-
+  const setIsLogin = useSetRecoilState<boolean>(LoginState);
+  const setEmail = useSetRecoilState<string | undefined>(EmailState);
+  const setPassword = useSetRecoilState<string | undefined>(PasswordState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -61,18 +53,18 @@ export default function SigninForm() {
     const signinSubmit = await postSignin(signinData);
 
     if ((signinSubmit as any).status === 200) {
-      localStorage.setItem(
-        "authorization",
-        (signinSubmit as any).headers.authorization,
-      );
-      localStorage.setItem(
-        "refresh",
-        (signinSubmit as any).headers.refreshtoken,
-      );
-      setIsLogin(true);
-      setEmail(data.email);
-      setPassword(data.password);
-      router.push("/");
+      const accessToken = (signinSubmit as any).headers.authorization;
+      const refreshToken = (signinSubmit as any).headers.refreshtoken;
+      localStorage.setItem("authorization", accessToken);
+      localStorage.setItem("refresh", refreshToken);
+      if (accessToken && refreshToken) {
+        setIsLogin(true);
+        setEmail(data.email);
+        setPassword(data.password);
+        // 29분 후, 로그인 연장
+        setTimeout(LoginRefresh, 60000 * 29);
+        router.replace("/");
+      }
     } else {
       setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
       setShowModal(true);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
+// 회원가입
 export const postsignupSubmit = async (data: any) => {
   try {
     const signupUserData = await axios.post(
@@ -13,6 +14,7 @@ export const postsignupSubmit = async (data: any) => {
   }
 };
 
+// 이메일 인증 번호
 export const postSignupEmailBut = async (data: any) => {
   try {
     const signupEmailData = await axios.post(
@@ -25,6 +27,7 @@ export const postSignupEmailBut = async (data: any) => {
   }
 };
 
+// 로그인
 export const postSignin = async (data: any) => {
   try {
     const signinUserData = await axios.post(
@@ -38,6 +41,7 @@ export const postSignin = async (data: any) => {
   }
 };
 
+// refreshToken
 export const postReToken = async () => {
   try {
     const tokenData = await axios.post(
@@ -45,23 +49,29 @@ export const postReToken = async () => {
       "",
       {
         headers: {
-          RefreshToken: localStorage.getItem("refresh-token"),
+          authorization: localStorage.getItem("authorization"),
+          refreshtoken: localStorage.getItem("refresh"),
         },
       },
     );
+    console.log(tokenData);
     return tokenData;
   } catch (err: unknown) {
+    console.log(err);
     return ErrorHandler(err);
   }
 };
 
+// 로그아웃
 export const postSignout = async () => {
   try {
     const outUserData = await axios.post(
       "http://59.12.62.150:8080/api/auth/logout",
       "",
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+        },
       },
     );
     return outUserData;
@@ -70,10 +80,16 @@ export const postSignout = async () => {
   }
 };
 
+// 회원탈퇴
 export const delAccount = async () => {
   try {
     const delUserData = await axios.delete(
-      "http://ec2-15-164-199-88.ap-northeast-2.compute.amazonaws.com:8080/api/members/myPage/delete",
+      "http://59.12.62.150:8080/api/members/myPage/delete",
+      {
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+        },
+      },
     );
     return delUserData;
   } catch (err: any) {

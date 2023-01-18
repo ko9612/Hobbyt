@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import NavBar from "../src/components/Nav/NavBar";
+import Navbar from "../src/components/Nav/NavBar";
 import { Main } from "./index";
 import NoticeList from "../src/components/List/NoticeList";
 import Footer from "../src/components/Footer/Footer";
@@ -19,7 +19,7 @@ p-0.5 bg-gray-200
 export default function Notice() {
   return (
     <>
-      <NavBar />
+      <Navbar />
       <Main>
         <Title>
           <h1 className="text-3xl font-bold">알림</h1>
