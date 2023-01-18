@@ -10,6 +10,7 @@ import {
   TagState,
 } from "../../../state/BlogPostState";
 import { postBlogContent } from "../../../api/blogApi";
+import TagState from "../../../state/Blog/TagState";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,

@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import NavBar from "../src/components/Nav/NavBar";
+import Navbar from "../src/components/Nav/NavBar";
 import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
 import { Title, HR } from "./notice";
@@ -12,7 +12,7 @@ export default function Message() {
 
   return (
     <>
-      <NavBar />
+      <Navbar />
       <Main>
         <Title>
           <h1 className="text-3xl font-bold">메세지</h1>

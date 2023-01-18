@@ -3,11 +3,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import logoText from "../../image/logoText.png";
-import { Nav } from "./PcNav";
 import NavContent from "./NavContent";
 
 const Header = tw.div`
-flex items-center justify-center px-4 pt-4 pb-2 lg:hidden text-MainColor z-10 sticky h-16
+flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-10 sticky h-16
 `;
 const Button = tw.span`
 rounded-full p-2 flex hover:bg-MainColor/10 absolute left-2
@@ -17,6 +16,10 @@ h-1 w-6 my-1 rounded-full bg-MainColor transition ease transform duration-300
 `;
 const NavOpen = tw.div`
 absolute top-0 bottom-0 left-0
+`;
+
+export const Nav = tw.div`
+bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar w-[18rem] top-0 
 `;
 
 export default function MobileNav() {
@@ -40,9 +43,9 @@ export default function MobileNav() {
           className="px-1"
           onClick={onBurgerClicked}
         >
-          <BurgerLine className={menu ? "rotate-45 translate-y-2" : ""} />
-          <BurgerLine className={menu ? "opacity-0 " : ""} />
-          <BurgerLine className={menu ? "-rotate-45 -translate-y-2" : ""} />
+          <BurgerLine className={`${menu && "rotate-45 translate-y-2"}`} />
+          <BurgerLine className={`${menu && "opacity-0 "}`} />
+          <BurgerLine className={`${menu && "-rotate-45 -translate-y-2"}`} />
         </button>
       </Button>
       <div className="w-40">
