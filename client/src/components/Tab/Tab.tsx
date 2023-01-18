@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
-// import axios from "axios";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -12,7 +11,7 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-// import { IdataProps } from "../List/BlogItem";
+import { getBlogContent } from "../../api/blogApi";
 
 interface TabProps {
   Menus: {
@@ -23,82 +22,7 @@ interface TabProps {
 }
 
 const TabMenu = tw.ul`flex items-center flex-row m-auto list-none bg-white text-xl`;
-
 const TabContent = tw.div``;
-const dummy = [
-  {
-    id: 1,
-    title: "제목",
-    content: "본문",
-    thumbnailImage: null,
-    viewCount: 100,
-    likeCount: 10,
-    createdAt: "2023-01-17T19:40:26.598849",
-    writer: {
-      id: 1,
-      nickName: "잉간",
-      profileImage: null,
-      signedUpAt: "2023-01-17T19:40:26.598493",
-      followings: 50,
-      followers: 50,
-    },
-    comments: [
-      {
-        writerId: 1,
-        nickName: "엘프",
-        profileImage: null,
-        createdAt: "2023-01-17T19:40:26.596822",
-        content: "굿굿",
-      },
-      {
-        writerId: 1,
-        nickName: "호빗",
-        profileImage: null,
-        createdAt: "2023-01-17T19:40:26.596849",
-        content: "ㄴㄴ",
-      },
-    ],
-    tags: ["취미", "크리어처"],
-    public: true,
-  },
-  {
-    id: 2,
-    title:
-      "긴 제목 긴 제목 긴 제목 긴 제목 긴 제목 긴 제목 긴 제목 긴 제목 긴 제목 긴 제목",
-    content:
-      "긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. 긴 본문 내용입니다. ",
-    thumbnailImage: null,
-    viewCount: 100234,
-    likeCount: 12345121,
-    createdAt: "2023-01-17T19:40:26.598849",
-    writer: {
-      id: 1,
-      nickName: "닉네임여섯자",
-      profileImage: null,
-      signedUpAt: "2023-01-17T19:40:26.598493",
-      followings: 50,
-      followers: 50,
-    },
-    comments: [
-      {
-        writerId: 1,
-        nickName: "엘프",
-        profileImage: null,
-        createdAt: "2023-01-17T19:40:26.596822",
-        content: "굿굿",
-      },
-      {
-        writerId: 1,
-        nickName: "호빗",
-        profileImage: null,
-        createdAt: "2023-01-17T19:40:26.596849",
-        content: "ㄴㄴ",
-      },
-    ],
-    tags: ["취미", "크리어처"],
-    public: true,
-  },
-];
 
 export default function Tab({ Menus }: TabProps) {
   const router = useRouter();
@@ -111,24 +35,24 @@ export default function Tab({ Menus }: TabProps) {
 
   const keyword = router.query.keywords;
 
-  // 리스트 데이터
-  const [listData] = useState(dummy);
-  // const [listData, setListData] = useState(dummy);
+  // api 리스트 데이터 저장
+  const [listData, setListData] = useState([]);
 
-  // const getData = async () => {
-  //   const res = await axios.get(`/api/post/${1}`);
-  //   const listRes = res.data;
-  //   if (listRes !== undefined) {
-  //     setListData(listRes);
-  //   }
-  //   // setData(list);
-  //   // console.log(`임시`, list);
-  //   console.log(`임시`, listData);
-  // };
+  // api 요청
+  const getData = async () => {
+    // 함수 안에 숫자들은 임의 숫자예요
+    // 빨간줄 떠도 잘 돼요,,,
+    const res = await getBlogContent(3, 0, 5);
+    const listRes = res.data;
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+    setListData(listRes);
+    console.log(`listRes`, listRes);
+    console.log(`res`, res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>

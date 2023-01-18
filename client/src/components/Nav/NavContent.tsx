@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
 import { EmailState, PasswordState, LoginState } from "../../state/UserState";
@@ -67,7 +67,7 @@ export default function NavContent() {
 
   // const [butWord, setButWord] = useState("");
   // useEffect(() => {
-  //   setIsLogin(getCookie("user"));
+  //   setIsLogin(true);
   // }, []);
 
   return (

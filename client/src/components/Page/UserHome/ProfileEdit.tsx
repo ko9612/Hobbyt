@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
 import { DefalutButton } from "../../Button/DefalutButton";
-import { postBlogProfile } from "../../../api/profileApi";
+import { patchBlogProfile } from "../../../api/profileApi";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
@@ -37,6 +37,7 @@ export default function ProfileEdit() {
       const newProfile: any = reader.result;
       setProfileImage(newProfile);
     };
+    console.log(`profileImage`, profileImage);
   };
 
   // 닉네임 변경 함수
@@ -53,7 +54,7 @@ export default function ProfileEdit() {
     setDescription(data);
   };
 
-  // post api 요청 함수
+  // api 요청 함수
   const onSubmitClick = async () => {
     const data = {
       nickname: nickName,
@@ -69,11 +70,11 @@ export default function ProfileEdit() {
     );
 
     try {
-      const req = await postBlogProfile(formData);
+      const req = await patchBlogProfile(formData);
       // const res = req.data;
-      console.log(req);
+      console.log(`req`, req);
     } catch (err: unknown) {
-      console.log(err);
+      console.log(`err`, err);
     }
   };
 
