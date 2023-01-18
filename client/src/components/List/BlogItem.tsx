@@ -2,14 +2,12 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSetRecoilState } from "recoil";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 import ExampleImg from "../../image/header_ex.jpg";
 import { IdataProps } from "../../type/blogType";
-import { PostDetailDataState } from "../../state/BlogPostState";
 
 export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg h-[10rem] border-2`;
@@ -19,16 +17,8 @@ const BLTitle = tw.div`flex justify-between w-[28rem] border-2 border-blue-500`;
 
 export default function BlogItem({ list }: IdataProps) {
   const router = useRouter();
-  const setDataSave = useSetRecoilState(PostDetailDataState);
-  // const data: IdataProps[] = list;
   const { id, title, viewCount, likeCount, createdAt, content } = list || {};
   console.log(`BlogItem파일에`, list);
-
-  const onDataSave = (idx: any) => {
-    if (id === idx) {
-      setDataSave(idx);
-    }
-  };
 
   return (
     <BLComponent className={`${router.pathname === "/" && "bg-MainColor/40"}`}>
@@ -37,7 +27,7 @@ export default function BlogItem({ list }: IdataProps) {
       </BLImage>
       <BLContent>
         <BLTitle>
-          <Link href={`/post/${id}`} onClick={() => onDataSave(id)}>
+          <Link href={`/post/${id}`}>
             <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip">
               {title}
             </h2>

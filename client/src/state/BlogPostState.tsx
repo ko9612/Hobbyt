@@ -24,8 +24,3 @@ export const ListState = atom<string[] | undefined>({
   key: "BlogListState",
   default: [],
 });
-
-export const PostDetailDataState = atom<string[] | undefined>({
-  key: "PostDetailDataState",
-  default: [],
-});
