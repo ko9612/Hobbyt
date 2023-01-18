@@ -22,7 +22,7 @@ import com.hobbyt.global.security.member.MemberDetails;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/post/comment")
+@RequestMapping("/api/post-comments")
 @RequiredArgsConstructor
 @Validated
 public class PostCommentController {

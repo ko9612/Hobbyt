@@ -16,10 +16,10 @@ import com.hobbyt.global.security.member.MemberDetails;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/post/{post-id}/like")
+@RequestMapping("/api/posts/{post-id}/like")
 @RequiredArgsConstructor
 public class PostLikeController {
-	private PostLikeService postLikeService;
+	private final PostLikeService postLikeService;
 
 	@PostMapping
 	public ResponseEntity<Void> likePost(

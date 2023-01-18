@@ -16,11 +16,8 @@ import com.hobbyt.domain.post.dto.PostResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Repository
 @Transactional(readOnly = true)
-@Slf4j
 public class CustomPostRepositoryImpl implements CustomPostRepository {
 	private final JPAQueryFactory queryFactory;
 
