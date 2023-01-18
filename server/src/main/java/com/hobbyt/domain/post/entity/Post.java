@@ -24,7 +24,7 @@ public class Post extends Article {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
-	private boolean isPublic;
+	private boolean isPublic = true;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
 	private Member writer;

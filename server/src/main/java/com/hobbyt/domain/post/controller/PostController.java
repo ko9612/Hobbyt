@@ -39,13 +39,12 @@ public class PostController {
 	private final TagService tagService;
 
 	@GetMapping("{id}")
-	private ResponseEntity<PostResponse> getPost(
-		@AuthenticationPrincipal MemberDetails loginMember, @Min(value = 0) @PathVariable Long id) {
-		PostResponse response = postService.getPostDetail(id);
+	public ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
+		PostResponse response = postService.getPostDetailById(id);
 
-		if (!response.isPublic() && !loginMember.getEmail().equals(response.getWriter().getEmail())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		}
+		// if (!response.isPublic() && !loginMember.getEmail().equals(response.getWriter().getEmail())) {
+		// 	return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		// }
 
 		return ResponseEntity.ok(response);
 	}

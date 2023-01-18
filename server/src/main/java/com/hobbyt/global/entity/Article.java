@@ -28,10 +28,15 @@ public abstract class Article extends BaseEntity {
 	}
 
 	public void updateLikeCount(int count) {
-		if (likeCount == 0) {
+		if (likeCount + count < 0) {
 			return;
 		}
 
 		likeCount += count;
 	}
+
+	public void increaseViewCount() {
+		viewCount++;
+	}
+
 }

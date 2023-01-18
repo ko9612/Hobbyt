@@ -1,8 +1,9 @@
 package com.hobbyt.domain.post.repository;
 
 import static com.hobbyt.domain.member.entity.QMember.*;
-import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostComment.*;
+import static com.hobbyt.domain.post.entity.QPostTag.*;
+import static com.hobbyt.domain.tag.entity.QTag.*;
 
 import java.util.List;
 
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.post.dto.PostResponse;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
 @Transactional(readOnly = true)
+@Slf4j
 public class CustomPostRepositoryImpl implements CustomPostRepository {
 	private final JPAQueryFactory queryFactory;
 
@@ -26,60 +29,30 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 	}
 
 	@Override
-	public PostResponse getPostDetailById(Long id) {
-		Tuple result = getPostReponseWriterBoxTuple(id);
-		List<PostResponse.CommentBox> comments = getCommentBoxes(id);
-
-		PostResponse postResponse = result.get(0, PostResponse.class);
-		PostResponse.WriterBox writer = result.get(1, PostResponse.WriterBox.class);
-
-		postResponse.setWriter(writer);
-		postResponse.setComments(comments);
-
-		return postResponse;
-	}
-
-	private Tuple getPostReponseWriterBoxTuple(Long id) {
-
+	public List<PostResponse.CommentBox> getPostCommentsByPostId(Long postId) {
 		return queryFactory
-			.select(
-				Projections.bean(PostResponse.class,
-					post.id,
-					post.title,
-					post.thumbnailImage,
-					post.viewCount,
-					post.likeCount,
-					post.isPublic,
-					post.createdAt
-				),
-				Projections.fields(PostResponse.WriterBox.class,
-					member.id.as("writerId"),
-					member.email,
-					member.nickname,
-					member.profileImage,
-					member.createdAt.as("signedUpAt"),
-					member.followerCount.as("followings"),
-					member.followerCount.as("followers")
-				))
-			.from(post)
-			.join(post.writer, member)
-			.where(post.id.eq(id))
-			.fetchFirst();
-	}
-
-	private List<PostResponse.CommentBox> getCommentBoxes(Long id) {
-		return queryFactory
-			.select(
-				Projections.fields(PostResponse.CommentBox.class,
-					postComment.content,
-					member.id.as("writerId"),
-					member.nickname,
-					member.profileImage,
-					post.createdAt
-				))
+			.select(Projections.fields(PostResponse.CommentBox.class,
+				postComment.id,
+				postComment.content,
+				postComment.createdAt,
+				member.id.as("writerId"),
+				member.nickname,
+				member.profileImage
+			))
 			.from(postComment)
 			.join(postComment.writer, member)
-			.where(postComment.post.id.eq(id))
+			.where(postComment.post.id.eq(postId))
+			.fetch();
+	}
+
+	@Override
+	public List<String> getTagsByPostId(Long postId) {
+		// return new ArrayList<>();
+		return queryFactory
+			.select(tag.content)
+			.from(postTag)
+			.join(postTag.tag, tag)
+			.where(postTag.post.id.eq(postId))
 			.fetch();
 	}
 }
