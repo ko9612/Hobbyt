@@ -1,9 +1,9 @@
 package com.hobbyt.domain.member.dto.request;
 
-import com.hobbyt.domain.entity.Account;
-import com.hobbyt.domain.entity.Address;
-import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.Recipient;
+import com.hobbyt.global.entity.Account;
+import com.hobbyt.global.entity.Address;
 
 import lombok.Builder;
 import lombok.Getter;

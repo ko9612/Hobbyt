@@ -1,8 +1,10 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.member.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+
+import com.hobbyt.global.entity.Address;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Recipient {

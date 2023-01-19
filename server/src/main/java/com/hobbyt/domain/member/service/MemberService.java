@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hobbyt.domain.entity.Account;
-import com.hobbyt.domain.entity.Recipient;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
@@ -16,7 +14,9 @@ import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.error.exception.MemberExistException;
 import com.hobbyt.global.error.exception.MemberNotExistException;
 import com.hobbyt.global.error.exception.PasswordException;

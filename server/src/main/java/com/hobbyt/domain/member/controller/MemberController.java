@@ -101,7 +101,7 @@ public class MemberController {
 	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
 		@RequestPart(required = false) MultipartFile profileImage,
 		@RequestPart(required = false) MultipartFile headerImage,
-		@Validated ProfileRequest profileRequest) {
+		@RequestPart @Validated ProfileRequest profileRequest) {
 
 		memberService.updateProfile(memberDetails.getEmail(), profileRequest, profileImage, headerImage);
 

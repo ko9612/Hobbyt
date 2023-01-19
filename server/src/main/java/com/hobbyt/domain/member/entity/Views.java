@@ -1,4 +1,4 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.member.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Views {
 	@Column(name = "today_views", nullable = false)

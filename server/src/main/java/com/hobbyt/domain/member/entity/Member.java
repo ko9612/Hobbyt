@@ -9,9 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.hobbyt.domain.entity.Account;
-import com.hobbyt.domain.entity.Recipient;
-import com.hobbyt.domain.entity.Views;
+import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;

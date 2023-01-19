@@ -1,6 +1,6 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.sale.entity;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,29 +9,30 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.hobbyt.global.entity.BaseEntity;
+import com.hobbyt.domain.member.entity.Member;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product extends BaseEntity {
+public class SaleLike {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false)
 	private Long id;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sale_id", nullable = false)
+	@JoinColumn(name = "member_id")
+	private Member member;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "sale_id")
 	private Sale sale;
 
-	@Column(nullable = false)
-	private String name;
-	@Column(nullable = false)
-	private String imageUrl;
-	@Column(nullable = false)
-	private int price;
-	@Column(nullable = false)
-	private int stockQuantity;
+	public static SaleLike of(Member member, Sale sale) {
+		return new SaleLike(member, sale);
+	}
+
+	private SaleLike(Member member, Sale sale) {
+		this.member = member;
+		this.sale = sale;
+	}
 }

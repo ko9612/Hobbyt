@@ -1,4 +1,4 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.global.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Account {
