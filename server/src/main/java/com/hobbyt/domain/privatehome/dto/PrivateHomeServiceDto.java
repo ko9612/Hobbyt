@@ -4,11 +4,11 @@ import lombok.Getter;
 
 public class PrivateHomeServiceDto {
 	@Getter
-	public static class Blog {
+	public static class Get {
 		private int offset;
 		private int limit;
 
-		public Blog(PrivateHomeRequest.Blog params) {
+		public Get(PrivateHomeRequest.Blog params) {
 			this.offset = params.getOffset();
 			this.limit = params.getLimit();
 		}
