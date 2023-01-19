@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.privatehome.dto.PrivateHomeBlogResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
@@ -26,10 +26,10 @@ public class PrivateHomeController {
 	private final PrivateHomeService privateHomeService;
 
 	@GetMapping("/posts")
-	public ResponseEntity<PrivateHomeBlogResponse> getPostList(
-		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Blog params) {
+	public ResponseEntity<PrivateHomePostResponse> getPostList(
+		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Get params) {
 
-		PrivateHomeBlogResponse response = privateHomeService
+		PrivateHomePostResponse response = privateHomeService
 			.getBlogListByMemberId(id, new PrivateHomeServiceDto.Get(params));
 
 		return ResponseEntity.ok(response);
@@ -37,7 +37,7 @@ public class PrivateHomeController {
 
 	@GetMapping("/comments")
 	public ResponseEntity<PrivateHomeCommentResponse> getCommentList(
-		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Blog params) {
+		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Get params) {
 
 		PrivateHomeCommentResponse response = privateHomeService
 			.getCommentListByMemberId(id, new PrivateHomeServiceDto.Get(params));

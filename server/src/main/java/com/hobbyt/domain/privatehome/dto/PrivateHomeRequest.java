@@ -8,7 +8,7 @@ public class PrivateHomeRequest {
 	@Getter
 	@Setter
 	@NoArgsConstructor
-	public static class Blog {
+	public static class Get {
 		private int offset;
 		private int limit;
 	}

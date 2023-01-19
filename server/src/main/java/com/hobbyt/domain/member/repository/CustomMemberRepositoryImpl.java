@@ -10,8 +10,8 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.privatehome.dto.PrivateHomeBlogResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,9 +26,9 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	}
 
 	@Override
-	public PrivateHomeBlogResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
-		List<PrivateHomeBlogResponse.PostCard> cards = queryFactory
-			.select(Projections.fields(PrivateHomeBlogResponse.PostCard.class,
+	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
+		List<PrivateHomePostResponse.PostCard> cards = queryFactory
+			.select(Projections.fields(PrivateHomePostResponse.PostCard.class,
 				post.id,
 				post.title,
 				post.content,
@@ -46,7 +46,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
-		return new PrivateHomeBlogResponse(hasNext, cards);
+		return new PrivateHomePostResponse(hasNext, cards);
 	}
 
 	@Override

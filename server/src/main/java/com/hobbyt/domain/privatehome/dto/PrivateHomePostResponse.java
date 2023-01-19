@@ -7,11 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-public class PrivateHomeBlogResponse {
+public class PrivateHomePostResponse {
 	private Boolean hasNext;
 	private List<PostCard> posts;
 
-	public PrivateHomeBlogResponse(Boolean hasNext, List<PostCard> posts) {
+	public PrivateHomePostResponse(Boolean hasNext, List<PostCard> posts) {
 		this.hasNext = hasNext;
 		this.posts = posts;
 	}

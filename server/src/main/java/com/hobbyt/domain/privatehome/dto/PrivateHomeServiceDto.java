@@ -8,7 +8,7 @@ public class PrivateHomeServiceDto {
 		private int offset;
 		private int limit;
 
-		public Get(PrivateHomeRequest.Blog params) {
+		public Get(PrivateHomeRequest.Get params) {
 			this.offset = params.getOffset();
 			this.limit = params.getLimit();
 		}
