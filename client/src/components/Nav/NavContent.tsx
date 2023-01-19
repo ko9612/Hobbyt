@@ -3,13 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
-import {
-  EmailState,
-  PasswordState,
-  LoginState,
-} from "../../../state/UserState";
+import { EmailState, PasswordState, LoginState } from "../../state/UserState";
 import { LoginMenus, LogoutMenus } from "./NavArr";
 import SearchBar from "../Page/Search/SearchBar";
 import logo from "../../image/logo.png";
@@ -34,9 +30,8 @@ export default function NavContent() {
   const router = useRouter();
   const setEmailState = useSetRecoilState(EmailState);
   const setPasswordState = useSetRecoilState(PasswordState);
-  const setLoginState = useSetRecoilState(LoginState);
   // 로그인 여부
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setLogin] = useRecoilState(LoginState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
   // 홈 버튼 클릭
@@ -47,9 +42,9 @@ export default function NavContent() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (localStorage.getItem("authorization")) {
-        setIsLogin(true);
+        setLogin(true);
       } else {
-        setIsLogin(false);
+        setLogin(false);
       }
     }
   }, []);
@@ -61,7 +56,7 @@ export default function NavContent() {
     if ((signOutSubmit as any).status === 200) {
       localStorage.removeItem("authorization");
       localStorage.removeItem("refresh");
-      setLoginState(false);
+      setLogin(false);
       setEmailState("");
       setPasswordState("");
       setShowModal(false);

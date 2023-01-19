@@ -1,11 +1,13 @@
 import tw from "tailwind-styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 import Navbar from "../src/components/Nav/NavBar";
 import Tab from "../src/components/Tab/Tab";
 import { SaleMenus } from "../src/components/Tab/TabArr";
 import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
+import { LoginState } from "../src/state/UserState";
 
 const MypageContent = tw.div`
 border-2 border-green-400 w-[52rem] m-auto
@@ -16,16 +18,15 @@ mt-20 mb-2
   `;
 
 export default function Mypage() {
-
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setLogin] = useRecoilState(LoginState);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (localStorage.getItem("authorization")) {
-        setIsLogin(true);
+        setLogin(true);
       } else {
-        setIsLogin(false);
+        setLogin(false);
         alert("로그인이 필요한 페이지입니다");
         router.push("/signin");
       }

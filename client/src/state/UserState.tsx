@@ -7,7 +7,6 @@ const { persistAtom } = recoilPersist();
 export const LoginState = atom<boolean | null>({
   key: "LoginState",
   default: false,
-  effects_UNSTABLE: [persistAtom],
 });
 
 // 로그인한 사용자 이메일
