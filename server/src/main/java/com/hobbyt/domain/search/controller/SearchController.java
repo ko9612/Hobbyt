@@ -22,6 +22,8 @@ public class SearchController {
 
 	@GetMapping("/posts")
 	public ResponseEntity<SearchPostResponse> searchPostsByKeyword(@ModelAttribute SearchRequest params) {
-		return ResponseEntity.ok(null);
+		SearchPostResponse response = searchService.searchPostsByKeyword(params);
+
+		return ResponseEntity.ok(response);
 	}
 }
