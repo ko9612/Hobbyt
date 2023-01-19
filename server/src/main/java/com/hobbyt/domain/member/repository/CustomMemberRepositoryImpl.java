@@ -56,8 +56,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				postComment.id,
 				postComment.content,
 				postComment.createdAt,
-				post.id,
-				post.title
+				post.id.as("postId"),
+				post.title.as("postTitle")
 			))
 			.from(postComment)
 			.join(postComment.post, post)
