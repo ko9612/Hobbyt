@@ -61,8 +61,8 @@ export default function SigninForm() {
         setIsLogin(true);
         setEmail(data.email);
         setPassword(data.password);
-        // 29분 후, 로그인 연장
-        setTimeout(LoginRefresh, 60000 * 29);
+        // 20분 후, 로그인 연장
+        setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }
     } else {

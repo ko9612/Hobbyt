@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
 import {
   EmailState,
@@ -34,8 +34,9 @@ export default function NavContent() {
   const router = useRouter();
   const setEmailState = useSetRecoilState(EmailState);
   const setPasswordState = useSetRecoilState(PasswordState);
+  const setLoginState = useSetRecoilState(LoginState);
   // 로그인 여부
-  const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  const [isLogin, setIsLogin] = useState(false);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
   // 홈 버튼 클릭
@@ -45,18 +46,13 @@ export default function NavContent() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (
-        localStorage.getItem("refresh") &&
-        localStorage.getItem("authorization")
-      ) {
+      if (localStorage.getItem("authorization")) {
         setIsLogin(true);
       } else {
         setIsLogin(false);
       }
-    } else {
-      setIsLogin(false);
     }
-  });
+  }, []);
 
   // 로그아웃 버튼 클릭
   const signoutClick = async () => {
@@ -65,7 +61,7 @@ export default function NavContent() {
     if ((signOutSubmit as any).status === 200) {
       localStorage.removeItem("authorization");
       localStorage.removeItem("refresh");
-      setIsLogin(false);
+      setLoginState(false);
       setEmailState("");
       setPasswordState("");
       setShowModal(false);

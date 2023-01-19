@@ -54,7 +54,6 @@ export const postReToken = async () => {
         },
       },
     );
-    console.log(tokenData);
     return tokenData;
   } catch (err: unknown) {
     console.log(err);
