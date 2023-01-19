@@ -5,11 +5,11 @@ import { Main } from "./index";
 import { Title, HR } from "./notice";
 import MessageList from "../src/components/Message/MessageList";
 
-export default function Message() {
-  const MContent = tw.div`
-  w-full m-auto flex items-start content-start
-  `;
+const MContent = tw.div`
+w-full m-auto flex items-start content-start
+`;
 
+export default function Message() {
   return (
     <>
       <Navbar />

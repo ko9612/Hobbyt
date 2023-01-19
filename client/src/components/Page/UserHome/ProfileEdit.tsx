@@ -2,16 +2,21 @@
 
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
+import { useRecoilState } from "recoil";
 import { DefalutButton } from "../../Button/DefalutButton";
 import { patchBlogProfile } from "../../../api/profileApi";
+import {
+  ProfileImageState,
+  HeaderImageState,
+} from "../../../state/ProfileState";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
 const ImageEdit = tw.div`flex items-center`;
 
 export default function ProfileEdit() {
-  const [profileImage, setProfileImage] = useState("");
-  const [headerImage, setHeaderImage] = useState("");
+  const [profileImage, setProfileImage] = useRecoilState(ProfileImageState);
+  const [headerImage, setHeaderImage] = useRecoilState(HeaderImageState);
   const [nickName, setNickName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -29,6 +34,7 @@ export default function ProfileEdit() {
 
   // 프로필 이미지 변경 함수
   const handleChangeProfileImage = async (e: any) => {
+    console.log(e.target.files);
     const reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
@@ -37,8 +43,8 @@ export default function ProfileEdit() {
       const newProfile: any = reader.result;
       setProfileImage(newProfile);
     };
-    console.log(`profileImage`, profileImage);
   };
+  console.log(`profileImage`, profileImage);
 
   // 닉네임 변경 함수
   const hadleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
