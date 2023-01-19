@@ -1,11 +1,11 @@
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  LoginState,
   EmailState,
   PasswordState,
-} from "../../../../state/UserState";
+  LoginState,
+} from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
 import DelModal from "../../Modal/DelModal";
 import {
@@ -22,7 +22,7 @@ const phoneNumRegex = /^[-?\d+]{0,11}$/;
 
 export default function AccountInfo() {
   const router = useRouter();
-  const setIsLogin = useSetRecoilState(LoginState);
+  const setLogin = useSetRecoilState(LoginState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
   const [, setPasswordState] = useRecoilState(PasswordState);
   const [showModal, setShowModal] = useState(false);
@@ -32,17 +32,15 @@ export default function AccountInfo() {
     if (phoneNumRegex.test(e.target.value)) setIsEditPhone(e.target.value);
   };
 
+  console.log(isEmail);
   // 회원탈퇴
   const delAccountClick = async () => {
     const delAccountSubmit = await delAccount();
-
     if ((delAccountSubmit as any).status === 200) {
       localStorage.clear();
-      setIsLogin(false);
-      //
+      setLogin(false);
       setEmailState("");
       setPasswordState("");
-      //
       setShowModal(false);
       router.push("/");
     }

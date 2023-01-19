@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
-  LoginState,
   EmailState,
   PasswordState,
-} from "../../../../state/UserState";
+  LoginState,
+} from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
@@ -31,8 +31,7 @@ export const ErrMsg = tw.p`
 
 export default function SigninForm() {
   const router = useRouter();
-
-  const setIsLogin = useSetRecoilState<boolean>(LoginState);
+  const setLogin = useSetRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
   const setPassword = useSetRecoilState<string | undefined>(PasswordState);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -58,11 +57,11 @@ export default function SigninForm() {
       localStorage.setItem("authorization", accessToken);
       localStorage.setItem("refresh", refreshToken);
       if (accessToken && refreshToken) {
-        setIsLogin(true);
+        setLogin(true);
         setEmail(data.email);
         setPassword(data.password);
-        // 29분 후, 로그인 연장
-        setTimeout(LoginRefresh, 60000 * 29);
+        // 20분 후, 로그인 연장
+        setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }
     } else {
