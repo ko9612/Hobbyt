@@ -23,7 +23,10 @@ export default function BlogPostDetail({ list }: IdataProps) {
     ssr: false,
   });
   const { title, viewCount, tags, createdAt, content, likeCount } = list || {};
-  console.log(`BLogPostDetail List`, list);
+
+  const getParsedDate = (data: string) =>
+    new Date(data).toLocaleDateString("ko-KR");
+
   return (
     <Detail id="viewer">
       <Title>{title}</Title>
@@ -35,7 +38,7 @@ export default function BlogPostDetail({ list }: IdataProps) {
         </Tag>
         <VWInfo>
           <ViewCount>{viewCount}</ViewCount>
-          <WriteDate>{createdAt}</WriteDate>
+          <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
         </VWInfo>
       </Info>
       <Main>

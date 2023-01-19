@@ -1,11 +1,14 @@
 import Image from "next/image";
-import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import { useRecoilState } from "recoil";
+// import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import { ProfileImageState } from "../../../state/ProfileState";
 
 export default function UserProfileImage() {
+  const [profile] = useRecoilState(ProfileImageState);
   return (
     <div>
       <Image
-        src={userProfile}
+        src={profile}
         alt="유저 프로필 사진"
         width={250}
         height={250}

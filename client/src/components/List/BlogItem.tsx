@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
@@ -10,15 +11,23 @@ import ExampleImg from "../../image/header_ex.jpg";
 import { IdataProps } from "../../type/blogType";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg h-[10rem] border-2`;
-export const BLImage = tw.div`border border-red-300`;
-export const BLContent = tw.div`ml-5 border border-red-300 mb-5 w-[30rem]`;
-const BLTitle = tw.div`flex justify-between w-[28rem] border-2 border-blue-500`;
+export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg h-[10rem]`;
+export const BLImage = tw.div``;
+export const BLContent = tw.div`ml-5 mb-5 w-[30rem]`;
+const BLTitle = tw.div`flex justify-between w-[28rem]`;
+const Text = tw.div`text-sm truncate sm:text-base h-2/3`;
 
 export default function BlogItem({ list }: IdataProps) {
+  const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
+    ssr: false,
+  });
+
   const router = useRouter();
   const { id, title, viewCount, likeCount, createdAt, content } = list || {};
-  console.log(`BlogItem파일에`, list);
+
+  // 날짜 바꿔주는 함수
+  const getParsedDate = (data: string) =>
+    new Date(data).toLocaleDateString("ko-KR");
 
   return (
     <BLComponent className={`${router.pathname === "/" && "bg-MainColor/40"}`}>
@@ -34,11 +43,13 @@ export default function BlogItem({ list }: IdataProps) {
           </Link>
           <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
         </BLTitle>
-        <p className="text-sm truncate sm:text-base h-2/3">{content}</p>
+        <Text>
+          <TextViewer initialValue={content} />
+        </Text>
         <div className="flex justify-end h-1/3">
           <ViewCount>{viewCount}</ViewCount>
           <LikeCount>{likeCount}</LikeCount>
-          <WriteDate>{createdAt}</WriteDate>
+          <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
         </div>
       </BLContent>
     </BLComponent>

@@ -4,9 +4,9 @@ import ErrorHandler from "./errorHandler";
 
 // 프로필 조회
 // 수정해서 사용해 주세요
-export const getBlogProfile = async (data: any) => {
+export const getBlogProfile = async () => {
   try {
-    const blogProfile = await axios.post("/api/members/profile", data, {
+    const blogProfile = await axios.post("/api/members/profile", {
       headers: { Authorization: localStorage.getItem("authorization") },
     });
     return blogProfile;
@@ -19,7 +19,10 @@ export const getBlogProfile = async (data: any) => {
 export const patchBlogProfile = async (data: any) => {
   try {
     const blogProfile = await axios.patch("/api/members/profile", data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        "Content-type": "multipart/form-data",
+        Authorization: localStorage.getItem("authorization"),
+      },
     });
     return blogProfile;
   } catch (err: unknown) {

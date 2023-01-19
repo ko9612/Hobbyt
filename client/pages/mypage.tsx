@@ -5,15 +5,10 @@ import { SaleMenus } from "../src/components/Tab/TabArr";
 import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
 
+const MypageContent = tw.div`border-2 border-green-400 w-[52rem] m-auto`;
+const MypageTitle = tw.div`mt-20 mb-2`;
+
 export default function Mypage() {
-  const MypageContent = tw.div`
-  border-2 border-green-400 w-[52rem] m-auto
-    `;
-
-  const MypageTitle = tw.div`
-  mt-20 mb-2
-    `;
-
   return (
     <>
       <Navbar />
