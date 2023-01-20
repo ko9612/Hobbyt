@@ -67,6 +67,7 @@ export default function SigninForm() {
     } else {
       setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
       setShowModal(true);
+      console.log(signinSubmit);
     }
     // 나중에 에러 처리
     // switch ((signinSubmit as any).status) {

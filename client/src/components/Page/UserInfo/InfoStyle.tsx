@@ -8,7 +8,7 @@ export const InfoTitle = tw.p`
 text-xl py-2
 `;
 
-export const InfoContent = tw.article`
+export const InfoContent = tw.form`
 pt-2 pb-5
 `;
 
@@ -17,7 +17,7 @@ flex flex-wrap mb-4
 `;
 
 export const InputDiv = tw.div`
-flex justify-between w-3/5
+justify-between w-3/5
 `;
 
 export const InputLabel = tw.label`

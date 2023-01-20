@@ -36,7 +36,6 @@ export const postSignin = async (data: any) => {
     );
     return signinUserData;
   } catch (err: unknown) {
-    // console.log(err.response);
     return ErrorHandler(err);
   }
 };
@@ -95,3 +94,5 @@ export const delAccount = async () => {
     return err.response;
   }
 };
+
+//
