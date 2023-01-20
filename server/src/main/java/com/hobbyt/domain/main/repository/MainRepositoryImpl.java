@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.main.entity.HotPost;
+import com.hobbyt.domain.main.dto.HotPost;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -27,7 +27,7 @@ public class MainRepositoryImpl implements MainRepository {
 	}
 
 	@Override
-	public List<HotPost> getHotPost() {
+	public List<HotPost> getHotPosts() {
 		final int postCount = 5;
 
 		List<Long> postIds = queryFactory
@@ -36,7 +36,7 @@ public class MainRepositoryImpl implements MainRepository {
 			.join(postLike.post, post)
 			.where(postLike.createdAt.goe(LocalDateTime.now().with(DayOfWeek.MONDAY)))
 			.groupBy(post.id)
-			.orderBy(postLike.id.count().desc())
+			.orderBy(postLike.id.count().desc(), post.id.desc())
 			.limit(postCount)
 			.fetch();
 

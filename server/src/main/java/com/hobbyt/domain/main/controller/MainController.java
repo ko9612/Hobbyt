@@ -1,10 +1,13 @@
 package com.hobbyt.domain.main.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.main.dto.HotPost;
 import com.hobbyt.domain.main.dto.HotPostResponse;
 import com.hobbyt.domain.main.service.MainService;
 
@@ -18,6 +21,8 @@ public class MainController {
 
 	@GetMapping("/hot-posts")
 	public ResponseEntity<HotPostResponse> getHotPosts() {
-		return ResponseEntity.ok(null);
+		List<HotPost> hotPosts = mainService.getAll();
+
+		return ResponseEntity.ok(new HotPostResponse(hotPosts));
 	}
 }

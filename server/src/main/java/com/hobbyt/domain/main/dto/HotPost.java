@@ -1,4 +1,4 @@
-package com.hobbyt.domain.main.entity;
+package com.hobbyt.domain.main.dto;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@RedisHash("Hot_Post")
+@RedisHash(value = "Hot_Post", timeToLive = 3600)
 @Getter
 @NoArgsConstructor
 public class HotPost {
