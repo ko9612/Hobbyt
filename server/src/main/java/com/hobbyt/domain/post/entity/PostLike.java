@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@OnDelete(action = OnDeleteAction.CASCADE)
 public class PostLike extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +28,7 @@ public class PostLike extends BaseEntity {
 	private Member member;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 
 	public static PostLike of(Member member, Post post) {

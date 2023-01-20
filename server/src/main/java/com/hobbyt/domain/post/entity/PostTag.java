@@ -18,16 +18,17 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@OnDelete(action = OnDeleteAction.CASCADE)
 public class PostTag {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tag_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Tag tag;
 
 	public static PostTag of(Post post, Tag tag) {

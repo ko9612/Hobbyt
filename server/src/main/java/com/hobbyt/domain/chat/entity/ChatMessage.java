@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@OnDelete(action = OnDeleteAction.CASCADE)
 public class ChatMessage extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +33,6 @@ public class ChatMessage extends BaseEntity {
 	private boolean modified = false;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ChatUser chatUser;
 }

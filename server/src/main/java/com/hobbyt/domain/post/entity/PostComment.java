@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@OnDelete(action = OnDeleteAction.CASCADE)
 public class PostComment extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +33,7 @@ public class PostComment extends BaseEntity {
 	private Member writer;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 
 	public void updateContent(String content) {
