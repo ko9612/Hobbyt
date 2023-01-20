@@ -22,9 +22,7 @@ export const getBlogContent = async (
 // 블로그 게시글 상세 조회 api
 export const getBlogDetail = async (id: number) => {
   try {
-    const blogContent = await axios.get(`/api/posts/${id}`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
+    const blogContent = await axios.get(`/api/posts/${id}`);
     return blogContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -66,7 +64,9 @@ export const deleteBlogContent = async (id: any) => {
 // 블로그 댓글 작성 api
 export const postBlogComment = async (data: any) => {
   try {
-    const blogComment = await axios.post("/api/post-comments", data);
+    const blogComment = await axios.post("/api/post-comments", data, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return blogComment;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -76,7 +76,9 @@ export const postBlogComment = async (data: any) => {
 // 블로그 댓글 수정 api
 export const patchBlogComment = async (data: any, id: any) => {
   try {
-    const blogComment = await axios.patch(`/api/post-comments/${id}`, data);
+    const blogComment = await axios.patch(`/api/post-comments/${id}`, data, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return blogComment;
   } catch (err: unknown) {
     return ErrorHandler(err);

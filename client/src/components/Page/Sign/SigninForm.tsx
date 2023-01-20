@@ -10,6 +10,7 @@ import {
   EmailState,
   PasswordState,
   LoginState,
+  UserIdState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
@@ -34,6 +35,7 @@ export default function SigninForm() {
   const setLogin = useSetRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
   const setPassword = useSetRecoilState<string | undefined>(PasswordState);
+  // const setUserId = useSetRecoilState<number | undefined>(UserIdState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -50,7 +52,7 @@ export default function SigninForm() {
     };
 
     const signinSubmit = await postSignin(signinData);
-
+    console.log(`signinSubmit`, signinSubmit);
     if ((signinSubmit as any).status === 200) {
       const accessToken = (signinSubmit as any).headers.authorization;
       const refreshToken = (signinSubmit as any).headers.refreshtoken;
@@ -60,6 +62,7 @@ export default function SigninForm() {
         setLogin(true);
         setEmail(data.email);
         setPassword(data.password);
+        // setUserId(data.)
         // 20분 후, 로그인 연장
         setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");

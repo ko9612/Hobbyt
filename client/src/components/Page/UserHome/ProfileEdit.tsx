@@ -44,7 +44,6 @@ export default function ProfileEdit() {
       setProfileImage(newProfile);
     };
   };
-  console.log(`profileImage`, profileImage);
 
   // 닉네임 변경 함수
   const hadleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +73,8 @@ export default function ProfileEdit() {
       "profileRequest",
       new Blob([JSON.stringify(data)] as any, { type: "application/json" }),
     );
+
+    console.log(formData);
 
     try {
       const req = await patchBlogProfile(formData);

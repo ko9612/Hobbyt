@@ -22,3 +22,10 @@ export const PasswordState = atom<string | undefined>({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+// 로그인한 사용자 아이디 (number type)
+export const UserIdState = atom<number | undefined>({
+  key: "userIdState",
+  default: 0,
+  // effects_UNSTABLE: [persistAtom],
+});

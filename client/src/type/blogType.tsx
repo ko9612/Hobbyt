@@ -36,3 +36,36 @@ export interface IdataProps {
   }[];
   key: number;
 }
+
+export interface IBlogDetailData {
+  detail: {
+    id: number;
+    title: string;
+    content: string;
+    thumbnailImage: null | string;
+    viewCount: number;
+    likeCount: number;
+    isPublic: boolean;
+    createdAt: string;
+    writer: {
+      id: number;
+      email: string;
+      nickName: string;
+      profileImage: null | string;
+      signedUpAt: string;
+      followings: number;
+      followers: number;
+    };
+    comments: {
+      reverse: any;
+      map(arg0: (item: any) => JSX.Element): import("react").ReactNode;
+      id: number;
+      writerId: number;
+      nickname: string;
+      profileImage: string;
+      createdAt: string;
+      content: string;
+    };
+    tag: string[];
+  };
+}
