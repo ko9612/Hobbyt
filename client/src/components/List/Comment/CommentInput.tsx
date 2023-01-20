@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
 import React, { ChangeEvent, useCallback, useState } from "react";
+import { useRouter } from "next/router";
 import { postBlogComment } from "../../../api/blogApi";
 
 const Content = tw.div`border-2 border-2 rounded-xl`;
@@ -10,6 +11,9 @@ const Send = tw.div`flex justify-between pl-3 pr-4 pb-3 items-center cursor-poin
 
 export default function CommentInput() {
   const [comment, setComment] = useState("");
+  // 포스트 ID
+  const router = useRouter();
+  const { id } = router.query;
 
   // 댓글 내용 저장 함수
   const onChangeCommet = useCallback(
@@ -25,12 +29,15 @@ export default function CommentInput() {
     e.preventDefault();
 
     const data = {
+      postId: id,
       content: comment,
     };
 
     try {
       const res = await postBlogComment(data);
       console.log(res);
+      router.reload();
+      setComment("");
     } catch (err: unknown) {
       console.error(err);
     }

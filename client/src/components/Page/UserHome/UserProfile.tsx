@@ -20,6 +20,9 @@ export default function UserProfile() {
     }
   };
 
+  const getParsedDate = (createdAt: string) =>
+    new Date(createdAt).toLocaleDateString("ko-KR");
+
   useEffect(() => {
     request();
   }, []);
@@ -29,7 +32,9 @@ export default function UserProfile() {
       <h1 className="mb-2 text-3xl font-bold">{data?.nickname}</h1>
       <div className="inline-flex mb-5">
         <BsCalendar4 className="mt-1" />
-        <p className="ml-2 text-gray-400">{data?.createdAt}</p>
+        <p className="ml-2 text-gray-400">
+          {data?.createdAt && getParsedDate(data.createdAt)}
+        </p>
       </div>
       <p className="mb-7">{data?.description}</p>
       <div className="inline-flex mb-7">

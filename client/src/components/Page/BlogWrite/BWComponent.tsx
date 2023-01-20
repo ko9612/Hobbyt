@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
 import TitleInput from "../../ToastUI/TitleInput";
 import DefalutTag from "../../Tag/DefalutTag";
 import { DefalutButton } from "../../Button/DefalutButton";
@@ -16,6 +17,7 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
 });
 
 export default function BlogWriteComponent() {
+  const router = useRouter();
   const [titleData] = useRecoilState(TitleState);
   const [contentData] = useRecoilState(ContentState);
   const [tagData] = useRecoilState(TagState);
@@ -33,6 +35,7 @@ export default function BlogWriteComponent() {
       try {
         const submit = await postBlogContent(data);
         console.log(`blogSubmit`, submit);
+        router.replace(`/post/${submit.data}`);
       } catch (err: unknown) {
         console.error(err);
       }

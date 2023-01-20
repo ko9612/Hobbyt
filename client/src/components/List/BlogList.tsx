@@ -11,8 +11,8 @@ function BlogList({ list }: IdataProps[]) {
   return (
     <BLContainer>
       <BlogSaleInfo>블로그</BlogSaleInfo>
-      {list.posts &&
-        list.posts.map((item: any, index: number) => (
+      {list?.posts &&
+        list?.posts.map((item: any, index: number) => (
           <BlogItem list={item} key={index} />
         ))}
     </BLContainer>
