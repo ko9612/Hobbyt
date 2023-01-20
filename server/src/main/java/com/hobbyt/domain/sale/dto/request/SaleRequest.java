@@ -59,4 +59,8 @@ public class SaleRequest {
 		return products.stream().map(product -> Product.of(product.name, product.price, product.stockQuantity))
 			.collect(Collectors.toList());
 	}
+
+	public int getProductsSize() {
+		return this.products.size();
+	}
 }
