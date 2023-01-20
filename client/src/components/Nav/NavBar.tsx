@@ -1,13 +1,30 @@
-import MobileNav from "./MobileNav";
-import PcNav from "./PcNav";
+import tw from "tailwind-styled-components";
+import MobileNav, { Nav } from "./MobileNav";
+import NavContent from "./NavContent";
+// import dynamic from "next/dynamic";
 
-export default function Navbar() {
+// const DynamicNavContent = dynamic(() => import("./NavContent"), {
+//   ssr: false,
+// });
+
+export const NavBar = tw.div`
+  flex
+`;
+
+function Navbar() {
   return (
     <>
       <MobileNav />
       <div className="hidden lg:block">
-        <PcNav />
+        <NavBar>
+          <Nav>
+            {/* <DynamicNavContent/> */}
+            <NavContent />
+          </Nav>
+        </NavBar>
       </div>
     </>
   );
 }
+
+export default Navbar;

@@ -4,29 +4,28 @@ import Link from "next/link";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
+import { CommentType } from "../../type/blogType";
 
 export const SLContainer = tw.div`m-auto`;
-
 export const SLComponent = tw.div`grid grid-cols-3 mt-4 border`;
-
-export const SLContent = tw.div`
-w-full inline-block bg-gray-100 rounded-lg justify-center items-center
-`;
-
-export const SLImage = tw.div`
- h-[13rem] border border-red-300 rounded-lg mb-2
-`;
-
+export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-lg justify-center items-center`;
+export const SLImage = tw.div`h-[13rem] border border-red-300 rounded-lg mb-2`;
 export const SLProductInfo = tw.div`mx-4`;
 
 export default function SaleList() {
+  const [dummy]: CommentType[] = [
+    { title: "판매 게시글 w제목 ", id: 1, content: "판매게시글 내용~~" },
+    { title: "판매 게시글 제목2 ", id: 2, content: "판매게시글 내용~~" },
+    { title: "판매 게시글 제목3 ", id: 3, content: "판매게시글 내용~~" },
+  ];
+
   return (
     <SLContainer>
       <BlogSaleInfo>판매</BlogSaleInfo>
       <SLComponent>
         <SLContent>
           <SLImage>
-            <ThreeDotsBox>작품</ThreeDotsBox>
+            <ThreeDotsBox item={dummy}>작품</ThreeDotsBox>
           </SLImage>
           <SLProductInfo>
             <Link href="/saledetail">
@@ -37,7 +36,7 @@ export default function SaleList() {
               </div>
             </Link>
             <div className="float-right">
-              <LikeCount />
+              <LikeCount>0</LikeCount>
             </div>
           </SLProductInfo>
         </SLContent>

@@ -23,9 +23,9 @@ export default function LikeList() {
             더미 데이터입니다.
           </p>
           <div className="flex justify-end ">
-            <ViewCount />
-            <LikeCount />
-            <WriteDate />
+            <ViewCount>234234</ViewCount>
+            <LikeCount>2234</LikeCount>
+            <WriteDate>22.12.12</WriteDate>
           </div>
         </BLContent>
       </BLComponent>

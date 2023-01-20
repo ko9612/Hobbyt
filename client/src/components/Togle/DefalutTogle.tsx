@@ -1,17 +1,17 @@
-import { useState } from "react";
 import tw from "tailwind-styled-components";
+import { useRecoilState } from "recoil";
+import { PublicState } from "../../state/BlogPostState";
 
 interface DefaultProps {
   children: string;
 }
 
-export default function DefalutTogle(props: DefaultProps) {
-  const TogleContainer = tw.div`
-    relative cursor-pointer
-    `;
+const TogleContainer = tw.div`relative cursor-pointer`;
 
-  const [isOn, setIsOn] = useState(false);
-  const { children } = props;
+// export default function DefalutTogle(props: DefaultProps) {
+export default function DefalutTogle({ children }: DefaultProps) {
+  const [isOn, setIsOn] = useRecoilState(PublicState);
+  // const { children } = props;
 
   const toggleHandler = () => {
     setIsOn(!isOn);

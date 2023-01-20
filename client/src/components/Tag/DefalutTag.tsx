@@ -1,13 +1,13 @@
 import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
-import TagState from "../../state/Blog/TagState";
+import { TagState } from "../../state/BlogPostState";
+
+const TagInput = tw.div`
+mt-3 mb-10 flex border-2 rounded-lg px-3 ml-2
+`;
 
 export default function DefalutTag() {
   const [tags, setTags] = useRecoilState(TagState);
-
-  const TagInput = tw.div`
-    mt-3 mb-10 flex border-2 rounded-lg px-3 ml-2
-    `;
 
   const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (

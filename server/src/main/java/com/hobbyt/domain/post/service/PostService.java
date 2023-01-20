@@ -1,9 +1,13 @@
 package com.hobbyt.domain.post.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.repository.PostRepository;
 import com.hobbyt.global.error.exception.PostNotExistException;
@@ -15,8 +19,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostService {
 	private final PostRepository postRepository;
+	private final MemberService memberService;
 
-	public Post createPost(Member writer, Post post) {
+	public PostResponse getPostDetailById(Long id) {
+		Post post = findVerifiedOneById(id);
+		List<PostResponse.CommentBox> comments = postRepository.getPostCommentsByPostId(id);
+		List<String> tags = postRepository.getTagsByPostId(id);
+
+		post.increaseViewCount();
+
+		return new PostResponse(post, comments, tags);
+	}
+
+	public Post createPost(String email, Post post) {
+		Member writer = memberService.findMemberByEmail(email);
 		post.setWriter(writer);
 
 		return postRepository.save(post);
@@ -38,6 +54,6 @@ public class PostService {
 
 	public Post findVerifiedOneById(Long id) {
 		return postRepository.findById(id)
-			.orElseThrow(() -> new PostNotExistException("Post Having The Id Not Exist"));
+			.orElseThrow(() -> new PostNotExistException("Post With The Id Not Exist"));
 	}
 }

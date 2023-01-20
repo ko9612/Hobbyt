@@ -9,8 +9,9 @@ import { Input, LoginInput, ErrMsg } from "./SigninForm";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import MsgModal from "../../Modal/MsgModal";
 import { postsignupSubmit, postSignupEmailBut } from "../../../api/signApi";
+// import { SignupInputs } from "../../../type/userTypes";
 
-type SignupInputs = {
+export type SignupInputs = {
   nickname: string;
   email: string;
   emailCheck: string;
@@ -80,6 +81,9 @@ export default function SignupForm() {
             router.push("/signin");
           }
           break;
+        // 닉네임 중복
+        // 이메일 중복
+        // 로그인 실패- 관리자에게 문의
         default:
       }
     }

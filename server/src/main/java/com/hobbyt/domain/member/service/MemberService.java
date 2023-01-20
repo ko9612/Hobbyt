@@ -65,7 +65,7 @@ public class MemberService {
 		member.withdraw();
 	}
 
-	private Member findMemberByEmail(final String email) {
+	public Member findMemberByEmail(final String email) {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 	}
 

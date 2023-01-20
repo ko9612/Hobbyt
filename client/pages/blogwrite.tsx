@@ -9,11 +9,9 @@ import { Content, BlogContent, UserContent, UserInfo } from "./blog";
 import Footer from "../src/components/Footer/Footer";
 import BlogWriteComponent from "../src/components/Page/BlogWrite/BWComponent";
 
-export default function BlogWrite() {
-  const EditorContent = tw.div`
-  w-[43rem] m-auto
-  `;
+const EditorContent = tw.div`w-[43rem] m-auto`;
 
+export default function BlogWrite() {
   return (
     <>
       <Navbar />

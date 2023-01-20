@@ -1,10 +1,11 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
+// 회원가입
 export const postsignupSubmit = async (data: any) => {
   try {
     const signupUserData = await axios.post(
-      "http://localhost:8080/api/members/signup",
+      "http://59.12.62.150:8080/api/members/signup",
       data,
     );
     return signupUserData;
@@ -13,10 +14,11 @@ export const postsignupSubmit = async (data: any) => {
   }
 };
 
+// 이메일 인증 번호
 export const postSignupEmailBut = async (data: any) => {
   try {
     const signupEmailData = await axios.post(
-      "http://localhost:8080/api/auth/code",
+      "http://59.12.62.150:8080/api/auth/code",
       data,
     );
     return signupEmailData;
@@ -25,27 +27,71 @@ export const postSignupEmailBut = async (data: any) => {
   }
 };
 
+// 로그인
 export const postSignin = async (data: any) => {
   try {
     const signinUserData = await axios.post(
-      "http://localhost:8080/api/auth/login",
+      "http://59.12.62.150:8080/api/auth/login",
       data,
     );
     return signinUserData;
   } catch (err: unknown) {
-    console.log(err.response);
+    // console.log(err.response);
     return ErrorHandler(err);
   }
 };
 
-export const postReToken = async (data: any) => {
+// refreshToken
+export const postReToken = async () => {
   try {
     const tokenData = await axios.post(
-      "http://localhost:8080/api/auth/reissue",
-      data,
+      "http://59.12.62.150:8080/api/auth/reissue",
+      "",
+      {
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+          refreshtoken: localStorage.getItem("refresh"),
+        },
+      },
     );
     return tokenData;
   } catch (err: unknown) {
+    console.log(err);
     return ErrorHandler(err);
+  }
+};
+
+// 로그아웃
+export const postSignout = async () => {
+  try {
+    const outUserData = await axios.post(
+      "http://59.12.62.150:8080/api/auth/logout",
+      "",
+      {
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+        },
+      },
+    );
+    return outUserData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 회원탈퇴
+export const delAccount = async () => {
+  try {
+    const delUserData = await axios.delete(
+      "http://59.12.62.150:8080/api/members/myPage/delete",
+      {
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+        },
+      },
+    );
+    return delUserData;
+  } catch (err: any) {
+    return err.response;
   }
 };

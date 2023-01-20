@@ -10,29 +10,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.post.service.PostLikeService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/post/{post-id}/like")
+@RequestMapping("/api/posts/{post-id}/like")
 @RequiredArgsConstructor
 public class PostLikeController {
-	private PostLikeService postLikeService;
+	private final PostLikeService postLikeService;
 
 	@PostMapping
-	public ResponseEntity<Void> likePost(@AuthenticationPrincipal Member member,
+	public ResponseEntity<Void> likePost(
+		@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.createPostLike(member, postId);
+
+		postLikeService.createPostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> cancelLike(@AuthenticationPrincipal Member member,
+	public ResponseEntity<Void> cancelLike(
+		@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-		postLikeService.deletePostLike(member, postId);
+
+		postLikeService.deletePostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
 	}

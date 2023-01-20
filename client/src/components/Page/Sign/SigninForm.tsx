@@ -1,3 +1,4 @@
+// 로그인 form
 import tw from "tailwind-styled-components";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
@@ -6,13 +7,14 @@ import { useForm } from "react-hook-form";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
-  LoginState,
-  TokenState,
   EmailState,
   PasswordState,
+  LoginState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
+import { SigninInputs } from "../../../type/userTypes";
+import LoginRefresh from "../../../util/LoginRefresh";
 
 export const Input = tw.div`
   my-6
@@ -27,23 +29,13 @@ export const ErrMsg = tw.p`
   text-sm text-MainColor p-1
 `;
 
-type SigninInputs = {
-  email: string;
-  password: string;
-};
-
 export default function SigninForm() {
   const router = useRouter();
-
-  const setIsLogin = useSetRecoilState(LoginState);
-  const setToken = useSetRecoilState(TokenState);
-  const setEmail = useSetRecoilState(EmailState);
-  const setPassword = useSetRecoilState(PasswordState);
-
-  // 에러 방지
-  console.log(setToken);
-
+  const setLogin = useSetRecoilState<boolean | null>(LoginState);
+  const setEmail = useSetRecoilState<string | undefined>(EmailState);
+  const setPassword = useSetRecoilState<string | undefined>(PasswordState);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
 
   const {
     register,
@@ -60,26 +52,26 @@ export default function SigninForm() {
     const signinSubmit = await postSignin(signinData);
 
     if ((signinSubmit as any).status === 200) {
-      setIsLogin(true);
-      // 내 정보 관리 페이지에서 필요한 이메일, 현재 비밀번호 state
-      setEmail(data.email);
-      setPassword(data.password);
-      console.log("로그인!");
-      router.push("/signin");
+      const accessToken = (signinSubmit as any).headers.authorization;
+      const refreshToken = (signinSubmit as any).headers.refreshtoken;
+      localStorage.setItem("authorization", accessToken);
+      localStorage.setItem("refresh", refreshToken);
+      if (accessToken && refreshToken) {
+        setLogin(true);
+        setEmail(data.email);
+        setPassword(data.password);
+        // 20분 후, 로그인 연장
+        setTimeout(LoginRefresh, 60000 * 20);
+        router.replace("/");
+      }
     } else {
-      console.log("로그인 실패!");
+      setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
       setShowModal(true);
     }
+    // 나중에 에러 처리
     // switch ((signinSubmit as any).status) {
     //   case 200:
-    //     setIsLogin(true);
-    //     console.log("로그인!");
-    //     router.push("/signin");
-    //     break;
-    //   case 403:
-    //     console.log("로그인 실패!");
-    //     setShowModal(true);
-    //     break;
+    //   case 400:
     //   default:
     // }
   };
@@ -99,12 +91,7 @@ export default function SigninForm() {
 
   return (
     <>
-      {showModal && (
-        <MsgModal
-          msg="이메일 또는 비밀번호를 다시 확인해주세요."
-          setOpenModal={setShowModal}
-        />
-      )}
+      {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input>
           <LoginInput

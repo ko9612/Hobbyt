@@ -43,18 +43,18 @@ const arr = [
   },
 ];
 
+const MContainer = tw.div`flex w-[62rem] content-start`;
+const List = tw.li`flex m-auto mb-6 w-[22rem] border-2`;
+const Info = tw.div`w-[14rem]`;
+const Title = tw.div`flex`;
+
+const MList = tw.ul`w-[31rem] mt-5 cursor-pointer`;
+const MContent = tw.div`w-[31rem] text-center m-auto`;
+const HR = tw.div`bg-gray-200 p-0.5 h-[40rem]`;
+
 export default function MessageList() {
   const [curIndex, setIndex] = useState(0);
   const messageArr = arr;
-
-  const MContainer = tw.div`flex w-[62rem] content-start`;
-  const List = tw.li`flex m-auto mb-6 w-[22rem] border-2`;
-  const Info = tw.div`w-[14rem]`;
-  const Title = tw.div`flex`;
-
-  const MList = tw.ul`w-[31rem] mt-5 cursor-pointer`;
-  const MContent = tw.div`w-[31rem] text-center m-auto`;
-  const HR = tw.div`bg-gray-200 p-0.5 h-[40rem]`;
 
   const onClickHandler = (index: number) => {
     setIndex(index);

@@ -11,15 +11,11 @@ import { BlogMenus } from "../src/components/Tab/TabArr";
 import Footer from "../src/components/Footer/Footer";
 
 export const Content = tw.main`flex`;
-
-export const UserInfo = tw.div`
-`;
-
+export const UserInfo = tw.div``;
 export const BlogContent = tw.main`
   border-2 border-green-500
   w-[48rem] sm:ml-[18rem]
 `;
-
 export const UserContent = tw.aside`
  w-[16rem] h-full
  justify-center items-center
@@ -27,12 +23,9 @@ export const UserContent = tw.aside`
  border border-blue-500
  relative -top-32
 `;
+const BlogTab = tw.div`w-[43rem] m-auto`;
 
 function Blog() {
-  const BlogTab = tw.div`
-  w-[43rem] m-auto
-  `;
-
   return (
     <>
       <Navbar />
@@ -61,7 +54,3 @@ function Blog() {
 }
 
 export default Blog;
-
-// const UserInfo = tw.div`
-// sticky top-32
-// `;

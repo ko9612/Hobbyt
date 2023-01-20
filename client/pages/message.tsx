@@ -1,18 +1,18 @@
 import tw from "tailwind-styled-components";
-import NavBar from "../src/components/Nav/NavBar";
+import Navbar from "../src/components/Nav/NavBar";
 import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
 import { Title, HR } from "./notice";
 import MessageList from "../src/components/Message/MessageList";
 
-export default function Message() {
-  const MContent = tw.div`
-  w-full m-auto flex items-start content-start
-  `;
+const MContent = tw.div`
+w-full m-auto flex items-start content-start
+`;
 
+export default function Message() {
   return (
     <>
-      <NavBar />
+      <Navbar />
       <Main>
         <Title>
           <h1 className="text-3xl font-bold">메세지</h1>

@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 import { BsHeart } from "react-icons/bs";
 
 interface ILike {
-  children: number | string;
+  children: number | string | undefined;
 }
 
 export default function LikeCount({ children }: ILike) {

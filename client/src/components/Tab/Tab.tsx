@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import BlogList from "../List/BlogList";
@@ -11,6 +11,7 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
+import { getBlogContent } from "../../api/blogApi";
 
 interface TabProps {
   Menus: {
@@ -20,26 +21,38 @@ interface TabProps {
   }[];
 }
 
+const TabMenu = tw.ul`flex items-center flex-row m-auto list-none bg-white text-xl`;
+const TabContent = tw.div``;
+
 export default function Tab({ Menus }: TabProps) {
   const router = useRouter();
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
-
-  const TabMenu = tw.ul`
-    flex items-center flex-row m-auto
-    list-none bg-white
-    text-xl
-  `;
-
-  const TabContent = tw.div`
-  `;
 
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
   };
 
   const keyword = router.query.keywords;
-  console.log(keyword);
+
+  // api 리스트 데이터 저장
+  const [listData, setListData] = useState([]);
+
+  // api 요청
+  const getData = async () => {
+    // 함수 안에 숫자들은 임의 숫자예요
+    // 빨간줄 떠도 잘 돼요,,,
+    const res = await getBlogContent(3, 0, 5);
+    const listRes = res.data;
+
+    setListData(listRes);
+    console.log(`listRes`, listRes);
+    console.log(`res`, res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -59,7 +72,7 @@ export default function Tab({ Menus }: TabProps) {
       </TabMenu>
       <TabContent>
         {Menus[curIndex].name === "블로그" && router.pathname === "/blog" ? (
-          <BlogList />
+          <BlogList list={listData} />
         ) : null}
         {Menus[curIndex].name === "판매" && router.pathname === "/blog" ? (
           <SaleList />

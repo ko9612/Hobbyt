@@ -1,13 +1,13 @@
 import Image from "next/image";
-import tw from "tailwind-styled-components";
-import headerImage from "../../../image/header_ex.jpg"; // 헤더 이미지 임시입니다
+// import tw from "tailwind-styled-components";
+// import headerImage from "../../../image/header_ex.jpg"; // 헤더 이미지 임시입니다
+import { useRecoilState } from "recoil";
+import { HeaderImageState } from "../../../state/ProfileState";
 
 export default function Header() {
-  const HContainer = tw.header`
-  `;
-
+  const [headerImage] = useRecoilState(HeaderImageState);
   return (
-    <HContainer>
+    <header>
       <Image
         src={headerImage}
         alt="개인홈 이미지 헤더"
@@ -15,7 +15,7 @@ export default function Header() {
         height={100}
         className="overflow-hidden border border-red-700 h-80 w-[62rem] ml-auto"
       />
-    </HContainer>
+    </header>
   );
 }
 
