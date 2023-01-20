@@ -1,8 +1,9 @@
 import axios from "axios";
+import { PasswordProps, MyInfoProps } from "../type/userTypes";
 import ErrorHandler from "./errorHandler";
 
 // 비밀번호 변경
-export const patchPaswword = async (data: any) => {
+export const patchPaswword = async (data: PasswordProps) => {
   try {
     const editPassword = await axios.patch(
       "http://59.12.62.150:8080/api/members/myPage/password",
@@ -37,7 +38,7 @@ export const getUserInfo = async () => {
 };
 
 // 내 정보 변경(비밀번호 제외)
-export const patchUserInfo = async (data: any) => {
+export const patchUserInfo = async (data: MyInfoProps) => {
   try {
     const userInfo = await axios.patch(
       "http://59.12.62.150:8080/api/members/myPage",
