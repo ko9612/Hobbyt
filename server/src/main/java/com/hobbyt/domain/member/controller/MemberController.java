@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Min;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,10 +91,10 @@ public class MemberController {
 		return ResponseEntity.ok(myInfoResponse);
 	}
 
-	@GetMapping("/profile")
-	public ResponseEntity getProfile(@AuthenticationPrincipal MemberDetails memberDetails) {
+	@GetMapping("/profile/{memberId}")
+	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long memberId) {
 		// ProfileResponse profileResponse = ProfileResponse.of(loginMember);
-		ProfileResponse profileResponse = memberService.getProfile(memberDetails.getEmail());
+		ProfileResponse profileResponse = memberService.getProfile(memberId);
 
 		return ResponseEntity.ok(profileResponse);
 	}

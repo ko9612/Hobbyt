@@ -109,9 +109,13 @@ public class MemberService {
 		return MyInfoResponse.of(member);
 	}
 
-	public ProfileResponse getProfile(final String email) {
-		Member member = findMemberByEmail(email);
+	public ProfileResponse getProfile(final Long memberId) {
+		Member member = findMemberById(memberId);
 		return ProfileResponse.of(member);
+	}
+
+	private Member findMemberById(Long id) {
+		return memberRepository.findById(id).orElseThrow(MemberNotExistException::new);
 	}
 
 	@Transactional
