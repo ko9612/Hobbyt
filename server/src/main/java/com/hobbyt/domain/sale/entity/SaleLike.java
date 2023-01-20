@@ -1,7 +1,6 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.sale.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,30 +10,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.hobbyt.domain.member.entity.Member;
-import com.hobbyt.global.entity.Article;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Sale extends Article {
+public class SaleLike {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false)
 	private Long id;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "writer_id")
-	private Member writer;
+	@JoinColumn(name = "member_id")
+	private Member member;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "sale_id")
+	private Sale sale;
 
-	@Column(nullable = false, columnDefinition = "MEDIUMTEXT")
-	private String refundPolicy;
+	public static SaleLike of(Member member, Sale sale) {
+		return new SaleLike(member, sale);
+	}
 
-	@Embedded
-	@Column(nullable = false)
-	private Period period;
-
-	@Column(nullable = false)
-	private Account account;
+	private SaleLike(Member member, Sale sale) {
+		this.member = member;
+		this.sale = sale;
+	}
 }

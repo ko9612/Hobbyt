@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.dto.TokenDto;
+import com.hobbyt.domain.member.dto.LoginResponse;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
@@ -43,11 +43,11 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity login(@Validated @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
-		TokenDto tokenDto = authService.login(loginRequest);
+		LoginResponse loginResponse = authService.login(loginRequest);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + tokenDto.getAccessToken());
-		response.setHeader(REFRESH_TOKEN_HEADER, tokenDto.getRefreshToken());
-		return ResponseEntity.ok().build();
+		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + loginResponse.getAccessToken());
+		response.setHeader(REFRESH_TOKEN_HEADER, loginResponse.getRefreshToken());
+		return ResponseEntity.ok(loginResponse.getId());
 	}
 
 	@PostMapping("/reissue")

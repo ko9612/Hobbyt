@@ -2,8 +2,8 @@ package com.hobbyt.domain.member.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.hobbyt.domain.entity.Views;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.Views;
 
 import lombok.Builder;
 import lombok.Getter;

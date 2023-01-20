@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobbyt.domain.member.dto.TokenDto;
+import com.hobbyt.domain.member.dto.LoginResponse;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
@@ -103,9 +103,9 @@ class AuthControllerTest {
 	void login() throws Exception {
 		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
 		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
-		TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
+		LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
 		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
-		given(authService.login(any(LoginRequest.class))).willReturn(tokenDto);
+		given(authService.login(any(LoginRequest.class))).willReturn(loginResponse);
 
 		ResultActions actions = mockMvc.perform(post("/api/auth/login")
 			.contentType(MediaType.APPLICATION_JSON)

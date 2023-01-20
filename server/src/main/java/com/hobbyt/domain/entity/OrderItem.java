@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.sale.entity.Product;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

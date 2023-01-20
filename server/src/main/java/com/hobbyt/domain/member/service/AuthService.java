@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.member.dto.TokenDto;
+import com.hobbyt.domain.member.dto.LoginResponse;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
@@ -86,7 +86,7 @@ public class AuthService {
 		}
 	}
 
-	public TokenDto login(LoginRequest loginRequest) {
+	public LoginResponse login(LoginRequest loginRequest) {
 		Member member = findMemberByEmailAndNotWithdrawal(loginRequest.getEmail());
 		checkPassword(loginRequest.getPassword(), member.getPassword());
 
@@ -96,7 +96,7 @@ public class AuthService {
 		redisService.setValue(member.getEmail(), refreshToken,
 			jwtTokenProvider.calculateExpiration(refreshToken));
 
-		return new TokenDto(accessToken, refreshToken);
+		return new LoginResponse(member.getId(), accessToken, refreshToken);
 	}
 
 	private void checkPassword(String requestPassword, String password) {
