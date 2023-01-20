@@ -1,4 +1,4 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.sale.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -34,4 +35,37 @@ public class Product extends BaseEntity {
 	private int price;
 	@Column(nullable = false)
 	private int stockQuantity;
+
+	@Builder
+	private Product(Sale sale, String name, int price, int stockQuantity) {
+		this.sale = sale;
+		this.name = name;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+	}
+
+	public static Product of(Sale sale, String name, int price, int stockQuantity) {
+		return Product.builder()
+			.sale(sale)
+			.name(name)
+			.price(price)
+			.stockQuantity(stockQuantity)
+			.build();
+	}
+
+	public static Product of(String name, int price, int stockQuantity) {
+		return Product.builder()
+			.name(name)
+			.price(price)
+			.stockQuantity(stockQuantity)
+			.build();
+	}
+
+	public void updateImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale == null ? this.sale : sale;
+	}
 }
