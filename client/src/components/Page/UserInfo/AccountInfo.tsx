@@ -1,10 +1,11 @@
 import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   EmailState,
   PasswordState,
   LoginState,
+  UserPhoneNumState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
 import DelModal from "../../Modal/DelModal";
@@ -17,22 +18,35 @@ import {
   Input,
   InputLabel,
 } from "./InfoStyle";
-
-const phoneNumRegex = /^[-?\d+]{0,11}$/;
+import { phoneNumRegex } from "../../../util/Regex";
 
 export default function AccountInfo() {
   const router = useRouter();
-  const setLogin = useSetRecoilState(LoginState);
+  const [, setLogin] = useRecoilState(LoginState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
   const [, setPasswordState] = useRecoilState(PasswordState);
+  const [isEditPhone, setIsEditPhone] = useRecoilState(UserPhoneNumState);
   const [showModal, setShowModal] = useState(false);
 
-  const [isEditPhone, setIsEditPhone] = useState("");
-  const EditPhonelHandler: ComponentProps<"input">["onChange"] = e => {
-    if (phoneNumRegex.test(e.target.value)) setIsEditPhone(e.target.value);
+  // userEmail 가져오는 함수
+  const getUserEmail = () => {
+    if (typeof window !== "undefined") {
+      if (isEmail) {
+        setEmailState(isEmail);
+      }
+    }
   };
 
-  console.log(isEmail);
+  useEffect(() => {
+    getUserEmail();
+  }, []);
+
+  // 휴대폰번호 handler
+  const EditPhonelHandler: ComponentProps<"input">["onChange"] = e => {
+    const { value } = e.target;
+    if (phoneNumRegex.test(value)) setIsEditPhone(value.replace(/[^0-9]/g, ""));
+  };
+
   // 회원탈퇴
   const delAccountClick = async () => {
     const delAccountSubmit = await delAccount();
@@ -71,12 +85,9 @@ export default function AccountInfo() {
               <Input
                 type="tel"
                 id="phoneNumber"
-                maxLength={11}
                 placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
-                pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
                 value={isEditPhone}
                 onChange={e => EditPhonelHandler(e)}
-                required
               />
             </InputDiv>
           </EditList>
