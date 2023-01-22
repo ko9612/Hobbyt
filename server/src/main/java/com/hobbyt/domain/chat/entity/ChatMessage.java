@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -30,5 +33,6 @@ public class ChatMessage extends BaseEntity {
 	private boolean modified = false;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ChatUser chatUser;
 }

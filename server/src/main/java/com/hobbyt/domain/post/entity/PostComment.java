@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.BaseEntity;
 
@@ -30,6 +33,7 @@ public class PostComment extends BaseEntity {
 	private Member writer;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 
 	public void updateContent(String content) {

@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.hobbyt.domain.tag.entity.Tag;
 
 import lombok.AccessLevel;
@@ -21,9 +24,11 @@ public class PostTag {
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tag_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Tag tag;
 
 	public static PostTag of(Post post, Tag tag) {
