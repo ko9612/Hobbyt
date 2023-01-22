@@ -1,11 +1,11 @@
 import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { useForm } from "react-hook-form";
 import {
   EmailState,
   PasswordState,
   LoginState,
+  UserPhoneNumState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
 import DelModal from "../../Modal/DelModal";
@@ -18,7 +18,6 @@ import {
   Input,
   InputLabel,
 } from "./InfoStyle";
-import { MyInfoProps } from "../../../type/userTypes";
 import { phoneNumRegex } from "../../../util/Regex";
 
 export default function AccountInfo() {
@@ -26,11 +25,26 @@ export default function AccountInfo() {
   const [, setLogin] = useRecoilState(LoginState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
   const [, setPasswordState] = useRecoilState(PasswordState);
+  const [isEditPhone, setIsEditPhone] = useRecoilState(UserPhoneNumState);
   const [showModal, setShowModal] = useState(false);
 
-  const [isEditPhone, setIsEditPhone] = useState("");
+  // userEmail 가져오는 함수
+  const getUserEmail = () => {
+    if (typeof window !== "undefined") {
+      if (isEmail) {
+        setEmailState(isEmail);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserEmail();
+  }, []);
+
+  // 휴대폰번호 handler
   const EditPhonelHandler: ComponentProps<"input">["onChange"] = e => {
-    if (phoneNumRegex.test(e.target.value)) setIsEditPhone(e.target.value);
+    const { value } = e.target;
+    if (phoneNumRegex.test(value)) setIsEditPhone(value.replace(/[^0-9]/g, ""));
   };
 
   // 회원탈퇴
@@ -71,7 +85,6 @@ export default function AccountInfo() {
               <Input
                 type="tel"
                 id="phoneNumber"
-                maxLength={11}
                 placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
                 value={isEditPhone}
                 onChange={e => EditPhonelHandler(e)}

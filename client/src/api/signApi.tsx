@@ -1,9 +1,9 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
-import { SigninInputs, SignupInputs } from "../type/userTypes";
+import { SigninInputs, PostSignupInputs } from "../type/userTypes";
 
 // 회원가입
-export const postsignupSubmit = async (data: SignupInputs) => {
+export const postsignupSubmit = async (data: PostSignupInputs) => {
   try {
     const signupUserData = await axios.post(
       "http://59.12.62.150:8080/api/members/signup",
@@ -16,7 +16,7 @@ export const postsignupSubmit = async (data: SignupInputs) => {
 };
 
 // 이메일 인증 번호
-export const postSignupEmailBut = async (data: string) => {
+export const postSignupEmailBut = async (data: any) => {
   try {
     const signupEmailData = await axios.post(
       "http://59.12.62.150:8080/api/auth/code",

@@ -4,31 +4,35 @@ export interface SigninInputs {
   password: string;
 }
 
-// 회원가입 데이터 타입
-export interface SignupInputs {
+// 회원가입 시 전송되는 데이터들의 타입
+export interface PostSignupInputs {
   nickname: string;
   email: string;
-  emailCheck: string;
   password: string;
+}
+
+// 회원가입 데이터 타입
+export interface SignupInputs extends PostSignupInputs{
+  emailCheck: string;
   passwordCheck: string;
 }
 
 // 내 정보 관리 데이터 타입
 export interface MyInfoProps {
-  phoneNumber: number;
+  phoneNumber: string;
   recipient: {
-    name: string;
-    phoneNumber: number;
     address: {
-      zipcode: number;
+      zipcode: string;
       street: string;
       detail: string;
     };
+    name: string;
+    phoneNumber: string;
   };
   account: {
     holder: string;
     bank: string;
-    number: number;
+    number: string;
   };
 }
 

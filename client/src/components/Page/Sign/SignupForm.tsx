@@ -9,7 +9,7 @@ import { Input, LoginInput, ErrMsg } from "./SigninForm";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import MsgModal from "../../Modal/MsgModal";
 import { postsignupSubmit, postSignupEmailBut } from "../../../api/signApi";
-import { SignupInputs } from "../../../type/userTypes";
+import { SignupInputs, PostSignupInputs } from "../../../type/userTypes";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -52,7 +52,7 @@ export default function SignupForm() {
 
   // 회원가입 버튼 Handler
   // 중복 이메일, 중복 닉네임xxx
-  const onSubmit = async (data: SignupInputs) => {
+  const onSubmit = async (data: PostSignupInputs) => {
     if (!emailComplete) {
       setMsg(modalMsg[7]);
       setShowModal(true);

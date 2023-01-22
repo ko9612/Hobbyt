@@ -5,3 +5,5 @@ export const passwordRegex =
   /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/;
 
 export const phoneNumRegex = /^[-?\d+]{0,11}$/;
+
+export const accountNumRegex = /^[-?\d+]{0,14}$/;
