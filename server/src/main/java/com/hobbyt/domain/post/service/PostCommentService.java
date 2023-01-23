@@ -1,5 +1,7 @@
 package com.hobbyt.domain.post.service;
 
+import static com.hobbyt.domain.notification.entity.NotificationType.*;
+
 import java.util.Optional;
 
 import org.springframework.context.ApplicationEventPublisher;
@@ -8,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.domain.notification.dto.PostCommentEvent;
+import com.hobbyt.domain.notification.dto.NotificationEvent;
 import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.entity.PostComment;
@@ -30,11 +32,12 @@ public class PostCommentService {
 		Member writer = memberService.findMemberByEmail(email);
 		PostComment comment = PostComment.of(writer, post, request.getContent());
 
-		eventPublisher.publishEvent(PostCommentEvent.builder()
+		eventPublisher.publishEvent(NotificationEvent.builder()
 			.receiver(post.getWriter())
 			.sender(writer.getNickname())
-			.postId(post.getId())
-			.title(post.getTitle()));
+			.articleId(post.getId())
+			.title(post.getTitle())
+			.type(POST_COMMENT));
 
 		return postCommentRepository.save(comment).getId();
 	}

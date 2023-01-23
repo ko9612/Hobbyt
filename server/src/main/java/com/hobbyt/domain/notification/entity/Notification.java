@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.notification.dto.NotificationEvent;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -39,4 +40,21 @@ public class Notification extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reciever_id")
 	private Member receiver;
+
+	public static Notification from(NotificationEvent event) {
+		return new Notification(event.getSender(), event.getType(),
+			event.getArticleId(), event.getTitle(), event.getReceiver());
+	}
+
+	public void check() {
+		this.checked = true;
+	}
+
+	private Notification(String sender, NotificationType type, Long articleId, String title, Member receiver) {
+		this.sender = sender;
+		this.type = type;
+		this.articleId = articleId;
+		this.title = title;
+		this.receiver = receiver;
+	}
 }
