@@ -1,8 +1,9 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
+import { SigninInputs, PostSignupInputs } from "../type/userTypes";
 
 // 회원가입
-export const postsignupSubmit = async (data: any) => {
+export const postsignupSubmit = async (data: PostSignupInputs) => {
   try {
     const signupUserData = await axios.post(
       "http://59.12.62.150:8080/api/members/signup",
@@ -28,7 +29,7 @@ export const postSignupEmailBut = async (data: any) => {
 };
 
 // 로그인
-export const postSignin = async (data: any) => {
+export const postSignin = async (data: SigninInputs) => {
   try {
     const signinUserData = await axios.post(
       "http://59.12.62.150:8080/api/auth/login",
@@ -36,7 +37,6 @@ export const postSignin = async (data: any) => {
     );
     return signinUserData;
   } catch (err: unknown) {
-    // console.log(err.response);
     return ErrorHandler(err);
   }
 };
@@ -95,3 +95,5 @@ export const delAccount = async () => {
     return err.response;
   }
 };
+
+//
