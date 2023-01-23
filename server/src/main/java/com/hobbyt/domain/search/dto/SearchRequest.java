@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SearchRequest {
 	private String keyword;
-	private int offset;
+	private long offset;
 	private int limit;
 	private OrderBy orderBy;
 

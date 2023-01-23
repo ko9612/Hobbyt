@@ -16,6 +16,7 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,10 +41,7 @@ public class PostComment extends BaseEntity {
 		this.content = content;
 	}
 
-	public static PostComment of(Member writer, Post post, String content) {
-		return new PostComment(writer, post, content);
-	}
-
+	@Builder
 	private PostComment(Member writer, Post post, String content) {
 		this.post = post;
 		this.writer = writer;

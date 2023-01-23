@@ -9,7 +9,7 @@ public class PrivateHomeRequest {
 	@Setter
 	@NoArgsConstructor
 	public static class Get {
-		private int offset;
+		private long offset;
 		private int limit;
 	}
 }

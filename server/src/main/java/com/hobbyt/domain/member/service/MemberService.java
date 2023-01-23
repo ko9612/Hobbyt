@@ -69,6 +69,10 @@ public class MemberService {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
 	}
 
+	public Long findMemberIdByEmail(String email) {
+		return findMemberByEmail(email).getId();
+	}
+
 	@Transactional
 	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
