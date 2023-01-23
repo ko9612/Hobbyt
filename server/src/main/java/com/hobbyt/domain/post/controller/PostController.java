@@ -42,10 +42,6 @@ public class PostController {
 	public ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
 		PostResponse response = postService.getPostDetailById(id);
 
-		// if (!response.isPublic() && !loginMember.getEmail().equals(response.getWriter().getEmail())) {
-		// 	return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		// }
-
 		return ResponseEntity.ok(response);
 	}
 
