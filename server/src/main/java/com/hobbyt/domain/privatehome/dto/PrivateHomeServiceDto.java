@@ -5,7 +5,7 @@ import lombok.Getter;
 public class PrivateHomeServiceDto {
 	@Getter
 	public static class Get {
-		private int offset;
+		private long offset;
 		private int limit;
 
 		public Get(PrivateHomeRequest.Get params) {

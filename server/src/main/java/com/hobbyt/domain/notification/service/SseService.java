@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.domain.notification.dto.AlarmResponse;
+import com.hobbyt.domain.notification.dto.NotificationResponse;
 import com.hobbyt.domain.notification.entity.Notification;
 import com.hobbyt.domain.notification.repository.EmitterRepository;
 import com.hobbyt.global.error.exception.SseConnectException;
@@ -37,7 +37,7 @@ public class SseService {
 						SseEmitter.event()
 							.id(notification.getId().toString())
 							.name(DEFAULT_EVENT_NAME)
-							.data(new AlarmResponse.Alarm(notification))
+							.data(NotificationResponse.Alarm.from(notification))
 					);
 
 				} catch (IOException exception) {

@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.notification.dto.NotificationRequest;
+import com.hobbyt.domain.notification.dto.NotificationResponse;
 import com.hobbyt.domain.notification.entity.Notification;
 import com.hobbyt.domain.notification.repository.NotificationRepository;
 
@@ -20,7 +22,11 @@ public class NotificationService {
 		return notificationRepository.save(notification);
 	}
 
-	public Long check(Long id) {
+	public NotificationResponse findUncheckedNotificationsByEmail(String loginEmail, NotificationRequest request) {
+		return notificationRepository.findUncheckedNotificationsByEmail(loginEmail, request);
+	}
+
+	public Long checkById(Long id) {
 		Notification notification = findVerifiedOneById(id);
 		notification.check();
 
