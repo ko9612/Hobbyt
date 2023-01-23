@@ -30,11 +30,13 @@ public class Notification extends BaseEntity {
 	@Column(nullable = false, updatable = false)
 	@Enumerated(EnumType.STRING)
 	private NotificationType type;
+	@Column(nullable = false)
+	private Long articleId;
 	@Column(nullable = false, updatable = false, name = "article_title")
 	private String title;
 	@Column(nullable = false)
-	private boolean checked = false;
+	private Boolean checked = false;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reciever_id")
-	private Member member;
+	private Member receiver;
 }
