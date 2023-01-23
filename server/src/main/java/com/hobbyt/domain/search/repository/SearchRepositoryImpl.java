@@ -28,19 +28,6 @@ public class SearchRepositoryImpl implements SearchRepository {
 
 	@Override
 	public SearchPostResponse searchPostsByKeyword(SearchRequest params) {
-		List<Long> postIdsCorrespondingKeyword = queryFactory
-			.select(post.id)
-			.from(postTag)
-			.join(postTag.post, post)
-			.join(postTag.tag, tag)
-			.where(post.title.contains(params.getKeyWord())
-				.or(post.content.contains(params.getKeyWord()))
-				.or(tag.content.contains(params.getKeyWord())))
-			.orderBy(params.getOrderBy())
-			.offset(params.getOffset())
-			.limit(params.getLimit() + 1)
-			.fetch();
-
 		List<SearchPostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(SearchPostResponse.PostCard.class,
 				post.id,
@@ -52,10 +39,17 @@ public class SearchRepositoryImpl implements SearchRepository {
 				post.createdAt,
 				member.id.as("writerId"),
 				member.nickname
-			))
-			.from(post)
+			)).distinct()
+			.from(postTag)
+			.join(postTag.post, post)
+			.join(postTag.tag, tag)
 			.join(post.writer, member)
-			.where(post.id.in(postIdsCorrespondingKeyword))
+			.where(post.title.contains(params.getKeyword())
+				.or(post.content.contains(params.getKeyword()))
+				.or(tag.content.contains(params.getKeyword())))
+			.orderBy(params.getOrderBy())
+			.offset(params.getOffset())
+			.limit(params.getLimit() + 1)
 			.fetch();
 
 		Boolean hasNext = getHasNext(cards, params.getLimit());

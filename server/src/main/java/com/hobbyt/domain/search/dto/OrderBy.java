@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OrderBy {
-	POST_NEWEST("블로그 최신순", post.id.desc()),
-	POST_MOSTLIKE("블로그 인기순", post.likeCount.desc());
+	POST_NEWEST("블로그 최신순", new OrderSpecifier<?>[] {post.id.desc()}),
+	POST_MOSTLIKE("블로그 인기순", new OrderSpecifier<?>[] {post.likeCount.desc(), post.id.desc()});
 
 	private final String name;
-	private final OrderSpecifier<?> orderSpecifier;
+	private final OrderSpecifier<?>[] orderSpecifiers;
 }

@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SearchRequest {
-	private String keyWord;
+	private String keyword;
 	private int offset;
 	private int limit;
 	private OrderBy orderBy;
 
-	public OrderSpecifier<?> getOrderBy() {
-		return orderBy.getOrderSpecifier();
+	public OrderSpecifier<?>[] getOrderBy() {
+		return orderBy.getOrderSpecifiers();
 	}
 }

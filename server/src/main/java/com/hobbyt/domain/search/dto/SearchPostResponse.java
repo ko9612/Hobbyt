@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class SearchPostResponse {
@@ -15,6 +16,8 @@ public class SearchPostResponse {
 		this.posts = posts;
 	}
 
+	@Getter
+	@NoArgsConstructor
 	public static class PostCard {
 		private Long id;
 		private String title;
