@@ -39,6 +39,7 @@ public class SseService {
 							.name(DEFAULT_EVENT_NAME)
 							.data(new AlarmResponse.Alarm(notification))
 					);
+
 				} catch (IOException exception) {
 					throw new SseConnectException("Connection is Failed");
 				}
