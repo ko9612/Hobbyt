@@ -30,7 +30,11 @@ public class PostCommentService {
 	public Long createPostComment(String email, PostCommentRequest request) {
 		Post post = postService.findVerifiedOneById(request.getPostId());
 		Member writer = memberService.findMemberByEmail(email);
-		PostComment comment = PostComment.of(writer, post, request.getContent());
+		PostComment comment = PostComment.builder()
+			.post(post)
+			.writer(writer)
+			.content(request.getContent())
+			.build();
 
 		eventPublisher.publishEvent(NotificationEvent.builder()
 			.receiver(post.getWriter())
