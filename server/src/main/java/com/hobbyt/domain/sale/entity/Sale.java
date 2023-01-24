@@ -60,7 +60,7 @@ public class Sale extends Article {
 	private Delivery delivery;
 
 	// 입금가능시간
-	private int deposit_effective_time;
+	private int depositEffectiveTime;
 
 	// 상품 목록
 	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
@@ -71,7 +71,7 @@ public class Sale extends Article {
 
 	@Builder
 	private Sale(String refundExchangePolicy, String productionProcessLink,
-		String caution, Period period, Account account, Delivery delivery, int deposit_effective_time,
+		String caution, Period period, Account account, Delivery delivery, int depositEffectiveTime,
 		boolean isAlwaysOnSale) {
 
 		this.refundExchangePolicy = refundExchangePolicy;
@@ -80,13 +80,13 @@ public class Sale extends Article {
 		this.period = period;
 		this.account = account;
 		this.delivery = delivery;
-		this.deposit_effective_time = deposit_effective_time;
+		this.depositEffectiveTime = depositEffectiveTime;
 		this.isAlwaysOnSale = isAlwaysOnSale;
 	}
 
 	public static Sale of(String title, String content, String refundExchangePolicy, Period period, Account account,
-		String productionProcessLink,
-		String caution, Delivery delivery, int deposit_effective_time, boolean isAlwaysOnSale) {
+		String productionProcessLink, String caution, Delivery delivery, int depositEffectiveTime,
+		boolean isAlwaysOnSale) {
 
 		Sale sale = Sale.builder()
 			.refundExchangePolicy(refundExchangePolicy)
@@ -95,7 +95,7 @@ public class Sale extends Article {
 			.productionProcessLink(productionProcessLink)
 			.caution(caution)
 			.delivery(delivery)
-			.deposit_effective_time(deposit_effective_time)
+			.depositEffectiveTime(depositEffectiveTime)
 			.isAlwaysOnSale(isAlwaysOnSale)
 			.build();
 
@@ -111,5 +111,27 @@ public class Sale extends Article {
 	public void addProduct(Product product) {
 		this.products.add(product);
 		product.setSale(this);
+	}
+
+	public void removeProduct(Product product) {
+		this.products.remove(product);
+	}
+
+	public void update(Sale updateSale) {
+		if (updateSale.getTitle() != null) {
+			updateTitle(updateSale.getTitle());
+		}
+		if (updateSale.getContent() != null) {
+			updateContent(updateSale.getContent());
+		}
+
+		this.depositEffectiveTime = updateSale.depositEffectiveTime;
+		this.delivery = updateSale.delivery;
+		this.caution = updateSale.caution;
+		this.productionProcessLink = updateSale.productionProcessLink;
+		this.refundExchangePolicy = updateSale.refundExchangePolicy;
+		this.period = updateSale.period;
+		this.account = updateSale.account;
+		this.isAlwaysOnSale = updateSale.isAlwaysOnSale;
 	}
 }

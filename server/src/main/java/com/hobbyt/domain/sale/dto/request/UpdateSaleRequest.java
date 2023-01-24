@@ -1,9 +1,8 @@
 package com.hobbyt.domain.sale.dto.request;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.validation.constraints.NotNull;
 
 import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.sale.entity.Delivery;
@@ -16,10 +15,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SaleRequest {
-	@NotNull
+public class UpdateSaleRequest {
 	private String title;
-	@NotNull
 	private String content;
 
 	private int depositEffectiveTime;    // 입금가능시간
@@ -40,6 +37,7 @@ public class SaleRequest {
 	@Getter
 	@NoArgsConstructor
 	private static class ProductDto {
+		private Long id;
 		private String name;
 		private int price;
 		private int stockQuantity;
@@ -51,8 +49,21 @@ public class SaleRequest {
 	}
 
 	public List<Product> toProducts() {
-		return products.stream().map(product -> Product.of(product.name, product.price, product.stockQuantity))
+		return products.stream()
+			.map(product -> Product.of(product.id, product.name, product.price, product.stockQuantity))
 			.collect(Collectors.toList());
+	}
+
+	// TODO 이미지 처리할때 update에서 아래 메서드로 변경
+	public List<Product> toProducts(List<String> imageUrls) {
+		List<Product> result = new ArrayList<>();
+		for (int index = 0; index < products.size(); index++) {
+			ProductDto productDto = products.get(index);
+			Product product = Product.of(productDto.id, productDto.name, productDto.price, productDto.stockQuantity);
+			product.updateImageUrl(imageUrls.get(index));
+		}
+
+		return result;
 	}
 
 	public int getProductsSize() {

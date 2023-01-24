@@ -1,5 +1,7 @@
 package com.hobbyt.domain.sale.controller;
 
+import static org.springframework.http.MediaType.*;
+
 import java.util.List;
 
 import javax.validation.constraints.Min;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.sale.dto.request.SaleRequest;
+import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
@@ -45,37 +49,36 @@ public class SaleController {
 	}
 
 	// TODO 이미지 처리
-	@PostMapping
+	@PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity postSale(@AuthenticationPrincipal MemberDetails loginMember,
 		@RequestPart List<MultipartFile> productImages,
-		@Validated @RequestPart SaleRequest saleRequest) {
+		@Validated @RequestPart SaleRequest request) {
 
-		if (checkSalePeriod(saleRequest)) {
+		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		if (productsAndImageCountIsNotSame(productImages, saleRequest)) {
+		if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		Sale sale = saleService.post(loginMember.getEmail(), saleRequest.toSale());
+		Sale sale = saleService.post(loginMember.getEmail(), request.toSale());
 		// TODO 이부분에서 이미지 처리, 파라미터에 List<MultipartFile> productImages 넣기
-		productService.addProducts(sale, saleRequest.toProducts());
-		List<Tag> tags = tagService.addTags(saleRequest.getTags());
+		productService.addProducts(sale, request.toProducts());
+		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.addTagsToSale(sale, tags);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(sale.getId());
 	}
 
-	private boolean productsAndImageCountIsNotSame(List<MultipartFile> productImages, SaleRequest saleRequest) {
-		return productImages.size() != saleRequest.getProductsSize();
+	private boolean productsAndImageCountIsNotSame(int imageSize, int productSize) {
+		return imageSize != productSize;
 	}
 
-	private boolean checkSalePeriod(SaleRequest saleRequest) {
-		return (saleRequest.isAlwaysOnSale() && saleRequest.getPeriod() != null) || (!saleRequest.isAlwaysOnSale()
-			&& saleRequest.getPeriod() == null);
+	private boolean checkSalePeriod(boolean isAlwaysOnSale, Period period) {
+		return (isAlwaysOnSale && period != null) || (!isAlwaysOnSale && period == null);
 	}
 
 	@GetMapping("/{id}")
@@ -85,15 +88,38 @@ public class SaleController {
 	}
 
 	// TODO 이미지 처리
-	@PatchMapping("/{id}")
-	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long id) {
+	@PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long id,
+		@RequestPart(required = false) List<MultipartFile> productImages,
+		@Validated @RequestPart UpdateSaleRequest request) {
 
-		return ResponseEntity.ok().build();
+		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
+			// 예외처리?
+			return ResponseEntity.badRequest().build();
+		}
+
+		if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
+			// 예외처리?
+			return ResponseEntity.badRequest().build();
+		}
+
+		// Sale 수정
+		Sale updatedSale = saleService.updateSale(id, request.toSale());
+		// Product 수정
+		// 이미지 처리후 넣은 갑의 경로 반환
+		// TODO request.toProducts(이미지 경로 List) 로 변경
+		productService.updateProducts(updatedSale, request.toProducts());
+		// Tag 수정
+		List<Tag> tags = tagService.addTags(request.getTags());
+		saleTagService.updateTagsToSale(updatedSale, tags);
+		return ResponseEntity.ok(updatedSale.getId());
 	}
 
 	// TODO 이미지 처리
 	@DeleteMapping("/{id}")
 	public ResponseEntity deleteSale(@Min(value = 1) @PathVariable Long id) {
+		// Sale 의 deleted 를 true로 변경
+		// Product의 deleted를 true로 변경?
 
 		return ResponseEntity.ok().build();
 	}

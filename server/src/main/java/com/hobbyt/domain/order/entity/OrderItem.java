@@ -1,4 +1,4 @@
-package com.hobbyt.domain.entity;
+package com.hobbyt.domain.order.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
