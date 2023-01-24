@@ -9,15 +9,7 @@ import { Input, LoginInput, ErrMsg } from "./SigninForm";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import MsgModal from "../../Modal/MsgModal";
 import { postsignupSubmit, postSignupEmailBut } from "../../../api/signApi";
-// import { SignupInputs } from "../../../type/userTypes";
-
-export type SignupInputs = {
-  nickname: string;
-  email: string;
-  emailCheck: string;
-  password: string;
-  passwordCheck: string;
-};
+import { SignupInputs, PostSignupInputs } from "../../../type/userTypes";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -60,7 +52,7 @@ export default function SignupForm() {
 
   // 회원가입 버튼 Handler
   // 중복 이메일, 중복 닉네임xxx
-  const onSubmit = async (data: SignupInputs) => {
+  const onSubmit = async (data: PostSignupInputs) => {
     if (!emailComplete) {
       setMsg(modalMsg[7]);
       setShowModal(true);
@@ -73,19 +65,28 @@ export default function SignupForm() {
 
       const signupSubmit = await postsignupSubmit(signupData);
 
-      switch ((signupSubmit as any).status) {
-        case 201:
-          setMsg(modalMsg[0]);
-          setShowModal(true);
-          if (!showModal) {
-            router.push("/signin");
-          }
-          break;
-        // 닉네임 중복
-        // 이메일 중복
-        // 로그인 실패- 관리자에게 문의
-        default:
+      // 에러처리 나중에
+      if ((signupSubmit as any).status) {
+        setMsg(modalMsg[0]);
+        setShowModal(true);
+        if (!showModal) {
+          router.push("/signin");
+        }
       }
+      console.log(signupSubmit);
+      // switch ((signupSubmit as any).status) {
+      //   case 201:
+      //     setMsg(modalMsg[0]);
+      //     setShowModal(true);
+      //     if (!showModal) {
+      //       router.push("/signin");
+      //     }
+      //     break;
+      //   // 닉네임 중복
+      //   // 이메일 중복
+      //   // 로그인 실패- 관리자에게 문의
+      //   default:
+      // }
     }
   };
 

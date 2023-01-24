@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +15,13 @@ import com.hobbyt.domain.tag.entity.Tag;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CustomPostTagRepositoryImpl implements CustomPostTagRepository {
-	private JPAQueryFactory queryFactory;
-
-	public CustomPostTagRepositoryImpl(EntityManager em) {
-		this.queryFactory = new JPAQueryFactory(em);
-	}
+	private final JPAQueryFactory queryFactory;
 
 	@Override
 	public Map<Tag, PostTag> getTagPostTagMapByPostId(Long postId) {

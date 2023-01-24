@@ -91,10 +91,10 @@ public class MemberController {
 		return ResponseEntity.ok(myInfoResponse);
 	}
 
-	@GetMapping("/profile/{id}")
-	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long id) {
+	@GetMapping("/profile/{memberId}")
+	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long memberId) {
 		// ProfileResponse profileResponse = ProfileResponse.of(loginMember);
-		ProfileResponse profileResponse = memberService.getProfile(id);
+		ProfileResponse profileResponse = memberService.getProfile(memberId);
 
 		return ResponseEntity.ok(profileResponse);
 	}

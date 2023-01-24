@@ -19,7 +19,7 @@ import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/members/{id}/private")
+@RequestMapping("/api/members/{memberId}/private")
 @RequiredArgsConstructor
 @Validated
 public class PrivateHomeController {
@@ -27,20 +27,20 @@ public class PrivateHomeController {
 
 	@GetMapping("/posts")
 	public ResponseEntity<PrivateHomePostResponse> getPostList(
-		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
 
 		PrivateHomePostResponse response = privateHomeService
-			.getBlogListByMemberId(id, new PrivateHomeServiceDto.Get(params));
+			.getBlogListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/comments")
 	public ResponseEntity<PrivateHomeCommentResponse> getCommentList(
-		@Min(value = 0) @PathVariable Long id, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
 
 		PrivateHomeCommentResponse response = privateHomeService
-			.getCommentListByMemberId(id, new PrivateHomeServiceDto.Get(params));
+			.getCommentListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
 
 		return ResponseEntity.ok(response);
 	}

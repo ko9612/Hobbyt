@@ -5,8 +5,6 @@ import static com.hobbyt.domain.post.entity.QPostComment.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +14,13 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private final JPAQueryFactory queryFactory;
-
-	public CustomMemberRepositoryImpl(EntityManager em) {
-		this.queryFactory = new JPAQueryFactory(em);
-	}
 
 	@Override
 	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {

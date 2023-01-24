@@ -42,12 +42,11 @@ export default function Tab({ Menus }: TabProps) {
   const getData = async () => {
     // 함수 안에 숫자들은 임의 숫자예요
     // 빨간줄 떠도 잘 돼요,,,
-    const res = await getBlogContent(3, 0, 5);
+    const res = await getBlogContent(46, 0, 5);
     const listRes = res.data;
 
     setListData(listRes);
     console.log(`listRes`, listRes);
-    console.log(`res`, res);
   };
 
   useEffect(() => {

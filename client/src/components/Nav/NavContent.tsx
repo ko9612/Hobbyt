@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
 import { EmailState, PasswordState, LoginState } from "../../state/UserState";
 import { LoginMenus, LogoutMenus } from "./NavArr";
@@ -28,8 +28,8 @@ transitions duration-300 text-xl hover:text-white hover:font-bold
 
 export default function NavContent() {
   const router = useRouter();
-  const setEmailState = useSetRecoilState(EmailState);
-  const setPasswordState = useSetRecoilState(PasswordState);
+  const [, setEmailState] = useRecoilState(EmailState);
+  const [, setPasswordState] = useRecoilState(PasswordState);
   // 로그인 여부
   const [isLogin, setLogin] = useRecoilState(LoginState);
   // 로그아웃 모달
@@ -63,13 +63,6 @@ export default function NavContent() {
       router.replace("/");
     }
   };
-
-  console.log(`로그인 여부`, isLogin);
-
-  // const [butWord, setButWord] = useState("");
-  // useEffect(() => {
-  //   setIsLogin(true);
-  // }, []);
 
   return (
     <>

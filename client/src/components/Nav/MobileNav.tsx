@@ -2,12 +2,8 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
-// import dynamic from "next/dynamic";
 import logoText from "../../image/logoText.png";
 import NavContent from "./NavContent";
-// const DynamicNavContent = dynamic(() => import("./NavContent"), {
-//   ssr: false,
-// });
 
 const Header = tw.div`
 flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-10 sticky h-16
@@ -66,7 +62,6 @@ export default function MobileNav() {
             menu ? "left-0" : "left-[-72rem]"
           }`}
         >
-          {/* <DynamicNavContent /> */}
           <NavContent />
         </Nav>
       </NavOpen>

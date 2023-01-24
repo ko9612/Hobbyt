@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.BaseEntity;
 
@@ -25,6 +28,7 @@ public class PostLike extends BaseEntity {
 	private Member member;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Post post;
 
 	public static PostLike of(Member member, Post post) {

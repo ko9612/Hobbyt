@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -63,8 +64,11 @@ public class SecurityConfig {
 			.authorizeRequests()
 			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
 			.antMatchers("/api/sales").permitAll()
-			.antMatchers("/api/members/profile/{id:[0-9]+}").permitAll()
 			// .antMatchers("/api/**").permitAll()
+			.antMatchers("/api/members/profile/{memberId:[0-9]+}").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/search/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/members/{memberId:[0-9]+}/private/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/posts/{postId:[0-9]+}").permitAll()
 			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup").permitAll()
 			.anyRequest().authenticated();
 
