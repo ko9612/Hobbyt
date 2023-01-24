@@ -1,6 +1,7 @@
 package com.hobbyt.domain.sale.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +25,24 @@ public class SaleTagService {
 
 	private void createSaleTag(Sale sale, Tag tag) {
 		saleTagRepository.save(SaleTag.of(sale, tag));
+	}
+
+	public void updateTagsToSale(Sale updatedSale, List<Tag> tags) {
+		Map<Tag, SaleTag> tagSaleTags = saleTagRepository.getTagSaleTagMapBySaleId(updatedSale.getId());
+
+		for (Tag tag : tags) {
+			if (tagSaleTags.containsKey(tag)) {
+				tagSaleTags.remove(tag);
+				continue;
+			}
+
+			createSaleTag(updatedSale, tag);
+		}
+
+		removeSaleTag(tagSaleTags);
+	}
+
+	private void removeSaleTag(Map<Tag, SaleTag> tagSaleTags) {
+		saleTagRepository.deleteAllInBatch(tagSaleTags.values());
 	}
 }

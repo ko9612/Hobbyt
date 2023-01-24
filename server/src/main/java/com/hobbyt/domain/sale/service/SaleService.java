@@ -8,17 +8,17 @@ import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.global.error.exception.MemberNotExistException;
+import com.hobbyt.global.error.exception.SaleNotExistException;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class SaleService {
 	private final MemberRepository memberRepository;
 	private final SaleRepository saleRepository;
 
-	@Transactional
 	public Sale post(final String email, Sale sale) {
 		Member member = findMemberByEmail(email);
 		sale.setWriter(member);
@@ -28,5 +28,21 @@ public class SaleService {
 
 	private Member findMemberByEmail(String email) {
 		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
+	}
+
+	public Sale updateSale(Long id, Sale updateSale) {
+		Sale sale = findSaleById(id);
+		sale.update(updateSale);
+		return sale;
+	}
+
+	private Sale findSaleById(Long id) {
+		return saleRepository.findById(id).orElseThrow(SaleNotExistException::new);
+	}
+
+	public Sale delete(Long id) {
+		Sale sale = findSaleById(id);
+		sale.delete();
+		return sale;
 	}
 }

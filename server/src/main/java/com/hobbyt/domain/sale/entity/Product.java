@@ -13,9 +13,11 @@ import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
 	@Id
@@ -36,17 +38,19 @@ public class Product extends BaseEntity {
 	@Column(nullable = false)
 	private int stockQuantity;
 
+	private boolean isDeleted = false;
+
 	@Builder
-	private Product(Sale sale, String name, int price, int stockQuantity) {
-		this.sale = sale;
+	private Product(Long id, String name, int price, int stockQuantity) {
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.stockQuantity = stockQuantity;
 	}
 
-	public static Product of(Sale sale, String name, int price, int stockQuantity) {
+	public static Product of(Long id, String name, int price, int stockQuantity) {
 		return Product.builder()
-			.sale(sale)
+			.id(id)
 			.name(name)
 			.price(price)
 			.stockQuantity(stockQuantity)
@@ -67,5 +71,16 @@ public class Product extends BaseEntity {
 
 	public void setSale(Sale sale) {
 		this.sale = sale == null ? this.sale : sale;
+	}
+
+	public void update(Product product) {
+		this.name = product.name;
+		// this.imageUrl = product.imageUrl;
+		this.price = product.price;
+		this.stockQuantity = product.stockQuantity;
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }
