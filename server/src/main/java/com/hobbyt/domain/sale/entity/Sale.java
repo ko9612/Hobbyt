@@ -68,6 +68,7 @@ public class Sale extends Article {
 
 	// 상시판매 여부 >> 제거 고민
 	private boolean isAlwaysOnSale;
+	private boolean isDeleted = false;
 
 	@Builder
 	private Sale(String refundExchangePolicy, String productionProcessLink,
@@ -133,5 +134,9 @@ public class Sale extends Article {
 		this.period = updateSale.period;
 		this.account = updateSale.account;
 		this.isAlwaysOnSale = updateSale.isAlwaysOnSale;
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

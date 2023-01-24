@@ -118,9 +118,10 @@ public class SaleController {
 	// TODO 이미지 처리
 	@DeleteMapping("/{id}")
 	public ResponseEntity deleteSale(@Min(value = 1) @PathVariable Long id) {
-		// Sale 의 deleted 를 true로 변경
-		// Product의 deleted를 true로 변경?
+		// TODO Tag 처리
+		Sale deletedSale = saleService.delete(id);
+		productService.delete(deletedSale);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }

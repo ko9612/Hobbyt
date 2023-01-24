@@ -30,7 +30,7 @@ public class ProductService {
 	}
 
 	public void updateProducts(Sale sale, List<Product> products) {
-		Map<Long, Boolean> foundProductsId = productRepository.getProductsIdBySaleId(sale.getId());
+		Map<Long, Boolean> foundProductsIdAndCheckOrder = productRepository.getProductsIdBySaleId(sale.getId());
 
 		for (Product product : products) {
 			Long id = product.getId();
@@ -40,22 +40,41 @@ public class ProductService {
 				productRepository.save(product);
 				continue;
 			}
-			if (foundProductsId.containsKey(id)) {
-				Product found = productRepository.findById(id).orElseThrow(ProductNotExistException::new);
+			if (foundProductsIdAndCheckOrder.containsKey(id)) {
+				Product found = findProductById(id);
 				found.update(product);
 				product.updateImageUrl("이미지 링크");
-				foundProductsId.remove(id);
+				foundProductsIdAndCheckOrder.remove(id);
 			}
 		}
 
-		for (Long id : foundProductsId.keySet()) {
-			if (foundProductsId.get(id)) {    // 주문된 상품
-				Product found = productRepository.findById(id).orElseThrow(ProductNotExistException::new);
+		for (Long id : foundProductsIdAndCheckOrder.keySet()) {
+			if (foundProductsIdAndCheckOrder.get(id)) {    // 주문된 상품
+				Product found = findProductById(id);
 				found.delete();
-				foundProductsId.remove(id);
+				foundProductsIdAndCheckOrder.remove(id);
 			}
 		}
 
-		productRepository.deleteAllByIdInBatch(foundProductsId.keySet());
+		productRepository.deleteAllByIdInBatch(foundProductsIdAndCheckOrder.keySet());
+	}
+
+	private Product findProductById(Long id) {
+		return productRepository.findById(id).orElseThrow(ProductNotExistException::new);
+	}
+
+	public void delete(Sale deletedSale) {
+		Map<Long, Boolean> foundProductsIdAndCheckOrder = productRepository.getProductsIdBySaleId(deletedSale.getId());
+
+		for (Long id : foundProductsIdAndCheckOrder.keySet()) {
+			// 해당 상품이 주문된적 있는 경우
+			if (foundProductsIdAndCheckOrder.get(id)) {
+				Product product = findProductById(id);
+				product.delete();
+				foundProductsIdAndCheckOrder.remove(id);
+			}
+		}
+
+		productRepository.deleteAllByIdInBatch(foundProductsIdAndCheckOrder.keySet());
 	}
 }

@@ -39,4 +39,10 @@ public class SaleService {
 	private Sale findSaleById(Long id) {
 		return saleRepository.findById(id).orElseThrow(SaleNotExistException::new);
 	}
+
+	public Sale delete(Long id) {
+		Sale sale = findSaleById(id);
+		sale.delete();
+		return sale;
+	}
 }
