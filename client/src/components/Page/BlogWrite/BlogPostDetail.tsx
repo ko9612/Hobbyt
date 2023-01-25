@@ -39,7 +39,7 @@ export default function BlogPostDetail() {
     ssr: false,
   });
 
-  console.log(`BlogPostDetail`, getNewData);
+  // console.log(`BlogPostDetail`, getNewData);
 
   const getParsedDate = (data: string) =>
     new Date(data).toLocaleDateString("ko-KR");

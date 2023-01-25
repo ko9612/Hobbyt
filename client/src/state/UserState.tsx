@@ -25,10 +25,10 @@ export const PasswordState = atom<string | undefined>({
 });
 
 // 로그인한 사용자 아이디 (number type)
-export const UserIdState = atom<number | undefined>({
+export const UserIdState = atom<number>({
   key: "userIdState",
   default: 0,
-  // effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 사용자 휴대폰번호
