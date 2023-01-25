@@ -41,7 +41,8 @@ public class PostCommentService {
 			.sender(writer.getNickname())
 			.articleId(post.getId())
 			.title(post.getTitle())
-			.type(POST_COMMENT));
+			.type(POST_COMMENT)
+			.build());
 
 		return postCommentRepository.save(comment).getId();
 	}

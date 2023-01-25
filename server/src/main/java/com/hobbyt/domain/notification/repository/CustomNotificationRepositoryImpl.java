@@ -35,7 +35,8 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
 			))
 			.from(notification)
 			.join(notification.receiver, member)
-			.where(member.email.eq(email))
+			.where(member.email.eq(email), notification.checked.eq(false))
+			.orderBy(notification.id.desc())
 			.offset(request.getOffset())
 			.limit(request.getLimit() + 1)
 			.fetch();
