@@ -37,7 +37,7 @@ public class SaleService {
 		return sale;
 	}
 
-	private Sale findSaleById(Long id) {
+	public Sale findSaleById(Long id) {
 		return saleRepository.findById(id).orElseThrow(SaleNotExistException::new);
 	}
 
