@@ -1,7 +1,8 @@
 // 댓글 타입
 export interface CommentType {
-  title: string;
+  postTitle: string;
   id: number;
+  postId: number;
   content: string;
 }
 

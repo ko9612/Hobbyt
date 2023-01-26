@@ -3,22 +3,6 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
-// 블로그 게시글 리스트 조회 api
-export const getBlogContent = async (
-  userId: number,
-  off: number,
-  lim: number,
-) => {
-  try {
-    const blogContent = await axios.get(
-      `/api/members/${userId}/private/posts?offset=${off}&limit=${lim}`,
-    );
-    return blogContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};
-
 // 블로그 게시글 상세 조회 api
 export const getBlogDetail = async (id: number | undefined) => {
   try {
@@ -64,6 +48,8 @@ export const deleteBlogContent = async (id: any) => {
     return ErrorHandler(err);
   }
 };
+
+/// ///////////////////////////////
 
 // 블로그 댓글 작성 api
 export const postBlogComment = async (data: any) => {

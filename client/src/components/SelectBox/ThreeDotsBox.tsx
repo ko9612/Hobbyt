@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { CommentType } from "../../type/blogType";
 import EditModal from "../Modal/EditModal";
 import DelModal from "../Modal/DelModal";
-import { deleteBlogContent } from "../../api/blogApi";
+import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
 // import { BlogEditState } from "../../state/BlogPostState";
 
 const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10`;
@@ -69,8 +69,6 @@ export default function ThreeDotsBox({
   // 삭제하는 api
   const deleteApi = async () => {
     if (children === "블로그") {
-      // setDeleteModal(!deleteModal);
-      // setBlogEdit(item);
       try {
         const deleteBlog = await deleteBlogContent(id);
         router.reload();
@@ -80,7 +78,13 @@ export default function ThreeDotsBox({
       }
     }
     if (children === "댓글") {
-      // setDeleteModal(!deleteModal);
+      try {
+        const deleteComment = await deleteBlogComment(id);
+        router.reload();
+        return deleteComment;
+      } catch {
+        return console.error();
+      }
     }
   };
 
