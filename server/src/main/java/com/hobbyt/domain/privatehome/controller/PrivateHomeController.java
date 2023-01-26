@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 
@@ -27,7 +28,7 @@ public class PrivateHomeController {
 
 	@GetMapping("/posts")
 	public ResponseEntity<PrivateHomePostResponse> getPostList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomePostResponse response = privateHomeService
 			.getBlogListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
@@ -37,10 +38,17 @@ public class PrivateHomeController {
 
 	@GetMapping("/comments")
 	public ResponseEntity<PrivateHomeCommentResponse> getCommentList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomeCommentResponse response = privateHomeService
 			.getCommentListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/sales")
+	public ResponseEntity getSales(@Min(value = 1) @PathVariable Long memberId, PrivateHomeRequest params) {
+		PrivateHomeSaleResponse response = privateHomeService.getSales(memberId, params);
 
 		return ResponseEntity.ok(response);
 	}

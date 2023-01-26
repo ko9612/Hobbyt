@@ -2,6 +2,7 @@ package com.hobbyt.domain.member.repository;
 
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostComment.*;
+import static com.hobbyt.domain.sale.entity.QSale.*;
 
 import java.util.List;
 
@@ -10,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
+import com.hobbyt.domain.privatehome.dto.SaleCard;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -66,6 +70,27 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return new PrivateHomeCommentResponse(hasNext, cards);
+	}
+
+	@Override
+	public PrivateHomeSaleResponse getSalesByWriterId(Long writerId, PrivateHomeRequest params) {
+		List<SaleCard> cards = queryFactory.select(Projections.fields(SaleCard.class,
+				sale.id,
+				sale.thumbnailImage,
+				sale.title,
+				sale.period,
+				sale.likeCount,
+				sale.isAlwaysOnSale))
+			.from(sale)
+			.where(sale.isDeleted.eq(false), sale.writer.id.eq(writerId))
+			.orderBy(params.getOrderBy())
+			.offset(params.getOffset())
+			.limit(params.getLimit() + 1)
+			.fetch();
+
+		Boolean hasNext = getHasNext(cards, params.getLimit());
+
+		return PrivateHomeSaleResponse.of(cards, hasNext);
 	}
 
 	private Boolean getHasNext(List<?> cards, int limit) {

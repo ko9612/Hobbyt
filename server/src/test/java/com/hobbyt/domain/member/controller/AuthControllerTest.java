@@ -103,7 +103,7 @@ class AuthControllerTest {
 	void login() throws Exception {
 		String accessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
 		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
-		LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
+		LoginResponse loginResponse = new LoginResponse(MEMBER_ID, accessToken, refreshToken);
 		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
 		given(authService.login(any(LoginRequest.class))).willReturn(loginResponse);
 

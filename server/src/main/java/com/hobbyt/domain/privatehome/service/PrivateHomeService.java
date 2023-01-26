@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 
 import lombok.RequiredArgsConstructor;
@@ -22,5 +24,9 @@ public class PrivateHomeService {
 
 	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeServiceDto.Get params) {
 		return memberRepository.getCommentListByWriterId(id, params);
+	}
+
+	public PrivateHomeSaleResponse getSales(Long id, PrivateHomeRequest params) {
+		return memberRepository.getSalesByWriterId(id, params);
 	}
 }
