@@ -12,7 +12,7 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import { getBlogContent } from "../../api/blogApi";
+import { getBlogContentList } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 
 interface TabProps {
@@ -46,7 +46,7 @@ export default function Tab({ Menus }: TabProps) {
   const getData = async () => {
     // 함수 안에 숫자들은 임의 숫자예요
     // 빨간줄 떠도 잘 돼요,,,
-    const res = await getBlogContent(userID, 0, 5);
+    const res = await getBlogContentList(userID, 0, 5);
     const listRes = res.data;
 
     setListData(listRes);
