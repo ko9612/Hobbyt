@@ -12,10 +12,10 @@ import { IdataProps } from "../../type/blogType";
 
 export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg h-[10rem]`;
-export const BLImage = tw.div``;
+export const BLImage = tw.div`w-[30rem] border-2 border-black`;
 export const BLContent = tw.div`ml-5 mb-5 w-[30rem]`;
 const BLTitle = tw.div`flex justify-between w-[28rem]`;
-const Text = tw.div`text-sm truncate sm:text-base h-2/3`;
+export const Text = tw.div`text-sm truncate sm:text-base h-2/3`;
 
 export default function BlogItem({ list }: IdataProps) {
   const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {

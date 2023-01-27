@@ -1,13 +1,14 @@
 import tw from "tailwind-styled-components";
 import { BsHeart } from "react-icons/bs";
+import React from "react";
 
 interface ILike {
   children: number | string | undefined;
 }
 
-export default function LikeCount({ children }: ILike) {
-  const LComponent = tw.div`flex items-center`;
+const LComponent = tw.div`flex items-center whitespace-pre-wrap`;
 
+export default function LikeCount({ children }: ILike) {
   return (
     <LComponent>
       <BsHeart />

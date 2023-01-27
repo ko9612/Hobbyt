@@ -6,11 +6,13 @@ import { getBlogProfile } from "../../../api/profileApi";
 export default function UserProfile() {
   const handle = () => {};
   const [data, setData] = useState([]);
+  // 임시상태 - 본인 개인홈
 
   // api 요청 함수
   // eslint-disable-next-line consistent-return
   const request = async () => {
     try {
+      // 블로그 주인 userID api 함수로 보내줘야함
       const res = await getBlogProfile();
       console.log(`프로필 조회 요청 res`, res);
       // const

@@ -87,10 +87,18 @@ export const deleteBlogComment = async (id: any) => {
   }
 };
 
+/// ///////////////////////////////
+
 // 블로그 좋아요 추가 api
-export const postLikePlus = async (id: any) => {
+export const postLikePlus = async (postId: number) => {
   try {
-    const likeData = await axios.post(`/api/posts/${id}/like`);
+    const likeData = await axios.post(
+      `/api/posts/${postId}/like`,
+      {},
+      {
+        headers: { Authorization: localStorage.getItem("authorization") },
+      },
+    );
     return likeData;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -98,9 +106,11 @@ export const postLikePlus = async (id: any) => {
 };
 
 // 블로그 좋아요 취소 api
-export const deleteLikeMinus = async (id: any) => {
+export const deleteLikeMinus = async (postId: number) => {
   try {
-    const likeData = await axios.post(`/api/posts/${id}/like`);
+    const likeData = await axios.delete(`/api/posts/${postId}/like`, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return likeData;
   } catch (err: unknown) {
     return ErrorHandler(err);
