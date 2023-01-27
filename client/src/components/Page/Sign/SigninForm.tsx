@@ -35,7 +35,7 @@ export default function SigninForm() {
   const setLogin = useSetRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
   const setPassword = useSetRecoilState<string | undefined>(PasswordState);
-  // const setUserId = useSetRecoilState<number | undefined>(UserIdState);
+  const setUserId = useSetRecoilState<number | undefined>(UserIdState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -58,11 +58,12 @@ export default function SigninForm() {
       const refreshToken = (signinSubmit as any).headers.refreshtoken;
       localStorage.setItem("authorization", accessToken);
       localStorage.setItem("refresh", refreshToken);
+      setUserId(signinSubmit.data);
+
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
         setPassword(data.password);
-        // setUserId(data.)
         // 20분 후, 로그인 연장
         setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
@@ -79,6 +80,7 @@ export default function SigninForm() {
     //   default:
     // }
   };
+  console.log();
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,

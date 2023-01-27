@@ -7,9 +7,12 @@ import {
 } from "react-icons/bs";
 // import { useRouter } from "next/router";
 import { useRouter } from "next/router";
+// import { useRecoilState } from "recoil";
 import { CommentType } from "../../type/blogType";
 import EditModal from "../Modal/EditModal";
-import DeleteModal from "../Modal/DeleteModal";
+import DelModal from "../Modal/DelModal";
+import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
+// import { BlogEditState } from "../../state/BlogPostState";
 
 const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10`;
 
@@ -25,6 +28,7 @@ export default function ThreeDotsBox({
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [commentData, setCommentData] = useState("");
+  // const [, setBlogEdit] = useRecoilState(BlogEditState);
   // 포스트의 id 이거나 아니면 댓글 id 이거나
   const { id } = item || {};
   // const router = useRouter();
@@ -41,7 +45,8 @@ export default function ThreeDotsBox({
   // 수정 클릭시 모달 창
   const onClickEdit = () => {
     if (children === "블로그") {
-      router.push(`/blogedit/${id}`);
+      router.push(`/post/edit/${id}`);
+      // setBlogEdit(item);
     }
     if (children === "댓글") {
       setEditModal(!editModal);
@@ -51,14 +56,40 @@ export default function ThreeDotsBox({
 
   // 삭제 클릭시 모달창
   const onClickDelete = () => {
+    if (children === "블로그") {
+      setDeleteModal(!deleteModal);
+      // setBlogEdit(item);
+    }
     if (children === "댓글") {
       setDeleteModal(!deleteModal);
     }
     setOnClick(!onClick);
   };
 
-  console.log(`수정 아이디`, id);
-  console.log(`수정 컨텐츠`, commentData);
+  // 삭제하는 api
+  const deleteApi = async () => {
+    if (children === "블로그") {
+      try {
+        const deleteBlog = await deleteBlogContent(id);
+        router.reload();
+        return deleteBlog;
+      } catch {
+        console.error();
+      }
+    }
+    if (children === "댓글") {
+      try {
+        const deleteComment = await deleteBlogComment(id);
+        router.reload();
+        return deleteComment;
+      } catch {
+        return console.error();
+      }
+    }
+  };
+
+  // console.log(`수정 아이디`, id);
+  // console.log(`수정 컨텐츠`, commentData);
 
   return (
     <div className="">
@@ -68,13 +99,14 @@ export default function ThreeDotsBox({
         </EditModal>
       )}
       {deleteModal === false ? null : (
-        <DeleteModal
+        <DelModal
           setOpenModal={setDeleteModal}
-          msg="댓글을 삭제하시겠습니까?"
-          id={id}
-        >
-          {children}
-        </DeleteModal>
+          msg="정말 삭제하실 건가요? T.T"
+          subMsg={["삭제 후엔 복원이 불가능합니다."]}
+          // id={id}
+          afterClick={deleteApi}
+          buttonString="삭제"
+        />
       )}
       <button onClick={onClickHandler} value={id}>
         <BsThreeDots className="cursor-pointer" size={25} color="#d6d6d6" />

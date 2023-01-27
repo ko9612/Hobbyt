@@ -1,7 +1,9 @@
 package com.hobbyt.domain.member.repository;
 
+import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostComment.*;
+import static com.hobbyt.domain.post.entity.QPostLike.*;
 import static com.hobbyt.domain.sale.entity.QSale.*;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
@@ -27,7 +30,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
+	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto params) {
 		List<PrivateHomePostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostResponse.PostCard.class,
 				post.id,
@@ -41,6 +44,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			))
 			.from(post)
 			.where(post.writer.id.eq(writerId))
+			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -51,7 +55,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	}
 
 	@Override
-	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
+	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto params) {
 		List<PrivateHomeCommentResponse.CommentCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomeCommentResponse.CommentCard.class,
 				postComment.id,
@@ -63,6 +67,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.from(postComment)
 			.join(postComment.post, post)
 			.where(postComment.writer.id.eq(writerId))
+			.orderBy(postComment.id.desc())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -83,7 +88,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.isAlwaysOnSale))
 			.from(sale)
 			.where(sale.isDeleted.eq(false), sale.writer.id.eq(writerId))
-			.orderBy(params.getOrderBy())
+			.orderBy(
+				params.getOrderSpecifiers())    // TODO PrivateHomeRequest, PrivateHomeServiceDto 하나로 통일된걸로 바꾸고 getOrderBy로 변경
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -91,6 +97,33 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return PrivateHomeSaleResponse.of(cards, hasNext);
+	}
+
+	@Override
+	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeServiceDto params) {
+		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
+			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
+				postLike.id.as("postLikeId"),
+				post.id.as("postId"),
+				post.title,
+				post.content,
+				post.thumbnailImage,
+				post.viewCount,
+				post.likeCount,
+				post.createdAt
+			))
+			.from(postLike)
+			.join(postLike.post, post)
+			.join(postLike.member, member)
+			.where(member.id.eq(memberId))
+			.orderBy(postLike.id.desc())
+			.offset(params.getOffset())
+			.limit(params.getLimit() + 1)
+			.fetch();
+
+		Boolean hasNext = getHasNext(cards, params.getLimit());
+
+		return new PrivateHomePostLikeResponse(hasNext, cards);
 	}
 
 	private Boolean getHasNext(List<?> cards, int limit) {

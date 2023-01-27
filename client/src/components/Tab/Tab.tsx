@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -11,7 +12,8 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import { getBlogContent } from "../../api/blogApi";
+import { getBlogContentList } from "../../api/tabApi";
+import { UserIdState } from "../../state/UserState";
 
 interface TabProps {
   Menus: {
@@ -28,6 +30,8 @@ export default function Tab({ Menus }: TabProps) {
   const router = useRouter();
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
+  // 로그인할 때 저장한 유저 아이디
+  const userID = useRecoilValue(UserIdState);
 
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
@@ -38,11 +42,11 @@ export default function Tab({ Menus }: TabProps) {
   // api 리스트 데이터 저장
   const [listData, setListData] = useState([]);
 
-  // api 요청
+  // 블로그 게시글 리스트 api 요청
   const getData = async () => {
     // 함수 안에 숫자들은 임의 숫자예요
     // 빨간줄 떠도 잘 돼요,,,
-    const res = await getBlogContent(46, 0, 5);
+    const res = await getBlogContentList(userID, 0, 5);
     const listRes = res.data;
 
     setListData(listRes);

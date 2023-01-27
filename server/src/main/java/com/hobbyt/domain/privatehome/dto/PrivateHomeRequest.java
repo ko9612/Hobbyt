@@ -1,6 +1,6 @@
 package com.hobbyt.domain.privatehome.dto;
 
-import com.hobbyt.domain.search.dto.OrderBy;
+import com.hobbyt.global.entity.OrderBy;
 import com.querydsl.core.types.OrderSpecifier;
 
 import lombok.Getter;
@@ -15,7 +15,7 @@ public class PrivateHomeRequest {
 	private int limit;
 	private OrderBy orderBy;
 
-	public OrderSpecifier<?>[] getOrderBy() {
+	public OrderSpecifier<?>[] getOrderSpecifiers() {
 		return orderBy.getOrderSpecifiers();
 	}
 }

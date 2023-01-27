@@ -3,24 +3,8 @@
 import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
-// 블로그 게시글 리스트 조회 api
-export const getBlogContent = async (
-  userId: number,
-  off: number,
-  lim: number,
-) => {
-  try {
-    const blogContent = await axios.get(
-      `/api/members/${userId}/private/posts?offset=${off}&limit=${lim}`,
-    );
-    return blogContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};
-
 // 블로그 게시글 상세 조회 api
-export const getBlogDetail = async (id: number) => {
+export const getBlogDetail = async (id: number | undefined) => {
   try {
     const blogContent = await axios.get(`/api/posts/${id}`);
     return blogContent;
@@ -42,9 +26,11 @@ export const postBlogContent = async (data: any) => {
 };
 
 // 블로그 게시글 수정 api
-export const patchBlogContent = async (data: any, id: any) => {
+export const patchBlogContent = async (data: any, postId: number) => {
   try {
-    const blogContent = await axios.patch(`/api/posts/${id}`, data);
+    const blogContent = await axios.patch(`/api/posts/${postId}`, data, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return blogContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -54,12 +40,16 @@ export const patchBlogContent = async (data: any, id: any) => {
 // 블로그 게시글 삭제 api
 export const deleteBlogContent = async (id: any) => {
   try {
-    const blogContent = await axios.delete(`/api/posts/${id}`);
+    const blogContent = await axios.delete(`/api/posts/${id}`, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return blogContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
   }
 };
+
+/// ///////////////////////////////
 
 // 블로그 댓글 작성 api
 export const postBlogComment = async (data: any) => {
@@ -88,7 +78,9 @@ export const patchBlogComment = async (data: any, id: any) => {
 // 블로그 댓글 삭제 api
 export const deleteBlogComment = async (id: any) => {
   try {
-    const blogComment = await axios.delete(`/api/post-comments/${id}`);
+    const blogComment = await axios.delete(`/api/post-comments/${id}`, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
     return blogComment;
   } catch (err: unknown) {
     return ErrorHandler(err);

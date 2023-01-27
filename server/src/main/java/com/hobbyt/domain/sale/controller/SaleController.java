@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.sale.dto.request.SaleRequest;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
+import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
@@ -42,10 +43,13 @@ public class SaleController {
 	private final TagService tagService;
 	private final SaleTagService saleTagService;
 
-	@GetMapping
-	public ResponseEntity getAllSales() {
+	@GetMapping("/{saleId}")
+	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId) {
 
-		return ResponseEntity.ok().build();
+		// Sale 조회
+		SaleResponse response = saleService.getSaleDetails(saleId);
+
+		return ResponseEntity.ok(response);
 	}
 
 	// TODO 이미지 처리
@@ -79,12 +83,6 @@ public class SaleController {
 
 	private boolean checkSalePeriod(boolean isAlwaysOnSale, Period period) {
 		return (isAlwaysOnSale && period != null) || (!isAlwaysOnSale && period == null);
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long id) {
-
-		return ResponseEntity.ok().build();
 	}
 
 	// TODO 이미지 처리
