@@ -63,7 +63,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.from(postComment)
 			.join(postComment.post, post)
 			.where(postComment.writer.id.eq(writerId))
-			.orderBy(params.getOrderBy())
+			.orderBy(postComment.id.desc())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -90,7 +90,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.join(postLike.post, post)
 			.join(postLike.member, member)
 			.where(member.id.eq(memberId))
-			.orderBy(params.getOrderBy())
+			.orderBy(postLike.id.desc())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
