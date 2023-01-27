@@ -89,7 +89,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.join(postLike.post, post)
 			.join(postLike.member, member)
 			.where(member.id.eq(memberId))
-			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
