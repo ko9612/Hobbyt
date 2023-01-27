@@ -1,34 +1,67 @@
 import { BsThreeDots } from "react-icons/bs";
 // import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogList";
-import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogItem"; // 새로 추가
+import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { BLContainer, BLComponent, BLImage, BLContent, Text } from "./BlogItem"; // 새로 추가
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
+import { getLikeList } from "../../api/tabApi";
+import { UserIdState } from "../../state/UserState";
+import { ILikeList } from "../../type/blogType";
 
 export default function LikeList() {
+  // 블로그 주인 userId
+  const userId = useRecoilValue(UserIdState);
+
+  // 불러온 데이터 저장
+  const [listData, setListData] = useState<ILikeList[]>();
+
+  // 토스트 유아이 뷰어
+  const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
+    ssr: false,
+  });
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getLikeList(userId, 0, 10);
+      setListData(res.data);
+      console.log(`MyLikeList`, res);
+    };
+    getData();
+  }, []);
+
+  // 날짜 바꿔주는 함수
+  const getParsedDate = (data: string) =>
+    new Date(data).toLocaleDateString("ko-KR");
+
   return (
     <BLContainer>
-      <BLComponent>
-        <BLImage>이미지 자리</BLImage>
-        <BLContent>
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-semibold">
-              좋아요 누른 게시글 타이틀
-            </h2>
-            <BsThreeDots size="28" color="#d6d6d6" />
-          </div>
-          <p>
-            게시글 본문 더미 데이터입니다. 게시글 본문 더미 데이터입니다. 게시글
-            본문 더미 데이터입니다. 게시글 본문 더미 데이터입니다. 게시글 본문
-            더미 데이터입니다.
-          </p>
-          <div className="flex justify-end ">
-            <ViewCount>234234</ViewCount>
-            <LikeCount>2234</LikeCount>
-            <WriteDate>22.12.12</WriteDate>
-          </div>
-        </BLContent>
-      </BLComponent>
+      {listData &&
+        listData.cards.map((item: any, idx: number) => (
+          <BLComponent key={idx}>
+            <BLImage>{item.thumbnailImage}</BLImage>
+            <BLContent>
+              <Link href={`/post/${item.postId}`}>
+                <div className="flex justify-between">
+                  <h2 className="text-2xl font-semibold">{item.title}</h2>
+                </div>
+                <Text>
+                  <TextViewer initialValue={item.content} />
+                </Text>
+              </Link>
+              <div className="flex justify-end ">
+                <ViewCount>{item.viewCount}</ViewCount>
+                <LikeCount>{item.postLikeId}</LikeCount>
+                <WriteDate>
+                  {item.createdAt && getParsedDate(item.createdAt)}
+                </WriteDate>
+              </div>
+            </BLContent>
+          </BLComponent>
+        ))}
     </BLContainer>
   );
 }

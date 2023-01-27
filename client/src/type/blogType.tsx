@@ -70,3 +70,18 @@ export interface IBlogDetailData {
     tag: string[];
   };
 }
+export interface ILikeList {
+  hasNext: boolean;
+  cards: [
+    {
+      postLikeId: number;
+      postId: number;
+      title: string;
+      content: string;
+      thumbnailImage: null | string;
+      viewCount: number;
+      likeCount: number;
+      createdAt: string;
+    },
+  ];
+}

@@ -12,8 +12,9 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import { getBlogContentList } from "../../api/tabApi";
+import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
+import { BlogSelectState } from "../../state/BlogPostState";
 
 interface TabProps {
   Menus: {
@@ -32,7 +33,11 @@ export default function Tab({ Menus }: TabProps) {
   const [curIndex, setIndex] = useState(0);
   // 로그인할 때 저장한 유저 아이디
   const userID = useRecoilValue(UserIdState);
+  // 최신순, 인기순 클릭 저장하고 있는 state
+  //  기본적으로 최신순으로 되어 있음
+  const select = useRecoilValue(BlogSelectState);
 
+  // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
   };
@@ -44,13 +49,16 @@ export default function Tab({ Menus }: TabProps) {
 
   // 블로그 게시글 리스트 api 요청
   const getData = async () => {
-    // 함수 안에 숫자들은 임의 숫자예요
-    // 빨간줄 떠도 잘 돼요,,,
-    const res = await getBlogContentList(userID, 0, 5);
-    const listRes = res.data;
-
-    setListData(listRes);
-    console.log(`listRes`, listRes);
+    if (select === "최신순") {
+      const res = await getBlogContentList(userID, 0, 5);
+      const listRes = res.data;
+      setListData(listRes);
+    } else if (select === "인기순") {
+      const res = await getBlogContentListF(userID, 0, 5);
+      const listRes = res.data;
+      setListData(listRes);
+    }
+    // console.log(`listRes`, listRes);
   };
 
   useEffect(() => {

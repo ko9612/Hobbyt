@@ -1,11 +1,35 @@
+import React from "react";
+import { useSetRecoilState } from "recoil";
+import { BlogSelectState } from "../../state/BlogPostState";
+
 export default function FilterButton() {
+  const setSelect = useSetRecoilState(BlogSelectState);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.currentTarget;
+    if (value === "인기순") {
+      setSelect("인기순");
+    } else if (value === "최신순") {
+      setSelect("최신순");
+    }
+  };
   return (
     <div className="flex">
-      <button type="button" className="mr-2">
+      <button
+        type="button"
+        className="mr-2"
+        onClick={handleClick}
+        value="최신순"
+      >
         최신순
       </button>
       <p>|</p>
-      <button type="button" className="ml-2">
+      <button
+        type="button"
+        className="ml-2"
+        onClick={handleClick}
+        value="인기순"
+      >
         인기순
       </button>
     </div>

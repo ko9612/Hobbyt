@@ -30,3 +30,8 @@ export const BlogEditState = atom<CommentType | undefined>({
   key: "BlogEditListState",
   default: undefined,
 });
+
+export const BlogSelectState = atom<string>({
+  key: "BlogSelectState",
+  default: "최신순",
+});
