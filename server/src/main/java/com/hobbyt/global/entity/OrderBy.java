@@ -1,4 +1,4 @@
-package com.hobbyt.domain.search.dto;
+package com.hobbyt.global.entity;
 
 import static com.hobbyt.domain.post.entity.QPost.*;
 

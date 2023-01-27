@@ -1,5 +1,6 @@
 package com.hobbyt.domain.search.dto;
 
+import com.hobbyt.global.entity.OrderBy;
 import com.querydsl.core.types.OrderSpecifier;
 
 import lombok.Getter;
