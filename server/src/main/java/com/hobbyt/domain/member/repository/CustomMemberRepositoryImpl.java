@@ -63,7 +63,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.from(postComment)
 			.join(postComment.post, post)
 			.where(postComment.writer.id.eq(writerId))
-			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
