@@ -1,7 +1,9 @@
 package com.hobbyt.domain.member.repository;
 
+import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostComment.*;
+import static com.hobbyt.domain.post.entity.QPostLike.*;
 
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.querydsl.core.types.Projections;
@@ -37,6 +40,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			))
 			.from(post)
 			.where(post.writer.id.eq(writerId))
+			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -59,6 +63,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.from(postComment)
 			.join(postComment.post, post)
 			.where(postComment.writer.id.eq(writerId))
+			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -66,6 +71,33 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return new PrivateHomeCommentResponse(hasNext, cards);
+	}
+
+	@Override
+	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeServiceDto params) {
+		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
+			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
+				postLike.id.as("postLikeId"),
+				post.id.as("postId"),
+				post.title,
+				post.content,
+				post.thumbnailImage,
+				post.viewCount,
+				post.likeCount,
+				post.createdAt
+			))
+			.from(postLike)
+			.join(postLike.post, post)
+			.join(postLike.member, member)
+			.where(member.id.eq(memberId))
+			.orderBy(params.getOrderBy())
+			.offset(params.getOffset())
+			.limit(params.getLimit() + 1)
+			.fetch();
+
+		Boolean hasNext = getHasNext(cards, params.getLimit());
+
+		return new PrivateHomePostLikeResponse(hasNext, cards);
 	}
 
 	private Boolean getHasNext(List<?> cards, int limit) {

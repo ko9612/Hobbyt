@@ -49,7 +49,9 @@ public class PrivateHomeController {
 	@GetMapping("/post-likes")
 	public ResponseEntity<PrivateHomePostLikeResponse> getPostLikeList(
 		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
+		PrivateHomePostLikeResponse response = privateHomeService
+			.getPostLikeListByMemberId(memberId, PrivateHomeServiceDto.from(params));
 
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok(response);
 	}
 }
