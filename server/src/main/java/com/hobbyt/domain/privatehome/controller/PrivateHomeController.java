@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
@@ -27,21 +28,28 @@ public class PrivateHomeController {
 
 	@GetMapping("/posts")
 	public ResponseEntity<PrivateHomePostResponse> getPostList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomePostResponse response = privateHomeService
-			.getBlogListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
+			.getBlogListByMemberId(memberId, PrivateHomeServiceDto.from(params));
 
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/comments")
 	public ResponseEntity<PrivateHomeCommentResponse> getCommentList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest.Get params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomeCommentResponse response = privateHomeService
-			.getCommentListByMemberId(memberId, new PrivateHomeServiceDto.Get(params));
+			.getCommentListByMemberId(memberId, PrivateHomeServiceDto.from(params));
 
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/post-likes")
+	public ResponseEntity<PrivateHomePostLikeResponse> getPostLikeList(
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
+
+		return ResponseEntity.ok(null);
 	}
 }

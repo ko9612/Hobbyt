@@ -16,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 public class PrivateHomeService {
 	private final MemberRepository memberRepository;
 
-	public PrivateHomePostResponse getBlogListByMemberId(Long id, PrivateHomeServiceDto.Get params) {
+	public PrivateHomePostResponse getBlogListByMemberId(Long id, PrivateHomeServiceDto params) {
 		return memberRepository.getBlogListByWriterId(id, params);
 	}
 
-	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeServiceDto.Get params) {
+	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeServiceDto params) {
 		return memberRepository.getCommentListByWriterId(id, params);
 	}
 }

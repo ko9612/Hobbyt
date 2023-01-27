@@ -23,7 +23,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
+	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto params) {
 		List<PrivateHomePostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostResponse.PostCard.class,
 				post.id,
@@ -47,7 +47,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	}
 
 	@Override
-	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto.Get params) {
+	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto params) {
 		List<PrivateHomeCommentResponse.CommentCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomeCommentResponse.CommentCard.class,
 				postComment.id,
