@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.hobbyt.domain.sale.entity.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
-	@Query("select s from Sale s join fetch s.products where s.id = :id")
+	@Query("select s from Sale s join fetch s.writer join fetch s.products where s.id = :id")
 	Optional<Sale> findSaleFetchJoinProductBySaleId(@Param("id") Long id);
 }

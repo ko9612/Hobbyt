@@ -63,7 +63,6 @@ public class SecurityConfig {
 
 			.authorizeRequests()
 			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
-			.antMatchers("/api/sales").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}").permitAll()
 			// .antMatchers("/api/**").permitAll()
 			.antMatchers("/api/members/profile/{memberId:[0-9]+}").permitAll()

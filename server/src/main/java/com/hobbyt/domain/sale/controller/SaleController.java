@@ -46,7 +46,6 @@ public class SaleController {
 	@GetMapping("/{saleId}")
 	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId) {
 
-		// Sale 조회
 		SaleResponse response = saleService.getSaleDetails(saleId);
 
 		return ResponseEntity.ok(response);

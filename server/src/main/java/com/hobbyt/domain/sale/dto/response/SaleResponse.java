@@ -1,9 +1,11 @@
 package com.hobbyt.domain.sale.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.hobbyt.domain.entity.Period;
+import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.sale.entity.Delivery;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
@@ -30,6 +32,30 @@ public class SaleResponse {
 	private boolean isDeleted;
 	private List<ProductDto> products;
 	private List<String> tags;
+	private WriterBox writer;
+
+	@Getter
+	public static class WriterBox {
+		private Long id;
+		private String email;
+		private String nickName;
+		private String headerImage;
+		private String profileImage;
+		private LocalDateTime signedUpAt;
+		private int followings;
+		private int followers;
+
+		public WriterBox(Member member) {
+			this.id = member.getId();
+			this.email = member.getEmail();
+			this.nickName = member.getNickname();
+			this.headerImage = member.getHeaderImage();
+			this.profileImage = member.getProfileImage();
+			this.signedUpAt = member.getCreatedAt();
+			this.followings = member.getFollowingCount();
+			this.followers = member.getFollowerCount();
+		}
+	}
 
 	@Getter
 	@NoArgsConstructor
@@ -58,6 +84,11 @@ public class SaleResponse {
 		setSale(sale);
 		setProducts(products);
 		setTags(tags);
+		setWriter(sale.getWriter());
+	}
+
+	private void setWriter(Member writer) {
+		this.writer = new WriterBox(writer);
 	}
 
 	private void setProducts(List<Product> products) {
