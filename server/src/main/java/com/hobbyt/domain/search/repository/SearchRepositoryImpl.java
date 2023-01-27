@@ -51,9 +51,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 			.join(postTag.post, post)
 			.join(postTag.tag, tag)
 			.join(post.writer, member)
-			.where(post.title.contains(params.getKeyword())
-				.or(post.content.contains(params.getKeyword()))
-				.or(tag.content.contains(params.getKeyword())))
+			.where(postsContainsKeyword(params.getKeyword()))
 			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
@@ -62,6 +60,19 @@ public class SearchRepositoryImpl implements SearchRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return new SearchPostResponse(hasNext, cards);
+	}
+
+	private BooleanBuilder postsContainsKeyword(final String keyword) {
+		return postTitleContainsKeyword(keyword).or(postContentContainsKeyword(keyword))
+			.or(tagContainsKeyword(keyword));
+	}
+
+	private BooleanBuilder postTitleContainsKeyword(final String keyword) {
+		return nullSafeBuilder(() -> post.title.contains(keyword));
+	}
+
+	private BooleanBuilder postContentContainsKeyword(final String keyword) {
+		return nullSafeBuilder(() -> post.content.contains(keyword));
 	}
 
 	@Override
@@ -80,7 +91,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 			.join(saleTag.tag, tag)
 			.join(sale.writer, member)
 			.where(sale.isDeleted.eq(false)
-				.and(containsKeyword(params.getKeyword())))
+				.and(salesContainsKeyword(params.getKeyword())))
 			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
@@ -100,7 +111,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 		return false;
 	}
 
-	private BooleanBuilder containsKeyword(final String keyword) {
+	private BooleanBuilder salesContainsKeyword(final String keyword) {
 		return saleTitleContainsKeyword(keyword).or(saleContentContainsKeyword(keyword))
 			.or(tagContainsKeyword(keyword));
 	}
