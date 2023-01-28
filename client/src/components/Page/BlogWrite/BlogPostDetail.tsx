@@ -8,11 +8,7 @@ import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
-import {
-  getBlogDetail,
-  deleteLikeMinus,
-  postLikePlus,
-} from "../../../api/blogApi";
+import { getBlogDetail, postLikePlus } from "../../../api/blogApi";
 import { IBlogDetailData } from "../../../type/blogType";
 import { LoginState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
@@ -36,8 +32,6 @@ export default function BlogPostDetail() {
   const isLogin = useRecoilValue(LoginState);
   // hover 여부
   const [isHover, setIsHover] = useState(false);
-  // 좋아요 버튼이 눌렸나 여부
-  const [click, setClick] = useState(false);
 
   // post 디테일 데이터 불러오는 api
   const getData = async () => {
@@ -56,24 +50,11 @@ export default function BlogPostDetail() {
 
   // like api 요청
   const LikeApi = async () => {
-    if (click === false) {
-      const plusLike = await postLikePlus(pid);
-      // switch (plusLike.status) {
-      //   default:
-      // router.replace(`/post/${pid}`);
-      setClick(true);
-      console.log(`plusLike`, plusLike);
-      // }
-    } else if (click === true) {
-      const delLike = await deleteLikeMinus(pid);
-      // switch (delLike.status) {
-      //   default:
-      // router.replace(`/post/${pid}`);
-      setClick(false);
-      console.log(`delLike`, delLike);
-      // }
-    }
+    const plusLike = await postLikePlus(pid);
+    router.reload();
+    console.log(`plusLike`, plusLike);
   };
+
   // 하트 클릭 함수
   // 로그인이 되지 않은 상태라면 로그인 창으로 이동됨
   const onClickLike = () => {
@@ -82,14 +63,8 @@ export default function BlogPostDetail() {
     } else {
       LikeApi();
     }
-    // const plusLike = await postLikePlus(postId);
-    // console.log("plus", plusLike);
   };
 
-  console.log(`클릭여부`, click);
-  // console.log(`postId`, pid);
-
-  // console.log("로그인 여부", isLogin);
   useEffect(() => {
     getData();
   }, []);

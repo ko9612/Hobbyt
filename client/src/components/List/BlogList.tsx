@@ -6,7 +6,7 @@ import { IdataProps } from "../../type/blogType";
 export const BLContainer = tw.div`w-[43rem] m-auto`;
 
 function BlogList({ list }: IdataProps[]) {
-  // console.log(`블로그 아이템`, list);
+  console.log(`블로그 아이템`, list);
 
   return (
     <BLContainer>

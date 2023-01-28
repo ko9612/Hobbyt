@@ -89,7 +89,7 @@ export const deleteBlogComment = async (id: any) => {
 
 /// ///////////////////////////////
 
-// 블로그 좋아요 추가 api
+// 블로그 좋아요 api
 export const postLikePlus = async (postId: number) => {
   try {
     const likeData = await axios.post(
@@ -99,18 +99,6 @@ export const postLikePlus = async (postId: number) => {
         headers: { Authorization: localStorage.getItem("authorization") },
       },
     );
-    return likeData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};
-
-// 블로그 좋아요 취소 api
-export const deleteLikeMinus = async (postId: number) => {
-  try {
-    const likeData = await axios.delete(`/api/posts/${postId}/like`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
     return likeData;
   } catch (err: unknown) {
     return ErrorHandler(err);

@@ -23,7 +23,7 @@ export const UserContent = tw.aside`
  border border-blue-500
  relative -top-32
 `;
-const BlogTab = tw.div`w-[43rem] m-auto`;
+export const BlogTab = tw.div`w-[43rem] m-auto`;
 
 function Blog() {
   return (

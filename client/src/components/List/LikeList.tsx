@@ -1,4 +1,4 @@
-import { BsThreeDots } from "react-icons/bs";
+// import { BsThreeDots } from "react-icons/bs";
 // import { BLContainer, BLComponent, BLImage, BLContent } from "./BlogList";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ export default function LikeList() {
               </Link>
               <div className="flex justify-end ">
                 <ViewCount>{item.viewCount}</ViewCount>
-                <LikeCount>{item.postLikeId}</LikeCount>
+                <LikeCount>{item.likeCount}</LikeCount>
                 <WriteDate>
                   {item.createdAt && getParsedDate(item.createdAt)}
                 </WriteDate>
