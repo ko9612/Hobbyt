@@ -21,23 +21,20 @@ public class PostLikeService {
 	private final PostService postService;
 	private final MemberService memberService;
 
-	public void createPostLike(String email, Long postId) {
+	public void createOrDeleteIfExistPostLike(String email, Long postId) {
 		Member member = memberService.findMemberByEmail(email);
 		Post post = postService.findVerifiedOneById(postId);
 
-		postLikeRepository.save(
-			PostLike.of(member, post));
-		post.updateLikeCount(+1);
-	}
-
-	public void deletePostLike(String email, Long postId) {
-		Member member = memberService.findMemberByEmail(email);
-		Post post = postService.findVerifiedOneById(postId);
-		Optional<PostLike> found = postLikeRepository.findByMemberAndPost(member, post);
-
-		if (found.isPresent()) {
-			postLikeRepository.delete(found.get());
-			post.updateLikeCount(-1);
-		}
+		Optional<PostLike> postLikeOrNull = postLikeRepository.findByMemberAndPost(member, post);
+		postLikeOrNull.ifPresentOrElse(
+			postLike -> {
+				postLikeRepository.delete(postLike);
+				post.updateLikeCount(-1);
+			},
+			() -> {
+				postLikeRepository.save(PostLike.of(member, post));
+				post.updateLikeCount(+1);
+			}
+		);
 	}
 }

@@ -4,7 +4,6 @@ import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +21,11 @@ public class PostLikeController {
 	private final PostLikeService postLikeService;
 
 	@PostMapping
-	public ResponseEntity<Void> likePost(
+	public ResponseEntity<Void> likeOrDisLikePost(
 		@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
 
-		postLikeService.createPostLike(loginMember.getEmail(), postId);
-
-		return ResponseEntity.ok().build();
-	}
-
-	@DeleteMapping
-	public ResponseEntity<Void> cancelLike(
-		@AuthenticationPrincipal MemberDetails loginMember,
-		@Min(value = 0) @PathVariable(name = "post-id") Long postId) {
-
-		postLikeService.deletePostLike(loginMember.getEmail(), postId);
+		postLikeService.createOrDeleteIfExistPostLike(loginMember.getEmail(), postId);
 
 		return ResponseEntity.ok().build();
 	}
