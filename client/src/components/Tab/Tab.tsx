@@ -15,6 +15,8 @@ import SearchSales from "../Page/Search/SearchSales";
 import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 import { BlogSelectState } from "../../state/BlogPostState";
+import FollowingList from "../List/FollowingList";
+import Follower from "../List/Follower";
 
 interface TabProps {
   Menus: {
@@ -100,6 +102,8 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}
+        {Menus[curIndex].name === "팔로잉" ? <FollowingList /> : null}
+        {Menus[curIndex].name === "팔로우" ? <Follower /> : null}
       </TabContent>
     </>
   );

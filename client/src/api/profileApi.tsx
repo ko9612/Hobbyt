@@ -3,11 +3,9 @@ import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
 // 프로필 조회
-export const getBlogProfile = async () => {
+export const getBlogProfile = async (userId: number) => {
   try {
-    const blogProfile = await axios.get("/api/members/profile", {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
+    const blogProfile = await axios.get(`/api/members/profile/${userId}`);
     return blogProfile;
   } catch (err: unknown) {
     return ErrorHandler(err);
