@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.hobbyt.domain.member.dto.LoginResponse;
+import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
@@ -134,11 +134,11 @@ class AuthServiceTest {
 		given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
 		given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn(ACCESS_TOKEN);
 		given(jwtTokenProvider.createRefreshToken(anyString())).willReturn(REFRESH_TOKEN);
-		LoginResponse loginResponse = new LoginResponse(ACCESS_TOKEN, REFRESH_TOKEN);
+		LoginDto loginDto = new LoginDto(ACCESS_TOKEN, REFRESH_TOKEN);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
 
-		LoginResponse result = authService.login(loginRequest);
+		LoginDto result = authService.login(loginRequest);
 
 		then(memberRepository).should(times(1))
 			.findByEmailAndStatusNot(
@@ -154,8 +154,8 @@ class AuthServiceTest {
 		then(redisService).should(times(1))
 			.setValue(argThat(key -> key.equals(EMAIL)), argThat(value -> value.equals(REFRESH_TOKEN)),
 				argThat(timeout -> timeout == TIMEOUT));
-		assertThat(result.getAccessToken()).isEqualTo(loginResponse.getAccessToken());
-		assertThat(result.getRefreshToken()).isEqualTo(loginResponse.getRefreshToken());
+		assertThat(result.getAccessToken()).isEqualTo(loginDto.getAccessToken());
+		assertThat(result.getRefreshToken()).isEqualTo(loginDto.getRefreshToken());
 	}
 
 	@DisplayName("LoginFailException 예외: 잘못된 비밀번호 입력")
