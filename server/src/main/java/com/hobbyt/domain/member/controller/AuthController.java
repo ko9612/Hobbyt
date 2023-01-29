@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.dto.LoginResponse;
+import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.LoginResponse;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
 import com.hobbyt.domain.member.service.MailService;
@@ -43,11 +44,12 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity login(@Validated @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
-		LoginResponse loginResponse = authService.login(loginRequest);
+		LoginDto loginDto = authService.login(loginRequest);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + loginResponse.getAccessToken());
-		response.setHeader(REFRESH_TOKEN_HEADER, loginResponse.getRefreshToken());
-		return ResponseEntity.ok(loginResponse.getId());
+		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + loginDto.getAccessToken());
+		response.setHeader(REFRESH_TOKEN_HEADER, loginDto.getRefreshToken());
+		LoginResponse loginResponse = new LoginResponse(loginDto.getId(), loginDto.getNickname());
+		return ResponseEntity.ok(loginResponse);
 	}
 
 	@PostMapping("/reissue")

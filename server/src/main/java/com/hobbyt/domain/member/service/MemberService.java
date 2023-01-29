@@ -87,15 +87,21 @@ public class MemberService {
 	public void updatePassword(final String email, final UpdatePassword updatePassword) {
 		Member member = findMemberByEmail(email);
 
-		checkUpdatePassword(updatePassword);
+		checkUpdatePassword(updatePassword, member.getPassword());
 
 		member.updatePassword(passwordEncoder.encode(updatePassword.getNewPassword()));
 	}
 
-	private void checkUpdatePassword(UpdatePassword updatePassword) {
-		if (isOldPasswordEqualsNewPassword(updatePassword) || !isNewPasswordEqualsCheckPassword(updatePassword)) {
+	private void checkUpdatePassword(UpdatePassword updatePassword, String memberPassword) {
+		if (isOldPasswordEqualsNewPassword(updatePassword)
+			|| !isNewPasswordEqualsCheckPassword(updatePassword)
+			|| !isCorrectPassword(updatePassword.getOldPassword(), memberPassword)) {
 			throw new PasswordException();
 		}
+	}
+
+	private boolean isCorrectPassword(String password, String memberPassword) {
+		return passwordEncoder.matches(password, memberPassword);
 	}
 
 	private boolean isOldPasswordEqualsNewPassword(UpdatePassword updatePassword) {
