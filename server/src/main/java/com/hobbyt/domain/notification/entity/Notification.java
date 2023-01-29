@@ -38,7 +38,7 @@ public class Notification extends BaseEntity {
 	@Column(nullable = false)
 	private Boolean checked = false;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reciever_id")
+	@JoinColumn(name = "receiver_id")
 	private Member receiver;
 
 	public static Notification from(NotificationEvent event) {
