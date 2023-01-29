@@ -4,41 +4,44 @@ import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostLike.*;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.persistence.EntityManager;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.main.dto.HotPost;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MainRepositoryImpl implements MainRepository {
 	private final JPAQueryFactory queryFactory;
 
-	public MainRepositoryImpl(EntityManager entityManager) {
-		this.queryFactory = new JPAQueryFactory(entityManager);
-	}
-
 	@Override
 	public List<HotPost> getHotPosts() {
 		final int postCount = 5;
+		final int amountDays = 7;
 
-		List<Long> postIds = queryFactory
-			.select(post.id)
+		List<Tuple> tuples = queryFactory
+			.select(post.id, postLike.count())
 			.from(postLike)
 			.join(postLike.post, post)
-			.where(postLike.createdAt.goe(LocalDateTime.now().with(DayOfWeek.MONDAY)))
+			.where(postLike.createdAt.after(LocalDateTime.now().minusDays(amountDays)))
 			.groupBy(post.id)
-			.orderBy(postLike.id.count().desc(), post.id.desc())
+			.orderBy(postLike.count().desc())
 			.limit(postCount)
 			.fetch();
+
+		List<Long> postIds = tuples.stream()
+			.map(tuple -> tuple.get(post.id))
+			.collect(Collectors.toList());
 
 		return queryFactory
 			.select(Projections.fields(HotPost.class,

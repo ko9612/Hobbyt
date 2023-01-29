@@ -62,6 +62,7 @@ public class SecurityConfig {
 			.and()*/
 
 			.authorizeRequests()
+			.antMatchers(HttpMethod.GET, "/api/main/**").permitAll()
 			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}").permitAll()
 			// .antMatchers("/api/**").permitAll()
