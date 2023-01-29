@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.sale.dto.request.SaleRequest;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
+import com.hobbyt.domain.sale.entity.Period;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;

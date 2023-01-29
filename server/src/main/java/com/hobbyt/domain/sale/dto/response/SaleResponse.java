@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.sale.entity.Delivery;
+import com.hobbyt.domain.sale.entity.Period;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.global.entity.Account;
@@ -28,6 +28,9 @@ public class SaleResponse {
 	private Account account;
 	private Delivery delivery;
 	private int depositEffectiveTime;
+	private long viewCount;
+	private long likeCount;
+	private LocalDateTime createdAt;
 	private boolean isAlwaysOnSale;
 	private boolean isDeleted;
 	private List<ProductDto> products;
@@ -112,5 +115,8 @@ public class SaleResponse {
 		this.depositEffectiveTime = sale.getDepositEffectiveTime();
 		this.isAlwaysOnSale = sale.isAlwaysOnSale();
 		this.isDeleted = sale.isDeleted();
+		this.viewCount = sale.getViewCount();
+		this.likeCount = sale.getLikeCount();
+		this.createdAt = sale.getCreatedAt();
 	}
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.sale.entity.Delivery;
+import com.hobbyt.domain.sale.entity.Period;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.global.entity.Account;

@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.hobbyt.domain.entity.Period;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Article;
