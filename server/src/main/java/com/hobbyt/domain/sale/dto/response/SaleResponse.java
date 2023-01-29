@@ -28,6 +28,9 @@ public class SaleResponse {
 	private Account account;
 	private Delivery delivery;
 	private int depositEffectiveTime;
+	private long viewCount;
+	private long likeCount;
+	private LocalDateTime createdAt;
 	private boolean isAlwaysOnSale;
 	private boolean isDeleted;
 	private List<ProductDto> products;
@@ -112,5 +115,8 @@ public class SaleResponse {
 		this.depositEffectiveTime = sale.getDepositEffectiveTime();
 		this.isAlwaysOnSale = sale.isAlwaysOnSale();
 		this.isDeleted = sale.isDeleted();
+		this.viewCount = sale.getViewCount();
+		this.likeCount = sale.getLikeCount();
+		this.createdAt = sale.getCreatedAt();
 	}
 }
