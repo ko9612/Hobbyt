@@ -1,6 +1,6 @@
 package com.hobbyt.domain.search.dto;
 
-import com.hobbyt.domain.entity.Period;
+import com.hobbyt.domain.sale.entity.Period;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
