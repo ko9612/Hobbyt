@@ -55,7 +55,7 @@ public class SaleController {
 		// @Validated @RequestPart SaleRequest request) {
 		@Validated @RequestBody SaleRequest request) {
 
-		if (checkSalePeriod(request.isAlwaysOnSale(), request.isPeriodNull())) {
+		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
@@ -90,7 +90,7 @@ public class SaleController {
 		// @Validated @RequestPart UpdateSaleRequest request) {
 		@Validated @RequestBody UpdateSaleRequest request) {
 
-		if (checkSalePeriod(request.isAlwaysOnSale(), request.isPeriodNull())) {
+		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
