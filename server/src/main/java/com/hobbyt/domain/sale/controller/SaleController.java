@@ -1,7 +1,5 @@
 package com.hobbyt.domain.sale.controller;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
 import javax.validation.constraints.Min;
@@ -15,12 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.hobbyt.domain.sale.dto.request.SaleRequest;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Period;
@@ -52,20 +48,22 @@ public class SaleController {
 	}
 
 	// TODO 이미지 처리
-	@PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	// @PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	@PostMapping
 	public ResponseEntity postSale(@AuthenticationPrincipal MemberDetails loginMember,
-		@RequestPart List<MultipartFile> productImages,
-		@Validated @RequestPart SaleRequest request) {
+		// @RequestPart List<MultipartFile> productImages,
+		// @Validated @RequestPart SaleRequest request) {
+		@Validated @RequestBody UpdateSaleRequest request) {
 
 		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
+		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
-		}
+		}*/
 
 		Sale sale = saleService.post(loginMember.getEmail(), request.toSale());
 		// TODO 이부분에서 이미지 처리, 파라미터에 List<MultipartFile> productImages 넣기
@@ -85,20 +83,22 @@ public class SaleController {
 	}
 
 	// TODO 이미지 처리
-	@PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	// @PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+	@PatchMapping("/{id}")
 	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long id,
-		@RequestPart(required = false) List<MultipartFile> productImages,
-		@Validated @RequestPart UpdateSaleRequest request) {
+		// @RequestPart(required = false) List<MultipartFile> productImages,
+		// @Validated @RequestPart UpdateSaleRequest request) {
+		@Validated @RequestBody UpdateSaleRequest request) {
 
 		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
+		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
-		}
+		}*/
 
 		// Sale 수정
 		Sale updatedSale = saleService.updateSale(id, request.toSale());
