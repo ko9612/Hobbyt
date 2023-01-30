@@ -66,13 +66,13 @@ public class Sale extends Article {
 	List<Product> products = new ArrayList<>();
 
 	// 상시판매 여부 >> 제거 고민
-	private boolean isAlwaysOnSale;
-	private boolean isDeleted = false;
+	private boolean alwaysOnSale;
+	private boolean deleted = false;
 
 	@Builder
 	private Sale(String refundExchangePolicy, String productionProcessLink,
 		String caution, Period period, Account account, Delivery delivery, int depositEffectiveTime,
-		boolean isAlwaysOnSale) {
+		boolean alwaysOnSale) {
 
 		this.refundExchangePolicy = refundExchangePolicy;
 		this.productionProcessLink = productionProcessLink;
@@ -81,12 +81,12 @@ public class Sale extends Article {
 		this.account = account;
 		this.delivery = delivery;
 		this.depositEffectiveTime = depositEffectiveTime;
-		this.isAlwaysOnSale = isAlwaysOnSale;
+		this.alwaysOnSale = alwaysOnSale;
 	}
 
 	public static Sale of(String title, String content, String refundExchangePolicy, Period period, Account account,
 		String productionProcessLink, String caution, Delivery delivery, int depositEffectiveTime,
-		boolean isAlwaysOnSale) {
+		boolean alwaysOnSale) {
 
 		Sale sale = Sale.builder()
 			.refundExchangePolicy(refundExchangePolicy)
@@ -96,7 +96,7 @@ public class Sale extends Article {
 			.caution(caution)
 			.delivery(delivery)
 			.depositEffectiveTime(depositEffectiveTime)
-			.isAlwaysOnSale(isAlwaysOnSale)
+			.alwaysOnSale(alwaysOnSale)
 			.build();
 
 		sale.updateTitle(title);
@@ -132,10 +132,10 @@ public class Sale extends Article {
 		this.refundExchangePolicy = updateSale.refundExchangePolicy;
 		this.period = updateSale.period;
 		this.account = updateSale.account;
-		this.isAlwaysOnSale = updateSale.isAlwaysOnSale;
+		this.alwaysOnSale = updateSale.alwaysOnSale;
 	}
 
 	public void delete() {
-		this.isDeleted = true;
+		this.deleted = true;
 	}
 }

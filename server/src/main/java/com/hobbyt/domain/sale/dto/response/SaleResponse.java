@@ -31,8 +31,8 @@ public class SaleResponse {
 	private long viewCount;
 	private long likeCount;
 	private LocalDateTime createdAt;
-	private boolean isAlwaysOnSale;
-	private boolean isDeleted;
+	private boolean alwaysOnSale;
+	private boolean deleted;
 	private List<ProductDto> products;
 	private List<String> tags;
 	private WriterBox writer;
@@ -113,8 +113,8 @@ public class SaleResponse {
 		this.account = sale.getAccount() == null ? new Account() : sale.getAccount();
 		this.delivery = sale.getDelivery() == null ? new Delivery() : sale.getDelivery();
 		this.depositEffectiveTime = sale.getDepositEffectiveTime();
-		this.isAlwaysOnSale = sale.isAlwaysOnSale();
-		this.isDeleted = sale.isDeleted();
+		this.alwaysOnSale = sale.isAlwaysOnSale();
+		this.deleted = sale.isDeleted();
 		this.viewCount = sale.getViewCount();
 		this.likeCount = sale.getLikeCount();
 		this.createdAt = sale.getCreatedAt();

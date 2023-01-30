@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hobbyt.domain.sale.dto.request.SaleRequest;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
-import com.hobbyt.domain.sale.entity.Period;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
@@ -56,7 +55,7 @@ public class SaleController {
 		// @Validated @RequestPart SaleRequest request) {
 		@Validated @RequestBody SaleRequest request) {
 
-		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
+		if (checkSalePeriod(request.isAlwaysOnSale(), request.isPeriodNull())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
@@ -79,8 +78,8 @@ public class SaleController {
 		return imageSize != productSize;
 	}
 
-	private boolean checkSalePeriod(boolean isAlwaysOnSale, Period period) {
-		return (isAlwaysOnSale && period != null) || (!isAlwaysOnSale && period == null);
+	private boolean checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {
+		return (isAlwaysOnSale && !isPeriodNull) || (!isAlwaysOnSale && isPeriodNull);
 	}
 
 	// TODO 이미지 처리, period의 start가 end 이전인지 체크
@@ -91,7 +90,7 @@ public class SaleController {
 		// @Validated @RequestPart UpdateSaleRequest request) {
 		@Validated @RequestBody UpdateSaleRequest request) {
 
-		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
+		if (checkSalePeriod(request.isAlwaysOnSale(), request.isPeriodNull())) {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}

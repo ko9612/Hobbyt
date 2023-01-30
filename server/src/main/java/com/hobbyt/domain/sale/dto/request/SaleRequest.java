@@ -35,7 +35,7 @@ public class SaleRequest {
 	private String refundExchangePolicy;    // 환불, 교환 정책
 
 	private List<ProductDto> products;
-	private boolean isAlwaysOnSale;    // 상시판매여부
+	private boolean alwaysOnSale;    // 상시판매여부
 
 	@Getter
 	@NoArgsConstructor
@@ -47,7 +47,7 @@ public class SaleRequest {
 
 	public Sale toSale() {
 		return Sale.of(title, content, refundExchangePolicy, period, account, productionProcessLink,
-			caution, delivery, depositEffectiveTime, isAlwaysOnSale);
+			caution, delivery, depositEffectiveTime, alwaysOnSale);
 	}
 
 	public List<Product> toProducts() {
@@ -57,5 +57,9 @@ public class SaleRequest {
 
 	public int getProductsSize() {
 		return this.products.size();
+	}
+
+	public boolean isPeriodNull() {
+		return this.period.getStartedAt() == null && this.period.getEndAt() == null;
 	}
 }
