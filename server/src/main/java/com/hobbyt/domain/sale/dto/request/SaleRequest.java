@@ -58,4 +58,8 @@ public class SaleRequest {
 	public int getProductsSize() {
 		return this.products.size();
 	}
+
+	public boolean isPeriodNull() {
+		return this.period.getStartedAt() == null && this.period.getEndAt() == null;
+	}
 }
