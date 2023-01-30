@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 public class ProductService {
+	private final SaleService saleService;
 	private final ProductRepository productRepository;
 
 	public void addProducts(Sale sale, List<Product> products) {
@@ -29,8 +30,9 @@ public class ProductService {
 		productRepository.saveAll(products);
 	}
 
-	public void updateProducts(Sale sale, List<Product> products) {
-		Map<Long, Boolean> foundProductsIdAndCheckOrder = productRepository.getProductsIdBySaleId(sale.getId());
+	public void updateProducts(Long saleId, List<Product> products) {
+		Map<Long, Boolean> foundProductsIdAndCheckOrder = productRepository.getProductsIdBySaleId(saleId);
+		Sale sale = saleService.findSaleById(saleId);
 
 		for (Product product : products) {
 			Long id = product.getId();
