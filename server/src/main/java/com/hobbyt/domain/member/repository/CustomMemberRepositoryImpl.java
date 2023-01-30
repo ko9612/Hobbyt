@@ -85,9 +85,9 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.title,
 				sale.period,
 				sale.likeCount,
-				sale.alwaysOnSale))
+				sale.isAlwaysOnSale))
 			.from(sale)
-			.where(sale.deleted.eq(false), sale.writer.id.eq(writerId))
+			.where(sale.isDeleted.eq(false), sale.writer.id.eq(writerId))
 			.orderBy(
 				params.getOrderSpecifiers())    // TODO PrivateHomeRequest, PrivateHomeServiceDto 하나로 통일된걸로 바꾸고 getOrderBy로 변경
 			.offset(params.getOffset())

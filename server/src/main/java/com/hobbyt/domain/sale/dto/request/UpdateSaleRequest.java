@@ -32,7 +32,7 @@ public class UpdateSaleRequest {
 	private String refundExchangePolicy;    // 환불, 교환 정책
 
 	private List<ProductDto> products;
-	private boolean alwaysOnSale;    // 상시판매여부
+	private Boolean isAlwaysOnSale;    // 상시판매여부
 
 	@Getter
 	@NoArgsConstructor
@@ -45,7 +45,7 @@ public class UpdateSaleRequest {
 
 	public Sale toSale() {
 		return Sale.of(title, content, refundExchangePolicy, period, account, productionProcessLink,
-			caution, delivery, depositEffectiveTime, alwaysOnSale);
+			caution, delivery, depositEffectiveTime, isAlwaysOnSale);
 	}
 
 	public List<Product> toProducts() {
