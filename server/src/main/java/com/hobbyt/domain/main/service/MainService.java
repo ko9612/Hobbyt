@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.hobbyt.domain.main.dto.HotBloggerResponse;
 import com.hobbyt.domain.main.dto.HotPost;
+import com.hobbyt.domain.main.dto.SaleRequest;
+import com.hobbyt.domain.main.dto.SaleResponse;
 import com.hobbyt.domain.main.repository.HotPostRepository;
 import com.hobbyt.domain.main.repository.MainRepository;
 
@@ -18,7 +21,7 @@ public class MainService {
 	private final HotPostRepository hotPostRepository;
 	private final MainRepository mainRepository;
 
-	public List<HotPost> getAll() {
+	public List<HotPost> getAllHotPosts() {
 		List<HotPost> hotPosts = new ArrayList<>();
 		hotPostRepository.findAll().forEach(hotPosts::add);
 
@@ -28,6 +31,14 @@ public class MainService {
 		}
 
 		return hotPosts;
+	}
+
+	public HotBloggerResponse getHotBloggers(int count) {
+		return mainRepository.getHotBloggers(count);
+	}
+
+	public SaleResponse getSales(SaleRequest request) {
+		return mainRepository.getSaleResponse(request);
 	}
 
 	@Scheduled(cron = "0 0 0/1 * * *")
