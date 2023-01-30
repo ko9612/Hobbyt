@@ -83,14 +83,14 @@ public class SearchRepositoryImpl implements SearchRepository {
 				sale.title,
 				sale.period,
 				sale.likeCount,
-				sale.isAlwaysOnSale,
+				sale.alwaysOnSale,
 				member.id.as("writerId"),
 				member.nickname)).distinct()
 			.from(saleTag)
 			.join(saleTag.sale, sale)
 			.join(saleTag.tag, tag)
 			.join(sale.writer, member)
-			.where(sale.isDeleted.eq(false)
+			.where(sale.deleted.eq(false)
 				.and(salesContainsKeyword(params.getKeyword())))
 			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())

@@ -79,7 +79,7 @@ public class SaleController {
 	}
 
 	private boolean checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {
-		return (isAlwaysOnSale && isPeriodNull) || (!isAlwaysOnSale && !isPeriodNull);
+		return (isAlwaysOnSale && !isPeriodNull) || (!isAlwaysOnSale && isPeriodNull);
 	}
 
 	// TODO 이미지 처리, period의 start가 end 이전인지 체크
