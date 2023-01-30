@@ -109,9 +109,9 @@ public class SaleResponse {
 		this.refundExchangePolicy = sale.getRefundExchangePolicy();
 		this.productionProcessLink = sale.getProductionProcessLink();
 		this.caution = sale.getCaution();
-		this.period = sale.getPeriod();
-		this.account = sale.getAccount();
-		this.delivery = sale.getDelivery();
+		this.period = sale.getPeriod() == null ? new Period() : sale.getPeriod();
+		this.account = sale.getAccount() == null ? new Account() : sale.getAccount();
+		this.delivery = sale.getDelivery() == null ? new Delivery() : sale.getDelivery();
 		this.depositEffectiveTime = sale.getDepositEffectiveTime();
 		this.isAlwaysOnSale = sale.isAlwaysOnSale();
 		this.isDeleted = sale.isDeleted();

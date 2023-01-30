@@ -1,6 +1,6 @@
 package com.hobbyt.domain.sale.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Embeddable;
 
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Embeddable
 public class Period {
-	private LocalDateTime startedAt;
-	private LocalDateTime endAt;
+	private LocalDate startedAt;
+	private LocalDate endAt;
 }

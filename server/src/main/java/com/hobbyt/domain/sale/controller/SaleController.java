@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.sale.dto.request.SaleRequest;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Period;
@@ -53,7 +54,7 @@ public class SaleController {
 	public ResponseEntity postSale(@AuthenticationPrincipal MemberDetails loginMember,
 		// @RequestPart List<MultipartFile> productImages,
 		// @Validated @RequestPart SaleRequest request) {
-		@Validated @RequestBody UpdateSaleRequest request) {
+		@Validated @RequestBody SaleRequest request) {
 
 		if (checkSalePeriod(request.isAlwaysOnSale(), request.getPeriod())) {
 			// 예외처리?
@@ -82,10 +83,10 @@ public class SaleController {
 		return (isAlwaysOnSale && period != null) || (!isAlwaysOnSale && period == null);
 	}
 
-	// TODO 이미지 처리
+	// TODO 이미지 처리, period의 start가 end 이전인지 체크
 	// @PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
-	@PatchMapping("/{id}")
-	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long id,
+	@PatchMapping("/{saleId}")
+	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long saleId,
 		// @RequestPart(required = false) List<MultipartFile> productImages,
 		// @Validated @RequestPart UpdateSaleRequest request) {
 		@Validated @RequestBody UpdateSaleRequest request) {
@@ -101,11 +102,11 @@ public class SaleController {
 		}*/
 
 		// Sale 수정
-		Sale updatedSale = saleService.updateSale(id, request.toSale());
+		Sale updatedSale = saleService.updateSale(saleId, request.toSale());
 		// Product 수정
 		// 이미지 처리후 넣은 갑의 경로 반환
 		// TODO request.toProducts(이미지 경로 List) 로 변경
-		productService.updateProducts(updatedSale, request.toProducts());
+		productService.updateProducts(updatedSale.getId(), request.toProducts());
 		// Tag 수정
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.updateTagsToSale(updatedSale, tags);

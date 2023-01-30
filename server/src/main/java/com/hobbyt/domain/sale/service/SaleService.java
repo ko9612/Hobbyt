@@ -47,7 +47,7 @@ public class SaleService {
 		return sale;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public SaleResponse getSaleDetails(Long saleId) {
 
 		// Sale 조회 >> Sale, Product fetch join
