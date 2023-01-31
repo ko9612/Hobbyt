@@ -11,11 +11,13 @@ import {
   LoginState,
   UserIdState,
   NicknameState,
+  UserProfileState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
 import LoginRefresh from "../../../util/LoginRefresh";
+import { getBlogProfile } from "../../../api/profileApi";
 
 export const Input = tw.div`
   my-6
@@ -36,6 +38,7 @@ export default function SigninForm() {
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
   const setUserId = useSetRecoilState<number>(UserIdState);
   const setNickname = useSetRecoilState<string>(NicknameState);
+  // const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -53,6 +56,7 @@ export default function SigninForm() {
 
     const signinSubmit = await postSignin(signinData);
     console.log(`signinSubmit`, signinSubmit);
+
     if ((signinSubmit as any).status === 200) {
       const userData = (signinSubmit as any).data;
       const accessToken = (signinSubmit as any).headers.authorization;
@@ -60,12 +64,17 @@ export default function SigninForm() {
       localStorage.setItem("authorization", accessToken);
       localStorage.setItem("refresh", refreshToken);
 
+      // NavBar의 Profile 이미지 때문에 로그인 후 1번 get 요청
+      const profileData = await getBlogProfile(userData.memberId);
+      console.log(profileData);
+
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
         setUserId(userData.memberId);
         setNickname(userData.nickname);
-        // 20분 후, 로그인 연장
+        // 이미지 처리 후, 밑의 주석 풀기
+        // setNavProfileImg((profileData as any).data.profileImage);
         setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }

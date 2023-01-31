@@ -6,6 +6,7 @@ import {
   LoginState,
   NicknameState,
   UserIdState,
+  UserProfileState,
   UserPhoneNumState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
@@ -27,6 +28,7 @@ export default function AccountInfo() {
   const [isEmail, setEmailState] = useRecoilState(EmailState);
   const [, setIsNickname] = useRecoilState(NicknameState);
   const [, setIsUserId] = useRecoilState(UserIdState);
+  const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [isEditPhone, setIsEditPhone] = useRecoilState(UserPhoneNumState);
   const [showModal, setShowModal] = useState(false);
 
@@ -58,8 +60,9 @@ export default function AccountInfo() {
       setEmailState("");
       setIsUserId(0);
       setIsNickname("");
+      setNavProfileImg("");
       setShowModal(false);
-      router.push("/");
+      router.replace("/");
     }
   };
 

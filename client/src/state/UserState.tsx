@@ -8,7 +8,7 @@ const { persistAtom } = recoilPersist();
 export const LoginState = atom<boolean | null>({
   key: "LoginState",
   default: false,
-  effects_UNSTABLE: [persistAtom],
+  // effects_UNSTABLE: [persistAtom], 있으면 hydration error 뜸
 });
 
 // 로그인한 사용자 이메일
@@ -28,6 +28,13 @@ export const UserIdState = atom<number>({
 // 로그인한 사용자 닉네임
 export const NicknameState = atom<string>({
   key: "NicknameState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 로그인한 사용자 프로필 이미지
+export const UserProfileState = atom<any>({
+  key: "UserProfileState",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
