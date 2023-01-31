@@ -1,5 +1,7 @@
 import Image from "next/image";
-import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import { useRecoilState } from "recoil";
+import { UserProfileState } from "../../../state/UserState";
+import ExamImg from "../../../image/userProfile_ex.jpeg";
 
 interface ImgProps {
   width: number;
@@ -8,9 +10,10 @@ interface ImgProps {
 }
 
 export default function UserProfileImage({ width, height, borderW }: ImgProps) {
+  const [profile] = useRecoilState(UserProfileState);
   return (
     <Image
-      src={userProfile}
+      src={profile || ExamImg}
       alt="유저 프로필 사진"
       width={width}
       height={height}

@@ -10,6 +10,7 @@ import {
   LoginState,
   NicknameState,
   UserIdState,
+  UserProfileState,
 } from "../../state/UserState";
 import { LoginMenus, LogoutMenus } from "./NavArr";
 import SearchBar from "../Page/Search/SearchBar";
@@ -38,6 +39,7 @@ export default function NavContent() {
   // 로그인 여부
   const [isLogin, setLogin] = useRecoilState(LoginState);
   const [isNickname, setIsNickname] = useRecoilState(NicknameState);
+  const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [, setIsUserId] = useRecoilState(UserIdState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
@@ -67,6 +69,7 @@ export default function NavContent() {
       setEmailState("");
       setIsUserId(0);
       setIsNickname("");
+      setNavProfileImg("");
       setShowModal(false);
       router.replace("/");
     }
