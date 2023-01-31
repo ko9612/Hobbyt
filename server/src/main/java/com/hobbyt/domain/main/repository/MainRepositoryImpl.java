@@ -91,7 +91,7 @@ public class MainRepositoryImpl implements MainRepository {
 				member.profileImage
 			))
 			.from(member)
-			.where()
+			.where(member.id.in(memberIds))
 			.fetch();
 
 		return new HotBloggerResponse(hotBloggers);
