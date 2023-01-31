@@ -37,9 +37,17 @@ const InfoList = tw.li`
 
 export interface PaymentModalProps {
   setOpenModal(state: boolean): void;
+  seller: string;
+  bank: string;
+  number: string;
 }
 
-export default function PaymentModal({ setOpenModal }: PaymentModalProps) {
+export default function PaymentModal({
+  setOpenModal,
+  seller,
+  bank,
+  number,
+}: PaymentModalProps) {
   const [isBankTransfer, setIsBankTransfer] = useState(false);
 
   const handleClose = () => {
@@ -85,15 +93,15 @@ export default function PaymentModal({ setOpenModal }: PaymentModalProps) {
                 <BankTFInfo>
                   <InfoList>
                     <div className="w-[8rem]">판매자명</div>
-                    <div className="w-[16rem]">몽블랑</div>
+                    <div className="w-[16rem]">{seller}</div>
                   </InfoList>
                   <InfoList>
                     <div className="w-[8rem]">은행명</div>
-                    <div className="w-[16rem]">농협은행</div>
+                    <div className="w-[16rem]">{bank}</div>
                   </InfoList>
                   <InfoList>
                     <div className="w-[8rem]">계좌번호</div>
-                    <div className="w-[16rem]">XXXX-XXXX-XXXX-XX</div>
+                    <div className="w-[16rem]">{number}</div>
                   </InfoList>
                 </BankTFInfo>
                 <PayButtonDiv>

@@ -1,10 +1,25 @@
 import tw from "tailwind-styled-components";
+import { ComponentProps } from "react";
+import { useRecoilState } from "recoil";
+import { OrderAgreeState } from "../../../state/SaleState";
 
 const AgMSection = tw.section`
 py-2
 `;
 
 export default function Agreement() {
+  const [, setIsAgree] = useRecoilState(OrderAgreeState);
+
+  // 약관동의 체크박스 핸들러
+  const checkAgreeHandler: ComponentProps<"input">["onClick"] = e => {
+    const target = e.target as HTMLInputElement;
+    if (target.checked) {
+      setIsAgree(true);
+    } else {
+      setIsAgree(false);
+    }
+  };
+
   return (
     <AgMSection>
       <div className="font-semibold pb-2">개인정보 수집 및 동의</div>
@@ -15,7 +30,11 @@ export default function Agreement() {
         있습니다.
       </div>
       <div className="text-center py-2">
-        <input type="checkbox" className="mr-2" />
+        <input
+          type="checkbox"
+          className="mr-2"
+          onClick={e => checkAgreeHandler(e)}
+        />
         동의합니다
       </div>
     </AgMSection>
