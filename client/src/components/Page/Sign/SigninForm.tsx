@@ -8,9 +8,9 @@ import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
   EmailState,
-  PasswordState,
   LoginState,
   UserIdState,
+  NicknameState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
@@ -34,8 +34,8 @@ export default function SigninForm() {
   const router = useRouter();
   const setLogin = useSetRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
-  const setPassword = useSetRecoilState<string | undefined>(PasswordState);
-  const setUserId = useSetRecoilState<number | undefined>(UserIdState);
+  const setUserId = useSetRecoilState<number>(UserIdState);
+  const setNickname = useSetRecoilState<string>(NicknameState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -54,16 +54,17 @@ export default function SigninForm() {
     const signinSubmit = await postSignin(signinData);
     console.log(`signinSubmit`, signinSubmit);
     if ((signinSubmit as any).status === 200) {
+      const userData = (signinSubmit as any).data;
       const accessToken = (signinSubmit as any).headers.authorization;
       const refreshToken = (signinSubmit as any).headers.refreshtoken;
       localStorage.setItem("authorization", accessToken);
       localStorage.setItem("refresh", refreshToken);
-      setUserId(signinSubmit.data);
 
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
-        setPassword(data.password);
+        setUserId(userData.memberId);
+        setNickname(userData.nickname);
         // 20분 후, 로그인 연장
         setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
