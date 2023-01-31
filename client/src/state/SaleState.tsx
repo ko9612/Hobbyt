@@ -89,7 +89,7 @@ export const SaleDetailState = atom<SaleDetailProps>({
       followings: 0,
       followers: 0,
     },
-    alwaysOnSale: false,
-    deleted: false,
+    isAlwaysOnSale: false,
+    isDeleted: false,
   },
 });
