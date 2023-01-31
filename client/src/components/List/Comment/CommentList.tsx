@@ -15,6 +15,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
     new Date(data).toLocaleDateString("ko-KR");
 
   // console.log(`코멘트리스트`, detail?.comments[0].id);
+  console.log(`코멘트리스트`, comments);
   // 댓글 순서 거꾸로
   const newComment = comments?.reverse();
 

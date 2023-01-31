@@ -26,7 +26,7 @@ export const UserIdState = atom<number>({
 });
 
 // 로그인한 사용자 닉네임
-export const NicknameState = atom<string>({
+export const NicknameState = atom<string | undefined>({
   key: "NicknameState",
   default: "",
   effects_UNSTABLE: [persistAtom],

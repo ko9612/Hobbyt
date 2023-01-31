@@ -83,7 +83,7 @@ export default function AccountInfo() {
           {/* 이메일 수정 불가능 */}
           <EditList>
             <InputLabel>이메일</InputLabel>
-            <div className=" px-2 py-1 w-3/5">{isEmail}</div>
+            <div className="w-3/5 px-2 py-1 ">{isEmail}</div>
           </EditList>
           <EditList>
             <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>

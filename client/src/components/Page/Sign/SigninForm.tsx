@@ -17,6 +17,7 @@ import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
 import LoginRefresh from "../../../util/LoginRefresh";
+import { getSSE } from "../../../api/noticeApi";
 import { getBlogProfile } from "../../../api/profileApi";
 
 export const Input = tw.div`
@@ -68,6 +69,7 @@ export default function SigninForm() {
       const profileData = await getBlogProfile(userData.memberId);
       console.log(profileData);
 
+      setUserId(signinSubmit.data.memberId);
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
@@ -89,8 +91,15 @@ export default function SigninForm() {
     //   case 400:
     //   default:
     // }
+    const noticeApi = await getSSE();
+    console.log(`noticeApi`, noticeApi);
   };
-  console.log();
+
+  // // notice SSE 요청
+  // const noticeApi = async () => {
+  //   const noticeApi = await getSSE();
+  //   console.log(`noticeApi`, noticeApi);
+  // };
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,
