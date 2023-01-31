@@ -5,12 +5,18 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { AiOutlineLogout } from "react-icons/ai";
-import { EmailState, PasswordState, LoginState } from "../../state/UserState";
+import {
+  EmailState,
+  LoginState,
+  NicknameState,
+  UserIdState,
+} from "../../state/UserState";
 import { LoginMenus, LogoutMenus } from "./NavArr";
 import SearchBar from "../Page/Search/SearchBar";
 import logo from "../../image/logo.png";
 import DelModal from "../Modal/DelModal";
 import { postSignout } from "../../api/signApi";
+import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 export const Logo = tw.div`
     inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]
@@ -29,9 +35,10 @@ transitions duration-300 text-xl hover:text-white hover:font-bold
 export default function NavContent() {
   const router = useRouter();
   const [, setEmailState] = useRecoilState(EmailState);
-  const [, setPasswordState] = useRecoilState(PasswordState);
   // 로그인 여부
   const [isLogin, setLogin] = useRecoilState(LoginState);
+  const [isNickname, setIsNickname] = useRecoilState(NicknameState);
+  const [, setIsUserId] = useRecoilState(UserIdState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
   // 홈 버튼 클릭
@@ -58,7 +65,8 @@ export default function NavContent() {
       localStorage.removeItem("refresh");
       setLogin(false);
       setEmailState("");
-      setPasswordState("");
+      setIsUserId(0);
+      setIsNickname("");
       setShowModal(false);
       router.replace("/");
     }
@@ -95,18 +103,34 @@ export default function NavContent() {
             </List>
           ))}
           {isLogin && (
-            <List>
-              <span
-                role="presentation"
-                onClick={() => setShowModal(true)}
-                className="cursor-pointer"
+            <>
+              <List
+                className={`${
+                  router.pathname === "/mypage" && "text-yellow-200"
+                }`}
               >
-                <span className="block float-left text-2xl">
-                  <AiOutlineLogout size="35px" />
+                <Link href="/mypage">
+                  <span className="block float-left text-2xl">
+                    <DefaultProfileImg width={35} height={35} borderW={2} />
+                  </span>
+                  <span className="p-5 text-base font-medium">
+                    {isNickname}
+                  </span>
+                </Link>
+              </List>
+              <List>
+                <span
+                  role="presentation"
+                  onClick={() => setShowModal(true)}
+                  className="cursor-pointer"
+                >
+                  <span className="block float-left text-2xl">
+                    <AiOutlineLogout size="35px" />
+                  </span>
+                  <span className="p-5 text-base font-medium">로그아웃</span>
                 </span>
-                <span className="p-5 text-base font-medium">로그아웃</span>
-              </span>
-            </List>
+              </List>
+            </>
           )}
         </NavList>
       </NavList>

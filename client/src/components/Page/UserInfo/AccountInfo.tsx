@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import {
   EmailState,
-  PasswordState,
   LoginState,
+  NicknameState,
+  UserIdState,
   UserPhoneNumState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
@@ -24,7 +25,8 @@ export default function AccountInfo() {
   const router = useRouter();
   const [, setLogin] = useRecoilState(LoginState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
-  const [, setPasswordState] = useRecoilState(PasswordState);
+  const [, setIsNickname] = useRecoilState(NicknameState);
+  const [, setIsUserId] = useRecoilState(UserIdState);
   const [isEditPhone, setIsEditPhone] = useRecoilState(UserPhoneNumState);
   const [showModal, setShowModal] = useState(false);
 
@@ -54,7 +56,8 @@ export default function AccountInfo() {
       localStorage.clear();
       setLogin(false);
       setEmailState("");
-      setPasswordState("");
+      setIsUserId(0);
+      setIsNickname("");
       setShowModal(false);
       router.push("/");
     }

@@ -66,7 +66,7 @@ export default function SignupForm() {
       const signupSubmit = await postsignupSubmit(signupData);
 
       // 에러처리 나중에
-      if ((signupSubmit as any).status) {
+      if ((signupSubmit as any).status === 201) {
         setMsg(modalMsg[0]);
         setShowModal(true);
         if (!showModal) {
