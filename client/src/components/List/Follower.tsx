@@ -20,7 +20,7 @@ export default function Following() {
   return (
     <Container>
       {dummy.map(item => (
-        <List key={item.id}>
+        <List key={item.userId}>
           <Image
             src={DefalutImage || item.profileImage}
             width={50}

@@ -66,8 +66,10 @@ export default function BlogPostDetail() {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (router.isReady) {
+      getData();
+    }
+  }, [router.isReady]);
 
   return (
     <Detail id="viewer">

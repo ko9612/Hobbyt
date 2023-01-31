@@ -55,17 +55,19 @@ export default function Tab({ Menus }: TabProps) {
       const res = await getBlogContentList(userID, 0, 5);
       const listRes = res.data;
       setListData(listRes);
+      console.log(`listRes`, listRes);
     } else if (select === "인기순") {
       const res = await getBlogContentListF(userID, 0, 5);
       const listRes = res.data;
       setListData(listRes);
     }
-    // console.log(`listRes`, listRes);
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (router.isReady) {
+      getData();
+    }
+  }, [router.isReady]);
 
   return (
     <>
