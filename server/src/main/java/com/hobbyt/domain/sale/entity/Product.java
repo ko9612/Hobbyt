@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.hobbyt.global.entity.BaseEntity;
+import com.hobbyt.global.error.exception.NotEnoughStockException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,6 +38,8 @@ public class Product extends BaseEntity {
 	private int price;
 	@Column(nullable = false)
 	private int stockQuantity;
+
+	// 누적 판매량?
 
 	private boolean isDeleted = false;
 
@@ -82,5 +85,13 @@ public class Product extends BaseEntity {
 
 	public void delete() {
 		this.isDeleted = true;
+	}
+
+	public void removeStock(int quantity) {
+		int restStock = this.stockQuantity - quantity;
+		if (restStock < 0) {
+			throw new NotEnoughStockException("재고가 부족합니다");
+		}
+		this.stockQuantity = restStock;
 	}
 }
