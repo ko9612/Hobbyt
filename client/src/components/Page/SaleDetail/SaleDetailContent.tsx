@@ -3,7 +3,6 @@ import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useForm } from "react-hook-form";
-import DaumPostcode from "react-daum-postcode";
 import ProductTitle from "./ProductTitle";
 import ProductContent from "./ProductContent";
 import ProductGuide from "./ProductGuide";
@@ -27,12 +26,17 @@ import DelModal from "../../Modal/DelModal";
 import ProductList from "./ProductList";
 import { getUserInfo } from "../../../api/userApi";
 import { phoneNumRegex, accountNumRegex } from "../../../util/Regex";
-import { EmailState } from "../../../state/UserState";
-import MsgModal, { ModalBackdrop, ModalContainer } from "../../Modal/MsgModal";
+import {
+  EmailState,
+  UserRecipientStreetState,
+  UserRecipientZipCodeState,
+  UserRecipientDetailState,
+} from "../../../state/UserState";
+import MsgModal from "../../Modal/MsgModal";
 import { Input } from "../UserInfo/InfoStyle";
-import { DButton } from "../../Button/DefalutButton";
+import AddressApi from "../UserInfo/AddressApi";
 
-const PurForm = tw.form``;
+const PurForm = tw.section``;
 const PurContent = tw.div`py-2`;
 const PurContentInput = tw.div`py-2 flex items-center flex-wrap`;
 const PurInputDiv = tw.div`w-1/2`;
@@ -40,24 +44,25 @@ const PurInputDiv = tw.div`w-1/2`;
 export default function SaleDetailContent() {
   const router = useRouter();
   const pid = Number(router.query.id);
-  const [showMsgModal, setShowMsgModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
   const [SaleData, setSaleData] =
     useRecoilState<SaleDetailProps>(SaleDetailState);
   const priceSum = useRecoilValue(totalState);
   const [isAgree] = useRecoilState(OrderAgreeState);
-
   // 선택 제품 list state
   const [, setSelectItem] = useRecoilState<SelectPdList[]>(SelectdPdList);
-
-  // 주소 검색 팝업창 상태 관리
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [email] = useRecoilState<string | undefined>(EmailState);
+  const [isZipcode, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
+  const [isStreet, setIsStreet] = useRecoilState(UserRecipientStreetState);
+  const [isDetail, setIsDetail] = useRecoilState(UserRecipientDetailState);
+
   const [isPurchaserPhone, setisPurchaserPhone] = useState("");
   const [isReceiverPhone, setIsReceiverPhone] = useState("");
   const [isAccountNum, setIsAccountNum] = useState("");
   const { register, setValue, watch } = useForm<OrderInputProps>();
+
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
 
   const modalMsg = [
     "휴대폰번호 형식이 올바르지 않습니다.",
@@ -69,20 +74,27 @@ export default function SaleDetailContent() {
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
+    setSaleData((saleDetail as any).data);
 
-    if ((saleDetail as any).status === 200) {
-      setSaleData((saleDetail as any).data);
+    // 제품 list 복사 후, 제품 item Object에 새 key 추가
+    const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
+      ...el,
+      quantity: 0,
+    }));
+    setSelectItem(copySelectItem);
+    // if ((saleDetail as any).status === 200) {
+    //   setSaleData((saleDetail as any).data);
 
-      // 제품 list 복사 후, 제품 item Object에 새 key 추가
-      const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
-        ...el,
-        quantity: 0,
-      }));
-      setSelectItem(copySelectItem);
-    } else {
-      alert("잘못된 요청입니다.");
-      router.back();
-    }
+    //   // 제품 list 복사 후, 제품 item Object에 새 key 추가
+    //   const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
+    //     ...el,
+    //     quantity: 0,
+    //   }));
+    //   setSelectItem(copySelectItem);
+    // } else {
+    //   alert("잘못된 요청입니다.");
+    //   router.back();
+    // }
   };
 
   // 주문 입력 default data get
@@ -102,9 +114,9 @@ export default function SaleDetailContent() {
       setValue("orderer.email", email);
 
       // 배송정보
-      setValue("recipient.address.zipcode", data.recipient.address.zipcode);
-      setValue("recipient.address.street", data.recipient.address.street);
-      setValue("recipient.address.detail", data.recipient.address.detail);
+      setIsZipcode(data.recipient.address.zipcode);
+      setIsStreet(data.recipient.address.street);
+      setIsDetail(data.recipient.address.detail);
 
       // 환불계좌 정보
       setValue("account.holder", data.account.holder);
@@ -169,26 +181,6 @@ export default function SaleDetailContent() {
         setShowPaymentModal(!showPaymentModal);
       }
     }
-  };
-
-  // 우편번호 찾기
-  const handlePostCode = (data: any) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-    setValue("recipient.address.zipcode", data.zonecode);
-    setValue("recipient.address.street", fullAddress);
-    setIsPopupOpen(false);
   };
 
   return (
@@ -298,53 +290,8 @@ export default function SaleDetailContent() {
                 onChange={e => receiverPhonelHandler(e)}
               />
             </PurInputDiv>
-            <PurInputDiv className="pt-2 flex">
-              <Input
-                type="text"
-                id="zipCode"
-                maxLength={5}
-                placeholder="우편번호"
-                {...register("recipient.address.zipcode")}
-              />
-              <div className="pl-2">
-                <DButton
-                  className="py-1"
-                  onClick={e => {
-                    e.preventDefault();
-                    setIsPopupOpen(true);
-                  }}
-                >
-                  우편번호 찾기
-                </DButton>
-                {isPopupOpen && (
-                  <ModalContainer>
-                    <ModalBackdrop onClick={() => setIsPopupOpen(false)}>
-                      <div className="w-[40rem] rounded-md overflow-hidden z-40 shadow-xl">
-                        <DaumPostcode onComplete={handlePostCode} />
-                      </div>
-                    </ModalBackdrop>
-                  </ModalContainer>
-                )}
-              </div>
-            </PurInputDiv>
-            <PurInputDiv className="w-full py-2">
-              <Input
-                type="text"
-                id="address1"
-                maxLength={30}
-                placeholder="주소"
-                {...register("recipient.address.street")}
-              />
-            </PurInputDiv>
-            <PurInputDiv className="w-full">
-              <Input
-                type="text"
-                id="address2"
-                maxLength={30}
-                placeholder="상세주소"
-                {...register("recipient.address.detail")}
-              />
-            </PurInputDiv>
+            {/* 우편번호 검색 & 주소 */}
+            <AddressApi />
           </PurContentInput>
         </PurContent>
         <PurContent>
@@ -380,7 +327,6 @@ export default function SaleDetailContent() {
             </PurInputDiv>
           </PurContentInput>
         </PurContent>
-
         <Agreement />
         <div className="pt-10">
           {showPaymentModal && (
@@ -414,9 +360,9 @@ export default function SaleDetailContent() {
                 watch("recipient.name") &&
                 watch("recipient.name") &&
                 isReceiverPhone &&
-                watch("recipient.address.zipcode") &&
-                watch("recipient.address.street") &&
-                watch("recipient.address.detail") &&
+                isZipcode &&
+                isStreet &&
+                isDetail &&
                 watch("account.holder") &&
                 watch("account.bank") &&
                 isAccountNum &&
