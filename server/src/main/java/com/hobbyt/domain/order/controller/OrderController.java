@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.order.dto.OrderRequest;
+import com.hobbyt.domain.order.dto.OrderImportRequest;
+import com.hobbyt.domain.order.dto.OrderInfo;
+import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.service.OrderService;
 import com.hobbyt.domain.order.service.PaymentService;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -25,14 +27,15 @@ public class OrderController {
 	private final OrderService orderService;
 
 	@PostMapping("/payment/complete")
-	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember, @RequestBody OrderRequest request)
+	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember,
+		@RequestBody OrderImportRequest request)
 		throws IOException {
 
 		String token = paymentService.getToken();
 		int amount = paymentService.paymentInfo(request.getImpUid(), token);
 
 		try {
-			int totalPrice = orderService.getTotalPrice(request);
+			int totalPrice = orderService.getTotalPrice(request.getOrderInfo());
 
 			if (amount != totalPrice) {
 				paymentService.paymentCancel(token, request.getImpUid(), amount, "결제 금액 오류");
@@ -47,5 +50,11 @@ public class OrderController {
 			paymentService.paymentCancel(token, request.getImpUid(), amount, "결제 에러");
 			return ResponseEntity.badRequest().body("결제 에러");
 		}
+	}
+
+	@PostMapping
+	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember, @RequestBody OrderInfo request) {
+		Order order = orderService.order(loginMember.getEmail(), request.toOrder(), request.getProducts());
+		return ResponseEntity.ok(order.getId());
 	}
 }

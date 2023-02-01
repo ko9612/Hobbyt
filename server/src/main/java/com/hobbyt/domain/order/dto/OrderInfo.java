@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class OrderRequest {
-	private String impUid;    // 아임포트 결제번호
+public class OrderInfo {
 	private String orderNumber;    // 주문 번호
 	private Long saleId;
 	// 입금자 이름

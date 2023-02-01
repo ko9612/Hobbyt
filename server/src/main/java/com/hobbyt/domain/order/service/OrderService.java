@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.domain.order.dto.OrderRequest;
+import com.hobbyt.domain.order.dto.OrderImportRequest;
+import com.hobbyt.domain.order.dto.OrderInfo;
 import com.hobbyt.domain.order.dto.ProductDto;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderItem;
@@ -34,15 +35,15 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 
 	@Transactional(readOnly = true)
-	public int getTotalPrice(OrderRequest request) {
+	public int getTotalPrice(OrderInfo orderInfo) {
 		int totalPrice = 0;
-		Sale sale = saleService.findSaleWithProduct(request.getSaleId());
+		Sale sale = saleService.findSaleWithProduct(orderInfo.getSaleId());
 		// Sale sale = saleService.findSaleById(saleId);
 		Delivery delivery = sale.getDelivery();
 		totalPrice += delivery.getDeliveryPrice();
-		List<ProductDto> products = request.getProducts();
+		List<ProductDto> products = orderInfo.getProducts();
 
-		for (ProductDto product : request.getProducts()) {
+		for (ProductDto product : orderInfo.getProducts()) {
 			Product found = productService.findProductById(product.getId());
 			totalPrice += found.getPrice() * product.getCount();
 		}
@@ -72,10 +73,11 @@ public class OrderService {
 		return order.getId();
 	}*/
 
-	public Long orderByImport(String loginEmail, OrderRequest request, int amount) {
-		Order order = request.toOrder();
+	public Long orderByImport(String loginEmail, OrderImportRequest request, int amount) {
+		OrderInfo orderInfo = request.getOrderInfo();
+		Order order = orderInfo.toOrder();
 
-		order(loginEmail, order, request.getProducts());
+		order(loginEmail, order, orderInfo.getProducts());
 
 		Payments payments = new Payments(request.getImpUid(), amount, 0);
 
