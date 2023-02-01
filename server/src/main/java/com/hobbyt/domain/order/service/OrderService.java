@@ -50,7 +50,7 @@ public class OrderService {
 		return totalPrice;
 	}
 
-	public Long orderByImport(String loginEmail, OrderRequest request, int amount) {
+	/*public Long orderByImport(String loginEmail, OrderRequest request, int amount) {
 		Member member = memberService.findMemberByEmail(loginEmail);
 		Order order = request.toOrder();
 		Payments payments = new Payments(request.getImpUid(), amount, 0);
@@ -70,5 +70,33 @@ public class OrderService {
 		orderRepository.save(order);
 
 		return order.getId();
+	}*/
+
+	public Long orderByImport(String loginEmail, OrderRequest request, int amount) {
+		Order order = request.toOrder();
+
+		order(loginEmail, order, request.getProducts());
+
+		Payments payments = new Payments(request.getImpUid(), amount, 0);
+
+		order.setPayments(payments);
+
+		return order.getId();
+	}
+
+	public Order order(String loginEmail, Order order, List<ProductDto> products) {
+		Member member = memberService.findMemberByEmail(loginEmail);
+		Map<Product, Integer> orderedProducts = new HashMap<>();
+		products.forEach(
+			product -> orderedProducts.put(productService.findProductById(product.getId()), product.getCount()));
+
+		order.setMember(member);
+		order.updateOrderStatus(OrderStatus.ORDER);
+
+		orderedProducts.forEach(
+			(product, count) -> order.addOrderItem(OrderItem.of(product, product.getPrice(), count)));
+
+		orderRepository.save(order);
+		return order;
 	}
 }
