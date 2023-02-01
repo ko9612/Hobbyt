@@ -77,10 +77,16 @@ export default function PaymentModal({
             <PayContent>
               <PayTitle>결제수단</PayTitle>
               <PayButtonDiv>
-                <PayButton>카드결제</PayButton>
                 <PayButton
                   onClick={() => {
-                    setIsBankTransfer(!isBankTransfer);
+                    setIsBankTransfer(false);
+                  }}
+                >
+                  카드결제
+                </PayButton>
+                <PayButton
+                  onClick={() => {
+                    setIsBankTransfer(true);
                   }}
                 >
                   계좌이체

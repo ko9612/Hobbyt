@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
   BsPencilSquare,
@@ -16,6 +16,7 @@ import DelModal from "../../Modal/DelModal";
 import { deleteSaleContent, postSaleLike } from "../../../api/saleApi";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
+import { UserIdState } from "../../../state/UserState";
 
 const PdGuideSeaction = tw.section``;
 
@@ -29,9 +30,24 @@ interface IdProps {
 
 export default function ProductGuide({ id }: IdProps) {
   const router = useRouter();
+  const [initalUserId] = useRecoilState(UserIdState);
+  const [userId, setUserId] = useState(0);
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isHover, setIsHover] = useState(false);
+
+  // userId 가져오는 함수
+  const getUserId = () => {
+    if (typeof window !== "undefined") {
+      if (initalUserId) {
+        setUserId(initalUserId);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserId();
+  }, []);
 
   // like api 요청
   const SaleLike = async () => {
@@ -88,18 +104,23 @@ export default function ProductGuide({ id }: IdProps) {
             </button>
             {SaleData.likeCount}
           </div>
-          <div className="text-end">
-            <button className="hover:text-gray-500 focus:text-gray-500">
-              수정
-            </button>
-            &nbsp;|&nbsp;
-            <button
-              className="hover:text-gray-500 focus:text-gray-500"
-              onClick={() => setDeleteModal(true)}
-            >
-              삭제
-            </button>
-          </div>
+          {SaleData.writer.id === userId && (
+            <div className="text-end">
+              <button
+                className="hover:text-gray-500 focus:text-gray-500"
+                onClick={() => router.push(`/sale/edit/${id}`)}
+              >
+                수정
+              </button>
+              &nbsp;|&nbsp;
+              <button
+                className="hover:text-gray-500 focus:text-gray-500"
+                onClick={() => setDeleteModal(true)}
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </PdContent>
         <PdContent>
           <ListTitle className="font-semibold">

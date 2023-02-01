@@ -20,6 +20,8 @@ import { DButton } from "../../Button/DefalutButton";
 // import PostInput from "../Input/PostInput";
 import { ProductList, ProductImg } from "../../../type/saleType";
 import { SalePdImgsList, SaleProductList } from "../../../state/SaleState";
+// 이미지 처리 전, 제품 정보의 default img 필요해서
+import exampleImg from "../../../image/userProfile_ex.jpeg";
 
 export default function ProductInfoInput() {
   // 제품 정보 Input
@@ -52,7 +54,7 @@ export default function ProductInfoInput() {
   // 제품정보 추가 버튼 핸들러
   const handleProductAdd = () => {
     setProducts([...products, { name, stockQuantity, price }]);
-    if (pdImgList) {
+    if (imagePreview && pdImgList) {
       setPdImgList([...pdImgList, { img: imagePreview }]);
     }
     setImagePreview(undefined);
@@ -196,7 +198,12 @@ export default function ProductInfoInput() {
             <DButton
               id=""
               onClick={handleProductAdd}
-              disabled={!(imagePreview && name && stockQuantity && price)}
+              disabled={
+                !(
+                  // imagePreview &&
+                  (name && stockQuantity && price)
+                )
+              }
             >
               제품정보 추가
             </DButton>
@@ -228,9 +235,17 @@ export default function ProductInfoInput() {
                   onChange={e => editImgHandler(index, e)}
                 />
               </label>
-              {pdImgList && (
+              {pdImgList.length !== 0 ? (
                 <Image
                   src={pdImgList && pdImgList[index].img}
+                  alt="Thumb"
+                  className="object-cover w-[8rem] h-[6.5rem] rounded-md"
+                  width={130}
+                  height={105}
+                />
+              ) : (
+                <Image
+                  src={exampleImg}
                   alt="Thumb"
                   className="object-cover w-[8rem] h-[6.5rem] rounded-md"
                   width={130}
