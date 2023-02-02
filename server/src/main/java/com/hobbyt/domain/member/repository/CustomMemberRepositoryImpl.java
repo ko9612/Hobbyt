@@ -16,7 +16,6 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.hobbyt.domain.privatehome.dto.SaleCard;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,7 +29,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto params) {
+	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params) {
 		List<PrivateHomePostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostResponse.PostCard.class,
 				post.id,
@@ -55,7 +54,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	}
 
 	@Override
-	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto params) {
+	public PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeRequest params) {
 		List<PrivateHomeCommentResponse.CommentCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomeCommentResponse.CommentCard.class,
 				postComment.id,
@@ -85,11 +84,11 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.title,
 				sale.period,
 				sale.likeCount,
-				sale.alwaysOnSale))
+				sale.isAlwaysOnSale))
 			.from(sale)
-			.where(sale.deleted.eq(false), sale.writer.id.eq(writerId))
+			.where(sale.isDeleted.eq(false), sale.writer.id.eq(writerId))
 			.orderBy(
-				params.getOrderSpecifiers())    // TODO PrivateHomeRequest, PrivateHomeServiceDto 하나로 통일된걸로 바꾸고 getOrderBy로 변경
+				params.getOrderBy())
 			.offset(params.getOffset())
 			.limit(params.getLimit() + 1)
 			.fetch();
@@ -100,7 +99,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	}
 
 	@Override
-	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeServiceDto params) {
+	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params) {
 		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
 				postLike.id.as("postLikeId"),

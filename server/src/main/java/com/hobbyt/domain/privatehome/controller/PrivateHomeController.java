@@ -15,7 +15,6 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class PrivateHomeController {
 		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomePostResponse response = privateHomeService
-			.getBlogListByMemberId(memberId, PrivateHomeServiceDto.from(params));
+			.getBlogListByMemberId(memberId, params);
 
 		return ResponseEntity.ok(response);
 	}
@@ -42,7 +41,7 @@ public class PrivateHomeController {
 		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 
 		PrivateHomeCommentResponse response = privateHomeService
-			.getCommentListByMemberId(memberId, PrivateHomeServiceDto.from(params));
+			.getCommentListByMemberId(memberId, params);
 
 		return ResponseEntity.ok(response);
 	}
@@ -51,7 +50,7 @@ public class PrivateHomeController {
 	public ResponseEntity<PrivateHomePostLikeResponse> getPostLikeList(
 		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
 		PrivateHomePostLikeResponse response = privateHomeService
-			.getPostLikeListByMemberId(memberId, PrivateHomeServiceDto.from(params));
+			.getPostLikeListByMemberId(memberId, params);
 
 		return ResponseEntity.ok(response);
 	}

@@ -1,5 +1,6 @@
 package com.hobbyt.domain.main.repository;
 
+import static com.hobbyt.domain.member.entity.QFollow.*;
 import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostLike.*;
@@ -67,8 +68,33 @@ public class MainRepositoryImpl implements MainRepository {
 
 	@Override
 	public HotBloggerResponse getHotBloggers(int count) {
+		final int amountDays = 7;
 
-		return null;
+		List<Tuple> tuples = queryFactory
+			.select(member.id, follow.count())
+			.from(follow)
+			.where(follow.createdAt.after(LocalDateTime.now().minusDays(amountDays)))
+			.join(follow.following, member)
+			.groupBy(member.id)
+			.orderBy(follow.count().desc())
+			.limit(count)
+			.fetch();
+
+		List<Long> memberIds = tuples.stream()
+			.map(tuple -> tuple.get(member.id))
+			.collect(Collectors.toList());
+
+		List<HotBloggerResponse.HotBlogger> hotBloggers = queryFactory
+			.select(Projections.fields(HotBloggerResponse.HotBlogger.class,
+				member.id.as("bloggerId"),
+				member.nickname,
+				member.profileImage
+			))
+			.from(member)
+			.where(member.id.in(memberIds))
+			.fetch();
+
+		return new HotBloggerResponse(hotBloggers);
 	}
 
 	@Override

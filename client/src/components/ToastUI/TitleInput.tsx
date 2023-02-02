@@ -27,7 +27,7 @@ export default function TitleInput() {
         <h1 className="font-semibold">
           제목 <span className="text-red-500">&#42;</span>
         </h1>
-        {router.pathname !== "/salewrite" ? (
+        {!router.pathname.startsWith("/sale") ? (
           <DefalutTogle>공개 할래요</DefalutTogle>
         ) : (
           <DefalutTogle>상시 판매할래요</DefalutTogle>

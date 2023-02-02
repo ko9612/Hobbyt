@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import {
   EmailState,
-  PasswordState,
   LoginState,
+  NicknameState,
+  UserIdState,
+  UserProfileState,
   UserPhoneNumState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
@@ -24,7 +26,9 @@ export default function AccountInfo() {
   const router = useRouter();
   const [, setLogin] = useRecoilState(LoginState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
-  const [, setPasswordState] = useRecoilState(PasswordState);
+  const [, setIsNickname] = useRecoilState(NicknameState);
+  const [, setIsUserId] = useRecoilState(UserIdState);
+  const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [isEditPhone, setIsEditPhone] = useRecoilState(UserPhoneNumState);
   const [showModal, setShowModal] = useState(false);
 
@@ -54,9 +58,11 @@ export default function AccountInfo() {
       localStorage.clear();
       setLogin(false);
       setEmailState("");
-      setPasswordState("");
+      setIsUserId(0);
+      setIsNickname("");
+      setNavProfileImg("");
       setShowModal(false);
-      router.push("/");
+      router.replace("/");
     }
   };
 
@@ -77,7 +83,7 @@ export default function AccountInfo() {
           {/* 이메일 수정 불가능 */}
           <EditList>
             <InputLabel>이메일</InputLabel>
-            <div className=" px-2 py-1 w-3/5">{isEmail}</div>
+            <div className="w-3/5 px-2 py-1 ">{isEmail}</div>
           </EditList>
           <EditList>
             <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>

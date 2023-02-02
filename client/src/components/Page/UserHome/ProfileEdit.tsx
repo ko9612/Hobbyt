@@ -9,6 +9,7 @@ import {
   ProfileImageState,
   HeaderImageState,
 } from "../../../state/ProfileState";
+import { NicknameState, UserProfileState } from "../../../state/UserState";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
@@ -18,6 +19,8 @@ export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useRecoilState(ProfileImageState);
   const [headerImage, setHeaderImage] = useRecoilState(HeaderImageState);
   const [nickName, setNickName] = useState("");
+  const [, setNavNickName] = useRecoilState(NicknameState);
+  const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [description, setDescription] = useState("");
 
   // 헤더 이미지 변경 함수
@@ -78,6 +81,8 @@ export default function ProfileEdit() {
 
     try {
       const req = await patchBlogProfile(formData);
+      setNavNickName(nickName);
+      setNavProfileImg(profileImage);
       // const res = req.data;
       console.log(`req`, req);
     } catch (err: unknown) {

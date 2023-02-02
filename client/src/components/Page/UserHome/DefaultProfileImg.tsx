@@ -1,16 +1,22 @@
 import Image from "next/image";
-import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import ExamImg from "../../../image/userProfile_ex.jpeg";
 
 interface ImgProps {
+  profileImg: any;
   width: number;
   height: number;
   borderW: number;
 }
 
-export default function UserProfileImage({ width, height, borderW }: ImgProps) {
+export default function DefaultProfileImage({
+  profileImg,
+  width,
+  height,
+  borderW,
+}: ImgProps) {
   return (
     <Image
-      src={userProfile}
+      src={profileImg || ExamImg}
       alt="유저 프로필 사진"
       width={width}
       height={height}

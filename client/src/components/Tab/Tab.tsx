@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -12,7 +12,12 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
+import {
+  getBlogContentList,
+  getBlogContentListF,
+  getSearchBlogList,
+  getSearchSaleList,
+} from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 import { BlogSelectState } from "../../state/BlogPostState";
 import FollowingList from "../List/FollowingList";
@@ -37,13 +42,14 @@ export default function Tab({ Menus }: TabProps) {
   const userID = useRecoilValue(UserIdState);
   // 최신순, 인기순 클릭 저장하고 있는 state
   //  기본적으로 최신순으로 되어 있음
-  const select = useRecoilValue(BlogSelectState);
+  const [select, setSelect] = useRecoilState(BlogSelectState);
 
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
   };
 
+  // 검색 키워드
   const keyword = router.query.keywords;
 
   // api 리스트 데이터 저장
@@ -55,17 +61,66 @@ export default function Tab({ Menus }: TabProps) {
       const res = await getBlogContentList(userID, 0, 5);
       const listRes = res.data;
       setListData(listRes);
+      console.log(`listRes`, listRes);
     } else if (select === "인기순") {
       const res = await getBlogContentListF(userID, 0, 5);
       const listRes = res.data;
       setListData(listRes);
     }
-    // console.log(`listRes`, listRes);
   };
 
+  // 검색: 블로그 게시글 리스트 api 요청
+  const getSearchBlogData = async () => {
+    if (select === "최신순") {
+      const res = await getSearchBlogList(keyword, 0, 5, "POST_NEWEST");
+      const listRes = (res as any).data;
+      setListData(listRes);
+    } else {
+      const res = await getSearchBlogList(keyword, 0, 5, "POST_MOSTLIKE");
+      const listRes = (res as any).data;
+      setListData(listRes);
+    }
+  };
+
+  // 검색: 판매 게시글 리스트 api 요청
+  const getSearchSaleData = async () => {
+    if (select === "최신순") {
+      const res = await getSearchSaleList(keyword, 0, 6, "SALE_NEWEST");
+      const listRes = (res as any).data;
+      setListData(listRes);
+    } else {
+      const res = await getSearchSaleList(keyword, 0, 6, "SALE_MOST_LIKE");
+      const listRes = (res as any).data;
+      setListData(listRes);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     getData();
+  //   }
+  // }, [router.isReady]);
+
   useEffect(() => {
-    getData();
-  }, []);
+    if (Menus[curIndex].name === "블로그" && router.pathname === "/blog") {
+      getData();
+    } else if (
+      Menus[curIndex].name === "블로그" &&
+      router.pathname === "/search"
+    ) {
+      getSearchBlogData();
+    } else if (
+      Menus[curIndex].name === "판매" &&
+      router.pathname === "/search"
+    ) {
+      getSearchSaleData();
+    }
+  }, [select, keyword, curIndex]);
+
+  // curIndex 바뀌면 select값 최신순으로 초기화
+  useEffect(() => {
+    setSelect("최신순");
+  }, [curIndex]);
 
   return (
     <>
@@ -91,10 +146,10 @@ export default function Tab({ Menus }: TabProps) {
           <SaleList />
         ) : null}
         {Menus[curIndex].name === "블로그" && router.pathname === "/search" ? (
-          <SearchBlog keyword={keyword} />
+          <SearchBlog keyword={keyword} list={listData} />
         ) : null}
         {Menus[curIndex].name === "판매" && router.pathname === "/search" ? (
-          <SearchSales keyword={keyword} />
+          <SearchSales keyword={keyword} list={listData} />
         ) : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}

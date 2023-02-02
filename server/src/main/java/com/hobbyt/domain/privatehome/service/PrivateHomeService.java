@@ -9,7 +9,6 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +18,11 @@ import lombok.RequiredArgsConstructor;
 public class PrivateHomeService {
 	private final MemberRepository memberRepository;
 
-	public PrivateHomePostResponse getBlogListByMemberId(Long id, PrivateHomeServiceDto params) {
+	public PrivateHomePostResponse getBlogListByMemberId(Long id, PrivateHomeRequest params) {
 		return memberRepository.getBlogListByWriterId(id, params);
 	}
 
-	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeServiceDto params) {
+	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeRequest params) {
 		return memberRepository.getCommentListByWriterId(id, params);
 	}
 
@@ -31,7 +30,7 @@ public class PrivateHomeService {
 		return memberRepository.getSalesByWriterId(id, params);
 	}
 
-	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long id, PrivateHomeServiceDto params) {
+	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long id, PrivateHomeRequest params) {
 		return memberRepository.getPostLikeListByMemberId(id, params);
 	}
 }

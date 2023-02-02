@@ -3,6 +3,7 @@ package com.hobbyt.domain.search.repository;
 import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostTag.*;
+import static com.hobbyt.domain.sale.entity.QProduct.*;
 import static com.hobbyt.domain.sale.entity.QSale.*;
 import static com.hobbyt.domain.sale.entity.QSaleTag.*;
 import static com.hobbyt.domain.tag.entity.QTag.*;
@@ -64,7 +65,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 
 	private BooleanBuilder postsContainsKeyword(final String keyword) {
 		return postTitleContainsKeyword(keyword).or(postContentContainsKeyword(keyword))
-			.or(tagContainsKeyword(keyword));
+			.or(tagContainsKeyword(keyword)).or(writerContainsKeyword(keyword));
 	}
 
 	private BooleanBuilder postTitleContainsKeyword(final String keyword) {
@@ -83,14 +84,15 @@ public class SearchRepositoryImpl implements SearchRepository {
 				sale.title,
 				sale.period,
 				sale.likeCount,
-				sale.alwaysOnSale,
+				sale.isAlwaysOnSale,
 				member.id.as("writerId"),
 				member.nickname)).distinct()
 			.from(saleTag)
 			.join(saleTag.sale, sale)
 			.join(saleTag.tag, tag)
 			.join(sale.writer, member)
-			.where(sale.deleted.eq(false)
+			.join(sale.products, product)
+			.where(sale.isDeleted.eq(false)
 				.and(salesContainsKeyword(params.getKeyword())))
 			.orderBy(params.getOrderBy())
 			.offset(params.getOffset())
@@ -113,7 +115,15 @@ public class SearchRepositoryImpl implements SearchRepository {
 
 	private BooleanBuilder salesContainsKeyword(final String keyword) {
 		return saleTitleContainsKeyword(keyword).or(saleContentContainsKeyword(keyword))
-			.or(tagContainsKeyword(keyword));
+			.or(tagContainsKeyword(keyword)).or(writerContainsKeyword(keyword)).or(productContainsKeyword(keyword));
+	}
+
+	private BooleanBuilder productContainsKeyword(final String keyword) {
+		return nullSafeBuilder(() -> product.name.contains(keyword));
+	}
+
+	private BooleanBuilder writerContainsKeyword(final String keyword) {
+		return nullSafeBuilder(() -> member.nickname.contains(keyword));
 	}
 
 	private BooleanBuilder saleTitleContainsKeyword(final String keyword) {

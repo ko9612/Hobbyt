@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
-import { useRecoilState } from "recoil";
+// import { useRecoilState } from "recoil";
 import {
   InfoSection,
   InfoTitle,
@@ -13,13 +13,11 @@ import {
 import { DButton } from "../../Button/DefalutButton";
 import { PasswordProps } from "../../../type/userTypes";
 import { passwordRegex } from "../../../util/Regex";
-import { PasswordState } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 import { patchPaswword } from "../../../api/userApi";
 import { ErrMsg } from "../Sign/SigninForm";
 
 export default function PasswordInfo() {
-  const [isPassword, setPassword] = useRecoilState(PasswordState);
   const {
     register,
     handleSubmit,
@@ -37,10 +35,14 @@ export default function PasswordInfo() {
 
   // 비밀번호 변경 핸들러
   const passwordEditSubmit = async (data: PasswordProps) => {
-    if (data.oldPassword !== isPassword) {
-      setMsg("현재 비밀번호가 일치하지 않습니다.");
-      setShowModal(true);
-    } else if (isPassword === data.newPassword) {
+    // 현재 비밀번호는 서버에서 관리, 에러 처리 후 modal 띄우기
+
+    // if (data.oldPassword !== isPassword) {
+    //   setMsg("현재 비밀번호가 일치하지 않습니다.");
+    //   setShowModal(true);
+    // } else
+
+    if (data.oldPassword === data.newPassword) {
       setMsg("현재 비밀번호와 다른 비밀번호를 입력해주세요.");
       setShowModal(true);
     } else {
@@ -55,7 +57,6 @@ export default function PasswordInfo() {
       if ((passwordSubmit as any).status === 200) {
         setMsg("비밀번호가 변경되었습니다.");
         setShowModal(true);
-        setPassword(data.newPassword);
       }
       console.log(passwordSubmit);
     }

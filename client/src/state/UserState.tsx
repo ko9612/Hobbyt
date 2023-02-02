@@ -8,18 +8,12 @@ const { persistAtom } = recoilPersist();
 export const LoginState = atom<boolean | null>({
   key: "LoginState",
   default: false,
+  // effects_UNSTABLE: [persistAtom], 있으면 hydration error 뜸
 });
 
 // 로그인한 사용자 이메일
 export const EmailState = atom<string | undefined>({
   key: "EmailState",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
-});
-
-// 로그인한 사용자 password
-export const PasswordState = atom<string | undefined>({
-  key: "PasswordState",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
@@ -31,12 +25,27 @@ export const UserIdState = atom<number>({
   effects_UNSTABLE: [persistAtom],
 });
 
+// 로그인한 사용자 닉네임
+export const NicknameState = atom<string | undefined>({
+  key: "NicknameState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 로그인한 사용자 프로필 이미지
+export const UserProfileState = atom<any>({
+  key: "UserProfileState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
 // 사용자 휴대폰번호
 export const UserPhoneNumState = atom<MyInfoProps["phoneNumber"]>({
   key: "UserPhoneNumState",
   default: "",
 });
 
+// 사용자 배송지
 // 사용자 배송지-수령인명
 export const UserRecipientNameState = atom<MyInfoProps["recipient"]["name"]>({
   key: "UserRecipientNameState",

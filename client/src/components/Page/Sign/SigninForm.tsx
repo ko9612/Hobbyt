@@ -1,21 +1,25 @@
 // 로그인 form
 import tw from "tailwind-styled-components";
-import { useSetRecoilState } from "recoil";
-import { useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { EventSourcePolyfill } from "event-source-polyfill";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
   EmailState,
-  PasswordState,
   LoginState,
   UserIdState,
+  NicknameState,
+  // UserProfileState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
 import LoginRefresh from "../../../util/LoginRefresh";
+import { getSSE } from "../../../api/noticeApi";
+import { getBlogProfile } from "../../../api/profileApi";
 
 export const Input = tw.div`
   my-6
@@ -32,10 +36,11 @@ export const ErrMsg = tw.p`
 
 export default function SigninForm() {
   const router = useRouter();
-  const setLogin = useSetRecoilState<boolean | null>(LoginState);
+  const [isLogin, setLogin] = useRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
-  const setPassword = useSetRecoilState<string | undefined>(PasswordState);
-  const setUserId = useSetRecoilState<number | undefined>(UserIdState);
+  const setUserId = useSetRecoilState<number>(UserIdState);
+  const setNickname = useSetRecoilState<string | undefined>(NicknameState);
+  // const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
 
@@ -53,18 +58,26 @@ export default function SigninForm() {
 
     const signinSubmit = await postSignin(signinData);
     console.log(`signinSubmit`, signinSubmit);
+
     if ((signinSubmit as any).status === 200) {
+      const userData = (signinSubmit as any).data;
       const accessToken = (signinSubmit as any).headers.authorization;
       const refreshToken = (signinSubmit as any).headers.refreshtoken;
       localStorage.setItem("authorization", accessToken);
       localStorage.setItem("refresh", refreshToken);
-      setUserId(signinSubmit.data);
+
+      // NavBar의 Profile 이미지 때문에 로그인 후 1번 get 요청
+      const profileData = await getBlogProfile(userData.memberId);
+      console.log(`profileData`, profileData);
+      setUserId(signinSubmit.data.memberId);
 
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
-        setPassword(data.password);
-        // 20분 후, 로그인 연장
+        setUserId(userData.memberId);
+        setNickname(userData.nickname);
+        // 이미지 처리 후, 밑의 주석 풀기
+        // setNavProfileImg((profileData as any).data.profileImage);
         setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }
@@ -80,7 +93,105 @@ export default function SigninForm() {
     //   default:
     // }
   };
-  console.log();
+
+  // // SSE 구독 api
+  // const noticeApi = async () => {
+  //   console.log("로그인된거임?", isLogin);
+  //   if (isLogin === true) {
+  //     const SSE = await getSSE();
+  //     console.log(`noticeApi`, SSE);
+  //     console.log("된거냐고", isLogin);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   noticeApi();
+  //   console.log("된거임?");
+  // }, [isLogin]);
+
+  // // sse 구독 api
+  // useEffect(() => {
+  //   if(localStorage.getItem("authorization") !== null){
+  //     let token = localStorage.getItem("authorization")
+  //     let eventSource = new EventSource("/api/notifications/subscribe" + "?token=" + token);
+
+  //     eventSource.addEventListener()
+  //   }
+  // },[])
+
+  // const EventSource = EventSourcePolyfill || NativeEventSource;
+
+  useEffect(() => {
+    console.log("useEffect 앞");
+    if (isLogin === true) {
+      const axiosSEE = async () => {
+        let eventSource;
+        console.log("useEffect 중");
+        try {
+          eventSource = new EventSourcePolyfill(
+            "/api/notifications/subscribe",
+            {
+              headers: { Authorization: localStorage.getItem("authorization") },
+            },
+          );
+          console.log("useEffect 중하");
+          console.log("useEffect", eventSource);
+
+          // eventSource.onmessage = async event => {
+          //   // const data = JSON.parse(event.data);
+          //   // console.log("data", data.message);
+          //   console.log("data", event);
+          // };
+
+          //   // if (data.type !== "error") {
+          //   //   console.log("data", data.message);
+          //   // }
+          // };
+
+          // eventSource.onerror = async event => {
+          //   // eventSource.close();
+          //   // const data = JSON.parse(error.data);
+          //   // console.log("error 메세지", data.message);
+          //   const data = JSON.parse(event.data);
+          //   if (data.type === "error") {
+          //     console.log("error", data.message);
+          //   }
+          // };
+
+          eventSource.addEventListener("notificaiton", e => {
+            const receivedConnectData = e.data;
+            console.log("들어왔어!", receivedConnectData);
+          });
+
+          // eventSource.addEventListener("message", e => {
+          //   console.log("메세지 들어왔어!", e);
+          // });
+
+          // eventSource.addEventListener("error", e => {
+          //   console.log(e);
+          // });
+        } catch (err: unknown) {
+          console.log("err", err);
+          return console.error(err);
+        }
+      };
+      axiosSEE();
+      console.log("useEffect 끝");
+    }
+  }, [isLogin]);
+
+  // const evSource = new EventSource("/api/notifications/subscribe");
+  // const parseMyEvent = (ev: MessageEvent) => {
+  //   const evData = JSON.parse(ev.data);
+  //   console.log("돼냐", evData);
+  // };
+  // evSource.addEventListener("/api/notifications/subscribe", parseMyEvent);
+
+  // // notice SSE 요청
+  // const noticeApi = async () => {
+  //   const noticeApi = await getSSE();
+  //   console.log(`noticeApi`, noticeApi);
+  // };
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,

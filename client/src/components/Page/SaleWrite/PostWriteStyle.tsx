@@ -26,6 +26,10 @@ w-full p-2 my-2 border-2 rounded-lg border-slate-200
 export const SubLabel = tw.label`
 `;
 
-// export const CurrentInfo = tw.div`
-// border-2 border-slate-200 px-4 py-2 bg-slate-200 rounded-lg duration-200 w-full
-// `;
+export const InfoContent = tw.div`
+flex items-center mb-4 bg-slate-200 py-2 px-3 rounded-xl
+`;
+
+export const ImgBox = tw.div`
+bg-white rounded-md w-[8rem] h-[6.5rem] flex items-center justify-center relative
+`;

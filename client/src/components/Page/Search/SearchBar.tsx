@@ -16,11 +16,15 @@ export default function SearchBar() {
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      router.push({
-        pathname: "/search",
-        query: { keywords },
-      });
-      setKeywords("");
+      if (keywords.length >= 2) {
+        router.push({
+          pathname: "/search",
+          query: { keywords },
+        });
+        setKeywords("");
+      } else {
+        alert("검색어는 2글자 이상 입력해주세요.");
+      }
     }
   };
 
