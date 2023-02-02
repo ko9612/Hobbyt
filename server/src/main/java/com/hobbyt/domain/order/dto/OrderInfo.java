@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.order.entity.Order;
-import com.hobbyt.domain.order.entity.OrdererInfo;
 import com.hobbyt.domain.order.entity.PaymentMethod;
 import com.hobbyt.global.entity.Account;
 
@@ -18,10 +17,6 @@ public class OrderInfo {
 	private Long saleId;
 	// 입금자 이름
 	private String depositor;
-
-	// 주문자 정보
-	// 이름, 핸드폰 번호, 이메일
-	private OrdererInfo ordererInfo;
 
 	// 배송정보
 	// 수령자 이름, 폰번호, 주소
@@ -40,7 +35,6 @@ public class OrderInfo {
 	private List<ProductDto> products;
 
 	public Order toOrder() {
-		return Order.of(orderNumber, depositor, ordererInfo, recipient, refundAccount, checkPrivacyPolicy,
-			paymentMethod);
+		return Order.of(orderNumber, depositor, recipient, refundAccount, checkPrivacyPolicy, paymentMethod);
 	}
 }

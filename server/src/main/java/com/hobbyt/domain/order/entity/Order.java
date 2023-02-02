@@ -56,11 +56,6 @@ public class Order extends BaseEntity {
 	// 입금자 이름
 	private String depositor;
 
-	// 주문자 정보
-	// 이름, 핸드폰 번호, 이메일
-	@Embedded
-	private OrdererInfo ordererInfo;
-
 	// 배송정보
 	// 수령자 이름, 폰번호, 주소
 	@Embedded
@@ -83,24 +78,22 @@ public class Order extends BaseEntity {
 	private Payments payments;
 
 	@Builder
-	private Order(String orderNumber, String depositor, OrdererInfo ordererInfo, Recipient recipient,
+	private Order(String orderNumber, String depositor, Recipient recipient,
 		Account refundAccount, boolean checkPrivacyPolicy, PaymentMethod paymentMethod) {
 		this.orderNumber = orderNumber;
 		this.depositor = depositor;
-		this.ordererInfo = ordererInfo;
 		this.recipient = recipient;
 		this.refundAccount = refundAccount;
 		this.checkPrivacyPolicy = checkPrivacyPolicy;
 		this.paymentMethod = paymentMethod;
 	}
 
-	public static Order of(String orderNumber, String depositor, OrdererInfo ordererInfo, Recipient recipient,
+	public static Order of(String orderNumber, String depositor, Recipient recipient,
 		Account refundAccount, boolean checkPrivacyPolicy, PaymentMethod paymentMethod) {
 
 		return Order.builder()
 			.orderNumber(orderNumber)
 			.depositor(depositor)
-			.ordererInfo(ordererInfo)
 			.recipient(recipient)
 			.refundAccount(refundAccount)
 			.checkPrivacyPolicy(checkPrivacyPolicy)
