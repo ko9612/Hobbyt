@@ -54,7 +54,8 @@ public class OrderController {
 
 	@PostMapping
 	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember, @RequestBody OrderInfo request) {
-		Order order = orderService.order(loginMember.getEmail(), request.toOrder(), request.getProducts());
+		// Order order = orderService.order(loginMember.getEmail(), request.toOrder(), request.getProducts());
+		Order order = orderService.order(loginMember.getEmail(), request);
 		return ResponseEntity.ok(order.getId());
 	}
 }
