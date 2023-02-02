@@ -64,10 +64,8 @@ export default function Tab({ Menus }: TabProps) {
   };
 
   useEffect(() => {
-    if (router.isReady) {
-      getData();
-    }
-  }, [router.isReady]);
+    getData();
+  }, [select]);
 
   return (
     <>

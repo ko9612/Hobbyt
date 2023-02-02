@@ -39,7 +39,7 @@ export default function SaleItem({ list }) {
           </div>
         </Link>
         <div className="float-right pb-2">
-          <LikeCount>0</LikeCount>
+          <LikeCount>{list.likeCount}</LikeCount>
         </div>
       </SLProductInfo>
     </SLContent>
