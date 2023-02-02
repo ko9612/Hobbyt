@@ -109,14 +109,14 @@ export default function NoticeList() {
       ) : (
         <div>
           {noticeData &&
-            noticeData.map((notice: any, idx: number) => (
+            noticeData.map((notice: any) => (
               <Link
                 href={
                   notice.type === "POST_COMMENT"
                     ? `/post/${notice.articleId}`
                     : `/sale/${notice.articleId}`
                 }
-                key={idx}
+                key={notice.notificationId}
               >
                 <div className="flex items-center p-8 mb-5 rounded-lg bg-slate-100">
                   {/* <p className="mr-5">{notice.userprofile}</p> */}
