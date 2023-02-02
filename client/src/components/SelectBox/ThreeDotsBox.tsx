@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import {
   BsThreeDots,
@@ -12,9 +12,10 @@ import { CommentType } from "../../type/blogType";
 import EditModal from "../Modal/EditModal";
 import DelModal from "../Modal/DelModal";
 import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
+import { deleteSaleContent } from "../../api/saleApi";
 // import { BlogEditState } from "../../state/BlogPostState";
 
-const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10`;
+const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap`;
 
 export default function ThreeDotsBox({
   children,
@@ -28,6 +29,7 @@ export default function ThreeDotsBox({
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [commentData, setCommentData] = useState("");
+  const popRef = useRef<HTMLButtonElement>(null);
   // const [, setBlogEdit] = useRecoilState(BlogEditState);
   // 포스트의 id 이거나 아니면 댓글 id 이거나
   const { id } = item || {};
@@ -42,14 +44,29 @@ export default function ThreeDotsBox({
     }
   };
 
+  // 모달 밖 클릭 시, 닫히는 함수
+  const closeHandler = ({ target }: any) => {
+    if (popRef.current && !popRef.current.contains(target)) {
+      setOnClick(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", closeHandler);
+    return () => {
+      window.removeEventListener("click", closeHandler);
+    };
+  },[]);
+
   // 수정 클릭시 모달 창
   const onClickEdit = () => {
     if (children === "블로그") {
       router.push(`/post/edit/${id}`);
       // setBlogEdit(item);
-    }
-    if (children === "댓글") {
+    } else if (children === "댓글") {
       setEditModal(!editModal);
+    } else if (children === "작품") {
+      router.push(`/sale/edit/${id}`);
     }
     setOnClick(!onClick);
   };
@@ -59,8 +76,9 @@ export default function ThreeDotsBox({
     if (children === "블로그") {
       setDeleteModal(!deleteModal);
       // setBlogEdit(item);
-    }
-    if (children === "댓글") {
+    } else if (children === "댓글") {
+      setDeleteModal(!deleteModal);
+    } else if (children === "작품") {
       setDeleteModal(!deleteModal);
     }
     setOnClick(!onClick);
@@ -76,14 +94,21 @@ export default function ThreeDotsBox({
       } catch {
         console.error();
       }
-    }
-    if (children === "댓글") {
+    } else if (children === "댓글") {
       try {
         const deleteComment = await deleteBlogComment(id);
         router.reload();
         return deleteComment;
       } catch {
         return console.error();
+      }
+    } else if (children === "작품") {
+      try {
+        const deleteBlog = await deleteSaleContent(id);
+        router.reload();
+        return deleteBlog;
+      } catch {
+        console.error();
       }
     }
   };
@@ -108,7 +133,7 @@ export default function ThreeDotsBox({
           buttonString="삭제"
         />
       )}
-      <button onClick={onClickHandler} value={id}>
+      <button ref={popRef} onClick={onClickHandler} value={id}>
         <BsThreeDots className="cursor-pointer" size={25} color="#d6d6d6" />
       </button>
       {onClick && (

@@ -114,3 +114,23 @@ export interface OrderInputProps {
     number: string;
   };
 }
+
+// 검색 - 판매글 리스트 데이터 타입
+export interface SearchSaleItemProps {
+  id: number;
+  thumbnailImage: string | null;
+  title: string;
+  period: {
+    startedAt: string;
+    endAt: string;
+  };
+  likeCount: number;
+  writerId: number;
+  nickname: string;
+  alwaysOnSale: boolean;
+}
+
+export interface SearchSaleDataProps {
+  hasNext: boolean;
+  sales: SearchSaleItemProps[];
+}

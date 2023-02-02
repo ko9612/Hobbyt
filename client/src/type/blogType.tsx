@@ -85,3 +85,23 @@ export interface ILikeList {
     },
   ];
 }
+
+// 검색 - 블로그 리스트 데이터 타입
+export interface BlogItemProps {
+  id: 0;
+  title: string;
+  content: string;
+  viewCount: number;
+  likeCount: number;
+  isPublic: boolean;
+  writerId: number;
+  nickname: string;
+  createdAt: string;
+  writerImg: string;
+  thumbnailImage: string;
+}
+
+export interface SearchBlogDataProps {
+  hasNext: boolean;
+  posts: BlogItemProps[];
+}
