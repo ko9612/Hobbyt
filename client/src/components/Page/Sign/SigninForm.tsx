@@ -137,13 +137,16 @@ export default function SigninForm() {
           console.log("useEffect 중하");
           console.log("useEffect", eventSource);
 
-          eventSource.onmessage = async event => {
-            const data = JSON.parse(event.data);
-            console.log("data", data.message);
-            // if (data.type !== "error") {
-            //   console.log("data", data.message);
-            // }
-          };
+          // eventSource.onmessage = async event => {
+          //   // const data = JSON.parse(event.data);
+          //   // console.log("data", data.message);
+          //   console.log("data", event);
+          // };
+
+          //   // if (data.type !== "error") {
+          //   //   console.log("data", data.message);
+          //   // }
+          // };
 
           // eventSource.onerror = async event => {
           //   // eventSource.close();
@@ -155,14 +158,20 @@ export default function SigninForm() {
           //   }
           // };
 
-          // eventSource.addEventListener("notificaiton", e => {
-          //   console.log("들어왔어!", e);
+          eventSource.addEventListener("notificaiton", e => {
+            const receivedConnectData = e.data;
+            console.log("들어왔어!", receivedConnectData);
+          });
+
+          // eventSource.addEventListener("message", e => {
+          //   console.log("메세지 들어왔어!", e);
           // });
 
           // eventSource.addEventListener("error", e => {
           //   console.log(e);
           // });
         } catch (err: unknown) {
+          console.log("err", err);
           return console.error(err);
         }
       };
