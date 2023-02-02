@@ -1,18 +1,19 @@
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import tw from "tailwind-styled-components";
-import { BsCalendar4 } from "react-icons/bs";
-import Link from "next/link";
-import Image from "next/image";
-import LikeCount from "../ViewLikeWrite/LikeCount";
+import { getSaleList, getSaleListF } from "../../api/tabApi";
+import { UserIdState } from "../../state/UserState";
+// import { BsCalendar4 } from "react-icons/bs";
+// import Link from "next/link";
+// import Image from "next/image";
+// import LikeCount from "../ViewLikeWrite/LikeCount";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
-import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-import saleDIamge from "../../image/saleDImage.svg";
+// import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
+// import saleDIamge from "../../image/saleDImage.svg";
+import SaleItem from "./SaleItem";
 
 export const SLContainer = tw.div`m-auto`;
-export const SLComponent = tw.div`grid grid-cols-3 mt-4 gap-3`;
-export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`rounded-lg mb-2 relative`;
-export const SLProductInfo = tw.div`mx-4`;
-const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
+const SLComponent = tw.div`grid grid-cols-3 mt-4 gap-3`;
 
 export default function SaleList() {
   const dummy = [
@@ -54,38 +55,68 @@ export default function SaleList() {
     },
   ];
 
+  const userID = useRecoilValue(UserIdState);
+
+  // 최신순, 인기순 클릭 저장하고 있는 state // 기본적으로 최신순
+  const [select, setSelect] = useState("최신순");
+
+  // 불러온 데이터 저장
+  const [listData, setListData] = useState([]);
+
+  // 판매 게시글 리스트 api 요청
+  const getData = async () => {
+    if (select === "최신순") {
+      const res = await getSaleList(userID, 0, 9);
+      const listRes = res.data;
+      setListData(listRes);
+      console.log("listRes", res.data);
+    } else if (select === "인기순") {
+      const res = await getSaleListF(userID, 0, 9);
+      const listRes = res.data;
+      setListData(listRes);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <SLContainer>
       <BlogSaleInfo>판매</BlogSaleInfo>
       <SLComponent>
-        {dummy.map(item => (
-          <SLContent key={item.id}>
-            <SLImage>
-              <SLImageC>
-                <ThreeDotsBox item={dummy}>작품</ThreeDotsBox>
-              </SLImageC>
-              <Image
-                src={item.thumbnailImage || saleDIamge}
-                alt="img"
-                width={225}
-                height={225}
-              />
-            </SLImage>
-            <SLProductInfo>
-              <Link href="/saledetail">
-                <p className="mt-3">{item.title}</p>
-                <div className="flex">
-                  <BsCalendar4 />
-                  <p className="pl-2">22.12.14 ~ 22.12.16</p>
-                </div>
-              </Link>
-              <div className="float-right pb-2">
-                <LikeCount>0</LikeCount>
-              </div>
-            </SLProductInfo>
-          </SLContent>
-        ))}
+        {listData.sales &&
+          listData.sales.map(item => <SaleItem list={item} key={item.id} />)}
       </SLComponent>
     </SLContainer>
   );
+}
+
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <SLContent key={item.id}>
+<SLImage>
+  <SLImageC>
+    <ThreeDotsBox item={dummy}>작품</ThreeDotsBox>
+  </SLImageC>
+  <Image
+    src={item.thumbnailImage || saleDIamge}
+    alt="img"
+    width={225}
+    height={225}
+  />
+</SLImage>
+<SLProductInfo>
+  <Link href="/saledetail">
+    <p className="mt-3">{item.title}</p>
+    <div className="flex">
+      <BsCalendar4 />
+      <p className="pl-2">22.12.14 ~ 22.12.16</p>
+    </div>
+  </Link>
+  <div className="float-right pb-2">
+    <LikeCount>0</LikeCount>
+  </div>
+</SLProductInfo>
+</SLContent> */
 }

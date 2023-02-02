@@ -1,7 +1,7 @@
 // import tw from "tailwind-styled-components";
 import { BsCalendar4 } from "react-icons/bs";
 import { Section, Title, BestContent, BestItem } from "./BestBlog";
-import { SLContent, SLImage, SLProductInfo } from "../SaleList";
+import { SLContent, SLImage, SLProductInfo } from "../SaleItem";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import LikeCount from "../../ViewLikeWrite/LikeCount";
 import FilterButton from "../../Button/FilterButton";
