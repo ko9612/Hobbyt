@@ -3,12 +3,8 @@ import { BsCalendar4 } from "react-icons/bs";
 import LikeCount from "../../ViewLikeWrite/LikeCount";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import FilterButton from "../../Button/FilterButton";
-import {
-  SLContainer,
-  SLContent,
-  SLImage,
-  SLProductInfo,
-} from "../../List/SaleList";
+import { SLContainer } from "../../List/SaleList";
+import { SLContent, SLImage, SLProductInfo } from "../../List/SaleItem";
 
 export const Content = tw.article`
 flex items-center pt-5
