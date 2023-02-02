@@ -116,4 +116,12 @@ public class Order extends BaseEntity {
 	public void setPayments(Payments payments) {
 		this.payments = payments;
 	}
+
+	public boolean isPossibleToCancel() {
+		return this.orderStatus == OrderStatus.ORDER || this.orderStatus == OrderStatus.PAYMENT_VERIFICATION;
+	}
+
+	public boolean isBankTransfer() {
+		return this.paymentMethod == PaymentMethod.BANK_TRANSFER;
+	}
 }

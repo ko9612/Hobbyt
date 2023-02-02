@@ -1,5 +1,5 @@
 package com.hobbyt.domain.order.entity;
 
 public enum OrderStatus {
-	ORDER, CANCEL, PREPARING, SHIPPING, FINISH
+	CANCEL, ORDER, PAYMENT_VERIFICATION, PREPARING, SHIPPING, FINISH
 }

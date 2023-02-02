@@ -2,6 +2,7 @@ package com.hobbyt.domain.order.service;
 
 import static com.hobbyt.domain.notification.entity.NotificationType.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
+import com.hobbyt.global.error.exception.ImpossibleCancelException;
+import com.hobbyt.global.error.exception.OrderNotExistException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -116,6 +119,46 @@ public class OrderService {
 
 		orderRepository.save(order);
 		return order;
+	}
+
+	public void cancel(Long orderId, Long saleId) throws IOException {
+		// if 주문상태가 배송준비중, 배송완료 : 주문취소 실패
+
+		// if 결제수단 == CARD : 환불처리
+
+		// 주문취소 알람
+		// 주문상태 변경
+
+		Order order = findOrderByOrderId(orderId);
+		Sale sale = saleService.findSaleById(saleId);
+		String token = paymentService.getToken();
+
+		if (!order.isPossibleToCancel()) {
+			// 주문취소 실패 예외
+			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
+		}
+
+		if (!order.isBankTransfer()) {
+			// 환불처리
+			Payments payments = order.getPayments();
+			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
+		}
+
+		// 주문취소 알람
+		// 주문상태 변경
+		eventPublisher.publishEvent(NotificationEvent.builder()
+			.receiver(sale.getWriter())
+			.sender(order.getMember().getNickname())
+			.articleId(sale.getId())
+			.title(sale.getTitle())
+			.type(CANCEL)
+			.build()
+		);
+		order.updateOrderStatus(OrderStatus.CANCEL);
+	}
+
+	private Order findOrderByOrderId(Long orderId) {
+		return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
 	}
 
 	/*

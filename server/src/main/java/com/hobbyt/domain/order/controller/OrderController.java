@@ -2,13 +2,18 @@ package com.hobbyt.domain.order.controller;
 
 import java.io.IOException;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.order.dto.CancelRequest;
 import com.hobbyt.domain.order.dto.OrderImportRequest;
 import com.hobbyt.domain.order.dto.OrderInfo;
 import com.hobbyt.domain.order.entity.Order;
@@ -57,5 +62,14 @@ public class OrderController {
 		// Order order = orderService.order(loginMember.getEmail(), request.toOrder(), request.getProducts());
 		Order order = orderService.order(loginMember.getEmail(), request);
 		return ResponseEntity.ok(order.getId());
+	}
+
+	@DeleteMapping("/{orderId}")
+	public ResponseEntity cancel(@Min(value = 1) @PathVariable Long orderId,
+		@RequestBody CancelRequest request) throws IOException {
+
+		orderService.cancel(orderId, request.getSaleId());
+
+		return ResponseEntity.ok().build();
 	}
 }
