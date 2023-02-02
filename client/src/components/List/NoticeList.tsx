@@ -1,6 +1,7 @@
 // import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getNotice } from "../../api/noticeApi";
+import Link from "next/link";
+import { getNotice, patchNotice } from "../../api/noticeApi";
 // import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 // const arr = [
@@ -95,6 +96,12 @@ export default function NoticeList() {
 
   console.log("NoticeList", noticeData);
 
+  // 알림 리스트 클릭시 호출하는 알림 체크 api
+  // const handleClick = async() => {
+  //  const res = await patchNotice(1);
+
+  // }
+
   return (
     <div>
       {isLoding ? (
@@ -103,24 +110,33 @@ export default function NoticeList() {
         <div>
           {noticeData &&
             noticeData.map((notice: any, idx: number) => (
-              <div
+              <Link
+                href={
+                  notice.type === "POST_COMMENT"
+                    ? `/post/${notice.articleId}`
+                    : `/sale/${notice.articleId}`
+                }
                 key={idx}
-                className="flex items-center p-8 mb-5 rounded-lg bg-slate-100"
               >
-                {/* <p className="mr-5">{notice.userprofile}</p> */}
-                <p className="pr-2 font-semibold text-MainColor">
-                  {notice.sender}
-                </p>
-                <p className="pr-2">님이</p>
-                <p className="mr-2 font-semibold text-MainColor">
-                  {notice.title}
-                </p>
-                <p>
-                  {notice.type === "POST_COMMENT"
-                    ? "블로그에 댓글을 남겼습니다"
-                    : null}
-                </p>
-              </div>
+                <div className="flex items-center p-8 mb-5 rounded-lg bg-slate-100">
+                  {/* <p className="mr-5">{notice.userprofile}</p> */}
+                  <p className="pr-2 font-semibold text-MainColor">
+                    {notice.sender}
+                  </p>
+                  <p className="pr-2">님이</p>
+                  <p className="mr-2 font-semibold text-MainColor">
+                    {notice.title}
+                  </p>
+                  <p>
+                    {notice.type === "POST_COMMENT"
+                      ? "블로그에 댓글을 남겼습니다"
+                      : null}
+                    {notice.type === "SALE_ORDER"
+                      ? "상품에 주문이 들어왔습니다"
+                      : null}
+                  </p>
+                </div>
+              </Link>
             ))}
         </div>
       )}
