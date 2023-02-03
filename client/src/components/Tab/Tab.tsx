@@ -12,12 +12,7 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import {
-  getBlogContentList,
-  getBlogContentListF,
-  getSearchBlogList,
-  getSearchSaleList,
-} from "../../api/tabApi";
+import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 import { BlogSelectState } from "../../state/BlogPostState";
 import FollowingList from "../List/FollowingList";
@@ -49,9 +44,6 @@ export default function Tab({ Menus }: TabProps) {
     setIndex(index);
   };
 
-  // 검색 키워드
-  const keyword = router.query.keywords;
-
   // api 리스트 데이터 저장
   const [listData, setListData] = useState([]);
 
@@ -69,32 +61,6 @@ export default function Tab({ Menus }: TabProps) {
     }
   };
 
-  // 검색: 블로그 게시글 리스트 api 요청
-  const getSearchBlogData = async () => {
-    if (select === "최신순") {
-      const res = await getSearchBlogList(keyword, 0, 5, "POST_NEWEST");
-      const listRes = (res as any).data;
-      setListData(listRes);
-    } else {
-      const res = await getSearchBlogList(keyword, 0, 5, "POST_MOSTLIKE");
-      const listRes = (res as any).data;
-      setListData(listRes);
-    }
-  };
-
-  // 검색: 판매 게시글 리스트 api 요청
-  const getSearchSaleData = async () => {
-    if (select === "최신순") {
-      const res = await getSearchSaleList(keyword, 0, 6, "SALE_NEWEST");
-      const listRes = (res as any).data;
-      setListData(listRes);
-    } else {
-      const res = await getSearchSaleList(keyword, 0, 6, "SALE_MOST_LIKE");
-      const listRes = (res as any).data;
-      setListData(listRes);
-    }
-  };
-
   // useEffect(() => {
   //   if (router.isReady) {
   //     getData();
@@ -104,18 +70,8 @@ export default function Tab({ Menus }: TabProps) {
   useEffect(() => {
     if (Menus[curIndex].name === "블로그" && router.pathname === "/blog") {
       getData();
-    } else if (
-      Menus[curIndex].name === "블로그" &&
-      router.pathname === "/search"
-    ) {
-      getSearchBlogData();
-    } else if (
-      Menus[curIndex].name === "판매" &&
-      router.pathname === "/search"
-    ) {
-      getSearchSaleData();
     }
-  }, [select, keyword, curIndex]);
+  }, [select, curIndex]);
 
   // curIndex 바뀌면 select값 최신순으로 초기화
   useEffect(() => {
@@ -146,10 +102,10 @@ export default function Tab({ Menus }: TabProps) {
           <SaleList />
         ) : null}
         {Menus[curIndex].name === "블로그" && router.pathname === "/search" ? (
-          <SearchBlog keyword={keyword} list={listData} />
+          <SearchBlog />
         ) : null}
         {Menus[curIndex].name === "판매" && router.pathname === "/search" ? (
-          <SearchSales keyword={keyword} list={listData} />
+          <SearchSales />
         ) : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
