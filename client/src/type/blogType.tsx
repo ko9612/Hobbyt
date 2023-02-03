@@ -88,7 +88,7 @@ export interface ILikeList {
 
 // 검색 - 블로그 리스트 데이터 타입
 export interface BlogItemProps {
-  id: 0;
+  id: number;
   title: string;
   content: string;
   viewCount: number;
