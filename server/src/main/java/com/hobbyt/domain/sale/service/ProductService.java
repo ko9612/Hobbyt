@@ -61,7 +61,7 @@ public class ProductService {
 		productRepository.deleteAllByIdInBatch(foundProductsIdAndCheckOrder.keySet());
 	}
 
-	private Product findProductById(Long id) {
+	public Product findProductById(Long id) {
 		return productRepository.findById(id).orElseThrow(ProductNotExistException::new);
 	}
 

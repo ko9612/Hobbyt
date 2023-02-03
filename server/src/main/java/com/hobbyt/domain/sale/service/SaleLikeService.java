@@ -25,14 +25,16 @@ public class SaleLikeService {
 		Member member = memberService.findMemberByEmail(email);
 		Sale sale = saleService.findSaleById(saleId);
 
-		Optional<SaleLike> saleLike = saleLikeRepository.findByMemberAndSale(member, sale);
-		if (saleLike.isPresent()) {
-			saleLikeRepository.delete(saleLike.get());
-			sale.updateLikeCount(-1);
-			return;
-		}
-
-		saleLikeRepository.save(SaleLike.of(member, sale));
-		sale.updateLikeCount(+1);
+		Optional<SaleLike> saleLikeOrNull = saleLikeRepository.findByMemberAndSale(member, sale);
+		saleLikeOrNull.ifPresentOrElse(
+			saleLike -> {
+				saleLikeRepository.delete(saleLike);
+				sale.updateLikeCount(-1);
+			},
+			() -> {
+				saleLikeRepository.save(SaleLike.of(member, sale));
+				sale.updateLikeCount(+1);
+			}
+		);
 	}
 }

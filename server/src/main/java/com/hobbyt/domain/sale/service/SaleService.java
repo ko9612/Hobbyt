@@ -51,7 +51,7 @@ public class SaleService {
 	public SaleResponse getSaleDetails(Long saleId) {
 
 		// Sale 조회 >> Sale, Product fetch join
-		Sale sale = findSaleWithProduct(saleId);
+		Sale sale = findSaleWithWriterAndProduct(saleId);
 
 		List<Product> products = sale.getProducts();
 
@@ -64,7 +64,11 @@ public class SaleService {
 		return SaleResponse.of(sale, products, tags);
 	}
 
-	private Sale findSaleWithProduct(Long id) {
+	private Sale findSaleWithWriterAndProduct(Long id) {
+		return saleRepository.findSaleFetchJoinWriterAndProductBySaleId(id).orElseThrow(SaleNotExistException::new);
+	}
+
+	public Sale findSaleWithProduct(Long id) {
 		return saleRepository.findSaleFetchJoinProductBySaleId(id).orElseThrow(SaleNotExistException::new);
 	}
 }
