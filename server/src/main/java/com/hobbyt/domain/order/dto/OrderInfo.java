@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.order.entity.Order;
-import com.hobbyt.domain.order.entity.PaymentMethod;
+import com.hobbyt.domain.order.entity.PayMethod;
 import com.hobbyt.global.entity.Account;
 
 import lombok.Getter;
@@ -30,11 +30,11 @@ public class OrderInfo {
 	private Boolean checkPrivacyPolicy;
 
 	// 결제 수단
-	private PaymentMethod paymentMethod;
+	private PayMethod payMethod;
 
 	private List<ProductDto> products;
 
 	public Order toOrder() {
-		return Order.of(orderNumber, depositor, recipient, refundAccount, checkPrivacyPolicy, paymentMethod);
+		return Order.of(orderNumber, depositor, recipient, refundAccount, checkPrivacyPolicy, payMethod);
 	}
 }

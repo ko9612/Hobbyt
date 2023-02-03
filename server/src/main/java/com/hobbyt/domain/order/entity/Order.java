@@ -23,6 +23,7 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.BaseEntity;
+import com.hobbyt.global.error.exception.ImpossibleCancelException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,10 +49,10 @@ public class Order extends BaseEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private OrderStatus orderStatus;
+	private OrderStatus status;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<OrderItem> orderItems = new ArrayList<>();
+	private List<OrderItem> orderItems = new ArrayList<>();
 
 	// 입금자 이름
 	private String depositor;
@@ -71,7 +72,7 @@ public class Order extends BaseEntity {
 
 	// 결제 수단
 	@Enumerated(EnumType.STRING)
-	private PaymentMethod paymentMethod;
+	private PayMethod payMethod;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "payments_id")
@@ -79,17 +80,17 @@ public class Order extends BaseEntity {
 
 	@Builder
 	private Order(String orderNumber, String depositor, Recipient recipient,
-		Account refundAccount, boolean checkPrivacyPolicy, PaymentMethod paymentMethod) {
+		Account refundAccount, boolean checkPrivacyPolicy, PayMethod payMethod) {
 		this.orderNumber = orderNumber;
 		this.depositor = depositor;
 		this.recipient = recipient;
 		this.refundAccount = refundAccount;
 		this.checkPrivacyPolicy = checkPrivacyPolicy;
-		this.paymentMethod = paymentMethod;
+		this.payMethod = payMethod;
 	}
 
 	public static Order of(String orderNumber, String depositor, Recipient recipient,
-		Account refundAccount, boolean checkPrivacyPolicy, PaymentMethod paymentMethod) {
+		Account refundAccount, boolean checkPrivacyPolicy, PayMethod payMethod) {
 
 		return Order.builder()
 			.orderNumber(orderNumber)
@@ -97,7 +98,7 @@ public class Order extends BaseEntity {
 			.recipient(recipient)
 			.refundAccount(refundAccount)
 			.checkPrivacyPolicy(checkPrivacyPolicy)
-			.paymentMethod(paymentMethod)
+			.payMethod(payMethod)
 			.build();
 	}
 
@@ -105,23 +106,37 @@ public class Order extends BaseEntity {
 		this.member = member;
 	}
 
-	public void updateOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
+	public void updateOrderStatus(OrderStatus status) {
+		this.status = status;
 	}
 
 	public void addOrderItem(OrderItem orderItem) {
 		this.orderItems.add(orderItem);
+		orderItem.setOrder(this);
 	}
 
 	public void setPayments(Payments payments) {
 		this.payments = payments;
 	}
 
-	public boolean isPossibleToCancel() {
-		return this.orderStatus == OrderStatus.ORDER || this.orderStatus == OrderStatus.PAYMENT_VERIFICATION;
+	public boolean isPossibleStatusToCancel() {
+		return this.status == OrderStatus.ORDER || this.status == OrderStatus.PAYMENT_VERIFICATION;
 	}
 
 	public boolean isBankTransfer() {
-		return this.paymentMethod == PaymentMethod.BANK_TRANSFER;
+		return this.payMethod == PayMethod.BANK_TRANSFER;
+	}
+
+	public void cancel() {
+		if (!isPossibleStatusToCancel()) {
+			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
+		}
+
+		updateOrderStatus(OrderStatus.CANCEL);
+		for (OrderItem orderItem : orderItems) {
+			orderItem.cancel();
+		}
+
+		orderItems.clear();
 	}
 }

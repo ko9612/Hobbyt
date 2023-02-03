@@ -1,5 +1,5 @@
 package com.hobbyt.domain.order.entity;
 
-public enum PaymentMethod {
+public enum PayMethod {
 	CARD, BANK_TRANSFER
 }

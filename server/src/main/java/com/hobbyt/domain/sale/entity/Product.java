@@ -39,7 +39,8 @@ public class Product extends BaseEntity {
 	@Column(nullable = false)
 	private int stockQuantity;
 
-	// 누적 판매량?
+	// 누적 판매량
+	private int salesVolume;
 
 	private boolean isDeleted = false;
 
@@ -92,6 +93,12 @@ public class Product extends BaseEntity {
 		if (restStock < 0) {
 			throw new NotEnoughStockException("재고가 부족합니다");
 		}
+		this.salesVolume += quantity;
 		this.stockQuantity = restStock;
+	}
+
+	public void addStock(int quantity) {
+		this.stockQuantity += quantity;
+		this.salesVolume -= quantity;
 	}
 }

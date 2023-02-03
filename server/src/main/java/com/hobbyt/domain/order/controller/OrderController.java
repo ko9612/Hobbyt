@@ -36,11 +36,12 @@ public class OrderController {
 		@RequestBody OrderImportRequest request)
 		throws IOException {
 
+		OrderInfo orderInfo = request.getOrderInfo();
 		String token = paymentService.getToken();
 		int amount = paymentService.paymentInfo(request.getImpUid(), token);
 
 		try {
-			int totalPrice = orderService.getTotalPrice(request.getOrderInfo());
+			int totalPrice = orderService.getTotalPrice(orderInfo.getSaleId(), orderInfo.getProducts());
 
 			if (amount != totalPrice) {
 				paymentService.paymentCancel(token, request.getImpUid(), amount, "결제 금액 오류");

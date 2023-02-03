@@ -51,4 +51,12 @@ public class OrderItem {
 	public int getTotalPrice() {
 		return orderPrice * count;
 	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public void cancel() {
+		product.addStock(count);
+	}
 }
