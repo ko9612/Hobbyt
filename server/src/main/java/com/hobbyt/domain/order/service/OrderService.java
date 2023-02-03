@@ -29,6 +29,7 @@ import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.global.error.exception.OrderNotExistException;
+import com.hobbyt.global.error.exception.PaymentException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -130,5 +131,24 @@ public class OrderService {
 
 	private Order findOrderByOrderId(Long orderId) {
 		return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
+	}
+
+	public Long compareTotalPrice(OrderImportRequest request, String email) throws IOException {
+
+		String token = paymentService.getToken();
+		int amount = paymentService.paymentInfo(request.getImpUid(), token);
+		OrderInfo orderInfo = request.getOrderInfo();
+		try {
+			int totalPrice = getTotalPrice(orderInfo.getSaleId(), orderInfo.getProducts());
+			if (amount != totalPrice) {
+				throw new PaymentException();
+			}
+
+			Long orderId = orderByImport(email, request, amount);
+			return orderId;
+		} catch (Exception ex) {
+			paymentService.paymentCancel(token, request.getImpUid(), amount, "결제 금액 오류");
+			throw new PaymentException("결제 오류");
+		}
 	}
 }

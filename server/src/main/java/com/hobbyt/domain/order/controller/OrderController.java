@@ -31,7 +31,7 @@ public class OrderController {
 	private final PaymentService paymentService;
 	private final OrderService orderService;
 
-	@PostMapping("/payment/complete")
+	/*@PostMapping("/payment/complete")
 	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember,
 		@RequestBody OrderImportRequest request)
 		throws IOException {
@@ -56,6 +56,16 @@ public class OrderController {
 			paymentService.paymentCancel(token, request.getImpUid(), amount, "결제 에러");
 			return ResponseEntity.badRequest().body("결제 에러");
 		}
+	}*/
+
+	@PostMapping("/payment/complete")
+	public ResponseEntity order(@AuthenticationPrincipal MemberDetails loginMember,
+		@RequestBody OrderImportRequest request)
+		throws IOException {
+
+		Long orderId = orderService.compareTotalPrice(request, loginMember.getEmail());
+
+		return ResponseEntity.ok(orderId);
 	}
 
 	@PostMapping
