@@ -52,12 +52,12 @@ public class OrderDetails {
 
 		this.orderNumber = order.getOrderNumber();
 		this.depositor = order.getDepositor();
-		this.sellerAccount = sellerAccount;
+		this.sellerAccount = sellerAccount == null ? new Account() : sellerAccount;
 		this.nickname = nickname;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
-		this.recipient = order.getRecipient();
-		this.refundAccount = order.getRefundAccount();
+		this.recipient = order.getRecipient() == null ? new Recipient() : order.getRecipient();
+		this.refundAccount = order.getRefundAccount() == null ? new Account() : order.getRefundAccount();
 
 		for (OrderItem orderItem : order.getOrderItems()) {
 			this.products.add(new ProductDto(orderItem));

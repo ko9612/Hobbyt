@@ -9,11 +9,9 @@ import com.hobbyt.global.entity.Address;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Recipient {
@@ -27,4 +25,8 @@ public class Recipient {
 
 	@Embedded
 	private Address address;
+
+	public Recipient() {
+		this.address = new Address();
+	}
 }
