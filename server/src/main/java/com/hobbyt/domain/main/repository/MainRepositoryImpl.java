@@ -101,16 +101,19 @@ public class MainRepositoryImpl implements MainRepository {
 	public SaleResponse getSaleResponse(SaleRequest request) {
 		List<SaleResponse.Card> cards = queryFactory
 			.select(Projections.fields(SaleResponse.Card.class,
-				sale.id.as("saleId"),
+				sale.id,
 				sale.title,
 				sale.thumbnailImage,
 				sale.period,
 				sale.likeCount,
-				member.id.as("memberId"),
-				member.nickname
+				sale.isAlwaysOnSale,
+				member.id.as("writerId"),
+				member.nickname,
+				member.profileImage
 			))
 			.from(sale)
 			.join(sale.writer, member)
+			.where(sale.isDeleted.eq(false))
 			.orderBy(request.getOrderBy().getOrderSpecifiers())
 			.limit(request.getCount())
 			.fetch();

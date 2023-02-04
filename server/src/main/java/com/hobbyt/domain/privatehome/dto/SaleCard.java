@@ -13,5 +13,5 @@ public class SaleCard {
 	private String title;
 	private Period period;
 	private long likeCount;
-	private boolean alwaysOnSale;
+	private Boolean isAlwaysOnSale;
 }
