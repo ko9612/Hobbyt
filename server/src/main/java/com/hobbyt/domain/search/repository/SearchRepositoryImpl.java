@@ -86,7 +86,8 @@ public class SearchRepositoryImpl implements SearchRepository {
 				sale.likeCount,
 				sale.isAlwaysOnSale,
 				member.id.as("writerId"),
-				member.nickname)).distinct()
+				member.nickname,
+				member.profileImage)).distinct()
 			.from(saleTag)
 			.join(saleTag.sale, sale)
 			.join(saleTag.tag, tag)
