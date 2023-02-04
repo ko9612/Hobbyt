@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderedProductsResponse;
 import com.hobbyt.domain.mypage.dto.UpdateOrderStatusRequest;
 import com.hobbyt.domain.mypage.service.MyPageService;
@@ -29,6 +30,12 @@ public class MyPageController {
 
 		OrderedProductsResponse response = myPageService.getOrderedProducts(loginMember.getEmail());
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/orders/{orderId}")
+	public ResponseEntity getOrderDetails(@Min(value = 1) @PathVariable Long orderId) {
+		OrderDetails response = myPageService.getOrderDetails(orderId);
 		return ResponseEntity.ok(response);
 	}
 

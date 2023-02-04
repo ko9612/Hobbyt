@@ -139,4 +139,10 @@ public class Order extends BaseEntity {
 
 		orderItems.clear();
 	}
+
+	public int getTotalProductPrice() {
+		return orderItems.stream()
+			.mapToInt(OrderItem::getTotalPrice)
+			.sum();
+	}
 }
