@@ -40,7 +40,7 @@ public class Product extends BaseEntity {
 	private int stockQuantity;
 
 	// 누적 판매량
-	private int salesVolume;
+	private int salesVolume = 0;
 
 	private boolean isDeleted = false;
 

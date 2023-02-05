@@ -129,7 +129,7 @@ public class OrderService {
 		return !order.isBankTransfer();
 	}
 
-	private Order findOrderByOrderId(Long orderId) {
+	public Order findOrderByOrderId(Long orderId) {
 		return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
 	}
 

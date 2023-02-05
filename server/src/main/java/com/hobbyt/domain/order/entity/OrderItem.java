@@ -12,9 +12,11 @@ import javax.persistence.ManyToOne;
 import com.hobbyt.domain.sale.entity.Product;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 	@Id
