@@ -17,7 +17,12 @@ export const SearchMenus = [
   { id: 9, name: "판매", content: "Tab 검색 판매" },
 ];
 
-export const FollowMenus = [
+export const FollowingMenus = [
   { id: 10, name: "팔로잉", content: "Tab 검색 블로그" },
   { id: 11, name: "팔로워", content: "Tab 검색 판매" },
+];
+
+export const FollowerMenus = [
+  { id: 12, name: "팔로워", content: "Tab 검색 블로그" },
+  { id: 13, name: "팔로잉", content: "Tab 검색 판매" },
 ];

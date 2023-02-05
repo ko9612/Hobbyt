@@ -82,35 +82,23 @@ export interface SaleDetailProps {
   isDeleted: boolean;
 }
 
-// 주문 제품 리스트
-export interface SelectPdList {
+// 검색 - 판매글 리스트 데이터 타입 & 금주의 작품 데이터 타입
+export interface SaleItemProps {
   id: number;
-  name: string;
-  price: number;
-  stockQuantity: number;
-  quantity: number;
+  thumbnailImage: string | null;
+  title: string;
+  period: {
+    startedAt: string;
+    endAt: string;
+  };
+  likeCount: number;
+  writerId: number;
+  profileImage: string | null;
+  nickname: string;
+  isAlwaysOnSale: boolean;
 }
 
-// 주문 정보 입력
-export interface OrderInputProps {
-  holder: string;
-  orderer: {
-    name: string;
-    phoneNumber: string;
-    email: string | undefined;
-  };
-  recipient: {
-    address: {
-      zipcode: string;
-      street: string;
-      detail: string;
-    };
-    name: string;
-    phoneNumber: string;
-  };
-  account: {
-    holder: string;
-    bank: string;
-    number: string;
-  };
+export interface SearchSaleDataProps {
+  hasNext: boolean;
+  sales: SaleItemProps[];
 }

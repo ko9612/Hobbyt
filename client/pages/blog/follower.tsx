@@ -8,7 +8,7 @@ import Followig from "../../src/components/Page/UserHome/Following";
 import ProfileButton from "../../src/components/Button/ProfileButton";
 import TodayCount from "../../src/components/ViewLikeWrite/TodayCount";
 import Footer from "../../src/components/Footer/Footer";
-import { FollowMenus } from "../../src/components/Tab/TabArr";
+import { FollowingMenus } from "../../src/components/Tab/TabArr";
 
 export default function Follow() {
   return (
@@ -18,7 +18,7 @@ export default function Follow() {
       <Content>
         <BlogContent>
           <BlogTab>
-            <Tab Menus={FollowMenus} />
+            <Tab Menus={FollowingMenus} />
           </BlogTab>
         </BlogContent>
         <UserContent>

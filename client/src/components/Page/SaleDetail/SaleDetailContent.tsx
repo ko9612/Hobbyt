@@ -11,23 +11,20 @@ import { BlogContent } from "../../../../pages/blog";
 import { WideB } from "../../Button/SubmitButton";
 import PaymentModal from "../../Modal/PaymentModal";
 import { getSaleDetail } from "../../../api/saleApi";
-import {
-  SaleDetailProps,
-  SelectPdList,
-  OrderInputProps,
-} from "../../../type/saleType";
+import { SaleDetailProps } from "../../../type/saleType";
+import { SelectPdList, OrderInputProps } from "../../../type/OrderType";
 import {
   SaleDetailState,
   OrderAgreeState,
   SelectdPdList,
   totalState,
 } from "../../../state/SaleState";
+import { OrderState } from "../../../state/OrderState";
 import DelModal from "../../Modal/DelModal";
 import ProductList from "./ProductList";
 import { getUserInfo } from "../../../api/userApi";
 import { phoneNumRegex, accountNumRegex } from "../../../util/Regex";
 import {
-  EmailState,
   UserRecipientStreetState,
   UserRecipientZipCodeState,
   UserRecipientDetailState,
@@ -49,13 +46,13 @@ export default function SaleDetailContent() {
   const priceSum = useRecoilValue(totalState);
   const [isAgree] = useRecoilState(OrderAgreeState);
   // 선택 제품 list state
-  const [, setSelectItem] = useRecoilState<SelectPdList[]>(SelectdPdList);
-  const [email] = useRecoilState<string | undefined>(EmailState);
+  const [selectItem, setSelectItem] =
+    useRecoilState<SelectPdList[]>(SelectdPdList);
+
   const [isZipcode, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
   const [isStreet, setIsStreet] = useRecoilState(UserRecipientStreetState);
   const [isDetail, setIsDetail] = useRecoilState(UserRecipientDetailState);
 
-  const [isPurchaserPhone, setisPurchaserPhone] = useState("");
   const [isReceiverPhone, setIsReceiverPhone] = useState("");
   const [isAccountNum, setIsAccountNum] = useState("");
   const { register, setValue, watch } = useForm<OrderInputProps>();
@@ -63,20 +60,17 @@ export default function SaleDetailContent() {
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
+  const [msg, setMsg] = useState<string>("");
 
-  const modalMsg = [
-    "휴대폰번호 형식이 올바르지 않습니다.",
-    "연락처 형식이 올바르지 않습니다.",
-    "주문하실 제품을 선택해주세요.",
-  ];
-  const [msg, setMsg] = useState<string>(modalMsg[0]);
+  // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
+  const [, setOrderData] = useRecoilState(OrderState);
 
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
     setSaleData((saleDetail as any).data);
 
-    // 제품 list 복사 후, 제품 item Object에 새 key 추가
+    // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
     const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
       ...el,
       quantity: 0,
@@ -108,12 +102,9 @@ export default function SaleDetailContent() {
       // 입금자 정보
       setValue("holder", data.account.holder);
 
-      // 주문자 정보
-      setValue("orderer.name", data.recipient.name);
-      setisPurchaserPhone(data.recipient.phoneNumber);
-      setValue("orderer.email", email);
-
       // 배송정보
+      setValue("recipient.name", data.recipient.name);
+      setIsReceiverPhone(data.recipient.phoneNumber);
       setIsZipcode(data.recipient.address.zipcode);
       setIsStreet(data.recipient.address.street);
       setIsDetail(data.recipient.address.detail);
@@ -133,11 +124,6 @@ export default function SaleDetailContent() {
   }, [router.isReady]);
 
   // 계좌, 휴대폰 번호 하이픈 replace 때문에 useForm x
-  const purchaserPhonelHandler: ComponentProps<"input">["onChange"] = e => {
-    if (phoneNumRegex.test(e.target.value))
-      setisPurchaserPhone(e.target.value.replace(/[^0-9]/g, ""));
-  };
-
   const receiverPhonelHandler: ComponentProps<"input">["onChange"] = e => {
     if (phoneNumRegex.test(e.target.value)) {
       setIsReceiverPhone(e.target.value.replace(/[^0-9]/g, ""));
@@ -150,34 +136,56 @@ export default function SaleDetailContent() {
     }
   };
 
-  // 주문자 정보와 동일 체크박스 핸들러
-  const checkOrdererHandler: ComponentProps<"input">["onClick"] = e => {
-    const target = e.target as HTMLInputElement;
-    if (target.checked) {
-      setValue("recipient.name", watch("orderer.name"));
-      setIsReceiverPhone(isPurchaserPhone);
-    } else {
-      setValue("recipient.name", "");
-      setIsReceiverPhone("");
-    }
-  };
-
   // 주문하기 버튼 핸들러
   const OrderButtonHandler: ComponentProps<"button">["onClick"] = e => {
     e.preventDefault();
     if (typeof window !== "undefined") {
       if (!localStorage.getItem("authorization")) {
         setShowMsgModal(!showMsgModal);
-      } else if (isPurchaserPhone.length < 11) {
-        setMsg(modalMsg[0]);
-        setErrorModal(true);
       } else if (isReceiverPhone.length < 11) {
-        setMsg(modalMsg[1]);
+        setMsg("연락처 형식이 올바르지 않습니다.");
         setErrorModal(true);
       } else if (!priceSum.total) {
-        setMsg(modalMsg[2]);
+        setMsg("주문하실 제품을 선택해주세요.");
         setErrorModal(true);
       } else {
+        // 주문 시, 보낼 selectData 특정 key값들 filter처리 및 변경 후, 전송
+        const filterSelectItem = selectItem.map(el => ({
+          ...el,
+        }));
+
+        filterSelectItem.map((el: any) => {
+          const temp = el;
+          delete temp.name;
+          delete temp.stockQuantity;
+          delete temp.price;
+          delete temp.imageUrl;
+          temp.count = temp.quantity;
+          delete temp.quantity;
+          return el;
+        });
+
+        const data = {
+          saleId: pid,
+          depositor: watch("holder"),
+          recipient: {
+            address: {
+              zipcode: isZipcode,
+              street: isStreet,
+              detail: isDetail,
+            },
+            name: watch("recipient.name"),
+            phoneNumber: isReceiverPhone,
+          },
+          refundAccount: {
+            holder: watch("account.holder"),
+            bank: watch("account.bank"),
+            number: isAccountNum,
+          },
+          checkPrivacyPolicy: isAgree,
+          products: filterSelectItem,
+        };
+        setOrderData(data);
         setShowPaymentModal(!showPaymentModal);
       }
     }
@@ -232,44 +240,7 @@ export default function SaleDetailContent() {
           </PurContentInput>
         </PurContent>
         <PurContent>
-          <div className="font-semibold">주문자 정보</div>
-          <PurContentInput>
-            <PurInputDiv>
-              <Input
-                type="text"
-                id="purchaserName"
-                placeholder="주문자명"
-                maxLength={10}
-                {...register("orderer.name")}
-              />
-            </PurInputDiv>
-            <PurInputDiv className="pl-4">
-              <Input
-                type="tel"
-                id="purchaserTel"
-                placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
-                value={isPurchaserPhone}
-                minLength={11}
-                onChange={e => purchaserPhonelHandler(e)}
-              />
-            </PurInputDiv>
-            <PurInputDiv className="mt-2">
-              <Input
-                type="text"
-                id="purchaserEmail"
-                placeholder="주문자 이메일"
-                maxLength={30}
-                {...register("orderer.email")}
-              />
-            </PurInputDiv>
-          </PurContentInput>
-        </PurContent>
-        <PurContent>
-          <div className="flex items-center">
-            <div className="font-semibold">배송 정보</div>
-            <p className="text-sm pl-4 pr-2">주문자 정보와 동일</p>
-            <input type="checkbox" onClick={e => checkOrdererHandler(e)} />
-          </div>
+          <div className="font-semibold">배송 정보</div>
           <PurContentInput>
             <PurInputDiv>
               <Input
@@ -354,9 +325,6 @@ export default function SaleDetailContent() {
             disabled={
               !(
                 watch("holder") &&
-                watch("orderer.name") &&
-                isPurchaserPhone &&
-                watch("orderer.email") &&
                 watch("recipient.name") &&
                 watch("recipient.name") &&
                 isReceiverPhone &&

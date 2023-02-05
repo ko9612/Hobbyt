@@ -3,27 +3,37 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useRecoilValue } from "recoil";
+import { BsLockFill } from "react-icons/bs";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-// import ExampleImg from "../../image/header_ex.jpg";
-import { IdataProps } from "../../type/blogType";
+import { BlogItemProps } from "../../type/blogType";
 import DefalutImage from "../../image/pictureDefalut.svg";
+import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
+import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500`;
-export const BLImage = tw.div`w-[30rem]`;
-export const BLContent = tw.div`ml-5 mb-5 w-[30rem]`;
-const BLTitle = tw.div`flex justify-between w-[28rem] border-2 border-red-500`;
-export const Text = tw.div`text-sm truncate sm:text-base w-[30rem] border-2 border-blue-500 h-[4rem]`;
+export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500 justify-between`;
+export const BLImage = tw.div`w-1/5`;
+export const BLContent = tw.div`ml-5 w-4/5 flex flex-col justify-between`;
+export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
+export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 h-[4rem]`;
+const ActInfo = tw.div`flex items-center`;
 
-export default function BlogItem({ list }: IdataProps) {
+interface ListProps {
+  list: BlogItemProps;
+}
+
+// blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
+export default function BlogItem({ list }: ListProps) {
   const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
     ssr: false,
   });
 
   const router = useRouter();
+  const userId = useRecoilValue(UserIdState);
   const {
     id,
     title,
@@ -32,6 +42,10 @@ export default function BlogItem({ list }: IdataProps) {
     createdAt,
     content,
     thumbnailImage,
+    profileImage,
+    nickname,
+    isPublic,
+    writerId,
   } = list || {};
 
   // 날짜 바꿔주는 함수
@@ -39,10 +53,13 @@ export default function BlogItem({ list }: IdataProps) {
     new Date(data).toLocaleDateString("ko-KR");
 
   return (
-    <BLComponent className={`${router.pathname === "/" && "bg-MainColor/40"}`}>
+    <BLComponent
+      className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
+    >
       <BLImage>
         <Image
-          src={thumbnailImage || DefalutImage}
+          // src={thumbnailImage || DefalutImage}
+          src={DefalutImage}
           alt="img"
           width={150}
           height={150}
@@ -51,19 +68,49 @@ export default function BlogItem({ list }: IdataProps) {
       <BLContent>
         <BLTitle>
           <Link href={`/post/${id}`}>
-            <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip">
+            <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
+              {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
             </h2>
           </Link>
-          <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
+          {(writerId === userId && router.pathname !== "/") ||
+          router.pathname === "/blog" ? (
+            <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
+          ) : null}
         </BLTitle>
         <Text>
           <TextViewer initialValue={content} />
         </Text>
-        <div className="flex justify-end">
-          <ViewCount>{viewCount}</ViewCount>
-          <LikeCount>{likeCount}</LikeCount>
-          <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
+        <div
+          className={`${router.pathname !== "/blog" && "flex justify-between"}`}
+        >
+          {router.pathname !== "/blog" && (
+            <ActInfo>
+              <div className="w-[2.5rem]">
+                <DefaultProfileImage
+                  // profileImg={profileImage}
+                  profileImg={DefalutImage}
+                  width={25}
+                  height={25}
+                  borderW={1}
+                />
+              </div>
+              <div>{nickname}</div>
+            </ActInfo>
+          )}
+          <ActInfo
+            className={`${router.pathname === "/blog" && "justify-end"}`}
+          >
+            <span className="mx-[0.25rem]">
+              <ViewCount>{viewCount}</ViewCount>
+            </span>
+            <span className="mx-[0.25rem]">
+              <LikeCount>{likeCount}</LikeCount>
+            </span>
+            <span className="mx-[0.25rem]">
+              <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
+            </span>
+          </ActInfo>
         </div>
       </BLContent>
     </BLComponent>

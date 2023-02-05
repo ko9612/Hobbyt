@@ -41,6 +41,7 @@ export default function NavContent() {
   const [isNickname, setIsNickname] = useRecoilState(NicknameState);
   const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [, setIsUserId] = useRecoilState(UserIdState);
+  const [myProfileImg] = useRecoilState(UserProfileState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
   // 홈 버튼 클릭
@@ -114,7 +115,12 @@ export default function NavContent() {
               >
                 <Link href="/mypage">
                   <span className="block float-left text-2xl">
-                    <DefaultProfileImg width={35} height={35} borderW={2} />
+                    <DefaultProfileImg
+                      profileImg={myProfileImg}
+                      width={35}
+                      height={35}
+                      borderW={2}
+                    />
                   </span>
                   <span className="p-5 text-base font-medium">
                     {isNickname}

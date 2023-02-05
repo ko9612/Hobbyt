@@ -16,12 +16,14 @@ public class SaleResponse {
 	@Getter
 	@NoArgsConstructor
 	public static class Card {
-		private Long saleId;
+		private Long id;
 		private String title;
 		private String thumbnailImage;
 		private Period period;
 		private long likeCount;
-		private Long memberId;
+		private Boolean isAlwaysOnSale;
+		private Long writerId;
 		private String nickname;
+		private String profileImage;
 	}
 }

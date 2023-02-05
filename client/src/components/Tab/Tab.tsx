@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
+// import Link from "next/link";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -37,14 +38,12 @@ export default function Tab({ Menus }: TabProps) {
   const userID = useRecoilValue(UserIdState);
   // 최신순, 인기순 클릭 저장하고 있는 state
   //  기본적으로 최신순으로 되어 있음
-  const select = useRecoilValue(BlogSelectState);
+  const [select, setSelect] = useRecoilState(BlogSelectState);
 
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
   };
-
-  const keyword = router.query.keywords;
 
   // api 리스트 데이터 저장
   const [listData, setListData] = useState([]);
@@ -64,8 +63,15 @@ export default function Tab({ Menus }: TabProps) {
   };
 
   useEffect(() => {
-    getData();
-  }, [select]);
+    if (Menus[curIndex].name === "블로그" && router.pathname === "/blog") {
+      getData();
+    }
+  }, [select, curIndex]);
+
+  // curIndex 바뀌면 select값 최신순으로 초기화
+  useEffect(() => {
+    setSelect("최신순");
+  }, [curIndex]);
 
   return (
     <>
@@ -91,10 +97,10 @@ export default function Tab({ Menus }: TabProps) {
           <SaleList />
         ) : null}
         {Menus[curIndex].name === "블로그" && router.pathname === "/search" ? (
-          <SearchBlog keyword={keyword} />
+          <SearchBlog />
         ) : null}
         {Menus[curIndex].name === "판매" && router.pathname === "/search" ? (
-          <SearchSales keyword={keyword} />
+          <SearchSales />
         ) : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
@@ -102,8 +108,12 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}
-        {Menus[curIndex].name === "팔로잉" ? <FollowingList /> : null}
-        {Menus[curIndex].name === "팔로우" ? <Follower /> : null}
+        {Menus[curIndex].name === "팔로잉" ? (
+          // <Link href="/blog/following">
+          <FollowingList />
+        ) : // {/* </Link> */}
+        null}
+        {Menus[curIndex].name === "팔로워" ? <Follower /> : null}
       </TabContent>
     </>
   );

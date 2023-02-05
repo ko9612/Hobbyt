@@ -1,5 +1,6 @@
 import { atom, selector } from "recoil";
-import { ProductList, SaleDetailProps, SelectPdList } from "../type/saleType";
+import { SelectPdList } from "../type/OrderType";
+import { ProductList, SaleDetailProps } from "../type/saleType";
 
 // 판매 작성- 제품 리스트
 export const SaleProductList = atom<ProductList[]>({

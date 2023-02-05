@@ -29,3 +29,8 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: ${ACCESS_TOKEN_EXPIRATION_MINUTES}
   refresh-token-expiration-minutes: ${REFRESH_TOKEN_EXPIRATION_MINUTES}
+
+imp:
+  key: ${IMP_KEY}
+  secret: ${IMP_SECRET}
+

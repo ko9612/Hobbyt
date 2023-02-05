@@ -5,14 +5,13 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeServiceDto;
 
 public interface CustomMemberRepository {
-	PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeServiceDto params);
+	PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params);
 
 	PrivateHomeSaleResponse getSalesByWriterId(Long writerId, PrivateHomeRequest params);
 
-	PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeServiceDto params);
+	PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeRequest params);
 
-	PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeServiceDto params);
+	PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params);
 }

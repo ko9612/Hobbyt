@@ -10,7 +10,7 @@ w-[62rem] border-2 ml-auto border-red-400
 `;
 
 export const MainContent = tw.div`
-w-[52rem] m-auto
+w-[50rem] m-auto
   `;
 
 // J: w-[80rem] border ml-auto

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor
 public class Delivery {
-	private String deliveryTime;
+	private int deliveryTime;
 	private String deliveryCompany;
-	private String deliveryPrice;
+	private int deliveryPrice;
 }

@@ -44,7 +44,7 @@ export default function UserProfile() {
 
   return (
     <div className="items-center justify-center block m-auto text-center">
-      <Image src={DefaultImage} width={250} height={250} />
+      {/* <Image src={DefaultImage} width={250} height={250} /> */}
       <h1 className="mb-2 text-3xl font-bold">{data?.nickname}</h1>
       <div className="inline-flex mb-5">
         <BsCalendar4 className="mt-1" />
@@ -54,8 +54,10 @@ export default function UserProfile() {
       </div>
       <p className="mb-7">{data?.description}</p>
       <div className="inline-flex mb-7">
-        <Link href="/blog/follow" onClick={handle}>
+        <Link href="/blog/following" onClick={handle}>
           <button className="mr-2">팔로잉 {data?.followingCount}</button>
+        </Link>
+        <Link href="/blog/follower">
           <button>팔로워 {data?.followerCount}</button>
         </Link>
       </div>
