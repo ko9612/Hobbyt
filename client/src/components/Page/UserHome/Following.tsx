@@ -5,7 +5,7 @@ export default function Followig() {
   return (
     <div className="flex justify-between">
       <DMButton />
-      <FollowButton />
+      <FollowButton>팔로잉</FollowButton>
     </div>
   );
 }
