@@ -50,14 +50,16 @@ public class MainRepositoryImpl implements MainRepository {
 
 		return queryFactory
 			.select(Projections.fields(HotPost.class,
-				post.id.as("postId"),
+				post.id,
 				post.title,
 				post.content,
 				post.viewCount,
 				post.likeCount,
 				post.isPublic,
 				post.createdAt,
+				post.thumbnailImage,
 				member.id.as("writerId"),
+				member.profileImage,
 				member.nickname
 			))
 			.from(post)
