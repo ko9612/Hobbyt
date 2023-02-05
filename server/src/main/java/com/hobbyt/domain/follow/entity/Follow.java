@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.entity;
+package com.hobbyt.domain.follow.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;

@@ -2,23 +2,20 @@ package com.hobbyt.domain.member.service;
 
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hobbyt.domain.follow.repository.FollowRepository;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.dto.response.ProfileResponse;
-import com.hobbyt.domain.member.entity.Follow;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
-import com.hobbyt.domain.member.repository.FollowRepository;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.error.exception.MemberExistException;
@@ -129,7 +126,7 @@ public class MemberService {
 		return ProfileResponse.of(member);
 	}
 
-	private Member findMemberById(Long id) {
+	public Member findMemberById(Long id) {
 		return memberRepository.findById(id).orElseThrow(MemberNotExistException::new);
 	}
 
@@ -144,25 +141,5 @@ public class MemberService {
 		// String path = s3Service.updateImage(List.of(member.getProfileImage(), member.getHeaderImage()), List.of(profileImage, headerImage));
 
 		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription());
-	}
-
-	@Transactional
-	public void following(String loginEmail, Long memberId) {
-		Member follower = findMemberByEmail(loginEmail);
-		Member following = findMemberById(memberId);
-
-		Optional<Follow> followOrNull = followRepository.findByFollowerAndFollowing(follower, following);
-		followOrNull.ifPresentOrElse(
-			follow -> {
-				followRepository.delete(follow);
-				follower.followingDown();
-				following.followerDown();
-			},
-			() -> {
-				followRepository.save(Follow.of(follower, following));
-				follower.followingUp();
-				following.followerUp();
-			}
-		);
 	}
 }
