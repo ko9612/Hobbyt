@@ -1,12 +1,16 @@
 package com.hobbyt.domain.mypage.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.mypage.dto.OrderDetails;
-import com.hobbyt.domain.mypage.dto.OrderedProductsResponse;
+import com.hobbyt.domain.mypage.dto.OrderedProductInfo;
+import com.hobbyt.domain.mypage.dto.PageDto;
+import com.hobbyt.domain.mypage.dto.PageResponse;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderStatus;
 import com.hobbyt.domain.order.repository.OrderRepository;
@@ -24,10 +28,12 @@ public class MyPageService {
 	private final ProductRepository productRepository;
 	private final OrderRepository orderRepository;
 
-	public OrderedProductsResponse getOrderedProducts(String email) {
-		Member member = memberService.findMemberByEmail(email);
+	public PageResponse getOrderedProducts(String email, Pageable pageable) {
+		PageDto pageDto = productRepository.getOrderedProductsByMemberEmail(email, pageable);
 
-		return null;
+		Page<OrderedProductInfo> page = new PageImpl<>(pageDto.getContent(), pageable, pageDto.getTotal());
+
+		return PageResponse.of(page);
 	}
 
 	@Transactional
