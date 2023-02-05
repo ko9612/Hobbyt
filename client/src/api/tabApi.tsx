@@ -124,3 +124,16 @@ export const getSearchSaleList = async (
     return ErrorHandler(err);
   }
 };
+
+// 팔로잉, 팔로워
+// 팔로잉 요청, 취소 post
+export const postFollowing = async (userId: number) => {
+  try {
+    const Follow = await axios.post(`/api/members/${userId}/following`, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
+    return Follow;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};

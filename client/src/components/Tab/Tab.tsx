@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useRecoilValue, useRecoilState } from "recoil";
+// import Link from "next/link";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -61,12 +62,6 @@ export default function Tab({ Menus }: TabProps) {
     }
   };
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     getData();
-  //   }
-  // }, [router.isReady]);
-
   useEffect(() => {
     if (Menus[curIndex].name === "블로그" && router.pathname === "/blog") {
       getData();
@@ -113,8 +108,12 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}
-        {Menus[curIndex].name === "팔로잉" ? <FollowingList /> : null}
-        {Menus[curIndex].name === "팔로우" ? <Follower /> : null}
+        {Menus[curIndex].name === "팔로잉" ? (
+          // <Link href="/blog/following">
+          <FollowingList />
+        ) : // {/* </Link> */}
+        null}
+        {Menus[curIndex].name === "팔로워" ? <Follower /> : null}
       </TabContent>
     </>
   );
