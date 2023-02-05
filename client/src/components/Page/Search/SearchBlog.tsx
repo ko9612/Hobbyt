@@ -7,7 +7,7 @@ import BlogItem from "../../List/BlogItem";
 import FilterButton from "../../Button/FilterButton";
 import { SearchBlogDataProps, BlogItemProps } from "../../../type/blogType";
 import { BlogSelectState } from "../../../state/BlogPostState";
-import { getSearchBlogList } from "../../../api/tabApi";
+import { getSearchBlogList } from "../../../api/SearchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
 const SRContainer = tw.div`m-auto`;
@@ -100,7 +100,9 @@ function SearchBlog() {
           <div key={idx}>
             {item.posts &&
               item.posts.map((el: BlogItemProps) => (
-                <BlogItem list={el} key={el.id} />
+                <div key={el.id}>
+                  {el.isPublic && <BlogItem list={el} key={el.id} />}
+                </div>
               ))}
           </div>
         ))}
