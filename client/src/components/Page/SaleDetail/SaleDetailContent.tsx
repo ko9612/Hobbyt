@@ -11,17 +11,15 @@ import { BlogContent } from "../../../../pages/blog";
 import { WideB } from "../../Button/SubmitButton";
 import PaymentModal from "../../Modal/PaymentModal";
 import { getSaleDetail } from "../../../api/saleApi";
-import {
-  SaleDetailProps,
-  SelectPdList,
-  OrderInputProps,
-} from "../../../type/saleType";
+import { SaleDetailProps } from "../../../type/saleType";
+import { SelectPdList, OrderInputProps } from "../../../type/OrderType";
 import {
   SaleDetailState,
   OrderAgreeState,
   SelectdPdList,
   totalState,
 } from "../../../state/SaleState";
+import { OrderState } from "../../../state/OrderState";
 import DelModal from "../../Modal/DelModal";
 import ProductList from "./ProductList";
 import { getUserInfo } from "../../../api/userApi";
@@ -48,7 +46,8 @@ export default function SaleDetailContent() {
   const priceSum = useRecoilValue(totalState);
   const [isAgree] = useRecoilState(OrderAgreeState);
   // 선택 제품 list state
-  const [, setSelectItem] = useRecoilState<SelectPdList[]>(SelectdPdList);
+  const [selectItem, setSelectItem] =
+    useRecoilState<SelectPdList[]>(SelectdPdList);
 
   const [isZipcode, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
   const [isStreet, setIsStreet] = useRecoilState(UserRecipientStreetState);
@@ -63,12 +62,15 @@ export default function SaleDetailContent() {
   const [errorModal, setErrorModal] = useState(false);
   const [msg, setMsg] = useState<string>("");
 
+  // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
+  const [, setOrderData] = useRecoilState(OrderState);
+
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
     setSaleData((saleDetail as any).data);
 
-    // 제품 list 복사 후, 제품 item Object에 새 key 추가
+    // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
     const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
       ...el,
       quantity: 0,
@@ -147,6 +149,43 @@ export default function SaleDetailContent() {
         setMsg("주문하실 제품을 선택해주세요.");
         setErrorModal(true);
       } else {
+        // 주문 시, 보낼 selectData 특정 key값들 filter처리 및 변경 후, 전송
+        const filterSelectItem = selectItem.map(el => ({
+          ...el,
+        }));
+
+        filterSelectItem.map((el: any) => {
+          const temp = el;
+          delete temp.name;
+          delete temp.stockQuantity;
+          delete temp.price;
+          delete temp.imageUrl;
+          temp.count = temp.quantity;
+          delete temp.quantity;
+          return el;
+        });
+
+        const data = {
+          saleId: pid,
+          depositor: watch("holder"),
+          recipient: {
+            address: {
+              zipcode: isZipcode,
+              street: isStreet,
+              detail: isDetail,
+            },
+            name: watch("recipient.name"),
+            phoneNumber: isReceiverPhone,
+          },
+          refundAccount: {
+            holder: watch("account.holder"),
+            bank: watch("account.bank"),
+            number: isAccountNum,
+          },
+          checkPrivacyPolicy: isAgree,
+          products: filterSelectItem,
+        };
+        setOrderData(data);
         setShowPaymentModal(!showPaymentModal);
       }
     }

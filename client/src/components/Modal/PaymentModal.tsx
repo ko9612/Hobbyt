@@ -1,7 +1,19 @@
 import tw from "tailwind-styled-components";
 import { VscChromeClose } from "react-icons/vsc";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
 import { ModalContainer, ModalBackdrop, ModalView } from "./MsgModal";
+import CreateOrderNum from "../../util/OrederNumber";
+import { OrderState } from "../../state/OrderState";
+import { postOrder } from "../../api/OrderApi";
+import ScrollRoader from "../Scroll/ScrollRoader";
+import {
+  UserIdState,
+  UserRecipientDetailState,
+  UserRecipientStreetState,
+  UserRecipientZipCodeState,
+} from "../../state/UserState";
 
 const ModalContent = tw.section`
 p-14
@@ -48,10 +60,56 @@ export default function PaymentModal({
   bank,
   number,
 }: PaymentModalProps) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [isBankTransfer, setIsBankTransfer] = useState(false);
+  const [orderData] = useRecoilState(OrderState);
+  const [userId] = useRecoilState(UserIdState);
+  const [, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
+  const [, setIsStreet] = useRecoilState(UserRecipientStreetState);
+  const [, setIsDetail] = useRecoilState(UserRecipientDetailState);
 
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  // 계좌이체 주문
+  const orderCompleteClick = async () => {
+    const OrderDataInfo = {
+      orderNumber: CreateOrderNum(),
+      saleId: orderData.saleId,
+      depositor: orderData.depositor,
+      recipient: {
+        address: {
+          zipcode: orderData.recipient.address.zipcode,
+          street: orderData.recipient.address.street,
+          detail: orderData.recipient.address.detail,
+        },
+        name: orderData.recipient.name,
+        phoneNumber: orderData.recipient.phoneNumber,
+      },
+      refundAccount: {
+        holder: orderData.refundAccount.holder,
+        bank: orderData.refundAccount.bank,
+        number: orderData.refundAccount.number,
+      },
+      checkPrivacyPolicy: orderData.checkPrivacyPolicy, //
+      payMethod: "BANK_TRANSFER", // 카드결제 구현 시 수정
+      products: orderData.products,
+    };
+
+    try {
+      const PostOrderData = await postOrder(OrderDataInfo);
+      setIsLoading(!isLoading);
+      setIsZipcode("");
+      setIsStreet("");
+      setIsDetail("");
+      setTimeout(() => {
+        router.replace(`/orderdetail/${userId}/${(PostOrderData as any).data}`);
+      }, 500);
+    } catch (err: unknown) {
+      console.log(`err`, err);
+    }
   };
 
   return (
@@ -67,6 +125,11 @@ export default function PaymentModal({
           >
             <VscChromeClose size="2rem" />
           </button>
+          {isLoading && (
+            <div className="h-full w-full absolute z-50 flex justify-center items-center">
+              <ScrollRoader />
+            </div>
+          )}
           <ModalContent>
             <ModalTitle>
               <h2 className="text-2xl font-semibold">결제를 진행해주세요</h2>
@@ -111,8 +174,13 @@ export default function PaymentModal({
                   </InfoList>
                 </BankTFInfo>
                 <PayButtonDiv>
-                  <PayButton>나중에 하기</PayButton>
-                  <PayButton className="bg-MainColor hover:bg-SubColor focus:bg-SubColor text-white">
+                  <PayButton onClick={orderCompleteClick}>
+                    나중에 하기
+                  </PayButton>
+                  <PayButton
+                    onClick={orderCompleteClick}
+                    className="bg-MainColor hover:bg-SubColor focus:bg-SubColor text-white"
+                  >
                     주문완료
                   </PayButton>
                 </PayButtonDiv>
