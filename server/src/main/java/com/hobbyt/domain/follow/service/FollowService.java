@@ -49,4 +49,10 @@ public class FollowService {
 		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
 		return SliceResponse.of(slice);
 	}
+
+	public SliceResponse getFollower(String email, Pageable pageable) {
+		SliceDto sliceDto = followRepository.findFollowerByEmail(email, pageable);
+		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
+		return SliceResponse.of(slice);
+	}
 }

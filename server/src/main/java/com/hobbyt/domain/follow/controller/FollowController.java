@@ -43,7 +43,9 @@ public class FollowController {
 
 	// 현재 회원을 친구로 추가한 사람 조회
 	@GetMapping("/follower")
-	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember) {
+	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
+
+		SliceResponse response = followService.getFollower(loginMember.getEmail(), pageable);
 
 		return ResponseEntity.ok().build();
 	}

@@ -21,15 +21,38 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 	@Override
 	public SliceDto findFollowingByEmail(String email, Pageable pageable) {
 		List<FollowingDto> contents = queryFactory.select(Projections.fields(FollowingDto.class,
-				follow.following.id,
-				follow.following.nickname,
-				follow.following.profileImage,
-				follow.following.description,
-				follow.following.dmReceive
+				// follow.following.id,
+				member.id,
+				member.nickname,
+				member.profileImage,
+				member.description,
+				member.dmReceive
 			))
 			.from(follow)
 			.join(follow.following, member)
 			.where(follow.follower.email.eq(email))
+			.orderBy(follow.id.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
+
+		Boolean hasNext = getHasNext(contents, pageable.getPageSize());
+
+		return new SliceDto(contents, hasNext);
+	}
+
+	@Override
+	public SliceDto findFollowerByEmail(String email, Pageable pageable) {
+		List<FollowingDto> contents = queryFactory.select(Projections.fields(FollowingDto.class,
+				member.id,
+				member.nickname,
+				member.profileImage,
+				member.description,
+				member.dmReceive
+			))
+			.from(follow)
+			.join(follow.follower, member)
+			.where(follow.following.email.eq(email))
 			.orderBy(follow.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)

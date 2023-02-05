@@ -7,4 +7,5 @@ import com.hobbyt.domain.follow.dto.SliceDto;
 public interface CustomFollowRepository {
 	SliceDto findFollowingByEmail(String email, Pageable pageable);
 
+	SliceDto findFollowerByEmail(String email, Pageable pageable);
 }
