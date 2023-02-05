@@ -47,7 +47,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
 
 	@Override
 	public PageDto getOrderedProductsByMemberEmail(String email, Pageable pageable) {
-		List<OrderedProductInfo> data = queryFactory.select(
+		List<OrderedProductInfo> content = queryFactory.select(
 				Projections.constructor(OrderedProductInfo.class,
 					sale.id,
 					product.name,
@@ -68,7 +68,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
 
 		Long total = getOrderedProductsCount(email);
 
-		return new PageDto(data, total);
+		return new PageDto(content, total);
 	}
 
 	private Long getOrderedProductsCount(String email) {

@@ -43,8 +43,14 @@ public class MyPageService {
 		return order.getId();
 	}
 
-	public OrderDetails getOrderDetails(Long orderId) {
-		OrderDetails orderDetails = orderRepository.findOrderDetailsByOrderId(orderId);
+	public OrderDetails getOrderDetails(Long orderId, String email) {
+		OrderDetails orderDetails = orderRepository.findOrderDetailsByOrderId(orderId, email);
 		return orderDetails;
+	}
+
+	public PageResponse getOrders(String email, Pageable pageable) {
+		PageDto pageDto = orderRepository.findOrdersByEmail(email, pageable);
+		Page<OrderedProductInfo> page = new PageImpl<>(pageDto.getContent(), pageable, pageDto.getTotal());
+		return PageResponse.of(page);
 	}
 }
