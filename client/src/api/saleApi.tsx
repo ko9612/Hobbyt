@@ -4,7 +4,7 @@ import axios from "axios";
 import ErrorHandler from "./errorHandler";
 
 // 판매 게시글 작성
-const postSaleWrite = async (data: any) => {
+export const postSaleWrite = async (data: any) => {
   try {
     const saleWriteData = await axios.post(
       "http://59.12.62.150:8080/api/sales",
@@ -21,8 +21,6 @@ const postSaleWrite = async (data: any) => {
     return ErrorHandler(err);
   }
 };
-
-export default postSaleWrite;
 
 // 판매 게시글 상세 조회
 export const getSaleDetail = async (id: number | undefined) => {
@@ -71,7 +69,7 @@ export const deleteSaleContent = async (id: any) => {
 export const postSaleLike = async (id: any) => {
   try {
     const likeData = await axios.post(
-      `/api/sales/${id}/like`,
+      `http://59.12.62.150:8080/api/sales/${id}/like`,
       {},
       {
         headers: { authorization: localStorage.getItem("authorization") },
