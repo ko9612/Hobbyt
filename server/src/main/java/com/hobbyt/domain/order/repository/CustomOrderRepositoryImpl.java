@@ -8,8 +8,6 @@ import static com.hobbyt.domain.sale.entity.QSale.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.domain.Pageable;
 
 import com.hobbyt.domain.mypage.dto.OrderDetails;
@@ -21,15 +19,13 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	private final JPAQueryFactory queryFactory;
-
-	public CustomOrderRepositoryImpl(EntityManager entityManager) {
-		this.queryFactory = new JPAQueryFactory(entityManager);
-	}
 
 	@Override
 	public OrderDetails findOrderDetailsByOrderId(Long orderId, String email) {

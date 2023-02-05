@@ -5,16 +5,13 @@ import static com.hobbyt.domain.tag.entity.QTag.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class CustomTagRepositoryImpl implements CustomTagRepository {
 	private final JPAQueryFactory queryFactory;
-
-	public CustomTagRepositoryImpl(EntityManager em) {
-		this.queryFactory = new JPAQueryFactory(em);
-	}
 
 	@Override
 	public List<String> getTagsBySaleId(Long saleId) {

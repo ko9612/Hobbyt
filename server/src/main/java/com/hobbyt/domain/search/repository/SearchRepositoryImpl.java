@@ -11,8 +11,6 @@ import static com.hobbyt.domain.tag.entity.QTag.*;
 import java.util.List;
 import java.util.function.Supplier;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +23,13 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class SearchRepositoryImpl implements SearchRepository {
 	private final JPAQueryFactory queryFactory;
-
-	public SearchRepositoryImpl(EntityManager entityManager) {
-		this.queryFactory = new JPAQueryFactory(entityManager);
-	}
 
 	@Override
 	public SearchPostResponse searchPostsByKeyword(SearchRequest params) {
