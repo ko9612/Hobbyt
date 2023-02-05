@@ -34,10 +34,18 @@ public class MyPageController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/orders")
+	@GetMapping("/products/management")
 	public ResponseEntity getOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
 		PageResponse response = myPageService.getOrders(loginMember.getEmail(), pageable);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/orders")
+	public ResponseEntity getMyOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
+
+		PageResponse response = myPageService.getMyOrders(loginMember.getEmail(), pageable);
 
 		return ResponseEntity.ok(response);
 	}

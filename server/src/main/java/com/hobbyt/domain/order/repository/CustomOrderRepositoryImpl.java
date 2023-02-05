@@ -70,19 +70,61 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	}
 
 	@Override
+	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
+		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
+				order.id,
+				sale.title,
+				member.nickname,
+				order.createdAt,
+				order.status
+			)).distinct()
+			.from(order)
+			.join(order.member, member)
+			.join(order.orderItems, orderItem)
+			.join(orderItem.product, product)
+			.join(product.sale, sale)
+			// .join(sale).on(sale.writer.eq(member))
+			.where(member.email.eq(email))
+			.orderBy(order.id.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		Long total = getTotalMyOrdersByEmail(email);
+
+		return new PageDto(content, total);
+	}
+
+	private Long getTotalMyOrdersByEmail(String email) {
+		return queryFactory.select(order.count())
+			.from(order)
+			.join(order.member, member)
+			.where(member.email.eq(email))
+			.fetchOne();
+	}
+
+	@Override
 	public PageDto findOrdersByEmail(String email, Pageable pageable) {
 		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
 					order.id,
 					sale.title,
-					member.nickname,
+					order.member.nickname,
 					order.createdAt,
 					order.status
 				)
-			).from(order)
-			.join(order.member, member)
-			.join(sale).on(sale.writer.eq(member))
+			).distinct()
+			.from(sale)
+			.join(sale.writer, member)
+			.join(product).on(product.sale.eq(sale))
+			.join(orderItem).on(orderItem.product.eq(product))
+			.join(orderItem.order, order)
+			// .from(order)
+			// .join(order.member, member)
+			// .join(sale).on(sale.writer.eq(member))
 			.where(member.email.eq(email))
 			.orderBy(order.id.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
 			.fetch();
 
 		Long total = getTotalOrdersByEmail(email);
@@ -92,8 +134,11 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	private Long getTotalOrdersByEmail(String email) {
 		return queryFactory.select(order.count())
-			.from(order)
-			.join(order.member, member)
+			.from(sale)
+			.join(sale.writer, member)
+			.join(product).on(product.sale.eq(sale))
+			.join(orderItem).on(orderItem.product.eq(product))
+			.join(orderItem.order, order)
 			.where(member.email.eq(email))
 			.fetchOne();
 	}

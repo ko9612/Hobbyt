@@ -48,6 +48,14 @@ public class MyPageService {
 		return orderDetails;
 	}
 
+	// 내가한 주문
+	public PageResponse getMyOrders(String email, Pageable pageable) {
+		PageDto pageDto = orderRepository.findMyOrdersByEmail(email, pageable);
+		Page<OrderedProductInfo> page = new PageImpl<>(pageDto.getContent(), pageable, pageDto.getTotal());
+		return PageResponse.of(page);
+	}
+
+	// 내가 올린 판매글에 대한 주문
 	public PageResponse getOrders(String email, Pageable pageable) {
 		PageDto pageDto = orderRepository.findOrdersByEmail(email, pageable);
 		Page<OrderedProductInfo> page = new PageImpl<>(pageDto.getContent(), pageable, pageDto.getTotal());
