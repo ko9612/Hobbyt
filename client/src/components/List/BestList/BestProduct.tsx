@@ -1,38 +1,48 @@
-// import tw from "tailwind-styled-components";
-import { BsCalendar4 } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { Section, Title, BestContent, BestItem } from "./BestBlog";
-import { SLContent, SLImage, SLProductInfo } from "../SaleItem";
-import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
-import LikeCount from "../../ViewLikeWrite/LikeCount";
+import SaleItem from "../SaleItem";
 import FilterButton from "../../Button/FilterButton";
+import { SaleItemProps } from "../../../type/saleType";
+import { BlogSelectState } from "../../../state/BlogPostState";
+import { getBestSaleList } from "../../../api/MainApi";
+
+interface MainSaleItemProps {
+  cards: SaleItemProps[];
+}
 
 export default function BestBlogger() {
+  const [listData, setListData] = useState<MainSaleItemProps[]>();
+  const select = useRecoilValue(BlogSelectState);
+
+  const getBestSaleData = async () => {
+    if (select === "최신순") {
+      const res = await getBestSaleList("SALE_NEWEST");
+      const listRes = (res as any).data;
+      setListData([listRes]);
+    } else {
+      const res = await getBestSaleList("SALE_MOST_LIKE");
+      const listRes = (res as any).data;
+      setListData([listRes]);
+    }
+  };
+
+  useEffect(() => {
+    getBestSaleData();
+  }, [select]);
+
   return (
     <Section>
       <Title>금주의 작품</Title>
       <div className="flex justify-end">
         <FilterButton />
       </div>
-      <BestContent className="pt-5">
-        <BestItem className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-          {Array(12)
-            .fill(null)
-            .map(idx => (
-              <SLContent key={idx}>
-                <SLImage>
-                  <ThreeDotsBox>작품</ThreeDotsBox>
-                </SLImage>
-                <SLProductInfo>
-                  <p>작품 이름</p>
-                  <div className="flex">
-                    <BsCalendar4 />
-                    <p>22.12.14 ~ 22.12.16</p>
-                  </div>
-                  <div className="float-right">
-                    <LikeCount>123123</LikeCount>
-                  </div>
-                </SLProductInfo>
-              </SLContent>
+      <BestContent className="pt-5 mb-14">
+        <BestItem className="grid grid-cols-2 gap-14 sm:grid-cols-3 mx-auto">
+          {listData &&
+            listData[0] &&
+            listData[0].cards.map((item: SaleItemProps) => (
+              <SaleItem list={item} key={item.id} />
             ))}
         </BestItem>
       </BestContent>

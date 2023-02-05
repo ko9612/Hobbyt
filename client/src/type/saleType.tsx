@@ -115,8 +115,8 @@ export interface OrderInputProps {
   };
 }
 
-// 검색 - 판매글 리스트 데이터 타입
-export interface SearchSaleItemProps {
+// 검색 - 판매글 리스트 데이터 타입 & 금주의 작품 데이터 타입
+export interface SaleItemProps {
   id: number;
   thumbnailImage: string | null;
   title: string;
@@ -126,11 +126,39 @@ export interface SearchSaleItemProps {
   };
   likeCount: number;
   writerId: number;
+  profileImage: string | null;
   nickname: string;
-  alwaysOnSale: boolean;
+  isAlwaysOnSale: boolean;
 }
 
 export interface SearchSaleDataProps {
   hasNext: boolean;
-  sales: SearchSaleItemProps[];
+  sales: SaleItemProps[];
+}
+
+// 제품 주문 정보 데이터 타입
+export interface OrderDataProps {
+  // orderNumber: string;
+  saleId: number;
+  depositor: string;
+  recipient: {
+    address: {
+      zipcode: string;
+      street: string;
+      detail: string;
+    };
+    name: string;
+    phoneNumber: string;
+  };
+  refundAccount: {
+    holder: string;
+    bank: string;
+    number: string;
+  };
+  checkPrivacyPolicy: boolean;
+  // payMethod: string;
+  products: {
+    id: number;
+    count: number;
+  }[];
 }

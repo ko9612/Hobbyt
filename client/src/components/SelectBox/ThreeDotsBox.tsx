@@ -56,7 +56,7 @@ export default function ThreeDotsBox({
     return () => {
       window.removeEventListener("click", closeHandler);
     };
-  },[]);
+  }, []);
 
   // 수정 클릭시 모달 창
   const onClickEdit = () => {
@@ -134,7 +134,11 @@ export default function ThreeDotsBox({
         />
       )}
       <button ref={popRef} onClick={onClickHandler} value={id}>
-        <BsThreeDots className="cursor-pointer" size={25} color="#d6d6d6" />
+        <BsThreeDots
+          className="cursor-pointer"
+          size={25}
+          color={router.pathname === "/" ? "#ffffff" : "#d6d6d6"}
+        />
       </button>
       {onClick && (
         <SelectBox>
