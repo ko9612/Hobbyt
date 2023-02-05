@@ -12,7 +12,7 @@ export interface PostSignupInputs {
 }
 
 // 회원가입 데이터 타입
-export interface SignupInputs extends PostSignupInputs{
+export interface SignupInputs extends PostSignupInputs {
   emailCheck: string;
   passwordCheck: string;
 }
@@ -41,4 +41,11 @@ export interface PasswordProps {
   oldPassword: string;
   newPassword: string;
   checkPassword: string;
+}
+
+// 금주의 블로거 데이터 타입
+export interface BestBloggerProps {
+  bloggerId: number;
+  nickname: string;
+  profileImage: string | null;
 }

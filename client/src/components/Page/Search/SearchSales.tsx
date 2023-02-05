@@ -5,13 +5,10 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import FilterButton from "../../Button/FilterButton";
 import { SLContainer } from "../../List/SaleList";
-import {
-  SearchSaleDataProps,
-  SearchSaleItemProps,
-} from "../../../type/saleType";
+import { SearchSaleDataProps, SaleItemProps } from "../../../type/saleType";
 import { BlogSelectState } from "../../../state/BlogPostState";
 import SaleItem from "../../List/SaleItem";
-import { getSearchSaleList } from "../../../api/tabApi";
+import { getSearchSaleList } from "../../../api/SearchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
 export const Content = tw.article`
@@ -111,7 +108,7 @@ export default function SearchSales() {
           <Content key={idx}>
             <Item>
               {item.sales &&
-                item.sales.map((el: SearchSaleItemProps) => (
+                item.sales.map((el: SaleItemProps) => (
                   <SaleItem list={el} key={el.id} />
                 ))}
             </Item>
