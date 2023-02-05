@@ -1,20 +1,18 @@
 package com.hobbyt.domain.notification.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+
+import com.hobbyt.domain.notification.dto.NotificationResponse;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class AlarmHandler {
 	private final SimpMessageSendingOperations messagingTemplate;
 
-	@SendTo("/alarm/{memberId}")
-	public ResponseEntity<?> pushAlarm(@DestinationVariable Long memberId) {
-		return ResponseEntity.ok("ok");
+	public void pushAlarm(NotificationResponse.Alarm alarm) {
+		messagingTemplate.convertAndSend("/alarm/" + alarm.getReceiverId(), alarm);
 	}
 }

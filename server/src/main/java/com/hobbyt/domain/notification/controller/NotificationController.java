@@ -1,7 +1,6 @@
 package com.hobbyt.domain.notification.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,10 +37,5 @@ public class NotificationController {
 		Long checkedId = notificationService.checkById(id);
 
 		return ResponseEntity.ok(checkedId);
-	}
-
-	@SendToUser
-	public ResponseEntity<?> pushAlarm() {
-		return ResponseEntity.ok(null);
 	}
 }
