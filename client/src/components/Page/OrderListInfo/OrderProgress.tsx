@@ -9,7 +9,10 @@ import {
 } from "react-icons/ri";
 import Image from "next/image";
 import example from "src/image/header_ex.jpg";
+import { useRouter } from "next/router";
 import { DButton } from "../../Button/DefalutButton";
+import { deleteOrder } from "../../../api/OrderApi";
+import DelModal from "../../Modal/DelModal";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
@@ -35,21 +38,46 @@ const PgStatusLine = tw.div`
 w-14 h-[0.1rem] bg-slate-500
 `;
 
-export default function OrderProgress() {
-  const [orderFin, setOrderFin] = useState(true);
-  const [depositFin, setDepositFin] = useState(true);
-  const [preparing, setPreparing] = useState(false);
-  const [shipping, setShipping] = useState(false);
-  const [complete, setComplete] = useState(false);
+const stateArr = [
+  {
+    id: 0,
+    status: "주문완료",
+    icon: <RiFileList3Line size="2.5rem" />,
+  },
+  {
+    id: 1,
+    status: "입금확인",
+    icon: <RiBankCardLine size="2.5rem" />,
+  },
+  {
+    id: 2,
+    status: "배송준비중",
+    icon: <RiGiftLine size="2.5rem" />,
+  },
+  {
+    id: 3,
+    status: "배송시작",
+    icon: <RiTruckLine size="2.5rem" />,
+  },
+  {
+    id: 4,
+    status: "거래종료",
+    icon: <RiHandHeartLine size="2.5rem" />,
+  },
+];
 
-  // 에러 방지용
-  console.log(
-    setOrderFin,
-    setDepositFin,
-    setPreparing,
-    setShipping,
-    setComplete,
-  );
+export default function OrderProgress({ id }: IdProps) {
+  const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const [orderState, setOrderState] = useState(stateArr[0].id);
+
+  const DeleteOrder = async () => {
+    const delOrderData = await deleteOrder(id);
+    if ((delOrderData as any).status === 204) {
+      router.reload();
+    }
+    console.log(delOrderData);
+  };
 
   return (
     <PgSection>
@@ -64,44 +92,38 @@ export default function OrderProgress() {
           <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
             문의하기
           </DButton>
-          <DButton>주문취소</DButton>
+          {showModal && (
+            <DelModal
+              setOpenModal={setShowModal}
+              msg="정말 주문을 취소하시겠습니까?"
+              subMsg={["취소 후, 철회가 불가능합니다."]}
+              afterClick={DeleteOrder}
+              buttonString="주문취소"
+            />
+          )}
+          <DButton onClick={() => setShowModal(!showModal)}>주문취소</DButton>
         </div>
       </PgTitle>
       <PgContent>
-        <PgStatus>
-          <IconDiv className={`${orderFin && "bg-MainColor text-white"}`}>
-            <RiFileList3Line size="2.5rem" />
-          </IconDiv>
-          주문완료
-        </PgStatus>
-        <PgStatusLine className={`${depositFin && "bg-MainColor/50"}`} />
-        <PgStatus>
-          <IconDiv className={`${depositFin && "bg-MainColor text-white"}`}>
-            <RiBankCardLine size="2.5rem" />
-          </IconDiv>
-          입금확인
-        </PgStatus>
-        <PgStatusLine className={`${preparing && "bg-MainColor/50"}`} />
-        <PgStatus>
-          <IconDiv className={`${preparing && "bg-MainColor text-white"}`}>
-            <RiGiftLine size="2.5rem" />
-          </IconDiv>
-          배송준비중
-        </PgStatus>
-        <PgStatusLine className={`${shipping && "bg-MainColor/50"}`} />
-        <PgStatus>
-          <IconDiv className={`${shipping && "bg-MainColor text-white"}`}>
-            <RiTruckLine size="2.5rem" />
-          </IconDiv>
-          배송시작
-        </PgStatus>
-        <PgStatusLine className={`${complete && "bg-MainColor/50"}`} />
-        <PgStatus>
-          <IconDiv className={`${complete && "bg-MainColor text-white"}`}>
-            <RiHandHeartLine size="2.5rem" />
-          </IconDiv>
-          거래종료
-        </PgStatus>
+        {stateArr.map(state => (
+          <>
+            <PgStatus>
+              <IconDiv
+                className={`${
+                  orderState >= state.id && "bg-MainColor text-white"
+                }`}
+              >
+                {state.icon}
+              </IconDiv>
+              {state.status}
+            </PgStatus>
+            {state.id !== stateArr.length - 1 && (
+              <PgStatusLine
+                className={`${orderState > state.id && "bg-MainColor/50"}`}
+              />
+            )}
+          </>
+        ))}
       </PgContent>
     </PgSection>
   );

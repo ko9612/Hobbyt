@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import Image from "next/image";
 import { PdContent } from "./ProductContent";
 
-import { SelectPdList } from "../../../type/saleType";
+import { SelectPdList } from "../../../type/OrderType";
 import { SelectdPdList } from "../../../state/SaleState";
 import exampleImg from "../../../image/header_ex.jpg";
 

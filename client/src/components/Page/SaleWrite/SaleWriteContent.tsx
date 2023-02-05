@@ -13,7 +13,7 @@ import {
   TagState,
   PublicState,
 } from "../../../state/BlogPostState";
-import postSaleWrite from "../../../api/saleApi";
+import { postSaleWrite } from "../../../api/saleApi";
 import {
   PostWriteContent,
   PostWriteList,
