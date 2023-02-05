@@ -8,11 +8,13 @@ import {
 // import { useRouter } from "next/router";
 import { useRouter } from "next/router";
 // import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { CommentType } from "../../type/blogType";
 import EditModal from "../Modal/EditModal";
 import DelModal from "../Modal/DelModal";
 import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
 import { deleteSaleContent } from "../../api/saleApi";
+import { UserIdState } from "../../state/UserState";
 // import { BlogEditState } from "../../state/BlogPostState";
 
 const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap`;
@@ -34,6 +36,7 @@ export default function ThreeDotsBox({
   // 포스트의 id 이거나 아니면 댓글 id 이거나
   const { id } = item || {};
   // const router = useRouter();
+  const userId = useRecoilValue(UserIdState);
 
   // 도트 3개 클릭 시 div 보임
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,7 +69,7 @@ export default function ThreeDotsBox({
     } else if (children === "댓글") {
       setEditModal(!editModal);
     } else if (children === "작품") {
-      router.push(`/sale/edit/${id}`);
+      router.push(`/sale/edit/${userId}/${id}`);
     }
     setOnClick(!onClick);
   };
