@@ -3,9 +3,10 @@ package com.hobbyt.domain.follow.repository;
 import org.springframework.data.domain.Pageable;
 
 import com.hobbyt.domain.follow.dto.SliceDto;
+import com.hobbyt.domain.member.entity.Member;
 
 public interface CustomFollowRepository {
-	SliceDto findFollowingByEmail(String email, Pageable pageable);
+	SliceDto findFollowing(Member myInfo, Long memberId, Pageable pageable);
 
-	SliceDto findFollowerByEmail(String email, Pageable pageable);
+	SliceDto findFollower(Member myInfo, Long memberId, Pageable pageable);
 }

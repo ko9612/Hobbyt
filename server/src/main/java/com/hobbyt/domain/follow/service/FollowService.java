@@ -44,14 +44,16 @@ public class FollowService {
 		);
 	}
 
-	public SliceResponse getFollowing(String email, Pageable pageable) {
-		SliceDto sliceDto = followRepository.findFollowingByEmail(email, pageable);
+	public SliceResponse getFollowing(String email, Long memberId, Pageable pageable) {
+		Member member = memberService.findMemberByEmail(email);
+		SliceDto sliceDto = followRepository.findFollowing(member, memberId, pageable);
 		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
 		return SliceResponse.of(slice);
 	}
 
-	public SliceResponse getFollower(String email, Pageable pageable) {
-		SliceDto sliceDto = followRepository.findFollowerByEmail(email, pageable);
+	public SliceResponse getFollower(String email, Long memberId, Pageable pageable) {
+		Member member = memberService.findMemberByEmail(email);
+		SliceDto sliceDto = followRepository.findFollower(member, memberId, pageable);
 		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
 		return SliceResponse.of(slice);
 	}

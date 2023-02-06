@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.hobbyt.domain.follow.dto.FollowingDto;
 import com.hobbyt.domain.follow.dto.SliceDto;
+import com.hobbyt.domain.member.entity.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -19,22 +20,24 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public SliceDto findFollowingByEmail(String email, Pageable pageable) {
-		List<FollowingDto> contents = queryFactory.select(Projections.fields(FollowingDto.class,
+	public SliceDto findFollowing(Member myInfo, Long memberId, Pageable pageable) {
+		List<FollowingDto> contents = queryFactory.select(Projections.constructor(FollowingDto.class,
 				// follow.following.id,
 				member.id,
 				member.nickname,
 				member.profileImage,
-				member.description,
-				member.dmReceive
+				member.description
 			))
 			.from(follow)
 			.join(follow.following, member)
-			.where(follow.follower.email.eq(email))
-			.orderBy(follow.id.desc())
+			.where(follow.follower.id.eq(memberId))
+			.orderBy(member.nickname.asc())
+			// .orderBy(follow.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
+
+		compareMyFollowing(myInfo, contents);
 
 		Boolean hasNext = getHasNext(contents, pageable.getPageSize());
 
@@ -42,25 +45,42 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 	}
 
 	@Override
-	public SliceDto findFollowerByEmail(String email, Pageable pageable) {
-		List<FollowingDto> contents = queryFactory.select(Projections.fields(FollowingDto.class,
+	public SliceDto findFollower(Member myInfo, Long memberId, Pageable pageable) {
+		List<FollowingDto> contents = queryFactory.select(Projections.constructor(FollowingDto.class,
 				member.id,
 				member.nickname,
 				member.profileImage,
-				member.description,
-				member.dmReceive
+				member.description
 			))
 			.from(follow)
 			.join(follow.follower, member)
-			.where(follow.following.email.eq(email))
-			.orderBy(follow.id.desc())
+			.where(follow.following.id.eq(memberId))
+			.orderBy(member.nickname.asc())
+			// .orderBy(follow.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
 
+		compareMyFollowing(myInfo, contents);
+
 		Boolean hasNext = getHasNext(contents, pageable.getPageSize());
 
 		return new SliceDto(contents, hasNext);
+	}
+
+	private void compareMyFollowing(Member myInfo, List<FollowingDto> contents) {
+		List<Long> myFollowingId = queryFactory.select(member.id)
+			.from(follow)
+			.join(follow.following, member)
+			.where(follow.follower.eq(myInfo))
+			.fetch();
+
+		contents.forEach(content -> {
+			if (content.getId() == myInfo.getId()) {
+				return;
+			}
+			content.setIsFollowing(myFollowingId.contains(content.getId()));
+		});
 	}
 
 	private Boolean getHasNext(List<?> contents, int limit) {
