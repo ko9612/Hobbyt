@@ -109,13 +109,4 @@ public class MemberController {
 
 		return ResponseEntity.ok().build();
 	}
-
-	@PostMapping("/{memberId}/following")
-	public ResponseEntity following(@AuthenticationPrincipal MemberDetails loginMember,
-		@Min(value = 1) @PathVariable Long memberId) {
-
-		memberService.following(loginMember.getEmail(), memberId);
-
-		return ResponseEntity.ok().build();
-	}
 }

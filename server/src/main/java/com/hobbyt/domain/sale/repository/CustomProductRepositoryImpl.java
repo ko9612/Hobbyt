@@ -9,23 +9,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import com.hobbyt.domain.mypage.dto.OrderedProductInfo;
 import com.hobbyt.domain.mypage.dto.PageDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-@Repository
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class CustomProductRepositoryImpl implements CustomProductRepository {
 	private final JPAQueryFactory queryFactory;
-
-	public CustomProductRepositoryImpl(EntityManager em) {
-		queryFactory = new JPAQueryFactory(em);
-	}
 
 	@Override
 	public Map<Long, Boolean> getProductsIdBySaleId(Long saleId) {

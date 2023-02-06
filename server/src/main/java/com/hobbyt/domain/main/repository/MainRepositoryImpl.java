@@ -1,6 +1,6 @@
 package com.hobbyt.domain.main.repository;
 
-import static com.hobbyt.domain.member.entity.QFollow.*;
+import static com.hobbyt.domain.follow.entity.QFollow.*;
 import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostLike.*;
