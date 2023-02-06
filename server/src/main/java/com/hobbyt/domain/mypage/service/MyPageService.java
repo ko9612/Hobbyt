@@ -43,8 +43,8 @@ public class MyPageService {
 		return order.getId();
 	}
 
-	public OrderDetails getOrderDetails(Long orderId, String email) {
-		OrderDetails orderDetails = orderRepository.findOrderDetailsByOrderId(orderId, email);
+	public OrderDetails getOrderDetails(Long orderId) {
+		OrderDetails orderDetails = orderRepository.findOrderDetailsByOrderId(orderId);
 		return orderDetails;
 	}
 

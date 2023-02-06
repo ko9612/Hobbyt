@@ -6,6 +6,7 @@ import java.util.List;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderItem;
+import com.hobbyt.domain.order.entity.OrderStatus;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.global.entity.Account;
 
@@ -19,6 +20,8 @@ import lombok.ToString;
 @ToString
 public class OrderDetails {
 	private String orderNumber;
+	private OrderStatus status;    // 주문상태
+	private String thumbnailImage;    // 판매 게시글 썸네일
 	private String depositor;    // 입금자 이름
 	private Account sellerAccount;    // 판매자 계좌
 	private String nickname;    // 주문자 닉네임
@@ -47,10 +50,12 @@ public class OrderDetails {
 	}
 
 	@Builder
-	public OrderDetails(Order order, String nickname, String phoneNumber, String email,
+	public OrderDetails(Order order, String thumbnailImage, String nickname, String phoneNumber, String email,
 		Account sellerAccount, int deliveryPrice) {
 
 		this.orderNumber = order.getOrderNumber();
+		this.status = order.getStatus();
+		this.thumbnailImage = thumbnailImage;
 		this.depositor = order.getDepositor();
 		this.sellerAccount = sellerAccount == null ? new Account() : sellerAccount;
 		this.nickname = nickname;

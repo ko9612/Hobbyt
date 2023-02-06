@@ -51,9 +51,8 @@ public class MyPageController {
 	}
 
 	@GetMapping("/orders/{orderId}")
-	public ResponseEntity getOrderDetails(@AuthenticationPrincipal MemberDetails loginMember,
-		@Min(value = 1) @PathVariable Long orderId) {
-		OrderDetails response = myPageService.getOrderDetails(orderId, loginMember.getEmail());
+	public ResponseEntity getOrderDetails(@Min(value = 1) @PathVariable Long orderId) {
+		OrderDetails response = myPageService.getOrderDetails(orderId);
 		return ResponseEntity.ok(response);
 	}
 

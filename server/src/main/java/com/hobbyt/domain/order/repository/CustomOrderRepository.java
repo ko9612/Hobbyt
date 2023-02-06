@@ -6,7 +6,7 @@ import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.PageDto;
 
 public interface CustomOrderRepository {
-	OrderDetails findOrderDetailsByOrderId(Long orderId, String email);
+	OrderDetails findOrderDetailsByOrderId(Long orderId);
 
 	PageDto findMyOrdersByEmail(String email, Pageable pageable);
 

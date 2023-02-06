@@ -14,7 +14,6 @@ import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
 import com.hobbyt.domain.mypage.dto.PageDto;
 import com.hobbyt.domain.order.entity.Order;
-import com.hobbyt.global.error.exception.OrderNotExistException;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -28,23 +27,20 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public OrderDetails findOrderDetailsByOrderId(Long orderId, String email) {
+	public OrderDetails findOrderDetailsByOrderId(Long orderId) {
 		Order foundOrder = queryFactory.select(order).distinct()
 			.from(order)
 			.join(order.member, member)
 			.join(order.orderItems, orderItem).fetchJoin()
 			.join(orderItem.product, product).fetchJoin()
-			.where(order.id.eq(orderId), member.email.eq(email))
+			.where(order.id.eq(orderId))
 			.fetchOne();
-
-		if (foundOrder == null) {
-			throw new OrderNotExistException();
-		}
 
 		Tuple tuple = queryFactory.select(
 				member.nickname,
 				member.phoneNumber,
 				member.email,
+				sale.thumbnailImage,
 				sale.account,
 				sale.delivery.deliveryPrice).distinct()
 			.from(order)
@@ -52,11 +48,12 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.join(order.orderItems, orderItem)
 			.join(orderItem.product, product)
 			.join(product.sale, sale)
-			.where(order.id.eq(orderId), member.email.eq(email))
+			.where(order.id.eq(orderId))
 			.fetchOne();
 
 		return OrderDetails.builder()
 			.order(foundOrder)
+			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.nickname(tuple.get(member.nickname))
 			.phoneNumber(tuple.get(member.phoneNumber))
 			.email(tuple.get(member.email))
