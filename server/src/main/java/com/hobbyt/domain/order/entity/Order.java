@@ -132,12 +132,12 @@ public class Order extends BaseEntity {
 			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
 		}
 
-		updateOrderStatus(OrderStatus.CANCEL);
 		for (OrderItem orderItem : orderItems) {
 			orderItem.cancel();
 		}
 
-		orderItems.clear();
+		updateOrderStatus(OrderStatus.PREPARE_REFUND);
+		// orderItems.clear();
 	}
 
 	public int getTotalProductPrice() {

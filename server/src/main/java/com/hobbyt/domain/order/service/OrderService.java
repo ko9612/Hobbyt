@@ -120,6 +120,7 @@ public class OrderService {
 			String token = paymentService.getToken();
 			Payments payments = order.getPayments();
 			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
+			order.updateOrderStatus(FINISH_REFUND);
 		}
 
 		publishNotification(saleId, order.getMember(), ORDER_CANCEL);
