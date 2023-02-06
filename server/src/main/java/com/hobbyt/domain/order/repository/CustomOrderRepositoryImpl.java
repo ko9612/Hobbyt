@@ -37,8 +37,6 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.fetchOne();
 
 		Tuple tuple = queryFactory.select(
-				member.nickname,
-				member.phoneNumber,
 				member.email,
 				sale.thumbnailImage,
 				sale.account,
@@ -54,8 +52,6 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 		return OrderDetails.builder()
 			.order(foundOrder)
 			.thumbnailImage(tuple.get(sale.thumbnailImage))
-			.nickname(tuple.get(member.nickname))
-			.phoneNumber(tuple.get(member.phoneNumber))
 			.email(tuple.get(member.email))
 			.sellerAccount(tuple.get(sale.account))
 			.deliveryPrice(tuple.get(sale.delivery.deliveryPrice))
