@@ -1,5 +1,7 @@
 package com.hobbyt.domain.mypage.dto;
 
+import static com.hobbyt.domain.order.entity.OrderStatus.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class OrderDetails {
 	private int totalProductPrice;    // 상품 총 금액
 	private int deliveryPrice;    // 배송비
 	private int totalPrice;        // 총 주문액
+	private Boolean isCanceled;
 
 	@Getter
 	@NoArgsConstructor
@@ -73,5 +76,6 @@ public class OrderDetails {
 		this.totalProductPrice = order.getTotalProductPrice();
 		this.deliveryPrice = deliveryPrice;
 		this.totalPrice = totalProductPrice + deliveryPrice;
+		this.isCanceled = order.getStatus() == PREPARE_REFUND || order.getStatus() == FINISH_REFUND;
 	}
 }
