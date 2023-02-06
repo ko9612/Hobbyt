@@ -105,7 +105,9 @@ export default function PaymentModal({
       setIsStreet("");
       setIsDetail("");
       setTimeout(() => {
-        router.replace(`/orderdetail/${userId}/${(PostOrderData as any).data}`);
+        router.replace(
+          `/mypage/${userId}/orderdetail/${(PostOrderData as any).data}`,
+        );
       }, 500);
     } catch (err: unknown) {
       console.log(`err`, err);

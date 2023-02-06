@@ -108,7 +108,7 @@ export default function ProductGuide({ id }: IdProps) {
             <div className="text-end">
               <button
                 className="hover:text-gray-500 focus:text-gray-500"
-                onClick={() => router.push(`/sale/edit/${userId}/${id}`)}
+                onClick={() => router.push(`/blog/${userId}/sale/edit/${id}`)}
               >
                 수정
               </button>

@@ -55,7 +55,7 @@ export default function SaleItem({ list }: ListProps) {
         />
       </SLImage>
       <SLProductInfo>
-        <Link href={`/sale/${id}`}>
+        <Link href={`blog/${userId}/sale/${id}`}>
           <p className="my-3">{title}</p>
           <div className="flex items-center">
             <BsCalendar4 />
