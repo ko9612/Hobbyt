@@ -26,6 +26,7 @@ import {
 import { accountNumRegex } from "../../../util/Regex";
 import ProductInfoInput from "./ProductInfoInput";
 import { SaleProductList } from "../../../state/SaleState";
+import { UserIdState } from "../../../state/UserState";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
   ssr: false,
@@ -36,6 +37,7 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
 
 export default function SaleEditContent() {
   const router = useRouter();
+  const [userId] = useRecoilState(UserIdState);
   const saleId = Number(router.query.saleId);
   const [titleData, setTitleData] = useRecoilState(TitleState);
   const [togleData, setTogleData] = useRecoilState(PublicState);
@@ -142,7 +144,7 @@ export default function SaleEditContent() {
       setContentData("");
       setTagData([]);
       setProductData([]);
-      router.replace(`/sale/${(PatchSaleData as any).data}`);
+      router.replace(`/blog/${userId}/sale/${(PatchSaleData as any).data}`);
     } catch (err: unknown) {
       console.log(`err`, err);
     }

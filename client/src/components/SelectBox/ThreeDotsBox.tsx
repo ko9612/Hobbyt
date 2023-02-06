@@ -69,7 +69,7 @@ export default function ThreeDotsBox({
     } else if (children === "댓글") {
       setEditModal(!editModal);
     } else if (children === "작품") {
-      router.push(`/sale/edit/${userId}/${id}`);
+      router.push(`/blog/${userId}/sale/edit/${id}`);
     }
     setOnClick(!onClick);
   };

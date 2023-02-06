@@ -40,7 +40,7 @@ export default function NavContent() {
   const [isLogin, setLogin] = useRecoilState(LoginState);
   const [isNickname, setIsNickname] = useRecoilState(NicknameState);
   const [, setNavProfileImg] = useRecoilState(UserProfileState);
-  const [, setIsUserId] = useRecoilState(UserIdState);
+  const [userId, setIsUserId] = useRecoilState(UserIdState);
   const [myProfileImg] = useRecoilState(UserProfileState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
@@ -110,10 +110,10 @@ export default function NavContent() {
             <>
               <List
                 className={`${
-                  router.pathname === "/mypage" && "text-yellow-200"
+                  router.pathname.startsWith(`/mypage`) && "text-yellow-200"
                 }`}
               >
-                <Link href="/mypage">
+                <Link href={`/mypage/${userId}`}>
                   <span className="block float-left text-2xl">
                     <DefaultProfileImg
                       profileImg={myProfileImg}

@@ -30,6 +30,7 @@ import {
   // SalePdImgsList
 } from "../../../state/SaleState";
 import { getUserInfo } from "../../../api/userApi";
+import { UserIdState } from "../../../state/UserState";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,
@@ -40,6 +41,7 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
 
 export default function SaleWriteContent() {
   const router = useRouter();
+  const [userId] = useRecoilState(UserIdState);
   const [titleData, setTitleData] = useRecoilState(TitleState);
   const [togleData, setTogleData] = useRecoilState(PublicState);
   const [contentData, setContentData] = useRecoilState(ContentState);
@@ -124,7 +126,7 @@ export default function SaleWriteContent() {
 
     try {
       const PostSaleWriteData = await postSaleWrite(saleData);
-      router.replace(`/sale/${(PostSaleWriteData as any).data}`);
+      router.replace(`/blog/${userId}/sale/${(PostSaleWriteData as any).data}`);
       setTitleData("");
       setTogleData(true);
       setContentData("");
