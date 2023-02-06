@@ -28,7 +28,7 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
 				notification.id.as("notificationId"),
 				notification.receiver.id.as("receiverId"),
 				notification.sender,
-				notification.articleId,
+				notification.redirectId,
 				notification.title,
 				notification.type,
 				notification.createdAt

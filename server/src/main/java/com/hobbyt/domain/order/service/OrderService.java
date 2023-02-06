@@ -81,18 +81,18 @@ public class OrderService {
 		order.setMember(purchaser);
 		order.updateOrderStatus(ORDER);
 
-		publishNotification(orderInfo.getSaleId(), purchaser, SALE_ORDER);
-
 		orderRepository.save(order);
+
+		publishNotification(orderInfo.getSaleId(), order.getId(), purchaser.getNickname(), SALE_ORDER);
 		return order;
 	}
 
-	private void publishNotification(Long saleId, Member sender, NotificationType type) {
+	private void publishNotification(Long saleId, Long orderId, String sender, NotificationType type) {
 		Sale sale = saleService.findSaleById(saleId);
 		eventPublisher.publishEvent(NotificationEvent.builder()
 			.receiver(sale.getWriter())
-			.sender(sender.getNickname())
-			.articleId(sale.getId())
+			.sender(sender)
+			.redirectId(orderId)
 			.title(sale.getTitle())
 			.type(type)
 			.build());
@@ -112,6 +112,7 @@ public class OrderService {
 
 	public void cancel(Long orderId, Long saleId) throws IOException {
 		Order order = findOrderByOrderId(orderId);
+		Member purchaser = order.getMember();
 
 		order.cancel();
 
@@ -123,7 +124,7 @@ public class OrderService {
 			order.updateOrderStatus(FINISH_REFUND);
 		}
 
-		publishNotification(saleId, order.getMember(), ORDER_CANCEL);
+		publishNotification(saleId, order.getId(), purchaser.getNickname(), ORDER_CANCEL);
 	}
 
 	private boolean isIamportPayments(Order order) {

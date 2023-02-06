@@ -32,7 +32,7 @@ public class Notification extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private NotificationType type;
 	@Column(nullable = false)
-	private Long articleId;
+	private Long redirectId;
 	@Column(nullable = false, updatable = false, name = "article_title")
 	private String title;
 	@Column(nullable = false)
@@ -43,17 +43,17 @@ public class Notification extends BaseEntity {
 
 	public static Notification from(NotificationEvent event) {
 		return new Notification(event.getSender(), event.getType(),
-			event.getArticleId(), event.getTitle(), event.getReceiver());
+			event.getRedirectId(), event.getTitle(), event.getReceiver());
 	}
 
 	public void check() {
 		this.checked = true;
 	}
 
-	private Notification(String sender, NotificationType type, Long articleId, String title, Member receiver) {
+	private Notification(String sender, NotificationType type, Long redirectId, String title, Member receiver) {
 		this.sender = sender;
 		this.type = type;
-		this.articleId = articleId;
+		this.redirectId = redirectId;
 		this.title = title;
 		this.receiver = receiver;
 	}

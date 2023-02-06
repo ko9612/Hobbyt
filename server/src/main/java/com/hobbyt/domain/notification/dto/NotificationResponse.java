@@ -25,7 +25,7 @@ public class NotificationResponse {
 		private Long notificationId;
 		private Long receiverId;
 		private String sender;
-		private Long articleId;
+		private Long redirectId;
 		private String title;
 		private NotificationType type;
 		private LocalDateTime createdAt;
@@ -38,7 +38,7 @@ public class NotificationResponse {
 			this.notificationId = notification.getId();
 			this.receiverId = notification.getReceiver().getId();
 			this.sender = notification.getSender();
-			this.articleId = notification.getArticleId();
+			this.redirectId = notification.getRedirectId();
 			this.title = notification.getTitle();
 			this.type = notification.getType();
 			this.createdAt = notification.getCreatedAt();
