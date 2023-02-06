@@ -65,7 +65,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	@Override
 	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
 		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-				order.id,
+				order.id.as("orderId"),
 				sale.title,
 				member.nickname,
 				order.createdAt,
@@ -99,7 +99,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	@Override
 	public PageDto findOrdersByEmail(String email, Pageable pageable) {
 		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-					order.id,
+					order.id.as("orderId"),
 					sale.title,
 					order.member.nickname,
 					order.createdAt,
