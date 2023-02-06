@@ -29,4 +29,8 @@ public class Recipient {
 	public Recipient() {
 		this.address = new Address();
 	}
+
+	public void updateAddress(Address address) {
+		this.address = address == null ? this.address : address;
+	}
 }

@@ -39,7 +39,7 @@ public class PostCommentService {
 		eventPublisher.publishEvent(NotificationEvent.builder()
 			.receiver(post.getWriter())
 			.sender(writer.getNickname())
-			.articleId(post.getId())
+			.redirectId(post.getId())
 			.title(post.getTitle())
 			.type(POST_COMMENT)
 			.build());

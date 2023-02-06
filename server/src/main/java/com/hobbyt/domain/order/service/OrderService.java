@@ -26,6 +26,7 @@ import com.hobbyt.domain.order.repository.OrderRepository;
 import com.hobbyt.domain.sale.entity.Delivery;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
+import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.global.error.exception.OrderNotExistException;
@@ -40,9 +41,10 @@ public class OrderService {
 	private final SaleService saleService;
 	private final ProductService productService;
 	private final MemberService memberService;
-	private final OrderRepository orderRepository;
-	private final ApplicationEventPublisher eventPublisher;
 	private final PaymentService paymentService;
+	private final OrderRepository orderRepository;
+	private final SaleRepository saleRepository;
+	private final ApplicationEventPublisher eventPublisher;
 
 	@Transactional(readOnly = true)
 	public int getTotalPrice(Long saleId, List<ProductDto> products) {
@@ -81,18 +83,18 @@ public class OrderService {
 		order.setMember(purchaser);
 		order.updateOrderStatus(ORDER);
 
-		publishNotification(orderInfo.getSaleId(), purchaser, SALE_ORDER);
-
 		orderRepository.save(order);
+
+		publishNotification(orderInfo.getSaleId(), order.getId(), purchaser.getNickname(), SALE_ORDER);
 		return order;
 	}
 
-	private void publishNotification(Long saleId, Member sender, NotificationType type) {
+	private void publishNotification(Long saleId, Long orderId, String sender, NotificationType type) {
 		Sale sale = saleService.findSaleById(saleId);
 		eventPublisher.publishEvent(NotificationEvent.builder()
 			.receiver(sale.getWriter())
-			.sender(sender.getNickname())
-			.articleId(sale.getId())
+			.sender(sender)
+			.redirectId(orderId)
 			.title(sale.getTitle())
 			.type(type)
 			.build());
@@ -110,8 +112,10 @@ public class OrderService {
 			(product, count) -> order.addOrderItem(OrderItem.of(product, product.getPrice(), count)));
 	}
 
-	public void cancel(Long orderId, Long saleId) throws IOException {
+	public void cancel(Long orderId) throws IOException {
 		Order order = findOrderByOrderId(orderId);
+		Member purchaser = order.getMember();
+		Long saleId = saleRepository.findSaleIdByOrderId(order.getId());
 
 		order.cancel();
 
@@ -120,9 +124,10 @@ public class OrderService {
 			String token = paymentService.getToken();
 			Payments payments = order.getPayments();
 			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
+			order.updateOrderStatus(FINISH_REFUND);
 		}
 
-		publishNotification(saleId, order.getMember(), ORDER_CANCEL);
+		publishNotification(saleId, order.getId(), purchaser.getNickname(), ORDER_CANCEL);
 	}
 
 	private boolean isIamportPayments(Order order) {

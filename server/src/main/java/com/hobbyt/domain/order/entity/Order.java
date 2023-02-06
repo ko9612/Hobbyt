@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
+import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
 import com.hobbyt.global.error.exception.ImpossibleCancelException;
 
@@ -132,17 +133,25 @@ public class Order extends BaseEntity {
 			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
 		}
 
-		updateOrderStatus(OrderStatus.CANCEL);
 		for (OrderItem orderItem : orderItems) {
 			orderItem.cancel();
 		}
 
-		orderItems.clear();
+		updateOrderStatus(OrderStatus.PREPARE_REFUND);
+		// orderItems.clear();
 	}
 
 	public int getTotalProductPrice() {
 		return orderItems.stream()
 			.mapToInt(OrderItem::getTotalPrice)
 			.sum();
+	}
+
+	public void updateRecipientAddress(Address address) {
+		this.recipient.updateAddress(address);
+	}
+
+	public void updateRefundAccount(Account refundAccount) {
+		this.refundAccount = refundAccount == null ? this.refundAccount : refundAccount;
 	}
 }

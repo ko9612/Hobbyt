@@ -14,7 +14,6 @@ import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
 import com.hobbyt.domain.mypage.dto.PageDto;
 import com.hobbyt.domain.order.entity.Order;
-import com.hobbyt.global.error.exception.OrderNotExistException;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -28,23 +27,19 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public OrderDetails findOrderDetailsByOrderId(Long orderId, String email) {
+	public OrderDetails findOrderDetailsByOrderId(Long orderId) {
 		Order foundOrder = queryFactory.select(order).distinct()
 			.from(order)
 			.join(order.member, member)
 			.join(order.orderItems, orderItem).fetchJoin()
 			.join(orderItem.product, product).fetchJoin()
-			.where(order.id.eq(orderId), member.email.eq(email))
+			.where(order.id.eq(orderId))
 			.fetchOne();
 
-		if (foundOrder == null) {
-			throw new OrderNotExistException();
-		}
-
 		Tuple tuple = queryFactory.select(
-				member.nickname,
-				member.phoneNumber,
 				member.email,
+				sale.title,
+				sale.thumbnailImage,
 				sale.account,
 				sale.delivery.deliveryPrice).distinct()
 			.from(order)
@@ -52,13 +47,13 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.join(order.orderItems, orderItem)
 			.join(orderItem.product, product)
 			.join(product.sale, sale)
-			.where(order.id.eq(orderId), member.email.eq(email))
+			.where(order.id.eq(orderId))
 			.fetchOne();
 
 		return OrderDetails.builder()
 			.order(foundOrder)
-			.nickname(tuple.get(member.nickname))
-			.phoneNumber(tuple.get(member.phoneNumber))
+			.title(tuple.get(sale.title))
+			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.email(tuple.get(member.email))
 			.sellerAccount(tuple.get(sale.account))
 			.deliveryPrice(tuple.get(sale.delivery.deliveryPrice))
@@ -68,7 +63,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	@Override
 	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
 		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-				order.id,
+				order.id.as("orderId"),
 				sale.title,
 				member.nickname,
 				order.createdAt,
@@ -102,7 +97,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	@Override
 	public PageDto findOrdersByEmail(String email, Pageable pageable) {
 		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-					order.id,
+					order.id.as("orderId"),
 					sale.title,
 					order.member.nickname,
 					order.createdAt,

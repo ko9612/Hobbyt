@@ -11,7 +11,7 @@ import lombok.Getter;
 public class NotificationEvent {
 	private Member receiver;
 	private String sender;
-	private Long articleId;
+	private Long redirectId;
 	private String title;
 	private NotificationType type;
 }

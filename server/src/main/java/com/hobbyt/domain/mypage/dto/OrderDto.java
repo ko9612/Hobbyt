@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class OrderDto {
-	private Long id;
+	private Long orderId;
 	private String title;
 	private String nickname;
 	private LocalDateTime createdAt;
