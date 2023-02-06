@@ -47,6 +47,6 @@ public class FollowController {
 
 		SliceResponse response = followService.getFollower(loginMember.getEmail(), pageable);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(response);
 	}
 }
