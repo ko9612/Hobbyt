@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.order.dto.CancelRequest;
 import com.hobbyt.domain.order.dto.OrderImportRequest;
 import com.hobbyt.domain.order.dto.OrderInfo;
 import com.hobbyt.domain.order.entity.Order;
@@ -76,10 +75,9 @@ public class OrderController {
 	}
 
 	@DeleteMapping("/{orderId}")
-	public ResponseEntity cancel(@Min(value = 1) @PathVariable Long orderId,
-		@RequestBody CancelRequest request) throws IOException {
+	public ResponseEntity cancel(@Min(value = 1) @PathVariable Long orderId) throws IOException {
 
-		orderService.cancel(orderId, request.getSaleId());
+		orderService.cancel(orderId);
 
 		return ResponseEntity.ok().build();
 	}
