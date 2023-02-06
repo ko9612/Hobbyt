@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
+import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
 import com.hobbyt.global.error.exception.ImpossibleCancelException;
 
@@ -144,5 +145,13 @@ public class Order extends BaseEntity {
 		return orderItems.stream()
 			.mapToInt(OrderItem::getTotalPrice)
 			.sum();
+	}
+
+	public void updateRecipientAddress(Address address) {
+		this.recipient.updateAddress(address);
+	}
+
+	public void updateRefundAccount(Account refundAccount) {
+		this.refundAccount = refundAccount == null ? this.refundAccount : refundAccount;
 	}
 }

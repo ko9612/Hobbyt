@@ -16,6 +16,8 @@ import com.hobbyt.domain.order.entity.OrderStatus;
 import com.hobbyt.domain.order.repository.OrderRepository;
 import com.hobbyt.domain.order.service.OrderService;
 import com.hobbyt.domain.sale.repository.ProductRepository;
+import com.hobbyt.global.entity.Account;
+import com.hobbyt.global.entity.Address;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,5 +62,13 @@ public class MyPageService {
 		PageDto pageDto = orderRepository.findOrdersByEmail(email, pageable);
 		Page<OrderedProductInfo> page = new PageImpl<>(pageDto.getContent(), pageable, pageDto.getTotal());
 		return PageResponse.of(page);
+	}
+
+	@Transactional
+	public Long updateOrderDetails(Long orderId, Address address, Account refundAccount) {
+		Order order = orderService.findOrderByOrderId(orderId);
+		order.updateRecipientAddress(address);
+		order.updateRefundAccount(refundAccount);
+		return order.getId();
 	}
 }
