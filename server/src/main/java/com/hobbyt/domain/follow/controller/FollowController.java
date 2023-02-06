@@ -19,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/members/{memberId}")
 public class FollowController {
 	private final FollowService followService;
 
-	@PostMapping("/members/{memberId}/follow")
+	@PostMapping("/follow")
 	public ResponseEntity follow(@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 1) @PathVariable Long memberId) {
 
@@ -34,18 +34,20 @@ public class FollowController {
 
 	// 현재 회원이 친구로 추가한 사람 조회
 	@GetMapping("/following")
-	public ResponseEntity getFollowing(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
+	public ResponseEntity getFollowing(@AuthenticationPrincipal MemberDetails loginMember,
+		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		SliceResponse response = followService.getFollowing(loginMember.getEmail(), pageable);
+		SliceResponse response = followService.getFollowing(loginMember.getEmail(), memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}
 
 	// 현재 회원을 친구로 추가한 사람 조회
 	@GetMapping("/follower")
-	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
+	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember,
+		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		SliceResponse response = followService.getFollower(loginMember.getEmail(), pageable);
+		SliceResponse response = followService.getFollower(loginMember.getEmail(), memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}
