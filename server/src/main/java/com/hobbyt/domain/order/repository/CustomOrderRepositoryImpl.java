@@ -38,6 +38,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 		Tuple tuple = queryFactory.select(
 				member.email,
+				sale.title,
 				sale.thumbnailImage,
 				sale.account,
 				sale.delivery.deliveryPrice).distinct()
@@ -51,6 +52,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 		return OrderDetails.builder()
 			.order(foundOrder)
+			.title(tuple.get(sale.title))
 			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.email(tuple.get(member.email))
 			.sellerAccount(tuple.get(sale.account))

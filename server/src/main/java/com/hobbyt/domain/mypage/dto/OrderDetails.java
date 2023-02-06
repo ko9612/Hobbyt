@@ -20,6 +20,7 @@ import lombok.ToString;
 @ToString
 public class OrderDetails {
 	private String orderNumber;
+	private String title;
 	private OrderStatus status;    // 주문상태
 	private String thumbnailImage;    // 판매 게시글 썸네일
 	private String depositor;    // 입금자 이름
@@ -50,9 +51,11 @@ public class OrderDetails {
 	}
 
 	@Builder
-	public OrderDetails(Order order, String thumbnailImage, String email, Account sellerAccount, int deliveryPrice) {
+	public OrderDetails(Order order, String title, String thumbnailImage, String email, Account sellerAccount,
+		int deliveryPrice) {
 
 		this.orderNumber = order.getOrderNumber();
+		this.title = title;
 		this.status = order.getStatus();
 		this.thumbnailImage = thumbnailImage;
 		this.depositor = order.getDepositor();
