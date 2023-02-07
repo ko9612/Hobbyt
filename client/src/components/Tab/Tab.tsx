@@ -63,7 +63,10 @@ export default function Tab({ Menus }: TabProps) {
   };
 
   useEffect(() => {
-    if (Menus[curIndex].name === "블로그" && router.pathname === "/blog") {
+    if (
+      Menus[curIndex].name === "블로그" &&
+      router.pathname.includes("/blog")
+    ) {
       getData();
     }
   }, [select, curIndex]);
@@ -90,10 +93,12 @@ export default function Tab({ Menus }: TabProps) {
         ))}
       </TabMenu>
       <TabContent>
-        {Menus[curIndex].name === "블로그" && router.pathname === "/blog" ? (
+        {Menus[curIndex].name === "블로그" &&
+        router.pathname.includes("/blog") ? (
           <BlogList list={listData} />
         ) : null}
-        {Menus[curIndex].name === "판매" && router.pathname === "/blog" ? (
+        {Menus[curIndex].name === "판매" &&
+        router.pathname.includes("/blog") ? (
           <SaleList />
         ) : null}
         {Menus[curIndex].name === "블로그" && router.pathname === "/search" ? (

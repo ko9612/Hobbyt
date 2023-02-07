@@ -6,13 +6,12 @@ import Navbar from "../../../../src/components/Nav/NavBar";
 import Footer from "../../../../src/components/Footer/Footer";
 import { Main, MainContent } from "../../../index";
 import { LoginState, UserIdState } from "../../../../src/state/UserState";
-import OrderDetailContent from "../../../../src/components/Page/OrderListInfo/OrderDetailContent";
+import OrderDetailContentBuyer from "../../../../src/components/Page/OrderListInfo/OrderDetailContentBuyer";
 
 export default function Orderdetail() {
   const router = useRouter();
   const [isLogin, setLogin] = useRecoilState(LoginState);
   const [userId] = useRecoilState(UserIdState);
-  const pid = Number(router.query.id);
   const uid = Number(router.query.userId);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function Orderdetail() {
           <Navbar />
           <Main>
             <MainContent className="py-10">
-              <OrderDetailContent id={pid} />
+              <OrderDetailContentBuyer />
             </MainContent>
           </Main>
           <Footer />
