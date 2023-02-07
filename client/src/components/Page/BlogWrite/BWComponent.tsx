@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
 import TitleInput from "../../ToastUI/TitleInput";
 import DefalutTag from "../../Tag/DefalutTag";
@@ -11,6 +11,7 @@ import {
   TagState,
 } from "../../../state/BlogPostState";
 import { postBlogContent } from "../../../api/blogApi";
+import { UserIdState } from "../../../state/UserState";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,
@@ -22,6 +23,7 @@ export default function BlogWriteComponent() {
   const [contentData, setContentData] = useRecoilState(ContentState);
   const [tagData, setTagData] = useRecoilState(TagState);
   const [publicData, setPublicData] = useRecoilState(PublicState);
+  const userId = useRecoilValue(UserIdState);
   // console.log(router);
   // console.log(`router`, router.query.id);
   // console.log(`editData`, editData);
@@ -39,7 +41,7 @@ export default function BlogWriteComponent() {
       try {
         const submit = await postBlogContent(data);
         // console.log(`blogSubmit`, submit);
-        router.replace(`/post/${submit.data}`);
+        router.replace(`/blog/${userId}/post/${submit.data}`);
         setTitleData("");
         setContentData("");
         setTagData([]);

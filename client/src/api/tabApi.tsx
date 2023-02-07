@@ -92,9 +92,9 @@ export const getLikeList = async (userId: number, off: number, lim: number) => {
 
 // 팔로잉, 팔로워
 // 팔로잉 요청, 취소 post
-export const postFollowing = async (userId: number) => {
+export const postFollowing = async (homeUserId: number) => {
   try {
-    const Follow = await axios.post(`/api/members/${userId}/following`, {
+    const Follow = await axios.post(`/api/members/${homeUserId}/following`, {
       headers: { Authorization: localStorage.getItem("authorization") },
     });
     return Follow;
@@ -102,3 +102,21 @@ export const postFollowing = async (userId: number) => {
     return ErrorHandler(err);
   }
 };
+
+// 팔로워 조회
+export const getFollower = async (homeUserId: number) => {
+  try {
+    const Follower = await axios.get(
+      `/api/members/${homeUserId}/follower?page=0&size=10`,
+      {
+        headers: { Authorization: localStorage.getItem("authorization") },
+      },
+    );
+    return Follower;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 팔로우 조회
+// export

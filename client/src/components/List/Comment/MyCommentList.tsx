@@ -34,7 +34,7 @@ export default function MyCommentList(): React.ReactElement {
 
   // 클릭시 해당 포스트로 이동하는 함수
   const onClickHandler = (postId: number) => {
-    router.push(`/post/${postId}`);
+    router.push(`/blog/${userId}/post/${postId}`);
   };
 
   return (
