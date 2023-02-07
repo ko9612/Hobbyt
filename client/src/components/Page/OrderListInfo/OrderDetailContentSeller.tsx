@@ -7,22 +7,17 @@ import DepositInfo from "./DepositInfo";
 import OrderInfo from "./OrderInfo";
 import OrderProgress from "./OrderProgress";
 import PurchaserInfo from "./PurChaserInfo";
+
 import SellerInfo from "./SellerInfo";
 
-interface IdProps {
-  id: number;
-}
-
-export default function OrderDetailContent({ id }: IdProps) {
+export default function OrderDetailContentSeller() {
   const router = useRouter();
-  const [orderData, setOrderData] = useRecoilState(OrderDetailState);
-
+  const pid = Number(router.query.id);
+  const [, setOrderData] = useRecoilState(OrderDetailState);
   const getOrderData = async () => {
-    const data = getOrderDetail(id);
-    setOrderData((data as any).data);
+    const detailData = await getOrderDetail(pid);
+    setOrderData((detailData as any).data);
   };
-
-  console.log(orderData);
 
   useEffect(() => {
     if (router.isReady) {

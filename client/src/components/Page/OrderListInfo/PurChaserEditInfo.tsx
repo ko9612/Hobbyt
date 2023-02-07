@@ -2,7 +2,7 @@ import { useRecoilValue } from "recoil";
 import { OrderDetailState } from "../../../state/OrderState";
 import { OLISection, OLITitle, OLIItem, ItemTitle } from "./SellerInfo";
 
-export default function PurchaserInfo() {
+export default function PurchaserEditInfo() {
   const orderData = useRecoilValue(OrderDetailState);
   return (
     <OLISection>
@@ -24,8 +24,8 @@ export default function PurchaserInfo() {
           <OLIItem>
             <ItemTitle>주소</ItemTitle>
             <div>
-              {orderData.recipient.address.zipcode}{" "}
-              {orderData.recipient.address.street}{" "}
+              {orderData.recipient.address.zipcode}
+              {orderData.recipient.address.street}
               {orderData.recipient.address.detail}
             </div>
           </OLIItem>

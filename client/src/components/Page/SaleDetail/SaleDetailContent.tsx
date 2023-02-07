@@ -7,7 +7,7 @@ import ProductTitle from "./ProductTitle";
 import ProductContent from "./ProductContent";
 import ProductGuide from "./ProductGuide";
 import Agreement from "./Agreement";
-import { BlogContent } from "../../../../pages/blog";
+import { BlogContent } from "../../../../pages/blog/[userId]";
 import { WideB } from "../../Button/SubmitButton";
 import PaymentModal from "../../Modal/PaymentModal";
 import { getSaleDetail } from "../../../api/saleApi";

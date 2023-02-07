@@ -36,14 +36,16 @@ export const OrderDetailState = atom({
   key: "OrderDetailState",
   default: {
     orderNumber: "",
+    createdAt: "",
+    title: "",
+    status: "",
+    thumbnailImage: "",
     depositor: "",
     sellerAccount: {
       holder: "",
       bank: "",
       number: "",
     },
-    nickname: "",
-    phoneNumber: null,
     email: "",
     recipient: {
       name: "",
@@ -69,5 +71,6 @@ export const OrderDetailState = atom({
     totalProductPrice: 0,
     deliveryPrice: 0,
     totalPrice: 0,
+    isCanceled: false,
   },
 });
