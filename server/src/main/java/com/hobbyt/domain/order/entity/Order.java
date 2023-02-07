@@ -121,7 +121,14 @@ public class Order extends BaseEntity {
 	}
 
 	public boolean isPossibleStatusToCancel() {
-		return this.status == OrderStatus.ORDER || this.status == OrderStatus.PAYMENT_VERIFICATION;
+		return this.status == OrderStatus.ORDER;
+	}
+
+	public boolean isPossibleStatusToRefund() {
+		return this.status == OrderStatus.PAYMENT_VERIFICATION
+			|| this.status == OrderStatus.START_DELIVERY
+			|| this.status == OrderStatus.PREPARE_DELIVERY
+			|| this.status == OrderStatus.FINISH_DELIVERY;
 	}
 
 	public boolean isBankTransfer() {
@@ -129,16 +136,13 @@ public class Order extends BaseEntity {
 	}
 
 	public void cancel() {
-		if (!isPossibleStatusToCancel()) {
+		if (!isPossibleStatusToCancel() && !isPossibleStatusToRefund()) {
 			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
 		}
 
 		for (OrderItem orderItem : orderItems) {
 			orderItem.cancel();
 		}
-
-		updateOrderStatus(OrderStatus.PREPARE_REFUND);
-		// orderItems.clear();
 	}
 
 	public int getTotalProductPrice() {
