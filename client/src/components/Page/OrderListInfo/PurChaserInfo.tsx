@@ -24,9 +24,9 @@ export default function PurchaserInfo() {
           <OLIItem>
             <ItemTitle>주소</ItemTitle>
             <div>
-              {orderData.recipient.address.zipcode}{" "}
-              {orderData.recipient.address.street}{" "}
-              {orderData.recipient.address.detail}
+              <div>{orderData.recipient.address.zipcode}</div>
+              <div>{orderData.recipient.address.street}</div>
+              <div>{orderData.recipient.address.detail}</div>
             </div>
           </OLIItem>
           <OLIItem>

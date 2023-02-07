@@ -68,6 +68,7 @@ export default function BlogItem({ list }: ListProps) {
       <BLContent>
         <BLTitle>
           <Link href={`/blog/${userId}/post/${id}`}>
+            {/* <Link href={`/blog/${writerId}/post/${id}`}> */}
             <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
               {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
@@ -83,7 +84,7 @@ export default function BlogItem({ list }: ListProps) {
         </Text>
         <div
           className={`${
-            router.pathname.includes("/blog") && "flex justify-between"
+            !router.pathname.includes("/blog") && "flex justify-between"
           }`}
         >
           {!router.pathname.includes("/blog") && (
@@ -101,7 +102,9 @@ export default function BlogItem({ list }: ListProps) {
             </ActInfo>
           )}
           <ActInfo
-            className={`${!router.pathname.includes("/blog") && "justify-end"}`}
+            className={`${
+              !router.pathname.includes("/blog") ? "justify-end" : "float-right"
+            }`}
           >
             <span className="mx-[0.25rem]">
               <ViewCount>{viewCount}</ViewCount>

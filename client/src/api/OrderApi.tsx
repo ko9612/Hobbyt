@@ -15,7 +15,6 @@ export const postOrder = async (data: any) => {
     );
     return orderData;
   } catch (err: unknown) {
-    console.log(err);
     return ErrorHandler(err);
   }
 };
@@ -62,8 +61,22 @@ export const patchOrderState = async (data: any, id: number) => {
         headers: { authorization: localStorage.getItem("authorization") },
       },
     );
-    console.log(data);
-    console.log(orderData);
+    return orderData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 주문 기본 정보 변경
+export const patchOrderInfo = async (data: any, id: number) => {
+  try {
+    const orderData = await axios.patch(
+      `http://59.12.62.150:8080/api/members/myPage/orders/${id}`,
+      data,
+      {
+        headers: { authorization: localStorage.getItem("authorization") },
+      },
+    );
     return orderData;
   } catch (err: unknown) {
     return ErrorHandler(err);

@@ -14,7 +14,7 @@ import {
   Input,
   InputLabel,
 } from "./InfoStyle";
-import AddressApi from "./AddressApi";
+import AddressApi from "../../../util/AddressApi";
 
 export default function AddressInfo() {
   const [isRecipientName, setIsRecipientName] = useRecoilState(

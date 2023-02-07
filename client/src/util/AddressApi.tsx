@@ -2,18 +2,20 @@ import tw from "tailwind-styled-components";
 import { ComponentProps, useState } from "react";
 import { useRecoilState } from "recoil";
 import DaumPostcode from "react-daum-postcode";
-import { ModalBackdrop, ModalContainer } from "../../Modal/MsgModal";
-import { Input } from "./InfoStyle";
-import { DButton } from "../../Button/DefalutButton";
+import { useRouter } from "next/router";
+import { ModalBackdrop, ModalContainer } from "../components/Modal/MsgModal";
+import { Input } from "../components/Page/UserInfo/InfoStyle";
+import { DButton } from "../components/Button/DefalutButton";
 import {
   UserRecipientStreetState,
   UserRecipientZipCodeState,
   UserRecipientDetailState,
-} from "../../../state/UserState";
+} from "../state/UserState";
 
-const InputDiv = tw.div`w-1/2`;
+const InputDiv = tw.div``;
 
 export default function AddressApi() {
+  const router = useRouter();
   const [isZipcode, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
   const [isStreet, setIsStreet] = useRecoilState(UserRecipientStreetState);
   const [isDetail, setIsDetail] = useRecoilState(UserRecipientDetailState);
@@ -48,7 +50,11 @@ export default function AddressApi() {
 
   return (
     <>
-      <InputDiv className="pt-2 flex">
+      <InputDiv
+        className={`pt-2 flex ${
+          router.pathname.includes("/mypage") ? null : "w-1/2"
+        }`}
+      >
         <Input
           type="text"
           id="zipCode"

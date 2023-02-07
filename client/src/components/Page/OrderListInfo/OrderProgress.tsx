@@ -85,11 +85,6 @@ const refundStateArr = [
     status: "환불완료",
     icon: <RiBankCardLine size="2.5rem" />,
   },
-  {
-    id: 2,
-    status: "거래종료",
-    icon: <RiCheckDoubleFill size="2.5rem" />,
-  },
 ];
 
 export default function OrderProgress() {
@@ -145,12 +140,10 @@ export default function OrderProgress() {
         setOrderState(refundStateArr[0].id);
       } else if (orderData.status === "FINISH_REFUND") {
         setOrderState(refundStateArr[1].id);
-      } else {
-        setOrderState(refundStateArr[2].id);
       }
     }
   }, [orderData && orderData.status]);
-  console.log(orderData.status, orderState);
+
   return (
     <PgSection>
       {orderData && (
@@ -164,48 +157,70 @@ export default function OrderProgress() {
                   className="w-20 h-20"
                 />
               </span>
-              <h2 className="px-6 text-2xl">{orderData.title}</h2>
+              <h2 className="px-6 text-2xl">
+                {orderData.title}
+                {orderData.status === "CANCEL" && (
+                  <span className="text-red-400 px-6 font-semibold">
+                    [미입금 주문 취소]
+                  </span>
+                )}
+              </h2>
             </div>
-            {router.pathname.includes("ordermanagement") ? null : (
-              <div>
-                <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                  문의하기
-                </DButton>
-                {showModalCancle && (
-                  <DelModal
-                    setOpenModal={setShowModalCancle}
-                    msg="정말 주문을 취소하시겠습니까?"
-                    subMsg={["취소 후, 철회가 불가능합니다."]}
-                    afterClick={DeleteOrder}
-                    buttonString="주문취소"
-                  />
-                )}
-                {showModalFinish && (
-                  <DelModal
-                    setOpenModal={setShowModalFinish}
-                    msg="정말 거래를 완료하시겠습니까?"
-                    subMsg={["완료 후, 철회가 불가능합니다."]}
-                    afterClick={CompleteOrder}
-                    buttonString="거래완료"
-                  />
-                )}
-                {isOrderCancleBut ? (
-                  <DButton onClick={() => setShowModalCancle(!showModalCancle)}>
-                    주문취소
+            {showModalCancle && (
+              <DelModal
+                setOpenModal={setShowModalCancle}
+                msg="정말 주문을 취소하시겠습니까?"
+                subMsg={["취소 후, 철회가 불가능합니다."]}
+                afterClick={DeleteOrder}
+                buttonString="주문취소"
+              />
+            )}
+            {showModalFinish && (
+              <DelModal
+                setOpenModal={setShowModalFinish}
+                msg="정말 거래를 완료하시겠습니까?"
+                subMsg={["완료 후, 철회가 불가능합니다."]}
+                afterClick={CompleteOrder}
+                buttonString="거래완료"
+              />
+            )}
+            {router.pathname.includes("ordermanagement") &&
+            orderData.status === "ORDER" ? (
+              <DButton onClick={() => setShowModalCancle(!showModalCancle)}>
+                미입금 주문 취소
+              </DButton>
+            ) : (
+              !router.pathname.includes("ordermanagement") && (
+                <div>
+                  <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                    문의하기
                   </DButton>
-                ) : (
-                  <DButton
-                    disabled={orderData.status === "FINISH"}
-                    onClick={() => setShowModalFinish(!showModalFinish)}
-                  >
-                    거래종료
-                  </DButton>
-                )}
-              </div>
+
+                  {isOrderCancleBut ? (
+                    <DButton
+                      onClick={() => setShowModalCancle(!showModalCancle)}
+                    >
+                      주문취소
+                    </DButton>
+                  ) : (
+                    !orderData.isCanceled && (
+                      <DButton
+                        disabled={orderData.status === "FINISH"}
+                        onClick={() => setShowModalFinish(!showModalFinish)}
+                      >
+                        거래종료
+                      </DButton>
+                    )
+                  )}
+                </div>
+              )
             )}
           </PgTitle>
           <PgContent>
-            {(orderData.isCanceled ? refundStateArr : stateArr).map(state => (
+            {(orderData.isCanceled && orderData.status !== "CANCEL"
+              ? refundStateArr
+              : stateArr
+            ).map(state => (
               <>
                 <PgStatus>
                   <IconDiv
@@ -218,7 +233,10 @@ export default function OrderProgress() {
                   {state.status}
                 </PgStatus>
                 {state.id !==
-                  (orderData.isCanceled ? refundStateArr : stateArr).length -
+                  (orderData.isCanceled && orderData.status !== "CANCEL"
+                    ? refundStateArr
+                    : stateArr
+                  ).length -
                     1 && (
                   <PgStatusLine
                     className={`${orderState > state.id && "bg-MainColor/50"}`}
