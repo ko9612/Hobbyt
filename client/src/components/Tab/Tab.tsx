@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useRecoilValue, useRecoilState } from "recoil";
-// import Link from "next/link";
+import Link from "next/link";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -17,7 +17,7 @@ import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 import { BlogSelectState } from "../../state/BlogPostState";
 import FollowingList from "../List/FollowingList";
-import Follower from "../List/Follower";
+import FollowerList from "../List/FollowerList";
 
 interface TabProps {
   Menus: {
@@ -35,7 +35,7 @@ export default function Tab({ Menus }: TabProps) {
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
   // 로그인할 때 저장한 유저 아이디
-  const userID = useRecoilValue(UserIdState);
+  const userId = useRecoilValue(UserIdState);
   // 최신순, 인기순 클릭 저장하고 있는 state
   //  기본적으로 최신순으로 되어 있음
   const [select, setSelect] = useRecoilState(BlogSelectState);
@@ -43,6 +43,7 @@ export default function Tab({ Menus }: TabProps) {
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
+    console.log("index", index);
   };
 
   // api 리스트 데이터 저장
@@ -51,12 +52,12 @@ export default function Tab({ Menus }: TabProps) {
   // 블로그 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getBlogContentList(userID, 0, 5);
+      const res = await getBlogContentList(userId, 0, 5);
       const listRes = res.data;
       setListData(listRes);
       console.log(`listRes`, listRes);
     } else if (select === "인기순") {
-      const res = await getBlogContentListF(userID, 0, 5);
+      const res = await getBlogContentListF(userId, 0, 5);
       const listRes = res.data;
       setListData(listRes);
     }
@@ -75,6 +76,15 @@ export default function Tab({ Menus }: TabProps) {
   useEffect(() => {
     setSelect("최신순");
   }, [curIndex]);
+
+  // router.path 에 /follower 가 있으면
+  //  처음 랜더링될 때 setIndex가 1이 된다
+  useEffect(() => {
+    console.log(router.asPath);
+    if (router.pathname.includes("/follower")) {
+      setIndex(1);
+    }
+  }, []);
 
   return (
     <>
@@ -113,12 +123,8 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}
-        {Menus[curIndex].name === "팔로잉" ? (
-          // <Link href="/blog/following">
-          <FollowingList />
-        ) : // {/* </Link> */}
-        null}
-        {Menus[curIndex].name === "팔로워" ? <Follower /> : null}
+        {Menus[curIndex].name === "팔로잉" ? <FollowingList /> : null}
+        {Menus[curIndex].name === "팔로워" ? <FollowerList /> : null}
       </TabContent>
     </>
   );

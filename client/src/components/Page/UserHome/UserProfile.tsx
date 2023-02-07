@@ -54,10 +54,10 @@ export default function UserProfile() {
       </div>
       <p className="mb-7">{data?.description}</p>
       <div className="inline-flex mb-7">
-        <Link href="/blog/following" onClick={handle}>
+        <Link href={`/blog/${userId}/following`} onClick={handle}>
           <button className="mr-2">팔로잉 {data?.followingCount}</button>
         </Link>
-        <Link href="/blog/follower">
+        <Link href={`/blog/${userId}/follower`}>
           <button>팔로워 {data?.followerCount}</button>
         </Link>
       </div>
