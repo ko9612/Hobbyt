@@ -10,7 +10,7 @@ import UserProfile from "../../../../../src/components/Page/UserHome/UserProfile
 import Followig from "../../../../../src/components/Page/UserHome/Following";
 import TodayCount from "../../../../../src/components/ViewLikeWrite/TodayCount";
 import SaleEditContent from "../../../../../src/components/Page/SaleWrite/SaleEditContent";
-import { Content, BlogContent, UserContent, UserInfo } from "../../../../blog";
+import { Content, BlogContent, UserContent, UserInfo } from "../../../[userId]";
 import { LoginState, UserIdState } from "../../../../../src/state/UserState";
 
 export default function SaleEdit() {
