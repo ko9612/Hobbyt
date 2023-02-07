@@ -11,7 +11,7 @@ import TodayCount from "../../../../../src/components/ViewLikeWrite/TodayCount";
 import { Content, BlogContent, UserContent, UserInfo } from "../../../[userId]";
 import Footer from "../../../../../src/components/Footer/Footer";
 // import BlogWriteComponent from "../../../src/components/Page/BlogWrite/BWComponent";
-import { EditorContent } from "../../../../blogwrite";
+import { EditorContent } from "../../../blogwrite";
 import BlogEditComponent from "../../../../../src/components/Page/BlogWrite/BlogEditComponent";
 
 export default function BlogEdit() {

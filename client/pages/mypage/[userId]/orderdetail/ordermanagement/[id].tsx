@@ -2,11 +2,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import Navbar from "../../../../src/components/Nav/NavBar";
-import Footer from "../../../../src/components/Footer/Footer";
-import { Main, MainContent } from "../../../index";
-import { LoginState, UserIdState } from "../../../../src/state/UserState";
-import OrderDetailContentBuyer from "../../../../src/components/Page/OrderListInfo/OrderDetailContentBuyer";
+import Navbar from "../../../../../src/components/Nav/NavBar";
+import Footer from "../../../../../src/components/Footer/Footer";
+import { Main, MainContent } from "../../../../index";
+import { LoginState, UserIdState } from "../../../../../src/state/UserState";
+import OrderDetailContentSeller from "../../../../../src/components/Page/OrderListInfo/OrderDetailContentSeller";
 
 export default function Orderdetail() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function Orderdetail() {
           <Navbar />
           <Main>
             <MainContent className="py-10">
-              <OrderDetailContentBuyer />
+              <OrderDetailContentSeller />
             </MainContent>
           </Main>
           <Footer />

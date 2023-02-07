@@ -25,6 +25,11 @@ export const getOrderDetail = async (id: number | undefined) => {
   try {
     const OrderData = await axios.get(
       `http://59.12.62.150:8080/api/members/myPage/orders/${id}`,
+      {
+        headers: {
+          authorization: localStorage.getItem("authorization"),
+        },
+      },
     );
     return OrderData;
   } catch (err: unknown) {
@@ -33,14 +38,32 @@ export const getOrderDetail = async (id: number | undefined) => {
 };
 
 // 주문 취소
-export const deleteOrder = async (id: any) => {
+export const deleteOrder = async (id: number) => {
   try {
     const orderData = await axios.delete(
-      `http://59.12.62.150:8080/api/sales/${id}`,
+      `http://59.12.62.150:8080/api/orders/${id}`,
       {
         headers: { authorization: localStorage.getItem("authorization") },
       },
     );
+    return orderData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 주문 상태 변경
+export const patchOrderState = async (data: any, id: number) => {
+  try {
+    const orderData = await axios.patch(
+      `http://59.12.62.150:8080/api/members/myPage/orders/${id}/status`,
+      data,
+      {
+        headers: { authorization: localStorage.getItem("authorization") },
+      },
+    );
+    console.log(data);
+    console.log(orderData);
     return orderData;
   } catch (err: unknown) {
     return ErrorHandler(err);

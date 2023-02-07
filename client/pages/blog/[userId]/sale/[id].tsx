@@ -6,7 +6,7 @@ import TodayCount from "../../../../src/components/ViewLikeWrite/TodayCount";
 import Navbar from "../../../../src/components/Nav/NavBar";
 import ProfileButton from "../../../../src/components/Button/ProfileButton";
 import Footer from "../../../../src/components/Footer/Footer";
-import { Content, UserContent, UserInfo } from "../../../blog";
+import { Content, UserContent, UserInfo } from "../../[userId]";
 import SaleDetailContent from "../../../../src/components/Page/SaleDetail/SaleDetailContent";
 
 export default function Saledetail() {

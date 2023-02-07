@@ -67,14 +67,14 @@ export default function BlogItem({ list }: ListProps) {
       </BLImage>
       <BLContent>
         <BLTitle>
-          <Link href={`/post/${id}`}>
+          <Link href={`/blog/${userId}/post/${id}`}>
             <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
               {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
             </h2>
           </Link>
           {(writerId === userId && router.pathname !== "/") ||
-          router.pathname === "/blog" ? (
+          router.pathname.includes("/blog") ? (
             <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
           ) : null}
         </BLTitle>
@@ -82,9 +82,11 @@ export default function BlogItem({ list }: ListProps) {
           <TextViewer initialValue={content} />
         </Text>
         <div
-          className={`${router.pathname !== "/blog" && "flex justify-between"}`}
+          className={`${
+            router.pathname.includes("/blog") && "flex justify-between"
+          }`}
         >
-          {router.pathname !== "/blog" && (
+          {!router.pathname.includes("/blog") && (
             <ActInfo>
               <div className="w-[2.5rem]">
                 <DefaultProfileImage
@@ -99,7 +101,7 @@ export default function BlogItem({ list }: ListProps) {
             </ActInfo>
           )}
           <ActInfo
-            className={`${router.pathname === "/blog" && "justify-end"}`}
+            className={`${!router.pathname.includes("/blog") && "justify-end"}`}
           >
             <span className="mx-[0.25rem]">
               <ViewCount>{viewCount}</ViewCount>

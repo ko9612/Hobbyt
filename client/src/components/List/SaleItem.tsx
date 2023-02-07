@@ -41,7 +41,7 @@ export default function SaleItem({ list }: ListProps) {
     <SLContent>
       <SLImage>
         {(writerId === userId && router.pathname !== "/") ||
-        router.pathname === "/blog" ? (
+        router.pathname.includes("/blog") ? (
           <SLImageC>
             <ThreeDotsBox item={list}>작품</ThreeDotsBox>
           </SLImageC>
@@ -55,7 +55,7 @@ export default function SaleItem({ list }: ListProps) {
         />
       </SLImage>
       <SLProductInfo>
-        <Link href={`blog/${userId}/sale/${id}`}>
+        <Link href={`/blog/${userId}/sale/${id}`}>
           <p className="my-3">{title}</p>
           <div className="flex items-center">
             <BsCalendar4 />
@@ -64,7 +64,7 @@ export default function SaleItem({ list }: ListProps) {
             </p>
           </div>
         </Link>
-        {router.pathname !== "/blog" && (
+        {!router.pathname.includes("/blog") && (
           <div className="flex items-center float-left py-2">
             <div className="w-[1.75rem]">
               <DefaultProfileImage
