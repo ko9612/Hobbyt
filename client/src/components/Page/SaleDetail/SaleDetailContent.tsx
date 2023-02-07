@@ -31,7 +31,7 @@ import {
 } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 import { Input } from "../UserInfo/InfoStyle";
-import AddressApi from "../UserInfo/AddressApi";
+import AddressApi from "../../../util/AddressApi";
 
 const PurForm = tw.section``;
 const PurContent = tw.div`py-2`;
@@ -246,7 +246,7 @@ export default function SaleDetailContent() {
               <Input
                 type="text"
                 id="receiverName"
-                placeholder="수령자명"
+                placeholder="주문자명"
                 maxLength={10}
                 {...register("recipient.name")}
               />
