@@ -11,8 +11,8 @@ const User = tw.div`flex`;
 export default function CommentList({ detail }: IBlogDetailData) {
   const { comments } = detail || [];
 
-  const getParsedDate = (data: string) =>
-    new Date(data).toLocaleDateString("ko-KR");
+  const getParsedDate = (date: string) =>
+    new Date(date).toLocaleDateString("ko-KR");
 
   // console.log(`코멘트리스트`, detail?.comments[0].id);
   console.log(`코멘트리스트`, comments);

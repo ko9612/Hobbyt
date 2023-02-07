@@ -34,13 +34,13 @@ export default function LikeList() {
   }, []);
 
   // 날짜 바꿔주는 함수
-  const getParsedDate = (data: string) =>
-    new Date(data).toLocaleDateString("ko-KR");
+  const getParsedDate = (date: string) =>
+    new Date(date).toLocaleDateString("ko-KR");
 
   return (
     <BLContainer>
-      {listData &&
-        listData.cards.map((item: any, idx: number) => (
+      {listData?.cards &&
+        listData?.cards.map((item: any, idx: number) => (
           <BLComponent key={idx}>
             <BLImage>{item.thumbnailImage}</BLImage>
             <BLContent>

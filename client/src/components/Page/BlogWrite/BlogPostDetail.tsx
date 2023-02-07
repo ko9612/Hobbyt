@@ -37,6 +37,7 @@ export default function BlogPostDetail() {
   const getData = async () => {
     const blogDetail = await getBlogDetail(pid);
     setGetNewData(blogDetail.data);
+    console.log("블로그 디테일", blogDetail.data);
   };
 
   const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
@@ -45,8 +46,8 @@ export default function BlogPostDetail() {
 
   // console.log(`BlogPostDetail`, getNewData);
 
-  const getParsedDate = (data: string) =>
-    new Date(data).toLocaleDateString("ko-KR");
+  const getParsedDate = (date: string) =>
+    new Date(date).toLocaleDateString("ko-KR");
 
   // like api 요청
   const LikeApi = async () => {

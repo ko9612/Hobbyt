@@ -118,5 +118,59 @@ export const getFollower = async (homeUserId: number) => {
   }
 };
 
-// 팔로우 조회
-// export
+// 팔로잉 조회
+export const getFollowing = async (homeUserId: number) => {
+  try {
+    const Following = await axios.get(
+      `/api/members/${homeUserId}/following?page=0&size=10`,
+      {
+        headers: { Authorization: localStorage.getItem("authorization") },
+      },
+    );
+    return Following;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 판매작품 조회
+export const getProductsList = async () => {
+  try {
+    const list = await axios.get(
+      `/api/members/myPage/products?page=0&size=10`,
+      {
+        headers: { Authorization: localStorage.getItem("authorization") },
+      },
+    );
+    return list;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 구매작품 조회
+export const getOrderList = async () => {
+  try {
+    const list = await axios.get(`/api/members/myPage/orders?page=0&size=10`, {
+      headers: { Authorization: localStorage.getItem("authorization") },
+    });
+    return list;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 판매관리 조회
+export const getManagementList = async () => {
+  try {
+    const list = await axios.get(
+      `/api/members/myPage/products/management?page=0&size=10`,
+      {
+        headers: { Authorization: localStorage.getItem("authorization") },
+      },
+    );
+    return list;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};

@@ -45,15 +45,30 @@ export const SaleManagementMenus = [
 
 export const ProgressArr = [
   {
-    title: "입금완료",
+    title: "입금확인",
+    status: "PAYMENT_VERIFICATION",
   },
   {
     title: "배송준비중",
+    status: "PREPARE_DELIVERY",
   },
   {
     title: "배송시작",
+    status: "START_DELIVERY",
   },
   {
-    title: "거래종료",
+    title: "배송완료",
+    status: "FINISH_DELIVERY",
+  },
+];
+
+export const RefundArr = [
+  {
+    title: "환불준비중",
+    status: "PREPARE_REFUND",
+  },
+  {
+    title: "환불완료",
+    status: "FINISH_REFUND",
   },
 ];

@@ -42,7 +42,7 @@ function Blog() {
             <UserProfile />
             <div className="w-[10rem] m-auto">
               <Followig />
-              <ProfileButton />
+              {/* <ProfileButton /> */}
             </div>
             <TodayCount />
           </UserInfo>

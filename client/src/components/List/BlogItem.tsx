@@ -49,8 +49,8 @@ export default function BlogItem({ list }: ListProps) {
   } = list || {};
 
   // 날짜 바꿔주는 함수
-  const getParsedDate = (data: string) =>
-    new Date(data).toLocaleDateString("ko-KR");
+  const getParsedDate = (date: string) =>
+    new Date(date).toLocaleDateString("ko-KR");
 
   return (
     <BLComponent
@@ -103,7 +103,10 @@ export default function BlogItem({ list }: ListProps) {
           )}
           <ActInfo
             className={`${
-              !router.pathname.includes("/blog") ? "justify-end" : "float-right"
+              !router.pathname.includes("/blog") &&
+              !router.pathname.includes("/blog")
+                ? "justify-end"
+                : "float-right"
             }`}
           >
             <span className="mx-[0.25rem]">
