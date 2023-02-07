@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { AiOutlineLogout } from "react-icons/ai";
+import {
+  AiOutlineLogout,
+  AiOutlineLogin,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
+import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
+import { FaBlogger } from "react-icons/fa";
 import {
   EmailState,
   LoginState,
@@ -12,7 +18,6 @@ import {
   UserIdState,
   UserProfileState,
 } from "../../state/UserState";
-import { LoginMenus, LogoutMenus } from "./NavArr";
 import SearchBar from "../Page/Search/SearchBar";
 import logo from "../../image/logo.png";
 import DelModal from "../Modal/DelModal";
@@ -20,7 +25,7 @@ import { postSignout } from "../../api/signApi";
 import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
 export const Logo = tw.div`
-    inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]
+inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]
 `;
 
 export const NavList = tw.ul`
@@ -75,6 +80,42 @@ export default function NavContent() {
       router.replace("/");
     }
   };
+
+  const LogoutMenus = [
+    {
+      id: 0,
+      title: "로그인",
+      href: "/signin",
+      icon: <AiOutlineLogin size="35px" />,
+    },
+    {
+      id: 1,
+      title: "회원가입",
+      href: "/signup",
+      icon: <AiOutlineUserAdd size="35px" />,
+    },
+  ];
+
+  const LoginMenus = [
+    {
+      id: 2,
+      title: "알림",
+      href: "/notice",
+      icon: <BsBellFill size="35px" />,
+    },
+    {
+      id: 3,
+      title: "메세지",
+      href: "/message",
+      icon: <BsEnvelopeFill size="35px" />,
+    },
+    {
+      id: 4,
+      title: "내 블로그",
+      href: `/blog/${userId}`,
+      icon: <FaBlogger size="35px" />,
+    },
+  ];
 
   return (
     <>

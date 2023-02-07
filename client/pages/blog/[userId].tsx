@@ -1,14 +1,14 @@
 import tw from "tailwind-styled-components";
-import Header from "../src/components/Page/UserHome/Header";
-import UserProfileImage from "../src/components/Page/UserHome/UserProfileImage";
-import UserProfile from "../src/components/Page/UserHome/UserProfile";
-import Followig from "../src/components/Page/UserHome/Following";
-import Tab from "../src/components/Tab/Tab";
-import TodayCount from "../src/components/ViewLikeWrite/TodayCount";
-import Navbar from "../src/components/Nav/NavBar";
-import ProfileButton from "../src/components/Button/ProfileButton";
-import { BlogMenus } from "../src/components/Tab/TabArr";
-import Footer from "../src/components/Footer/Footer";
+import Header from "../../src/components/Page/UserHome/Header";
+import UserProfileImage from "../../src/components/Page/UserHome/UserProfileImage";
+import UserProfile from "../../src/components/Page/UserHome/UserProfile";
+import Followig from "../../src/components/Page/UserHome/Following";
+import Tab from "../../src/components/Tab/Tab";
+import TodayCount from "../../src/components/ViewLikeWrite/TodayCount";
+import Navbar from "../../src/components/Nav/NavBar";
+import ProfileButton from "../../src/components/Button/ProfileButton";
+import { BlogMenus } from "../../src/components/Tab/TabArr";
+import Footer from "../../src/components/Footer/Footer";
 
 export const Content = tw.main`flex`;
 export const UserInfo = tw.div``;
