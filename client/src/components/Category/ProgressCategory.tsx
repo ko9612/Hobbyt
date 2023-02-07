@@ -1,11 +1,8 @@
 // import tw from "tailwind-styled-components";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
 import { ProgressArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
-import { ManagementState } from "../../state/OrderState";
 
 interface Istatus {
   orderStatus: string;
@@ -22,9 +19,8 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
 
   const progressArr = ProgressArr;
 
-  console.log("들어오는 값", orderStatus);
-
   // 진행사항 함수
+  // eslint-disable-next-line consistent-return
   const getStatus = (status: string) => {
     if (status === "ORDER") {
       return "주문완료";
@@ -52,30 +48,56 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
     }
   };
 
-  // 새로운 status
-  const [newStatus, setNewStatus] = useRecoilState(ManagementState);
+  // 클릭한 이름
+  const [clcikName, setClickName] = useState(orderStatus);
 
-  const router = useRouter();
+  useEffect(() => {}, [clcikName]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
-    setNewStatus(value);
+    setClickName(value);
     setCategorySpread(!categorySpread);
-    console.log("밸류", value);
-  };
 
-  // 진행사항 변경시 patch 요청
-  const data = {
-    status: newStatus,
-  };
-  const patchData = async () => {
-    const res = await patchOrderState(data, orderId);
-    console.log("진행사항 변경", res.data);
-  };
+    // 진행사항 변경시 patch 요청
+    const data = {
+      status: value,
+      // status: clcikName,
+    };
 
-  useEffect(() => {
+    const patchData = async () => {
+      const res = await patchOrderState(data, orderId);
+      return res;
+    };
     patchData();
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   // 진행사항 변경시 patch 요청
+  //   const data = {
+  //     // status: value,
+  //     status: clcikName,
+  //   };
+
+  //   const patchData = async () => {
+  //     const res = await patchOrderState(data, orderId);
+  //     console.log("진행사항 변경", res);
+  //     // setNewStatus(clcikName);
+  //   };
+  //   patchData();
+  // }, [clcikName]);
+
+  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   const { value } = e.currentTarget;
+  //   // console.log(`e.currentTarget`, e.currentTarget);
+  //   // if (e.currentTarget.value) {
+  //   // setNewStatus(value);
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   setClickName(value);
+  //   setCategorySpread(!categorySpread);
+  //   console.log("밸류", value);
+  //   // console.log("핸들클릭안에", clcikName);
+  //   // }
+  // };
 
   return (
     <div className="relative flex flex-col border-2 mr-[2rem]">
@@ -83,7 +105,7 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
         onClick={spreadOnClickHandler}
         className="flex justify-between p-[0.5rem] w-22 text-sm"
       >
-        {newStatus && getStatus(newStatus)}
+        {clcikName && getStatus(clcikName)}
         {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
       </button>
       {categorySpread && (
@@ -104,9 +126,3 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
     </div>
   );
 }
-
-// <button>주문완료</button>
-//       <button>입금확인</button>
-//       <button>배송준비중</button>
-//       <button>배송시작</button>
-//       <button>거래종료</button>
