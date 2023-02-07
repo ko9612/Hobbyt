@@ -119,6 +119,20 @@ public class OrderService {
 
 		order.cancel();
 
+		if (order.isPossibleStatusToCancel()) {
+			order.updateOrderStatus(CANCEL);
+		}
+
+		if (order.isPossibleStatusToRefund()) {
+			canceledOrderRefund(order);
+		}
+
+		publishNotification(saleId, order.getId(), purchaser.getNickname(), ORDER_CANCEL);
+	}
+
+	private void canceledOrderRefund(Order order) throws IOException {
+		order.updateOrderStatus(PREPARE_REFUND);
+
 		if (isIamportPayments(order)) {    // 아임포트 이용한 계산인 경우 아임포트 환불처리
 			// 환불처리
 			String token = paymentService.getToken();
@@ -126,8 +140,6 @@ public class OrderService {
 			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
 			order.updateOrderStatus(FINISH_REFUND);
 		}
-
-		publishNotification(saleId, order.getId(), purchaser.getNickname(), ORDER_CANCEL);
 	}
 
 	private boolean isIamportPayments(Order order) {
