@@ -52,10 +52,10 @@ export const deleteOrder = async (id: number) => {
 };
 
 // 주문 상태 변경
-export const patchOrderState = async (data: any, id: number) => {
+export const patchOrderState = async (data: any, orderId: number) => {
   try {
     const orderData = await axios.patch(
-      `http://59.12.62.150:8080/api/members/myPage/orders/${id}/status`,
+      `http://59.12.62.150:8080/api/members/myPage/orders/${orderId}/status`,
       data,
       {
         headers: { authorization: localStorage.getItem("authorization") },

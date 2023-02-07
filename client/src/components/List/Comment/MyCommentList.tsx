@@ -20,7 +20,7 @@ export default function MyCommentList(): React.ReactElement {
   const getData = async () => {
     const res = await getBlogCommentList(userId, 0, 10);
     const data = res.data.comments;
-    // console.log(`res`, data);
+    console.log(`내가 쓴 댓글`, data);
     switch (res.status) {
       default:
         setCommentList(data);

@@ -64,7 +64,7 @@ export default function ThreeDotsBox({
   // 수정 클릭시 모달 창
   const onClickEdit = () => {
     if (children === "블로그") {
-      router.push(`/post/edit/${id}`);
+      router.push(`/blog/${userId}/post/edit/${id}`);
       // setBlogEdit(item);
     } else if (children === "댓글") {
       setEditModal(!editModal);

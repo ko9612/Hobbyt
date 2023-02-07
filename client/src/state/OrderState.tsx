@@ -74,3 +74,9 @@ export const OrderDetailState = atom({
     isCanceled: false,
   },
 });
+
+// 진행사항 변경
+export const ManagementState = atom<string>({
+  key: "ManagementState",
+  default: "",
+});

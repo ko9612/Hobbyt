@@ -20,6 +20,7 @@ export default function BestBlogger() {
       const res = await getBestSaleList("SALE_NEWEST");
       const listRes = (res as any).data;
       setListData([listRes]);
+      console.log("금주의 작품 최신순", listRes);
     } else {
       const res = await getBestSaleList("SALE_MOST_LIKE");
       const listRes = (res as any).data;
@@ -38,7 +39,7 @@ export default function BestBlogger() {
         <FilterButton />
       </div>
       <BestContent className="pt-5 mb-14">
-        <BestItem className="grid grid-cols-2 gap-14 sm:grid-cols-3 mx-auto">
+        <BestItem className="grid grid-cols-2 mx-auto gap-14 sm:grid-cols-3">
           {listData &&
             listData[0] &&
             listData[0].cards.map((item: SaleItemProps) => (
