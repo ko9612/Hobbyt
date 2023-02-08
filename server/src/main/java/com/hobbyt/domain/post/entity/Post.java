@@ -29,10 +29,11 @@ public class Post extends Article {
 	@JoinColumn(name = "writer_id")
 	private Member writer;
 
-	public static Post of(String title, String content, boolean isPublic) {
+	public static Post of(String title, String content, String thumbnailImage, boolean isPublic) {
 		Post post = new Post();
 		post.updateTitle(title);
 		post.updateContent(content);
+		post.updateThumbnailImage(thumbnailImage);
 		post.updateIsPublic(isPublic);
 
 		return post;

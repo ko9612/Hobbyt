@@ -4,13 +4,21 @@ import static com.hobbyt.global.exception.ExceptionCode.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
 
 import com.hobbyt.domain.file.dto.ThumbnailSizeDto;
 import com.hobbyt.global.exception.BusinessLogicException;
@@ -34,6 +42,26 @@ public class FileService {
 		tika = new Tika();
 	}
 
+	public Resource getImageResource(String fileName) {
+		Resource resource = new FileSystemResource(IMAGE_PATH + fileName);
+
+		if (!resource.exists()) {
+			throw new BusinessLogicException(FILE_NOT_FOUND);
+		}
+
+		return resource;
+	}
+
+	public String getImageContentType(String fileName) {
+		Path path = Paths.get(IMAGE_PATH + fileName);
+
+		try {
+			return Files.probeContentType(path);
+		} catch (IOException e) {
+			throw new BusinessLogicException(FILE_DOWNLOAD_FAILED);
+		}
+	}
+
 	public String saveImage(MultipartFile image) {
 		try {
 			verifyFile(image);
@@ -54,16 +82,14 @@ public class FileService {
 
 	public String saveThumbnail(MultipartFile image, ThumbnailSizeDto size) {
 		try {
-			verifyFile(image);
-			checkIsImage(image);
+			String fileName = saveImage(image);
+			String savedPath = IMAGE_PATH + fileName;
 
-			String imageName = getFileName(image);
-			String savedPath = IMAGE_PATH + imageName;
+			Thumbnails.of(new File(savedPath))
+				.size(size.getWidth(), size.getHeight())
+				.toFiles(Rename.NO_CHANGE);
 
-			image.transferTo(new File(savedPath));
-			log.error(savedPath);
-
-			return imageName;
+			return fileName;
 
 		} catch (IOException e) {
 			throw new BusinessLogicException(FILE_UPLOAD_FAILED);

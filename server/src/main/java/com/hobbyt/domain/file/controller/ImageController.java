@@ -1,5 +1,6 @@
 package com.hobbyt.domain.file.controller;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,15 @@ public class ImageController {
 	private final FileService fileService;
 
 	@GetMapping("/{fileName}")
-	public ResponseEntity<?> downloadImage(@PathVariable String fileName) {
+	public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) {
+		Resource resource = fileService.getImageResource(fileName);
 
-		return ResponseEntity.ok(null);
+		String headerKey = "Content-Type";
+		String headerValue = fileService.getImageContentType(fileName);
+
+		return ResponseEntity.ok()
+			.header(headerKey, headerValue)
+			.body(resource);
 	}
 
 	@PostMapping
@@ -34,8 +41,8 @@ public class ImageController {
 	}
 
 	@PostMapping("/thumbnails")
-	public ResponseEntity<String> uploadThumbnail(@RequestPart MultipartFile image,
-		@RequestPart ThumbnailSizeDto size) {
+	public ResponseEntity<String> uploadThumbnail(
+		@RequestPart MultipartFile image, @RequestPart ThumbnailSizeDto size) {
 		String imageName = fileService.saveThumbnail(image, size);
 
 		return ResponseEntity.ok(imageName);
