@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderedProductInfo {
 	private Long saleId;
+	private Long sellerId;
 	private String productName;
 	private Period period;
 	private Boolean isAlwaysOnSale;
@@ -18,11 +19,13 @@ public class OrderedProductInfo {
 	private int salesVolume;
 	private LocalDateTime createdAt;
 
-	public OrderedProductInfo(Long saleId, String productName, Period period, Boolean isAlwaysOnSale,
+	public OrderedProductInfo(Long saleId, Long sellerId, String productName, Period period, Boolean isAlwaysOnSale,
 		Boolean isDeleted, int salesVolume, LocalDateTime createdAt) {
+
 		this.saleId = saleId;
+		this.sellerId = sellerId;
 		this.productName = productName;
-		this.period = period;
+		this.period = period == null ? new Period() : period;
 		this.isAlwaysOnSale = isAlwaysOnSale;
 		this.isDeleted = isDeleted;
 		this.salesVolume = salesVolume;
