@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import TitleInput from "../../ToastUI/TitleInput";
+import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 import DefalutTag from "../../Tag/DefalutTag";
 import { WideB } from "../../Button/SubmitButton";
 import { SaleWriteProps } from "../../../type/saleType";
@@ -146,6 +147,8 @@ export default function SaleWriteContent() {
     >
       {/* 제목 */}
       <TitleInput />
+      {/* 썸네일 */}
+      <ThumbnailInput />
       {/* 본문 */}
       <ToastEditor />
       {/* 환불, 교환 안내 */}

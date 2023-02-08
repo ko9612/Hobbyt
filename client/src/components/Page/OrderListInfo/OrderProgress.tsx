@@ -16,6 +16,7 @@ import { DButton } from "../../Button/DefalutButton";
 import { deleteOrder, patchOrderState } from "../../../api/OrderApi";
 import DelModal from "../../Modal/DelModal";
 import { OrderDetailState } from "../../../state/OrderState";
+import ProgressCategory from "../../Category/ProgressCategory";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
@@ -97,6 +98,7 @@ export default function OrderProgress() {
   const [showModalFinish, setShowModalFinish] = useState(false);
   const [isOrderCancleBut, setIsOrderCancleBut] = useState(false);
   const orderData = useRecoilValue(OrderDetailState);
+  const [showDropbox, setShowDropBox] = useState(true);
 
   const DeleteOrder = async () => {
     const delOrderData = await deleteOrder(pid);
@@ -112,6 +114,7 @@ export default function OrderProgress() {
     }
   };
   console.log(orderData);
+
   useEffect(() => {
     if (orderData) {
       if (
@@ -136,10 +139,14 @@ export default function OrderProgress() {
         setOrderState(stateArr[4].id);
       } else if (orderData.status === "FINISH") {
         setOrderState(stateArr[5].id);
+        setShowDropBox(false);
       } else if (orderData.status === "PREPARE_REFUND") {
         setOrderState(refundStateArr[0].id);
       } else if (orderData.status === "FINISH_REFUND") {
         setOrderState(refundStateArr[1].id);
+        setShowDropBox(false);
+      } else if (orderData.status === "CANCEL") {
+        setShowDropBox(false);
       }
     }
   }, [orderData && orderData.status]);
@@ -184,18 +191,28 @@ export default function OrderProgress() {
                 buttonString="거래완료"
               />
             )}
-            {router.pathname.includes("ordermanagement") &&
-            orderData.status === "ORDER" ? (
-              <DButton onClick={() => setShowModalCancle(!showModalCancle)}>
-                미입금 주문 취소
-              </DButton>
-            ) : (
-              !router.pathname.includes("ordermanagement") && (
-                <div>
-                  <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                    문의하기
-                  </DButton>
 
+            <div className="flex items-center">
+              {router.pathname.includes("ordermanagement") ? (
+                <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                  채팅하기
+                </DButton>
+              ) : (
+                <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                  문의하기
+                </DButton>
+              )}
+              {router.pathname.includes("ordermanagement") ? (
+                <div>
+                  {showDropbox && (
+                    <ProgressCategory
+                      orderStatus={orderData.status}
+                      orderId={pid}
+                    />
+                  )}
+                </div>
+              ) : (
+                <div>
                   {isOrderCancleBut ? (
                     <DButton
                       onClick={() => setShowModalCancle(!showModalCancle)}
@@ -213,8 +230,8 @@ export default function OrderProgress() {
                     )
                   )}
                 </div>
-              )
-            )}
+              )}
+            </div>
           </PgTitle>
           <PgContent>
             {(orderData.isCanceled && orderData.status !== "CANCEL"
