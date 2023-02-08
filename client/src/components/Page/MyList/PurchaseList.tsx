@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
 import MyPageCategory from "../../Category/MyPageCategory";
 import { PurchaseMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
 import { getOrderList } from "../../../api/tabApi";
+import { UserIdState } from "../../../state/UserState";
 
 export default function PurchaseList() {
   const router = useRouter();
 
   const [data, setData] = useState([]);
+  const userId = useRecoilValue(UserIdState);
 
   const getData = async () => {
     const res = await getOrderList();
@@ -50,6 +54,9 @@ export default function PurchaseList() {
     if (status === "FINISH") {
       return "거래종료";
     }
+    if (status === "CANCEL") {
+      return "미입금취소";
+    }
   };
 
   return (
@@ -60,13 +67,14 @@ export default function PurchaseList() {
           data?.data.map((product, idx) => (
             <div key={idx}>
               <ul className="flex items-center justify-between p-[1.5rem] text-center">
-                <li
-                  role="presentation"
-                  className="w-[13rem] text-left truncate cursor-pointer"
-                  onClick={() => router.push("/orderdetail")}
-                >
-                  {product.title}
-                </li>
+                <Link href={`/mypage/${userId}/orderdetail/${product.orderId}`}>
+                  <li
+                    role="presentation"
+                    className="w-[13rem] text-left truncate cursor-pointer"
+                  >
+                    {product.title}
+                  </li>
+                </Link>
                 <li className="w-[10rem] mr-[4.8rem]">{product.nickname}</li>
                 <li className="w-[8rem] mr-[6.6rem]">
                   {product.createdAt && getParsedDate(product.createdAt)}

@@ -67,8 +67,7 @@ export default function BlogItem({ list }: ListProps) {
       </BLImage>
       <BLContent>
         <BLTitle>
-          <Link href={`/blog/${userId}/post/${id}`}>
-            {/* <Link href={`/blog/${writerId}/post/${id}`}> */}
+          <Link href={`/blog/${writerId}/post/${id}`}>
             <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
               {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}

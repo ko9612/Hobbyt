@@ -60,6 +60,10 @@ export const ProgressArr = [
     title: "배송완료",
     status: "FINISH_DELIVERY",
   },
+  {
+    title: "미입금취소",
+    status: "CANCEL",
+  },
 ];
 
 export const RefundArr = [

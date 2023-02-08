@@ -9,13 +9,14 @@ interface IProps {
 
 export default function BlogSaleInfo({ children }: IProps) {
   const router = useRouter();
+  const homeUserId = Number(router.query.userId);
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault();
     if (children === "블로그") {
-      router.push("blogwrite");
+      router.push(`/blog/${homeUserId}/blogwrite`);
     } else if (children === "판매") {
-      router.push("salewrite");
+      router.push(`/blog/${homeUserId}/salewrite`);
     }
   };
 
