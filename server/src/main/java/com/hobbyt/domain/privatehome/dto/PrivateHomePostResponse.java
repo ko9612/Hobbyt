@@ -3,22 +3,20 @@ package com.hobbyt.domain.privatehome.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 public class PrivateHomePostResponse {
 	private Boolean hasNext;
 	private List<PostCard> posts;
 
-	public PrivateHomePostResponse(Boolean hasNext, List<PostCard> posts) {
-		this.hasNext = hasNext;
-		this.posts = posts;
-	}
-
 	@Getter
 	@NoArgsConstructor
 	public static class PostCard {
+		private Long writerId;
 		private Long id;
 		private String title;
 		private String content;

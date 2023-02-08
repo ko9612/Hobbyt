@@ -32,6 +32,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params) {
 		List<PrivateHomePostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostResponse.PostCard.class,
+				post.writer.id.as("writerId"),
 				post.id,
 				post.title,
 				post.content,
@@ -61,6 +62,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				postComment.content,
 				postComment.createdAt,
 				post.id.as("postId"),
+				post.thumbnailImage,
 				post.title.as("postTitle")
 			))
 			.from(postComment)

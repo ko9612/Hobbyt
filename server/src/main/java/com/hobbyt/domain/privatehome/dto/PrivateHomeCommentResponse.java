@@ -3,18 +3,15 @@ package com.hobbyt.domain.privatehome.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 public class PrivateHomeCommentResponse {
 	private Boolean hasNext;
 	private List<CommentCard> comments;
-
-	public PrivateHomeCommentResponse(Boolean hasNext, List<CommentCard> comments) {
-		this.hasNext = hasNext;
-		this.comments = comments;
-	}
 
 	@Getter
 	@NoArgsConstructor
@@ -23,6 +20,7 @@ public class PrivateHomeCommentResponse {
 		private String content;
 		private Long postId;
 		private String postTitle;
+		private String thumbnailImage;
 		private LocalDateTime createdAt;
 	}
 }

@@ -10,7 +10,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.MariaDB103Dialect
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${MARIADB_URL}
