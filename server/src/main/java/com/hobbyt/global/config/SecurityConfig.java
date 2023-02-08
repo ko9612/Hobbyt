@@ -63,6 +63,7 @@ public class SecurityConfig {
 
 			.authorizeRequests()
 			.mvcMatchers("/websocket").permitAll()
+			.antMatchers("/api/members/{memberId}/following", "/api/members/{memberId}/follower").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/main/**").permitAll()
 			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}").permitAll()

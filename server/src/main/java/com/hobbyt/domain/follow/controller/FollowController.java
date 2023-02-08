@@ -16,7 +16,9 @@ import com.hobbyt.domain.follow.service.FollowService;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members/{memberId}")
@@ -37,7 +39,9 @@ public class FollowController {
 	public ResponseEntity getFollowing(@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		SliceResponse response = followService.getFollowing(loginMember.getEmail(), memberId, pageable);
+		log.info("loginMember: {}", loginMember);
+
+		SliceResponse response = followService.getFollowing(loginMember, memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}
@@ -47,7 +51,9 @@ public class FollowController {
 	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		SliceResponse response = followService.getFollower(loginMember.getEmail(), memberId, pageable);
+		log.info("loginMember: {}", loginMember);
+
+		SliceResponse response = followService.getFollower(loginMember, memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}

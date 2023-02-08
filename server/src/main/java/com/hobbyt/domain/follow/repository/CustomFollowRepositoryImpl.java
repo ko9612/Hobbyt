@@ -7,8 +7,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.hobbyt.domain.follow.dto.FollowingDto;
-import com.hobbyt.domain.follow.dto.SliceDto;
+import com.hobbyt.domain.follow.dto.FollowDto;
 import com.hobbyt.domain.member.entity.Member;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,10 +18,9 @@ import lombok.RequiredArgsConstructor;
 public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 	private final JPAQueryFactory queryFactory;
 
-	@Override
-	public SliceDto findFollowing(Member myInfo, Long memberId, Pageable pageable) {
-		List<FollowingDto> contents = queryFactory.select(Projections.constructor(FollowingDto.class,
-				// follow.following.id,
+	/*@Override
+	public SliceDto findFollowing(Member myInfo, Long targetMemberId, Pageable pageable) {
+		List<FollowDto> contents = queryFactory.select(Projections.constructor(FollowDto.class,
 				member.id,
 				member.nickname,
 				member.profileImage,
@@ -30,9 +28,8 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 			))
 			.from(follow)
 			.join(follow.following, member)
-			.where(follow.follower.id.eq(memberId))
+			.where(follow.follower.id.eq(targetMemberId))
 			.orderBy(member.nickname.asc())
-			// .orderBy(follow.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
@@ -42,11 +39,11 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 		Boolean hasNext = getHasNext(contents, pageable.getPageSize());
 
 		return new SliceDto(contents, hasNext);
-	}
+	}*/
 
-	@Override
-	public SliceDto findFollower(Member myInfo, Long memberId, Pageable pageable) {
-		List<FollowingDto> contents = queryFactory.select(Projections.constructor(FollowingDto.class,
+	/*@Override
+	public SliceDto findFollower(Member myInfo, Long targetMemberId, Pageable pageable) {
+		List<FollowDto> contents = queryFactory.select(Projections.constructor(FollowDto.class,
 				member.id,
 				member.nickname,
 				member.profileImage,
@@ -54,9 +51,8 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 			))
 			.from(follow)
 			.join(follow.follower, member)
-			.where(follow.following.id.eq(memberId))
+			.where(follow.following.id.eq(targetMemberId))
 			.orderBy(member.nickname.asc())
-			// .orderBy(follow.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
@@ -66,9 +62,43 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 		Boolean hasNext = getHasNext(contents, pageable.getPageSize());
 
 		return new SliceDto(contents, hasNext);
+	}*/
+
+	@Override
+	public List<FollowDto> findFollowings(Long targetMemberId, Pageable pageable) {
+		return queryFactory.select(Projections.constructor(FollowDto.class,
+				member.id,
+				member.nickname,
+				member.profileImage,
+				member.description
+			))
+			.from(follow)
+			.join(follow.following, member)
+			.where(follow.follower.id.eq(targetMemberId))
+			.orderBy(member.nickname.asc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
 	}
 
-	private void compareMyFollowing(Member myInfo, List<FollowingDto> contents) {
+	@Override
+	public List<FollowDto> findFollowers(Long targetMemberId, Pageable pageable) {
+		return queryFactory.select(Projections.constructor(FollowDto.class,
+				member.id,
+				member.nickname,
+				member.profileImage,
+				member.description
+			))
+			.from(follow)
+			.join(follow.follower, member)
+			.where(follow.following.id.eq(targetMemberId))
+			.orderBy(member.nickname.asc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
+	}
+
+	public void compareMyFollowing(Member myInfo, List<FollowDto> contents) {
 		List<Long> myFollowingId = queryFactory.select(member.id)
 			.from(follow)
 			.join(follow.following, member)
@@ -81,14 +111,5 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 			}
 			content.setIsFollowing(myFollowingId.contains(content.getId()));
 		});
-	}
-
-	private Boolean getHasNext(List<?> contents, int limit) {
-		if (contents.size() > limit) {
-			contents.remove(limit);
-			return true;
-		}
-
-		return false;
 	}
 }
