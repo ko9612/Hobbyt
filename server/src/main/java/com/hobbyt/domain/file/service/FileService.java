@@ -23,10 +23,7 @@ import net.coobird.thumbnailator.name.Rename;
 import com.hobbyt.domain.file.dto.ThumbnailSizeDto;
 import com.hobbyt.global.exception.BusinessLogicException;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class FileService {
 	private final String rootPath;
 	private final String imageDir;
@@ -71,7 +68,6 @@ public class FileService {
 			String savedPath = IMAGE_PATH + imageName;
 
 			image.transferTo(new File(savedPath));
-			log.error(savedPath);
 
 			return imageName;
 

@@ -34,3 +34,6 @@ imp:
   key: ${IMP_KEY}
   secret: ${IMP_SECRET}
 
+file:
+  root: ${FILE_ROOT}
+  image: ${IMAGE_DIR}
