@@ -48,31 +48,47 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 
-			.httpBasic().disable()
-			.formLogin().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.httpBasic()
+			.disable()
+			.formLogin()
+			.disable()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisService),
 				UsernamePasswordAuthenticationFilter.class)
 
-			.csrf().disable()
+			.csrf()
+			.disable()
 			.cors(Customizer.withDefaults())
 
 			/*.apply(new CustomFilterConfigurer())
 			.and()*/
 
 			.authorizeRequests()
-			.mvcMatchers("/websocket").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/main/**").permitAll()
-			.antMatchers("/api/members/signup", "/api/auth/login").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}").permitAll()
+			.mvcMatchers("/websocket")
+			.permitAll()
+			.antMatchers("/api/members/{memberId:[0-9]+}/following", "/api/members/{memberId:[0-9]+}/follower")
+			.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/main/**")
+			.permitAll()
+			.antMatchers("/api/members/signup", "/api/auth/login")
+			.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}")
+			.permitAll()
 			// .antMatchers("/api/**").permitAll()
-			.antMatchers("/api/members/profile/{memberId:[0-9]+}").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/search/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/members/{memberId:[0-9]+}/private/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/api/posts/{postId:[0-9]+}").permitAll()
-			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup").permitAll()
-			.anyRequest().authenticated();
+			.antMatchers("/api/members/{memberId:[0-9]+}/profile")
+			.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/search/**")
+			.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/members/{memberId:[0-9]+}/private/**")
+			.permitAll()
+			.antMatchers(HttpMethod.GET, "/api/posts/{postId:[0-9]+}")
+			.permitAll()
+			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup")
+			.permitAll()
+			.anyRequest()
+			.authenticated();
 
 		return http.build();
 	}
