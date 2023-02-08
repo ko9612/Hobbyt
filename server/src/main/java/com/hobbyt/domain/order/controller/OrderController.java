@@ -17,7 +17,6 @@ import com.hobbyt.domain.order.dto.OrderImportRequest;
 import com.hobbyt.domain.order.dto.OrderInfo;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.service.OrderService;
-import com.hobbyt.domain.order.service.PaymentService;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-	private final PaymentService paymentService;
 	private final OrderService orderService;
 
 	/*@PostMapping("/payment/complete")

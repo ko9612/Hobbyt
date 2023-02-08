@@ -17,29 +17,16 @@ public class ProfileResponse {
 	private String nickname;
 	private LocalDateTime createdAt;
 	private String description;
-	// 팔로워 수
 	private int followerCount;
-
-	// 팔로잉 수
 	private int followingCount;
-	private ViewsDto views;
 
-	@Getter
-	@NoArgsConstructor
-	private class ViewsDto {
-		private int today;
-		private int total;
+	private Views views;
 
-		private ViewsDto(Views views) {
-			this.today = views.getToday();
-			this.today = views.getTotal();
-		}
-	}
+	private Boolean isFollowing;
 
 	@Builder
 	private ProfileResponse(String headerImage, String profileImage, String nickname, LocalDateTime createdAt,
 		String description, int followerCount, int followingCount, Views views) {
-
 		this.headerImage = headerImage;
 		this.profileImage = profileImage;
 		this.nickname = nickname;
@@ -47,7 +34,7 @@ public class ProfileResponse {
 		this.description = description;
 		this.followerCount = followerCount;
 		this.followingCount = followingCount;
-		this.views = views == null ? new ViewsDto() : new ViewsDto(views);
+		this.views = views == null ? new Views() : views;
 	}
 
 	public static ProfileResponse of(Member member) {
@@ -61,5 +48,9 @@ public class ProfileResponse {
 			.followingCount(member.getFollowingCount())
 			.views(member.getViews())
 			.build();
+	}
+
+	public void setIsFollowing(Boolean isFollowing) {
+		this.isFollowing = isFollowing;
 	}
 }

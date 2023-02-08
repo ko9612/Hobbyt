@@ -161,7 +161,7 @@ class MemberControllerTest {
 	void get_profile() throws Exception {
 		ProfileResponse profileResponse = dummyProfileResponse(HEADER_IMAGE, PROFILE_IMAGE, NICKNAME, CREATED_AT,
 			DESCRIPTION, FOLLOWER_COUNT, FOLLOWING_COUNT, TODAY_VIEWS, TOTAL_VIEWS);
-		given(memberService.getProfile(anyLong())).willReturn(profileResponse);
+		given(memberService.getProfile(anyLong(), any(MemberDetails.class))).willReturn(profileResponse);
 
 		ResultActions actions = mockMvc.perform(get("/api/members/profile")
 			.contentType(APPLICATION_JSON)

@@ -3,6 +3,8 @@ package com.hobbyt.domain.member.service;
 import static com.hobbyt.global.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ import com.hobbyt.global.exception.BusinessLogicException;
 import com.hobbyt.global.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -122,9 +125,26 @@ public class MemberService {
 		return MyInfoResponse.of(member);
 	}
 
-	public ProfileResponse getProfile(final Long memberId) {
-		Member member = findMemberById(memberId);
-		return ProfileResponse.of(member);
+	public ProfileResponse getProfile(final Long targetMemberId, MemberDetails loginMember) {
+		Member targetMember = findMemberById(targetMemberId);
+		ProfileResponse profileResponse = ProfileResponse.of(targetMember);
+
+		if (loginMember != null) {
+			String email = loginMember.getEmail();
+			Member myInfo = findMemberByEmail(email);
+			profileResponse.setIsFollowing(isFollowing(targetMemberId, myInfo));
+		}
+
+		return profileResponse;
+	}
+
+	private Boolean isFollowing(Long targetMemberId, Member myInfo) {
+		if (targetMemberId != myInfo.getId()) {
+			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
+			return myFollowingId.contains(targetMemberId);
+		}
+
+		return null;
 	}
 
 	public Member findMemberById(Long id) {

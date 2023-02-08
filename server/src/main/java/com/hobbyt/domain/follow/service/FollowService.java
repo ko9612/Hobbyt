@@ -55,7 +55,8 @@ public class FollowService {
 		} else {
 			Member myInfo = memberService.findMemberByEmail(loginMember.getEmail());
 			contents = followRepository.findFollowings(targetMemberId, pageable);
-			followRepository.compareMyFollowing(myInfo, contents);
+			// followRepository.compareMyFollowing(myInfo, contents);
+			compareMyFollowing(myInfo, contents);
 		}
 
 		hasNext = getHasNext(contents, pageable.getPageSize());
@@ -73,7 +74,7 @@ public class FollowService {
 		} else {
 			Member myInfo = memberService.findMemberByEmail(loginMember.getEmail());
 			contents = followRepository.findFollowers(targetMemberId, pageable);
-			followRepository.compareMyFollowing(myInfo, contents);
+			compareMyFollowing(myInfo, contents);
 		}
 
 		hasNext = getHasNext(contents, pageable.getPageSize());
@@ -91,17 +92,13 @@ public class FollowService {
 		return false;
 	}
 
-	/*public SliceResponse getFollowing(String email, Long targetMemberId, Pageable pageable) {
-		Member member = memberService.findMemberByEmail(email);
-		SliceDto sliceDto = followRepository.findFollowing(member, targetMemberId, pageable);
-		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
-		return SliceResponse.of(slice);
+	private void compareMyFollowing(Member myInfo, List<FollowDto> contents) {
+		List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
+		contents.forEach(content -> {
+			if (content.getId() == myInfo.getId()) {
+				return;
+			}
+			content.setIsFollowing(myFollowingId.contains(content.getId()));
+		});
 	}
-
-	public SliceResponse getFollower(String email, Long targetMemberId, Pageable pageable) {
-		Member member = memberService.findMemberByEmail(email);
-		SliceDto sliceDto = followRepository.findFollower(member, targetMemberId, pageable);
-		Slice<SliceDto> slice = new SliceImpl<>(sliceDto.getContents(), pageable, sliceDto.getHasNext());
-		return SliceResponse.of(slice);
-	}*/
 }
