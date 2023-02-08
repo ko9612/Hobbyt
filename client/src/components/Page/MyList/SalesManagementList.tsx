@@ -38,7 +38,7 @@ export default function SalesManagementList() {
                 className="flex items-center justify-between p-[1rem] text-center"
               >
                 <Link
-                  href={`/mypage/${userId}/orderdetail/ordermanagement/${product.orderId}`}
+                  href={`/mypage/${userId}/orderdetail/${product.sellerId}/ordermanagement/${product.orderId}`}
                 >
                   <li className="w-[13rem] text-left truncate">
                     {product.title}
