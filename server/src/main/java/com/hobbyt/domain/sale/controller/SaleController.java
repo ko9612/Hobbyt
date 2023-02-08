@@ -65,7 +65,7 @@ public class SaleController {
 			return ResponseEntity.badRequest().build();
 		}*/
 
-		Sale sale = saleService.post(loginMember.getEmail(), request.toSale());
+		Sale sale = saleService.post(loginMember.getEmail(), request.toSale(), request.getThumbnailImage());
 		// TODO 이부분에서 이미지 처리, 파라미터에 List<MultipartFile> productImages 넣기
 		productService.addProducts(sale, request.toProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());

@@ -21,6 +21,7 @@ public class SaleResponse {
 	private Long id;
 	private String title;
 	private String content;
+	private String thumbnailImage;
 	private String refundExchangePolicy;
 	private String productionProcessLink;
 	private String caution;
@@ -106,6 +107,7 @@ public class SaleResponse {
 		this.id = sale.getId();
 		this.title = sale.getTitle();
 		this.content = sale.getContent();
+		this.thumbnailImage = sale.getThumbnailImage();
 		this.refundExchangePolicy = sale.getRefundExchangePolicy();
 		this.productionProcessLink = sale.getProductionProcessLink();
 		this.caution = sale.getCaution();

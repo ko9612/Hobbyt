@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class UpdateSaleRequest {
 	private String title;
 	private String content;
-
+	private String thumbnailImage;    // 썸네일 이미지 경로
 	private int depositEffectiveTime;    // 입금가능시간
 	private Delivery delivery;
 
@@ -44,7 +44,7 @@ public class UpdateSaleRequest {
 	}
 
 	public Sale toSale() {
-		return Sale.of(title, content, refundExchangePolicy, period, account, productionProcessLink,
+		return Sale.of(title, thumbnailImage, content, refundExchangePolicy, period, account, productionProcessLink,
 			caution, delivery, depositEffectiveTime, isAlwaysOnSale);
 	}
 

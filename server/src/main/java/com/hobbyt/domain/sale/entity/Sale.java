@@ -84,9 +84,9 @@ public class Sale extends Article {
 		this.isAlwaysOnSale = isAlwaysOnSale;
 	}
 
-	public static Sale of(String title, String content, String refundExchangePolicy, Period period, Account account,
-		String productionProcessLink, String caution, Delivery delivery, int depositEffectiveTime,
-		boolean isAlwaysOnSale) {
+	public static Sale of(String title, String content, String refundExchangePolicy,
+		Period period, Account account, String productionProcessLink, String caution, Delivery delivery,
+		int depositEffectiveTime, boolean isAlwaysOnSale) {
 
 		Sale sale = Sale.builder()
 			.refundExchangePolicy(refundExchangePolicy)
@@ -101,6 +101,29 @@ public class Sale extends Article {
 
 		sale.updateTitle(title);
 		sale.updateContent(content);
+
+		return sale;
+	}
+
+	public static Sale of(String title, String thumbnailImage, String content, String refundExchangePolicy,
+		Period period, Account account, String productionProcessLink, String caution, Delivery delivery,
+		int depositEffectiveTime, boolean isAlwaysOnSale) {
+
+		Sale sale = Sale.builder()
+			.refundExchangePolicy(refundExchangePolicy)
+			.period(period)
+			.account(account)
+			.productionProcessLink(productionProcessLink)
+			.caution(caution)
+			.delivery(delivery)
+			.depositEffectiveTime(depositEffectiveTime)
+			.isAlwaysOnSale(isAlwaysOnSale)
+			.build();
+
+		sale.updateTitle(title);
+		sale.updateContent(content);
+		sale.updateThumbnailImage(thumbnailImage);
+
 		return sale;
 	}
 
@@ -123,6 +146,9 @@ public class Sale extends Article {
 		}
 		if (updateSale.getContent() != null) {
 			updateContent(updateSale.getContent());
+		}
+		if (updateSale.getThumbnailImage() != null) {
+			updateThumbnailImage(updateSale.getThumbnailImage());
 		}
 
 		this.depositEffectiveTime = updateSale.depositEffectiveTime;

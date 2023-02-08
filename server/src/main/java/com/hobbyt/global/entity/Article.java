@@ -27,6 +27,10 @@ public abstract class Article extends BaseEntity {
 		this.content = content;
 	}
 
+	public void updateThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
+	}
+
 	public void updateLikeCount(int count) {
 		if (likeCount + count < 0) {
 			return;
@@ -38,5 +42,4 @@ public abstract class Article extends BaseEntity {
 	public void increaseViewCount() {
 		viewCount++;
 	}
-
 }
