@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyOrderDto {
 	private Long orderId;
+	private Long sellerId;
 	private String title;
 	private String nickname;
 	private LocalDateTime createdAt;

@@ -67,8 +67,9 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
 		List<MyOrderDto> content = queryFactory.select(Projections.fields(MyOrderDto.class,
 				order.id.as("orderId"),
+				sale.writer.id.as("sellerId"),
 				sale.title,
-				member.nickname,
+				sale.writer.nickname,
 				order.createdAt,
 				order.status
 			)).distinct()
