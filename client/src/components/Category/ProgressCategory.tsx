@@ -46,6 +46,9 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
     if (status === "FINISH") {
       return "거래종료";
     }
+    if (status === "CANCEL") {
+      return "미입금취소";
+    }
   };
 
   // 클릭한 이름

@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
 import MyPageCategory from "../../Category/MyPageCategory";
 import { SaleManagementMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
 import ProgressCategory from "../../Category/ProgressCategory";
 import { getManagementList } from "../../../api/tabApi";
+import { UserIdState } from "../../../state/UserState";
 
 export default function SalesManagementList() {
   const [data, setData] = useState([]);
+  const userId = useRecoilValue(UserIdState);
 
   const getData = async () => {
     const res = await getManagementList();
     setData(res.data);
-    // console.log("판매관리 리스트", res.data);
+    console.log("판매관리 리스트", res.data);
   };
 
   // 날짜 바꿔주는 함수
@@ -27,16 +30,20 @@ export default function SalesManagementList() {
     <>
       <MyPageCategory Menus={SaleManagementMenus} />
       <PContent>
-        {data.data &&
-          data.data.map((product: any) => (
+        {data?.data &&
+          data?.data.map((product: any) => (
             <>
               <ul
                 key={product.orderId}
                 className="flex items-center justify-between p-[1rem] text-center"
               >
-                <li className="w-[13rem] text-left truncate">
-                  {product.title}
-                </li>
+                <Link
+                  href={`/mypage/${userId}/orderdetail/ordermanagement/${product.orderId}`}
+                >
+                  <li className="w-[13rem] text-left truncate">
+                    {product.title}
+                  </li>
+                </Link>
                 <li className="w-[10rem] mr-[4rem] pr-[1.9rem]">
                   {product.nickname}
                 </li>
