@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
+import com.hobbyt.domain.mypage.dto.MyOrderDto;
 import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
 import com.hobbyt.domain.mypage.dto.PageDto;
@@ -38,6 +39,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 		Tuple tuple = queryFactory.select(
 				member.email,
+				sale.writer.id,
 				sale.title,
 				sale.thumbnailImage,
 				sale.account,
@@ -54,6 +56,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.order(foundOrder)
 			.title(tuple.get(sale.title))
 			.thumbnailImage(tuple.get(sale.thumbnailImage))
+			.sellerId(tuple.get(sale.writer.id))
 			.email(tuple.get(member.email))
 			.sellerAccount(tuple.get(sale.account))
 			.deliveryPrice(tuple.get(sale.delivery.deliveryPrice))
@@ -62,10 +65,11 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	@Override
 	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
-		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
+		List<MyOrderDto> content = queryFactory.select(Projections.fields(MyOrderDto.class,
 				order.id.as("orderId"),
+				sale.writer.id.as("sellerId"),
 				sale.title,
-				member.nickname,
+				sale.writer.nickname,
 				order.createdAt,
 				order.status
 			)).distinct()
@@ -96,12 +100,14 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	@Override
 	public PageDto findOrdersByEmail(String email, Pageable pageable) {
-		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-					order.id.as("orderId"),
+		List<OrderDto> content = queryFactory.select(Projections.constructor(OrderDto.class,
+					order.id,
 					sale.title,
 					order.member.nickname,
 					order.createdAt,
-					order.status
+					order.status,
+					order.orderNumber,
+					sale.writer.id
 				)
 			).distinct()
 			.from(sale)
@@ -109,9 +115,6 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.join(product).on(product.sale.eq(sale))
 			.join(orderItem).on(orderItem.product.eq(product))
 			.join(orderItem.order, order)
-			// .from(order)
-			// .join(order.member, member)
-			// .join(sale).on(sale.writer.eq(member))
 			.where(member.email.eq(email))
 			.orderBy(order.id.desc())
 			.offset(pageable.getOffset())

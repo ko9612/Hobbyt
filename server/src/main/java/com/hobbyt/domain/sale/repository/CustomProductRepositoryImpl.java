@@ -45,6 +45,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
 		List<OrderedProductInfo> content = queryFactory.select(
 				Projections.constructor(OrderedProductInfo.class,
 					sale.id,
+					sale.writer.id,
 					product.name,
 					sale.period,
 					sale.isAlwaysOnSale,

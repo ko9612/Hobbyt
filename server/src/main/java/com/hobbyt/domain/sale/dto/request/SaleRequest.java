@@ -22,6 +22,8 @@ public class SaleRequest {
 	@NotNull
 	private String content;
 
+	private String thumbnailImage;    // 썸네일 이미지 경로
+
 	private int depositEffectiveTime;    // 입금가능시간
 	private Delivery delivery;
 

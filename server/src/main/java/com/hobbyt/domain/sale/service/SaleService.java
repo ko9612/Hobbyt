@@ -24,9 +24,15 @@ public class SaleService {
 	private final SaleRepository saleRepository;
 	private final TagRepository tagRepository;
 
-	public Sale post(final String email, Sale sale) {
+	public Sale post(final String email, Sale sale, String thumbnailImage) {
 		Member member = memberService.findMemberByEmail(email);
 		sale.setWriter(member);
+
+		if (thumbnailImage == null) {
+			sale.updateThumbnailImage("기본 이미지");
+		} else {
+			sale.updateThumbnailImage(thumbnailImage);
+		}
 
 		return saleRepository.save(sale);
 	}
