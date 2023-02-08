@@ -82,6 +82,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	public PrivateHomeSaleResponse getSalesByWriterId(Long writerId, PrivateHomeRequest params) {
 		List<SaleCard> cards = queryFactory.select(Projections.fields(SaleCard.class,
 				sale.id,
+				sale.writer.id.as("writerId"),
 				sale.thumbnailImage,
 				sale.title,
 				sale.period,

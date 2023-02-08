@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SaleCard {
 	private Long id;
+	private Long writerId;
 	private String thumbnailImage;
 	private String title;
 	private Period period;
