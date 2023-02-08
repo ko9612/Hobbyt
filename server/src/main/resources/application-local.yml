@@ -22,3 +22,7 @@ logging:
     org.hibernate:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
+
+file:
+  root: ${LOCAL_FILE_ROOT}
+  image: images/
