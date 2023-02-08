@@ -10,6 +10,7 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderItem;
 import com.hobbyt.domain.order.entity.OrderStatus;
+import com.hobbyt.domain.order.entity.PayMethod;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.global.entity.Account;
 
@@ -26,6 +27,10 @@ public class OrderDetails {
 	private String title;
 	private OrderStatus status;    // 주문상태
 	private String thumbnailImage;    // 판매 게시글 썸네일
+
+	private PayMethod payMethod;    // 결제수단
+	private Long sellerId;    // 판매자 id
+
 	private String depositor;    // 입금자 이름
 	private Account sellerAccount;    // 판매자 계좌
 	private String name;    // 주문자 닉네임
@@ -56,13 +61,16 @@ public class OrderDetails {
 	}
 
 	@Builder
-	public OrderDetails(Order order, String title, String thumbnailImage, String email, Account sellerAccount,
-		int deliveryPrice) {
+	public OrderDetails(Order order, String title, String thumbnailImage, Long sellerId, String email,
+		Account sellerAccount, int deliveryPrice) {
 
 		this.orderNumber = order.getOrderNumber();
 		this.title = title;
 		this.status = order.getStatus();
 		this.thumbnailImage = thumbnailImage;
+
+		this.payMethod = order.getPayMethod();
+		this.sellerId = sellerId;
 		this.depositor = order.getDepositor();
 		this.sellerAccount = sellerAccount == null ? new Account() : sellerAccount;
 		Recipient recipient = order.getRecipient();
