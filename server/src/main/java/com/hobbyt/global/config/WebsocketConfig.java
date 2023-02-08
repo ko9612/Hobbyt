@@ -6,19 +6,21 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import com.hobbyt.global.handler.StompHandler;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
+	private final StompHandler stompHandler;
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry
 			.addEndpoint("/websocket")
-			.setAllowedOriginPatterns("*")
-			.withSockJS();
+			.setAllowedOriginPatterns("*");
 	}
 
 	@Override
