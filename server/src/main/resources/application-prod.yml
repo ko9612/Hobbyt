@@ -17,6 +17,8 @@ spring:
     username: ${MARIADB_USERNAME}
     password: ${MARIADB_PASSWORD}
 
+hostname: https://hobbyt.saintho.dev/
+
 logging:
   level:
     org.hibernate:

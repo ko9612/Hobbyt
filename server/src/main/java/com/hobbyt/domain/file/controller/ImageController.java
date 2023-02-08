@@ -1,5 +1,6 @@
 package com.hobbyt.domain.file.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hobbyt.domain.file.dto.ThumbnailSizeDto;
 import com.hobbyt.domain.file.service.FileService;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/api/images")
-@RequiredArgsConstructor
 public class ImageController {
 	private final FileService fileService;
+	private final String path;
+
+	public ImageController(FileService fileService, @Value("${hostname}") String hostname) {
+		this.fileService = fileService;
+		this.path = hostname + "api/images/";
+	}
 
 	@GetMapping("/{fileName}")
 	public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) {
@@ -35,9 +39,9 @@ public class ImageController {
 
 	@PostMapping
 	public ResponseEntity<String> uploadImage(MultipartFile image) {
-		String imageName = fileService.saveImage(image);
+		String uri = path + fileService.saveImage(image);
 
-		return ResponseEntity.ok(imageName);
+		return ResponseEntity.ok(uri);
 	}
 
 	@PostMapping("/thumbnails")
