@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class MyPageController {
 	private final MyPageService myPageService;
 
+	// 판매작품
 	@GetMapping("/products")
 	public ResponseEntity getOrderedProducts(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
@@ -35,6 +36,7 @@ public class MyPageController {
 		return ResponseEntity.ok(response);
 	}
 
+	// 판매작품 관리
 	@GetMapping("/products/management")
 	public ResponseEntity getOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
@@ -43,6 +45,7 @@ public class MyPageController {
 		return ResponseEntity.ok(response);
 	}
 
+	// 구매작품
 	@GetMapping("/orders")
 	public ResponseEntity getMyOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
@@ -51,6 +54,7 @@ public class MyPageController {
 		return ResponseEntity.ok(response);
 	}
 
+	// 주문 상세조회
 	@GetMapping("/orders/{orderId}")
 	public ResponseEntity getOrderDetails(@Min(value = 1) @PathVariable Long orderId) {
 		OrderDetails response = myPageService.getOrderDetails(orderId);

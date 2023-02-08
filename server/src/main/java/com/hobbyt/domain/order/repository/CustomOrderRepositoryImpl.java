@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
+import com.hobbyt.domain.mypage.dto.MyOrderDto;
 import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
 import com.hobbyt.domain.mypage.dto.PageDto;
@@ -64,7 +65,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	@Override
 	public PageDto findMyOrdersByEmail(String email, Pageable pageable) {
-		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
+		List<MyOrderDto> content = queryFactory.select(Projections.fields(MyOrderDto.class,
 				order.id.as("orderId"),
 				sale.title,
 				member.nickname,
@@ -98,12 +99,14 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	@Override
 	public PageDto findOrdersByEmail(String email, Pageable pageable) {
-		List<OrderDto> content = queryFactory.select(Projections.fields(OrderDto.class,
-					order.id.as("orderId"),
+		List<OrderDto> content = queryFactory.select(Projections.constructor(OrderDto.class,
+					order.id,
 					sale.title,
 					order.member.nickname,
 					order.createdAt,
-					order.status
+					order.status,
+					order.orderNumber,
+					sale.writer.id
 				)
 			).distinct()
 			.from(sale)
@@ -111,9 +114,6 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.join(product).on(product.sale.eq(sale))
 			.join(orderItem).on(orderItem.product.eq(product))
 			.join(orderItem.order, order)
-			// .from(order)
-			// .join(order.member, member)
-			// .join(sale).on(sale.writer.eq(member))
 			.where(member.email.eq(email))
 			.orderBy(order.id.desc())
 			.offset(pageable.getOffset())
