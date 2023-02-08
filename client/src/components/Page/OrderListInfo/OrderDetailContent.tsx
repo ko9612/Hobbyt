@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { getOrderDetail } from "../../../api/OrderApi";
 import { OrderDetailState } from "../../../state/OrderState";
@@ -28,11 +28,13 @@ export default function OrderDetailContentBuyer() {
   const setIsRefundHolder = useSetRecoilState(UserRefundHolderState);
   const setIsRefundBank = useSetRecoilState(UserRefundBankState);
   const setIsRefundNumber = useSetRecoilState(UserRefundNumState);
+  const [isData, setData] = useState([]);
 
   const getOrderData = async () => {
     const detailData = await getOrderDetail(pid);
     const { data } = detailData as any;
     setOrderData(data);
+    setData(data);
     setIsZipcode(data.recipient.address.zipcode);
     setIsStreet(data.recipient.address.street);
     setIsDetail(data.recipient.address.detail);
@@ -41,11 +43,11 @@ export default function OrderDetailContentBuyer() {
     setIsRefundNumber(data.refundAccount.number);
   };
 
+  console.log(isData);
+
   useEffect(() => {
-    if (router.isReady) {
-      getOrderData();
-    }
-  }, [router.isReady]);
+    getOrderData();
+  }, []);
 
   return (
     <>

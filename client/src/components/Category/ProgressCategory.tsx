@@ -101,7 +101,7 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
   //   // console.log("핸들클릭안에", clcikName);
   //   // }
   // };
-
+  console.log(orderStatus);
   return (
     <div className="relative flex flex-col border-2 mr-[2rem]">
       <button

@@ -13,8 +13,8 @@ export default function OrderInfo() {
             {orderData.products
               .filter(el => el.count !== 0)
               .map((el, idx) => (
-                <OLIItem className="pt-0" key={idx}>
-                  <ItemTitle>{el.name}</ItemTitle>
+                <OLIItem className="pt-0 w-[28rem] items-center" key={idx}>
+                  <ItemTitle className="pr-10 w-[14rem]">{el.name}</ItemTitle>
                   <div>
                     {el.price} 원 / {el.count} 개
                   </div>
