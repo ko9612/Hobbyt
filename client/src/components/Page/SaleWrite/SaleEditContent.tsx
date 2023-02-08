@@ -12,6 +12,7 @@ import {
   TitleState,
   TagState,
   PublicState,
+  ThumbnailState,
 } from "../../../state/BlogPostState";
 import { patchSaleContent, getSaleDetail } from "../../../api/saleApi";
 import {
@@ -27,6 +28,7 @@ import { accountNumRegex } from "../../../util/Regex";
 import ProductInfoInput from "./ProductInfoInput";
 import { SaleProductList } from "../../../state/SaleState";
 import { UserIdState } from "../../../state/UserState";
+import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
   ssr: false,
@@ -44,6 +46,7 @@ export default function SaleEditContent() {
   const [contentData, setContentData] = useRecoilState(ContentState);
   const [tagData, setTagData] = useRecoilState(TagState);
   const [productsData, setProductData] = useRecoilState(SaleProductList);
+  const [thumbnail, setThumbnail] = useRecoilState(ThumbnailState);
   // const [pdImgList] = useRecoilState(SalePdImgsList);
   const { register, handleSubmit, watch, setValue } = useForm<SaleWriteProps>();
 
@@ -63,6 +66,7 @@ export default function SaleEditContent() {
     if ((detailData as any).status === 200) {
       const { data } = detailData as any;
       setTitleData(data.title);
+      setThumbnail(data.thumbnailImage);
       setTogleData(data.isAlwaysOnSale);
       setContentData(data.content);
       setValue("refundExchangePolicy", data.refundExchangePolicy);
@@ -97,6 +101,7 @@ export default function SaleEditContent() {
   const onSubmit = async (data: SaleWriteProps) => {
     const saleData = {
       title: titleData,
+      thumbnailImage: thumbnail,
       content: contentData,
       depositEffectiveTime: Number(data.depositEffectiveTime),
       delivery: {
@@ -144,6 +149,7 @@ export default function SaleEditContent() {
       setContentData("");
       setTagData([]);
       setProductData([]);
+      setThumbnail(null);
       router.replace(`/blog/${userId}/sale/${(PatchSaleData as any).data}`);
     } catch (err: unknown) {
       console.log(`err`, err);
@@ -158,6 +164,8 @@ export default function SaleEditContent() {
     >
       {/* 제목 */}
       <TitleInput />
+      {/* 썸네일 */}
+      <ThumbnailInput />
       {/* 본문 */}
       <ToastEditor />
       {/* 환불, 교환 안내 */}

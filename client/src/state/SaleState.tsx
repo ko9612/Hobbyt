@@ -48,6 +48,7 @@ export const SaleDetailState = atom<SaleDetailProps>({
   default: {
     id: 0,
     title: "",
+    thumbnailImage: "",
     content: "",
     refundExchangePolicy: "",
     productionProcessLink: "",

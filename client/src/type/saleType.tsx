@@ -12,6 +12,7 @@ export interface ProductImg {
 // 판매글 작성 데이터 타입
 export interface SaleWriteProps {
   title: string;
+  thumbnailImage: string;
   content: string;
   depositEffectiveTime: number;
   delivery: {
@@ -36,6 +37,7 @@ export interface SaleWriteProps {
 export interface SaleDetailProps {
   id: number;
   title: string;
+  thumbnailImage: string;
   content: string;
   refundExchangePolicy: string;
   productionProcessLink: string;
