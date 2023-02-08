@@ -1,6 +1,7 @@
 package com.hobbyt.domain.post.service;
 
 import static com.hobbyt.domain.notification.entity.NotificationType.*;
+import static com.hobbyt.global.exception.ExceptionCode.*;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.entity.PostComment;
 import com.hobbyt.domain.post.repository.PostCommentRepository;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,8 +64,7 @@ public class PostCommentService {
 	public PostComment findVerifiedCommentById(Long id) {
 		Optional<PostComment> found = postCommentRepository.findById(id);
 
-		return found.orElseThrow(
-			() -> new RuntimeException("Comment Not Exist")
-		);
+		return found.
+			orElseThrow(() -> new BusinessLogicException(COMMENT_NOT_FOUND));
 	}
 }

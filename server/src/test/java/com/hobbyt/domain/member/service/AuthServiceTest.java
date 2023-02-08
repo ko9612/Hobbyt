@@ -20,7 +20,7 @@ import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.error.exception.LoginFailException;
+import com.hobbyt.global.exception.LoginFailException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;

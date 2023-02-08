@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +19,8 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
-import com.hobbyt.global.error.exception.MemberExistException;
-import com.hobbyt.global.error.exception.MemberNotExistException;
-import com.hobbyt.global.error.exception.PasswordException;
+import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
@@ -49,7 +49,7 @@ public class MemberService {
 
 	private void checkUserExist(String email) {
 		if (memberRepository.existsByEmail(email)) {
-			throw new MemberExistException();
+			throw new BusinessLogicException(MEMBER_EMAIL_DUPLICATED);
 		}
 	}
 
@@ -68,7 +68,8 @@ public class MemberService {
 	}
 
 	public Member findMemberByEmail(final String email) {
-		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
+		return memberRepository.findByEmail(email)
+			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
 	}
 
 	public Long findMemberIdByEmail(String email) {
@@ -127,7 +128,8 @@ public class MemberService {
 	}
 
 	public Member findMemberById(Long id) {
-		return memberRepository.findById(id).orElseThrow(MemberNotExistException::new);
+		return memberRepository.findById(id)
+			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 	}
 
 	@Transactional

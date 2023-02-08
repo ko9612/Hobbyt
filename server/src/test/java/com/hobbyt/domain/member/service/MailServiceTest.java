@@ -14,7 +14,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import com.hobbyt.global.error.exception.CMailException;
+import com.hobbyt.global.exception.CMailException;
 
 @ExtendWith(MockitoExtension.class)
 class MailServiceTest {

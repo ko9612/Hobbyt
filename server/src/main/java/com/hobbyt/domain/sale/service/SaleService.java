@@ -1,5 +1,7 @@
 package com.hobbyt.domain.sale.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.tag.repository.TagRepository;
-import com.hobbyt.global.error.exception.SaleNotExistException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +40,8 @@ public class SaleService {
 	}
 
 	public Sale findSaleById(Long id) {
-		return saleRepository.findById(id).orElseThrow(SaleNotExistException::new);
+		return saleRepository.findById(id)
+			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 	}
 
 	public Sale delete(Long id) {
@@ -65,10 +68,12 @@ public class SaleService {
 	}
 
 	private Sale findSaleWithWriterAndProduct(Long id) {
-		return saleRepository.findSaleFetchJoinWriterAndProductBySaleId(id).orElseThrow(SaleNotExistException::new);
+		return saleRepository.findSaleFetchJoinWriterAndProductBySaleId(id)
+			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 	}
 
 	public Sale findSaleWithProduct(Long id) {
-		return saleRepository.findSaleFetchJoinProductBySaleId(id).orElseThrow(SaleNotExistException::new);
+		return saleRepository.findSaleFetchJoinProductBySaleId(id)
+			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 	}
 }

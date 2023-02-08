@@ -1,5 +1,7 @@
 package com.hobbyt.domain.sale.entity;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.hobbyt.global.entity.BaseEntity;
-import com.hobbyt.global.error.exception.NotEnoughStockException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -91,7 +93,7 @@ public class Product extends BaseEntity {
 	public void removeStock(int quantity) {
 		int restStock = this.stockQuantity - quantity;
 		if (restStock < 0) {
-			throw new NotEnoughStockException("재고가 부족합니다");
+			throw new BusinessLogicException(PRODUCT_STOCK_NOT_ENOUGH);
 		}
 		this.salesVolume += quantity;
 		this.stockQuantity = restStock;

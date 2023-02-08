@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static com.hobbyt.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
@@ -29,8 +30,8 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
-import com.hobbyt.global.error.exception.MemberExistException;
-import com.hobbyt.global.error.exception.PasswordException;
+import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
@@ -72,10 +73,11 @@ class MemberServiceTest {
 	@Test
 	public void validate_duplication_by_email() {
 		SignupRequest signupRequest = new SignupRequest(NICKNAME, EMAIL, PASSWORD);
-		willThrow(MemberExistException.class).given(memberRepository).existsByEmail(anyString());
+		willThrow(new BusinessLogicException(MEMBER_EMAIL_DUPLICATED)).given(memberRepository)
+			.existsByEmail(anyString());
 
 		assertThatThrownBy(() -> memberService.createUser(signupRequest))
-			.isInstanceOf(MemberExistException.class);
+			.isInstanceOf(BusinessLogicException.class);
 
 		then(memberRepository).should(times(1))
 			.existsByEmail(argThat(email -> email.equals(EMAIL)));
