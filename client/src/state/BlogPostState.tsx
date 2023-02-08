@@ -6,6 +6,11 @@ export const TitleState = atom<string | undefined>({
   default: "",
 });
 
+export const ThumbnailState = atom<string | Blob | StaticImport>({
+  key: "ThumbnailState",
+  default: "",
+});
+
 export const ContentState = atom<string | undefined>({
   key: "BlogContentState",
   default: "",
