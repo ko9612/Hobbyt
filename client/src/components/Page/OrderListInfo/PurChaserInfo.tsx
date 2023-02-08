@@ -1,45 +1,43 @@
-import { useRecoilValue } from "recoil";
-import { OrderDetailState } from "../../../state/OrderState";
+import { IDataProps } from "./OrderProgress";
 import { OLISection, OLITitle, OLIItem, ItemTitle } from "./SellerInfo";
 
-export default function PurchaserInfo() {
-  const orderData = useRecoilValue(OrderDetailState);
+export default function PurchaserInfo({ isData }: IDataProps) {
   return (
     <OLISection>
       <OLITitle>기본 정보</OLITitle>
-      {orderData && (
+      {isData && isData.recipient && isData.refundAccount && (
         <>
           <OLIItem>
             <ItemTitle>주문자명</ItemTitle>
-            <div>{orderData.recipient.name}</div>
+            <div>{isData.recipient.name}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주문자 연락처</ItemTitle>
-            <div>{orderData.recipient.phoneNumber}</div>
+            <div>{isData.recipient.phoneNumber}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>이메일</ItemTitle>
-            <div>{orderData.email}</div>
+            <div>{isData.email}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주소</ItemTitle>
             <div>
-              <div>{orderData.recipient.address.zipcode}</div>
-              <div>{orderData.recipient.address.street}</div>
-              <div>{orderData.recipient.address.detail}</div>
+              <div>{isData.recipient.address.zipcode}</div>
+              <div>{isData.recipient.address.street}</div>
+              <div>{isData.recipient.address.detail}</div>
             </div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>환불은행</ItemTitle>
-            <div>{orderData.refundAccount.bank}</div>
+            <div>{isData.refundAccount.bank}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>환불계좌</ItemTitle>
-            <div>{orderData.refundAccount.number}</div>
+            <div>{isData.refundAccount.number}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>환불예금주</ItemTitle>
-            <div>{orderData.refundAccount.holder}</div>
+            <div>{isData.refundAccount.holder}</div>
           </OLIItem>
         </>
       )}

@@ -1,21 +1,19 @@
-import { useRecoilValue } from "recoil";
-import { OrderDetailState } from "../../../state/OrderState";
+import { IDataProps } from "./OrderProgress";
 import { OLISection, OLITitle, OLIItem, ItemTitle } from "./SellerInfo";
 
-export default function DepositInfo() {
-  const orderData = useRecoilValue(OrderDetailState);
+export default function DepositInfo({ isData }: IDataProps) {
   return (
     <OLISection>
       <OLITitle>입금 정보</OLITitle>
-      {orderData && (
+      {isData && (
         <>
           <OLIItem>
             <ItemTitle>입금자명</ItemTitle>
-            <div>{orderData.depositor}</div>
+            <div>{isData.depositor}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>입금액</ItemTitle>
-            <div>{orderData.totalPrice} 원</div>
+            <div>{isData.totalPrice} 원</div>
           </OLIItem>
         </>
       )}

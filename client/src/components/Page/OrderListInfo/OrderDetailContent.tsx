@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { getOrderDetail } from "../../../api/OrderApi";
-import { OrderDetailState } from "../../../state/OrderState";
+import { OrderStatus } from "../../../state/OrderState";
 import {
   UserRecipientZipCodeState,
   UserRecipientStreetState,
@@ -11,6 +11,7 @@ import {
   UserRefundBankState,
   UserRefundNumState,
 } from "../../../state/UserState";
+import { OrderDetailProps } from "../../../type/OrderType";
 import DepositInfo from "./DepositInfo";
 import OrderInfo from "./OrderInfo";
 import OrderProgress from "./OrderProgress";
@@ -18,23 +19,23 @@ import PurchaserEditInfo from "./PurChaserEditInfo";
 import PurchaserInfo from "./PurChaserInfo";
 import SellerInfo from "./SellerInfo";
 
-export default function OrderDetailContentBuyer() {
+export default function OrderDetailContent() {
   const router = useRouter();
   const pid = Number(router.query.id);
-  const setOrderData = useSetRecoilState(OrderDetailState);
+  const [isData, setData] = useState<OrderDetailProps>();
   const setIsZipcode = useSetRecoilState(UserRecipientZipCodeState);
+  const setIsStatus = useSetRecoilState(OrderStatus);
   const setIsStreet = useSetRecoilState(UserRecipientStreetState);
   const setIsDetail = useSetRecoilState(UserRecipientDetailState);
   const setIsRefundHolder = useSetRecoilState(UserRefundHolderState);
   const setIsRefundBank = useSetRecoilState(UserRefundBankState);
   const setIsRefundNumber = useSetRecoilState(UserRefundNumState);
-  const [isData, setData] = useState([]);
 
   const getOrderData = async () => {
     const detailData = await getOrderDetail(pid);
     const { data } = detailData as any;
-    setOrderData(data);
     setData(data);
+    setIsStatus(data.status);
     setIsZipcode(data.recipient.address.zipcode);
     setIsStreet(data.recipient.address.street);
     setIsDetail(data.recipient.address.detail);
@@ -43,23 +44,21 @@ export default function OrderDetailContentBuyer() {
     setIsRefundNumber(data.refundAccount.number);
   };
 
-  console.log(isData);
-
   useEffect(() => {
     getOrderData();
   }, []);
 
   return (
     <>
-      <OrderProgress />
-      <SellerInfo />
+      {isData?.status && <OrderProgress isData={isData} />}
+      <SellerInfo isData={isData} />
       {router.pathname.includes("/ordermanagement") ? (
-        <PurchaserInfo />
+        <PurchaserInfo isData={isData} />
       ) : (
-        <PurchaserEditInfo />
+        <PurchaserEditInfo isData={isData} />
       )}
-      <DepositInfo />
-      <OrderInfo />
+      <DepositInfo isData={isData} />
+      <OrderInfo isData={isData} />
     </>
   );
 }
