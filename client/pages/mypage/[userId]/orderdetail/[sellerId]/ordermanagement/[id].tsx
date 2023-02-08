@@ -2,24 +2,25 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import Navbar from "../../../../../src/components/Nav/NavBar";
-import Footer from "../../../../../src/components/Footer/Footer";
-import { Main, MainContent } from "../../../../index";
-import { LoginState, UserIdState } from "../../../../../src/state/UserState";
-import OrderDetailContent from "../../../../../src/components/Page/OrderListInfo/OrderDetailContent";
+import Navbar from "../../../../../../src/components/Nav/NavBar";
+import Footer from "../../../../../../src/components/Footer/Footer";
+import { Main, MainContent } from "../../../../../index";
+import { LoginState, UserIdState } from "../../../../../../src/state/UserState";
+import OrderDetailContent from "../../../../../../src/components/Page/OrderListInfo/OrderDetailContent";
 
 export default function Orderdetail() {
   const router = useRouter();
   const [isLogin, setLogin] = useRecoilState(LoginState);
   const [userId] = useRecoilState(UserIdState);
   const uid = Number(router.query.userId);
+  const sid = Number(router.query.sellerId);
 
   useEffect(() => {
     if (router.isReady) {
       if (typeof window !== "undefined") {
         if (localStorage.getItem("authorization")) {
           setLogin(true);
-          if (uid !== userId) {
+          if (uid !== userId || sid !== userId) {
             alert("유효한 접근이 아닙니다.");
             router.replace("/");
           }

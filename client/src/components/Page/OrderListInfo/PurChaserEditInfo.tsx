@@ -2,7 +2,6 @@ import tw from "tailwind-styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { ComponentProps, useState } from "react";
 import { useRouter } from "next/router";
-import { OrderDetailState } from "../../../state/OrderState";
 import { OLISection, OLITitle, OLIItem, ItemTitle } from "./SellerInfo";
 import AddressApi from "../../../util/AddressApi";
 import { InputDiv, Input } from "../UserInfo/InfoStyle";
@@ -18,14 +17,13 @@ import {
 import { WideB } from "../../Button/SubmitButton";
 import { patchOrderInfo } from "../../../api/OrderApi";
 import MsgModal from "../../Modal/MsgModal";
+import { IDataProps } from "./OrderProgress";
 
 const ItemLabelTitle = tw.label`w-[10rem]`;
 
-export default function PurchaserEditInfo() {
+export default function PurchaserEditInfo({ isData }: IDataProps) {
   const router = useRouter();
   const oid = Number(router.query.id);
-
-  const orderData = useRecoilValue(OrderDetailState);
   const isZipcode = useRecoilValue(UserRecipientZipCodeState);
   const isStreet = useRecoilValue(UserRecipientStreetState);
   const isDetail = useRecoilValue(UserRecipientDetailState);
@@ -85,19 +83,19 @@ export default function PurchaserEditInfo() {
           * 배송지 및 환불정보 변경은 입금확인 단계까지만 가능합니다.
         </div>
       </OLITitle>
-      {orderData && (
+      {isData && isData.recipient && isData.status && (
         <>
           <OLIItem>
             <ItemTitle>주문자명</ItemTitle>
-            <div>{orderData.recipient.name}</div>
+            <div>{isData.recipient.name}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주문자 연락처</ItemTitle>
-            <div>{orderData.recipient.phoneNumber}</div>
+            <div>{isData.recipient.phoneNumber}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>이메일</ItemTitle>
-            <div>{orderData.email}</div>
+            <div>{isData.email}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주소</ItemTitle>
@@ -145,8 +143,8 @@ export default function PurchaserEditInfo() {
           {showModal && (
             <MsgModal msg="저장되었습니다." setOpenModal={setShowModal} />
           )}
-          {orderData.status === "ORDER" ||
-          orderData.status === "PAYMENT_VERIFICATION" ? (
+          {isData.status === "ORDER" ||
+          isData.status === "PAYMENT_VERIFICATION" ? (
             <div className="pt-10 text-right">
               <WideB id="shippingInfoSubmit" onClick={InfoEditClick}>
                 배송/환불 정보 저장하기

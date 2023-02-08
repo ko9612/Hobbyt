@@ -74,3 +74,9 @@ export const OrderDetailState = atom({
     isCanceled: false,
   },
 });
+
+// 주문 상세 조회 - 주문 상태
+export const OrderStatus = atom<string>({
+  key: "OrderStatus",
+  default: "",
+});

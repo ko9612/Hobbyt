@@ -15,8 +15,9 @@ import { useRecoilValue } from "recoil";
 import { DButton } from "../../Button/DefalutButton";
 import { deleteOrder, patchOrderState } from "../../../api/OrderApi";
 import DelModal from "../../Modal/DelModal";
-import { OrderDetailState } from "../../../state/OrderState";
 import ProgressCategory from "../../Category/ProgressCategory";
+import { OrderStatus } from "../../../state/OrderState";
+import { OrderDetailProps } from "../../../type/OrderType";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
@@ -88,16 +89,19 @@ const refundStateArr = [
   },
 ];
 
-export default function OrderProgress() {
+export interface IDataProps {
+  isData: OrderDetailProps | undefined;
+}
+
+export default function OrderProgress({ isData }: IDataProps) {
   const router = useRouter();
   const pid = Number(router.query.id);
+  const isStatus = useRecoilValue(OrderStatus);
   const [orderState, setOrderState] = useState(stateArr[0].id);
-
   // 주문 취소, 거래 종료 버튼 관련
   const [showModalCancle, setShowModalCancle] = useState(false);
   const [showModalFinish, setShowModalFinish] = useState(false);
   const [isOrderCancleBut, setIsOrderCancleBut] = useState(false);
-  const orderData = useRecoilValue(OrderDetailState);
   const [showDropbox, setShowDropBox] = useState(true);
 
   const DeleteOrder = async () => {
@@ -113,60 +117,57 @@ export default function OrderProgress() {
       router.reload();
     }
   };
-  console.log(orderData);
 
   useEffect(() => {
-    if (orderData) {
-      if (
-        !orderData.isCanceled &&
-        (orderData.status === "ORDER" ||
-          orderData.status === "PAYMENT_VERIFICATION")
-      ) {
-        setIsOrderCancleBut(true);
-      } else {
-        setIsOrderCancleBut(false);
-      }
-
-      if (orderData.status === "ORDER") {
-        setOrderState(stateArr[0].id);
-      } else if (orderData.status === "PAYMENT_VERIFICATION") {
-        setOrderState(stateArr[1].id);
-      } else if (orderData.status === "PREPARE_DELIVERY") {
-        setOrderState(stateArr[2].id);
-      } else if (orderData.status === "START_DELIVERY") {
-        setOrderState(stateArr[3].id);
-      } else if (orderData.status === "FINISH_DELIVERY") {
-        setOrderState(stateArr[4].id);
-      } else if (orderData.status === "FINISH") {
-        setOrderState(stateArr[5].id);
-        setShowDropBox(false);
-      } else if (orderData.status === "PREPARE_REFUND") {
-        setOrderState(refundStateArr[0].id);
-      } else if (orderData.status === "FINISH_REFUND") {
-        setOrderState(refundStateArr[1].id);
-        setShowDropBox(false);
-      } else if (orderData.status === "CANCEL") {
-        setShowDropBox(false);
-      }
+    if (
+      isData &&
+      !isData.isCanceled &&
+      (isStatus === "ORDER" || isStatus === "PAYMENT_VERIFICATION")
+    ) {
+      setIsOrderCancleBut(true);
+    } else {
+      setIsOrderCancleBut(false);
     }
-  }, [orderData && orderData.status]);
+
+    if (isStatus === "ORDER") {
+      setOrderState(stateArr[0].id);
+    } else if (isStatus === "PAYMENT_VERIFICATION") {
+      setOrderState(stateArr[1].id);
+    } else if (isStatus === "PREPARE_DELIVERY") {
+      setOrderState(stateArr[2].id);
+    } else if (isStatus === "START_DELIVERY") {
+      setOrderState(stateArr[3].id);
+    } else if (isStatus === "FINISH_DELIVERY") {
+      setOrderState(stateArr[4].id);
+    } else if (isStatus === "FINISH") {
+      setOrderState(stateArr[5].id);
+      setShowDropBox(false);
+    } else if (isStatus === "PREPARE_REFUND") {
+      setOrderState(refundStateArr[0].id);
+    } else if (isStatus === "FINISH_REFUND") {
+      setOrderState(refundStateArr[1].id);
+      setShowDropBox(false);
+    } else if (isStatus === "CANCEL") {
+      setShowDropBox(false);
+    }
+  }, [isStatus]);
 
   return (
     <PgSection>
-      {orderData && (
+      {isData && (
         <>
           <PgTitle>
             <div className="flex items-center">
               <span className="w-20 h-20 bg-black overflow-hidden rounded-md ring-4 ring-gray-300">
                 <Image
-                  src={orderData.thumbnailImage || example}
+                  src={isData.thumbnailImage || example}
                   alt="작품 이미지"
                   className="w-20 h-20"
                 />
               </span>
               <h2 className="px-6 text-2xl">
-                {orderData.title}
-                {orderData.status === "CANCEL" && (
+                {isData.title}
+                {isData.status === "CANCEL" && (
                   <span className="text-red-400 px-6 font-semibold">
                     [미입금 주문 취소]
                   </span>
@@ -206,7 +207,7 @@ export default function OrderProgress() {
                 <div>
                   {showDropbox && (
                     <ProgressCategory
-                      orderStatus={orderData.status}
+                      orderStatus={isData.status}
                       orderId={pid}
                     />
                   )}
@@ -220,9 +221,9 @@ export default function OrderProgress() {
                       주문취소
                     </DButton>
                   ) : (
-                    !orderData.isCanceled && (
+                    !isData.isCanceled && (
                       <DButton
-                        disabled={orderData.status === "FINISH"}
+                        disabled={isData.status === "FINISH"}
                         onClick={() => setShowModalFinish(!showModalFinish)}
                       >
                         거래종료
@@ -234,7 +235,7 @@ export default function OrderProgress() {
             </div>
           </PgTitle>
           <PgContent>
-            {(orderData.isCanceled && orderData.status !== "CANCEL"
+            {(isData.isCanceled && isData.status !== "CANCEL"
               ? refundStateArr
               : stateArr
             ).map(state => (
@@ -250,7 +251,7 @@ export default function OrderProgress() {
                   {state.status}
                 </PgStatus>
                 {state.id !==
-                  (orderData.isCanceled && orderData.status !== "CANCEL"
+                  (isData.isCanceled && isData.status !== "CANCEL"
                     ? refundStateArr
                     : stateArr
                   ).length -

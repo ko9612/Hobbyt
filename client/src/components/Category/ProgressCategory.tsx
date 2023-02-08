@@ -1,8 +1,10 @@
 // import tw from "tailwind-styled-components";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { ProgressArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
+import { OrderDetailState, OrderStatus } from "../../state/OrderState";
 
 interface Istatus {
   orderStatus: string;
@@ -11,7 +13,7 @@ interface Istatus {
 
 export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
   const [categorySpread, setCategorySpread] = useState(false);
-
+  const setOrderStatus = useSetRecoilState(OrderStatus);
   const spreadOnClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCategorySpread(!categorySpread);
@@ -60,13 +62,13 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
     const { value } = e.currentTarget;
     setClickName(value);
     setCategorySpread(!categorySpread);
+    setOrderStatus(value);
 
     // 진행사항 변경시 patch 요청
     const data = {
       status: value,
       // status: clcikName,
     };
-
     const patchData = async () => {
       const res = await patchOrderState(data, orderId);
       return res;

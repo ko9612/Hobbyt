@@ -32,6 +32,7 @@ import {
 import MsgModal from "../../Modal/MsgModal";
 import { Input } from "../UserInfo/InfoStyle";
 import AddressApi from "../../../util/AddressApi";
+import ProductThumbnail from "./ProductThumbnail";
 
 const PurForm = tw.section``;
 const PurContent = tw.div`py-2`;
@@ -194,6 +195,7 @@ export default function SaleDetailContent() {
   return (
     <BlogContent className="px-5">
       <ProductTitle />
+      <ProductThumbnail />
       <ProductContent />
       <ProductGuide id={pid} />
       {/* 제품 선택 */}

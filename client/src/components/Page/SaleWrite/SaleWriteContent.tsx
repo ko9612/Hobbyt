@@ -13,6 +13,7 @@ import {
   TitleState,
   TagState,
   PublicState,
+  ThumbnailState,
 } from "../../../state/BlogPostState";
 import { postSaleWrite } from "../../../api/saleApi";
 import {
@@ -48,6 +49,7 @@ export default function SaleWriteContent() {
   const [contentData, setContentData] = useRecoilState(ContentState);
   const [tagData, setTagData] = useRecoilState(TagState);
   const [productsData, setProductData] = useRecoilState(SaleProductList);
+  const [thumbnail, setThumbnail] = useRecoilState(ThumbnailState);
   // const [pdImgList] = useRecoilState(SalePdImgsList);
   const { register, handleSubmit, watch, setValue } = useForm<SaleWriteProps>();
 
@@ -85,6 +87,7 @@ export default function SaleWriteContent() {
   const onSubmit = async (data: SaleWriteProps) => {
     const saleData = {
       title: titleData,
+      thumbnailImage: thumbnail,
       content: contentData,
       depositEffectiveTime: Number(data.depositEffectiveTime),
       delivery: {
@@ -133,6 +136,7 @@ export default function SaleWriteContent() {
       setContentData("");
       setTagData([]);
       setProductData([]);
+      setThumbnail(null);
       console.log(PostSaleWriteData);
     } catch (err: unknown) {
       console.log(`err`, err);
