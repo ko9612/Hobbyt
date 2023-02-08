@@ -29,8 +29,9 @@ import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
-import com.hobbyt.global.error.exception.OrderNotExistException;
-import com.hobbyt.global.error.exception.PaymentException;
+import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.exception.ExceptionCode;
+import com.hobbyt.global.exception.PaymentException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -147,7 +148,8 @@ public class OrderService {
 	}
 
 	public Order findOrderByOrderId(Long orderId) {
-		return orderRepository.findById(orderId).orElseThrow(OrderNotExistException::new);
+		return orderRepository.findById(orderId)
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
 	}
 
 	public Long compareTotalPrice(OrderImportRequest request, String email) throws IOException {

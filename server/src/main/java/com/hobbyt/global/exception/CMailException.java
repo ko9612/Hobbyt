@@ -1,4 +1,4 @@
-package com.hobbyt.global.error.exception;
+package com.hobbyt.global.exception;
 
 public class CMailException extends RuntimeException {
 	public CMailException() {

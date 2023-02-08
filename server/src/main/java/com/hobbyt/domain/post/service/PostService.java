@@ -1,5 +1,7 @@
 package com.hobbyt.domain.post.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.repository.PostRepository;
-import com.hobbyt.global.error.exception.PostNotExistException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,6 +56,6 @@ public class PostService {
 
 	public Post findVerifiedOneById(Long id) {
 		return postRepository.findById(id)
-			.orElseThrow(() -> new PostNotExistException("Post With The Id Not Exist"));
+			.orElseThrow(() -> new BusinessLogicException(POST_NOT_FOUND));
 	}
 }

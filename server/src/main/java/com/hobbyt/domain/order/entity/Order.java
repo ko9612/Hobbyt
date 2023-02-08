@@ -1,5 +1,7 @@
 package com.hobbyt.domain.order.entity;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
-import com.hobbyt.global.error.exception.ImpossibleCancelException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -137,7 +139,7 @@ public class Order extends BaseEntity {
 
 	public void cancel() {
 		if (!isPossibleStatusToCancel() && !isPossibleStatusToRefund()) {
-			throw new ImpossibleCancelException("주문을 취소할 수 없는 상태입니다.");
+			throw new BusinessLogicException(ORDER_CANCEL_NOT_PERMITTED, "Current Order Status:" + status.name());
 		}
 
 		for (OrderItem orderItem : orderItems) {

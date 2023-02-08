@@ -1,5 +1,7 @@
 package com.hobbyt.domain.sale.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.ProductRepository;
-import com.hobbyt.global.error.exception.ProductNotExistException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +64,8 @@ public class ProductService {
 	}
 
 	public Product findProductById(Long id) {
-		return productRepository.findById(id).orElseThrow(ProductNotExistException::new);
+		return productRepository.findById(id)
+			.orElseThrow(() -> new BusinessLogicException(PRODUCT_NOT_FOUND));
 	}
 
 	public void delete(Sale deletedSale) {

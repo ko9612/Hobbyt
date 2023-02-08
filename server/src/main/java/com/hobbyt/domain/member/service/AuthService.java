@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +12,8 @@ import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.error.exception.LoginFailException;
-import com.hobbyt.global.error.exception.MemberNotExistException;
+import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.exception.LoginFailException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -62,7 +63,8 @@ public class AuthService {
 	}
 
 	private Member findMemberByEmail(final String email) {
-		return memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
+		return memberRepository.findByEmail(email)
+			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 	}
 
 	public String reissueRefreshToken(final String refreshToken) {
@@ -101,7 +103,7 @@ public class AuthService {
 
 	private void checkPassword(String requestPassword, String password) {
 		if (!passwordEncoder.matches(requestPassword, password)) {
-			throw new LoginFailException();
+			throw new BusinessLogicException(AUTH_INVALID_PASSWORD);
 		}
 	}
 
