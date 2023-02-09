@@ -68,7 +68,7 @@ public class OrderService {
 
 		Order order = order(loginEmail, orderInfo);
 
-		Payments payments = new Payments(request.getImpUid(), amount, 0);
+		Payments payments = new Payments(request.getImpUid(), amount);
 
 		order.setPayments(payments);
 		order.updateOrderStatus(PAYMENT_VERIFICATION);
@@ -135,9 +135,9 @@ public class OrderService {
 		order.updateOrderStatus(PREPARE_REFUND);
 
 		if (isIamportPayments(order)) {    // 아임포트 이용한 계산인 경우 아임포트 환불처리
-			// 환불처리
 			String token = paymentService.getToken();
 			Payments payments = order.getPayments();
+			payments.cancel(payments.getAmount());
 			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
 			order.updateOrderStatus(FINISH_REFUND);
 		}
