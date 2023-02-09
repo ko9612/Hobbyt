@@ -4,6 +4,7 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 
 public interface CustomMemberRepository {
@@ -14,4 +15,6 @@ public interface CustomMemberRepository {
 	PrivateHomeCommentResponse getCommentListByWriterId(Long writerId, PrivateHomeRequest params);
 
 	PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params);
+
+	PrivateHomeSaleLikeResponse getSaleLikeByMemberId(Long memberId, PrivateHomeRequest params);
 }

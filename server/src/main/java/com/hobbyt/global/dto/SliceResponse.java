@@ -1,4 +1,4 @@
-package com.hobbyt.domain.follow.dto;
+package com.hobbyt.global.dto;
 
 import java.util.List;
 

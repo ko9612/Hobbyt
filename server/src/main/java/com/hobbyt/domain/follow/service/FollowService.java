@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.follow.dto.FollowDto;
-import com.hobbyt.domain.follow.dto.SliceResponse;
 import com.hobbyt.domain.follow.entity.Follow;
 import com.hobbyt.domain.follow.repository.FollowRepository;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.global.dto.SliceResponse;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
