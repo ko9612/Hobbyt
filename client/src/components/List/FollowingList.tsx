@@ -41,7 +41,7 @@ export default function FollowingList() {
     <Container>
       {data?.contents &&
         data?.contents.map(item => (
-          <List key={item.userId}>
+          <List key={item.id}>
             <Image
               src={DefalutImage || item.profileImage}
               width={50}
@@ -50,10 +50,14 @@ export default function FollowingList() {
               className="w-[4rem]"
             />
             <Content className="ml-3">
-              <p>{item.nickName}</p>
+              <p>{item.nickname}</p>
               <p className="w-[32rem] truncate">{item.description}</p>
             </Content>
-            <FollowButton id="팔로잉" onClick={postData} value={item.userId}>
+            <FollowButton
+              id={item.isFollowing === true ? "팔로잉" : "팔로우"}
+              onClick={postData}
+              value={item.id}
+            >
               {item.isFollowing === true ? "팔로잉" : "팔로우"}
             </FollowButton>
           </List>
@@ -61,42 +65,3 @@ export default function FollowingList() {
     </Container>
   );
 }
-
-// const dummy = [
-//   {
-//     nickName: "팔로잉 유저 1",
-//     description: "자기소개",
-//     userId: 1,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-//   {
-//     nickName: "팔로잉 유저 2",
-//     description:
-//       "자기소개 길게 해 보는 중자기소개 길게 해 보는 중자기소개 길게 해 보는 중자기소개 길게 해 보는 중자기소개 길게 해 보는 중자기소개 길게 해 보는 중자기소개 길게 해 보는 중 ",
-//     userId: 2,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-//   {
-//     nickName: "팔로잉 유저 3",
-//     description: "자기소개",
-//     userId: 3,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-//   {
-//     nickName: "팔로잉 유저 4",
-//     description: "자기소개",
-//     userId: 4,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-//   {
-//     nickName: "팔로잉 유저 5",
-//     description: "자기소개",
-//     userId: 5,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-// ];

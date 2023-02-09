@@ -3,7 +3,7 @@ import Navbar from "../src/components/Nav/NavBar";
 import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
 import { Title, HR } from "./notice";
-import MessageList from "../src/components/Message/MessageList";
+import MessageList from "../src/components/Websoket/MessageList";
 
 const MContent = tw.div`
 w-full m-auto flex items-start content-start

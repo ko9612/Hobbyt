@@ -44,7 +44,7 @@ export default function LikeList() {
           <BLComponent key={idx}>
             <BLImage>{item.thumbnailImage}</BLImage>
             <BLContent>
-              <Link href={`/post/${item.postId}`}>
+              <Link href={`/blog/${item.writerId}/post/${item.postId}`}>
                 <div className="flex justify-between">
                   <h2 className="text-2xl font-semibold">{item.title}</h2>
                 </div>

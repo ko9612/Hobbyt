@@ -1,9 +1,11 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Section, Title, BestContent, BestItem } from "./BestBlog";
-import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
+// import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
 import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/MainApi";
+import DefaultImage from "../../../image/userDImage.svg";
 
 const BloggerInfo = tw.div`
 bg-slate-100 flex rounded-2xl items-center justify-center p-4
@@ -36,11 +38,11 @@ export default function BestBlogger() {
             listData[0].hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>
                 <span className="w-16 mr-4">
-                  <DefaultProfileImg
-                    profileImg={item.profileImage}
+                  <Image
+                    src={DefaultImage || item.profileImage}
                     width={70}
                     height={70}
-                    borderW={0}
+                    alt="유저사진"
                   />
                 </span>
                 <span className="text-xl">{item.nickname}</span>

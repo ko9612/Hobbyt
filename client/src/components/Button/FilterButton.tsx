@@ -5,7 +5,7 @@ import { BlogSelectState } from "../../state/BlogPostState";
 export default function FilterButton() {
   const setSelect = useSetRecoilState(BlogSelectState);
 
-  // 클릭된 필터가 무엇인지
+  /** 클릭된 필터가 무엇인지 */
   const [click, setClick] = useState("최신순");
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

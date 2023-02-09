@@ -35,6 +35,7 @@ export default function BlogWriteComponent() {
       content: contentData,
       tags: tagData,
       isPublic: publicData,
+      thumbnailImage: "",
     };
 
     if (titleData?.length !== 0 && contentData?.length !== 0) {
