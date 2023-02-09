@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.LoginResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -35,6 +36,7 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final RedisService redisService;
+	private final MemberService memberService;
 	private final PasswordEncoder passwordEncoder;
 
 	public String sendAuthenticationCodeEmail(final EmailRequest emailRequest) {
@@ -111,5 +113,10 @@ public class AuthService {
 
 		return memberRepository.findByEmailAndStatusNot(email, MemberStatus.WITHDRAWAL)
 			.orElseThrow(LoginFailException::new);
+	}
+
+	public LoginResponse getLoginInfo(String email) {
+		Member member = memberService.findMemberByEmail(email);
+		return new LoginResponse(member.getId(), member.getNickname());
 	}
 }
