@@ -4,6 +4,7 @@ export interface CommentType {
   id: number;
   postId: number;
   content: string;
+  postWriterId: number;
 }
 
 // 블로그 탭 리스트 데이터 타입2

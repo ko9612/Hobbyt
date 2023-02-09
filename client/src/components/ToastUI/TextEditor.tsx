@@ -4,7 +4,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { ContentState } from "../../state/BlogPostState";
-// import { postUploadImage } from "../../api/blogApi";
+import { postImageUpload } from "../../api/profileApi";
 
 const Title = tw.div`flex justify-between`;
 
@@ -42,23 +42,24 @@ export default function TextEditor() {
         height="550px"
         usageStatistics={false}
         onChange={onChangeContent}
-        // hooks={{
-        //   async addImageBlobHook(blob, callback) {
-        //     const formData = new FormData();
-        //     formData.append("file", blob);
-        //     const imageURL = await postUploadImage(formData);
-        //     console.log(`엥?`, imageURL);
+        hooks={{
+          async addImageBlobHook(blob, callback) {
+            const formData = new FormData();
+            formData.append("image", blob);
+            console.log(`formData`, formData);
+            const imageURL = await postImageUpload(formData);
+            console.log(`엥?`, imageURL);
+            const imageURLData = imageURL.data;
+            // if(imageURL){
+            //   if(imageURL.thumnailcheck === 0){
 
-        //     // if(imageURL){
-        //     //   if(imageURL.thumnailcheck === 0){
+            //   }
+            // }
 
-        //     //   }
-        //     // }
-
-        //     // const imageUrlData = imageURL.data;
-        //     callback(`https://hobbyt.main${imageURL}`, "");
-        //   },
-        // }}
+            // const imageUrlData = imageURL.data;
+            callback(`${imageURLData}`, "");
+          },
+        }}
       />
     </div>
   );

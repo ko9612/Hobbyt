@@ -37,6 +37,8 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
+  // console.log("판매아이템", list);
+
   return (
     <SLContent>
       <SLImage>

@@ -158,7 +158,7 @@ export default function OrderProgress({ isData }: IDataProps) {
         <>
           <PgTitle>
             <div className="flex items-center">
-              <span className="w-20 h-20 bg-black overflow-hidden rounded-md ring-4 ring-gray-300">
+              <span className="w-20 h-20 overflow-hidden bg-black rounded-md ring-4 ring-gray-300">
                 <Image
                   // src={isData.thumbnailImage || example}
                   src={example}
@@ -169,7 +169,7 @@ export default function OrderProgress({ isData }: IDataProps) {
               <h2 className="px-6 text-2xl">
                 {isData.title}
                 {isData.status === "CANCEL" && (
-                  <span className="text-red-400 px-6 font-semibold">
+                  <span className="px-6 font-semibold text-red-400">
                     [미입금 주문 취소]
                   </span>
                 )}
@@ -196,11 +196,11 @@ export default function OrderProgress({ isData }: IDataProps) {
 
             <div className="flex items-center">
               {router.pathname.includes("ordermanagement") ? (
-                <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
                   채팅하기
                 </DButton>
               ) : (
-                <DButton className="mr-4 bg-gray-300 text-black hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
                   문의하기
                 </DButton>
               )}
@@ -208,6 +208,7 @@ export default function OrderProgress({ isData }: IDataProps) {
                 <div>
                   {showDropbox && (
                     <ProgressCategory
+                      isCanceled={isData.isCanceled}
                       orderStatus={isData.status}
                       orderId={pid}
                     />

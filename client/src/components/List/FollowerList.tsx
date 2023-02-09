@@ -16,6 +16,7 @@ export default function Following() {
   // 팔로잉, 팔로워 버튼 클릭시 api 호출 함수
   const postData = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = Number(e.currentTarget.value);
+    console.log("id", id);
 
     const res = await postFollowing(id);
     console.log(res.data);
@@ -40,7 +41,7 @@ export default function Following() {
     <Container>
       {data?.contents &&
         data?.contents.map(item => (
-          <List key={item.userId}>
+          <List key={item.id}>
             <Image
               src={DefalutImage || item.profileImage}
               width={50}
@@ -49,36 +50,20 @@ export default function Following() {
               className="w-[4rem]"
             />
             <Content className="ml-3">
-              <p>{item.nickName}</p>
+              <p>{item.nickname}</p>
               <p className="w-[32rem] truncate">{item.description}</p>
             </Content>
-            <FollowButton
-              id={item.isFollowing === true ? "팔로잉" : "팔로우"}
-              onClick={postData}
-              value={item.userId}
-            >
-              {item.isFollowing === true ? "팔로잉" : "팔로우"}
-            </FollowButton>
+            {item.isFollowing === null ? null : (
+              <FollowButton
+                id={item.isFollowing === true ? "팔로잉" : "팔로우"}
+                onClick={postData}
+                value={item.id}
+              >
+                {item.isFollowing === true ? "팔로잉" : "팔로우"}
+              </FollowButton>
+            )}
           </List>
         ))}
     </Container>
   );
 }
-
-// const dummy = [
-//   {
-//     nickName: "팔로워 유저 1",
-//     description: "자기소개",
-//     userId: 1,
-//     profileImage: null,
-//     isFollowing: false,
-//   },
-//   {
-//     nickName: "팔로워 유저 1",
-//     description:
-//       "자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개",
-//     userId: 2,
-//     profileImage: null,
-//     isFollowing: true,
-//   },
-// ];

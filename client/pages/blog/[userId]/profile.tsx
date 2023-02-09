@@ -1,24 +1,18 @@
-import tw from "tailwind-styled-components";
 import Header from "../../../src/components/Page/UserHome/Header";
-import Navbar from "../../../src/components/Nav/NavBar";
 import UserProfileImage from "../../../src/components/Page/UserHome/UserProfileImage";
 import UserProfile from "../../../src/components/Page/UserHome/UserProfile";
+import Navbar from "../../../src/components/Nav/NavBar";
+import ProfileEdit from "../../../src/components/Page/UserHome/ProfileEdit";
 import { Content, BlogContent, UserContent, UserInfo } from "../[userId]";
-import Footer from "../../../src/components/Footer/Footer";
-import BlogWriteComponent from "../../../src/components/Page/BlogWrite/BWComponent";
 
-export const EditorContent = tw.div`w-[43rem] m-auto`;
-
-export default function BlogWrite() {
+export default function Profile() {
   return (
     <>
       <Navbar />
       <Header />
       <Content>
         <BlogContent>
-          <EditorContent>
-            <BlogWriteComponent />
-          </EditorContent>
+          <ProfileEdit />
         </BlogContent>
         <UserContent>
           <UserInfo>
@@ -27,7 +21,6 @@ export default function BlogWrite() {
           </UserInfo>
         </UserContent>
       </Content>
-      <Footer />
     </>
   );
 }
