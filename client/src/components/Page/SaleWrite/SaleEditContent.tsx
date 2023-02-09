@@ -87,7 +87,7 @@ export default function SaleEditContent() {
       setTagData(data.tags);
     }
   };
-
+  console.log(thumbnail);
   useEffect(() => {
     getData();
   }, []);

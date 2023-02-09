@@ -39,31 +39,3 @@ export const patchBlogProfile = async (data: any) => {
     return ErrorHandler(err);
   }
 };
-
-// 이미지 업로드
-export const postImageUpload = async (data: any) => {
-  try {
-    const Image = await axios.post("/api/images", data, {
-      headers: {
-        Authorization: localStorage.getItem("authorization"),
-      },
-    });
-    return Image;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};
-
-// 썸네일 업로드
-export const postThumbnailUpload = async (data: any) => {
-  try {
-    const Image = await axios.post("/api/images", data, {
-      headers: {
-        Authorization: localStorage.getItem("authorization"),
-      },
-    });
-    return Image;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};

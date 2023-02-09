@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
 import { ChangeEvent } from "react";
 import { ThumbnailState } from "../../state/BlogPostState";
+import { postThumbnailUpload } from "../../api/blogApi";
 
 const Title = tw.div`mt-5 mb-5 px-5 flex items-center`;
 
@@ -14,17 +15,18 @@ export default function ThumbnailInput() {
       const thumbnailData = e.target.files[0];
 
       const formData = new FormData();
-      formData.append("thumbnailImage", thumbnailData);
-
-      try {
-        // post 썸네일 이미지
-        setThumbnail(thumbnailData);
-        // const res = (req as any).data;
-      } catch (err: unknown) {}
+      const size = { width: 250, height: 250 };
+      formData.append("image", thumbnailData);
+      formData.append(
+        "size",
+        new Blob([JSON.stringify(size)], { type: "application/json" }),
+      );
+      const data = await postThumbnailUpload(formData);
+      if ((data as any).status === 200) {
+        setThumbnail((data as any).data);
+      }
     }
   };
-
-  console.log(thumbnail);
 
   return (
     <Title>

@@ -65,7 +65,6 @@ export default function SaleDetailContent() {
 
   // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
   const [, setOrderData] = useRecoilState(OrderState);
-
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
@@ -123,7 +122,7 @@ export default function SaleDetailContent() {
       getInputData();
     }
   }, [router.isReady]);
-
+  console.log(SaleData);
   // 계좌, 휴대폰 번호 하이픈 replace 때문에 useForm x
   const receiverPhonelHandler: ComponentProps<"input">["onChange"] = e => {
     if (phoneNumRegex.test(e.target.value)) {
