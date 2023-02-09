@@ -4,7 +4,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { ContentState } from "../../state/BlogPostState";
-import { postImageUpload } from "../../api/profileApi";
+import { postImageUpload } from "../../api/blogApi";
 
 const Title = tw.div`flex justify-between`;
 
