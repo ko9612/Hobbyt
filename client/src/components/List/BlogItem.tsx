@@ -87,18 +87,20 @@ export default function BlogItem({ list }: ListProps) {
           }`}
         >
           {!router.pathname.includes("/blog") && (
-            <ActInfo>
-              <div className="w-[2.5rem]">
-                <DefaultProfileImage
-                  // profileImg={profileImage}
-                  profileImg={DefalutImage}
-                  width={25}
-                  height={25}
-                  borderW={1}
-                />
-              </div>
-              <div>{nickname}</div>
-            </ActInfo>
+            <Link href={`/blog/${writerId}`}>
+              <ActInfo>
+                <div className="w-[2.5rem]">
+                  <DefaultProfileImage
+                    // profileImg={profileImage}
+                    profileImg={DefalutImage}
+                    width={25}
+                    height={25}
+                    borderW={1}
+                  />
+                </div>
+                <div>{nickname}</div>
+              </ActInfo>
+            </Link>
           )}
           <ActInfo
             className={`${

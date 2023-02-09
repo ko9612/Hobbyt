@@ -67,7 +67,10 @@ export default function SaleItem({ list }: ListProps) {
           </div>
         </Link>
         {!router.pathname.includes("/blog") && (
-          <div className="flex items-center float-left py-2">
+          <Link
+            href={`/blog/${writerId}`}
+            className="flex items-center float-left py-2"
+          >
             <div className="w-[1.75rem]">
               <DefaultProfileImage
                 // profileImg={profileImage}
@@ -78,7 +81,7 @@ export default function SaleItem({ list }: ListProps) {
               />
             </div>
             <div>{nickname}</div>
-          </div>
+          </Link>
         )}
         <div className="float-right py-2">
           <LikeCount>{likeCount}</LikeCount>

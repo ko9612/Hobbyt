@@ -40,6 +40,8 @@ export default function Tab({ Menus }: TabProps) {
   //  기본적으로 최신순으로 되어 있음
   const [select, setSelect] = useRecoilState(BlogSelectState);
 
+  const uid = Number(router.query.userId);
+
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
@@ -52,25 +54,27 @@ export default function Tab({ Menus }: TabProps) {
   // 블로그 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getBlogContentList(userId, 0, 5);
+      const res = await getBlogContentList(uid, 0, 5);
       const listRes = res.data;
       setListData(listRes);
       console.log(`listRes`, listRes);
     } else if (select === "인기순") {
-      const res = await getBlogContentListF(userId, 0, 5);
+      const res = await getBlogContentListF(uid, 0, 5);
       const listRes = res.data;
       setListData(listRes);
     }
   };
 
   useEffect(() => {
-    if (
-      Menus[curIndex].name === "블로그" &&
-      router.pathname.includes("/blog")
-    ) {
-      getData();
+    if (router.isReady) {
+      if (
+        Menus[curIndex].name === "블로그" &&
+        router.pathname.includes("/blog")
+      ) {
+        getData();
+      }
     }
-  }, [select, curIndex]);
+  }, [select, curIndex, router.isReady]);
 
   // curIndex 바뀌면 select값 최신순으로 초기화
   useEffect(() => {
