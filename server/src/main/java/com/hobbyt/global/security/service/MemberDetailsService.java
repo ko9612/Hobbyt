@@ -24,7 +24,6 @@ public class MemberDetailsService implements UserDetailsService {
 		Member member = memberRepository.findByEmailAndStatusNot(email, MemberStatus.WITHDRAWAL)
 			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-		// return MemberDetails.of(member);
-		return new MemberDetails(member.getEmail(), member.getAuthority().toString());
+		return MemberDetails.of(member.getEmail(), member.getAuthority().toString());
 	}
 }

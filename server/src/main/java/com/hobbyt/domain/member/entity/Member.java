@@ -68,9 +68,14 @@ public class Member extends BaseEntity {
 	@Column(nullable = false)
 	private boolean dmReceive = true;    // DM 수신여부
 
+	@Enumerated(EnumType.STRING)
+	private Provider provider;
+
+	private String providerId;
+
 	@Builder
 	public Member(Long id, String nickname, String email, String password, String profileImage, String headerImage,
-		String description, String phoneNumber) {
+		String description, String phoneNumber, Provider provider, String providerId) {
 
 		this.id = id;
 		this.nickname = nickname;
@@ -80,6 +85,8 @@ public class Member extends BaseEntity {
 		this.headerImage = headerImage;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
+		this.provider = provider;
+		this.providerId = providerId;
 
 		this.followerCount = 0;
 		this.followingCount = 0;

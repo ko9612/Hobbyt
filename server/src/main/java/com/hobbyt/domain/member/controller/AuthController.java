@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
 import com.hobbyt.domain.member.service.MailService;
 import com.hobbyt.global.security.dto.LoginRequest;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +33,13 @@ public class AuthController {
 	private final AuthService authService;
 	private final MailContentBuilder mailContentBuilder;
 	private final MailService mailService;
+
+	@GetMapping("/loginInfo")
+	public ResponseEntity getLoginInfo(@AuthenticationPrincipal MemberDetails loginMember) {
+		LoginResponse response = authService.getLoginInfo(loginMember.getEmail());
+
+		return ResponseEntity.ok(response);
+	}
 
 	@PostMapping("/code")
 	public ResponseEntity mailConfirm(@Validated @RequestBody EmailRequest emailRequest) {
