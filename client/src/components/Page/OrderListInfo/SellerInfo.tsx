@@ -18,9 +18,12 @@ w-[10rem]
 `;
 
 export default function SellerInfo({ isData }: IDataProps) {
+  console.log(isData);
   return (
     <OLISection>
-      <OLITitle>입금처 정보</OLITitle>
+      <OLITitle>
+        {isData?.payMethod !== "CARD" ? "입금처" : "결제"} 정보
+      </OLITitle>
       {isData && (
         <>
           <OLIItem>
@@ -28,10 +31,12 @@ export default function SellerInfo({ isData }: IDataProps) {
             <div>{isData.orderNumber}</div>
           </OLIItem>
           <OLIItem>
-            <ItemTitle>입금금액</ItemTitle>
+            <ItemTitle>
+              {isData?.payMethod !== "CARD" ? "입금" : "결제"}금액
+            </ItemTitle>
             <div>{isData.totalPrice} 원</div>
           </OLIItem>
-          {isData.sellerAccount && (
+          {isData.sellerAccount && isData.payMethod !== "CARD" && (
             <>
               <OLIItem>
                 <ItemTitle>판매자 은행</ItemTitle>
@@ -41,12 +46,12 @@ export default function SellerInfo({ isData }: IDataProps) {
                 <ItemTitle>판매자 계좌</ItemTitle>
                 <div>{isData.sellerAccount.number}</div>
               </OLIItem>
-              <OLIItem>
-                <ItemTitle>예금주</ItemTitle>
-                <div>{isData.sellerAccount.holder}</div>
-              </OLIItem>
             </>
           )}
+          <OLIItem>
+            <ItemTitle>판매자</ItemTitle>
+            <div>{isData.sellerAccount.holder}</div>
+          </OLIItem>
         </>
       )}
     </OLISection>

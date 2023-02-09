@@ -78,9 +78,10 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
   return (
     <OLISection>
       <OLITitle className="flex items-center">
-        <div>배송/환불 정보</div>
+        <div>배송{isData?.payMethod !== "CARD" && "/환불"} 정보</div>
         <div className="px-10 text-sm font-medium text-red-400">
-          * 배송지 및 환불정보 변경은 입금확인 단계까지만 가능합니다.
+          * 배송{isData?.payMethod !== "CARD" && "지 및 환불"}정보 변경은
+          입금확인 단계까지만 가능합니다.
         </div>
       </OLITitle>
       {isData && isData.recipient && isData.status && (
@@ -103,43 +104,49 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
               <AddressApi />
             </InputDiv>
           </OLIItem>
-          <OLIItem>
-            <ItemLabelTitle htmlFor="BankName">환불은행</ItemLabelTitle>
-            <InputDiv>
-              <Input
-                type="text"
-                id="BankName"
-                maxLength={10}
-                value={isRefundBank}
-                onChange={e => EditBanklHandler(e)}
-              />
-            </InputDiv>
-          </OLIItem>
-          <OLIItem>
-            <ItemLabelTitle htmlFor="accountNumber">환불계좌</ItemLabelTitle>
-            <InputDiv>
-              <Input
-                type="text"
-                id="accountNumber"
-                maxLength={14}
-                placeholder="'-'를 제외한 계좌번호를 입력해주세요"
-                value={isRefundNumber}
-                onChange={e => EditAccountNumHandler(e)}
-              />
-            </InputDiv>
-          </OLIItem>
-          <OLIItem>
-            <ItemLabelTitle htmlFor="holderName">환불예금주</ItemLabelTitle>
-            <InputDiv>
-              <Input
-                type="text"
-                id="holderName"
-                maxLength={10}
-                value={isRefundHolder}
-                onChange={e => EditHolderHandler(e)}
-              />
-            </InputDiv>
-          </OLIItem>
+          {isData.payMethod !== "CARD" && (
+            <>
+              <OLIItem>
+                <ItemLabelTitle htmlFor="BankName">환불은행</ItemLabelTitle>
+                <InputDiv>
+                  <Input
+                    type="text"
+                    id="BankName"
+                    maxLength={10}
+                    value={isRefundBank}
+                    onChange={e => EditBanklHandler(e)}
+                  />
+                </InputDiv>
+              </OLIItem>
+              <OLIItem>
+                <ItemLabelTitle htmlFor="accountNumber">
+                  환불계좌
+                </ItemLabelTitle>
+                <InputDiv>
+                  <Input
+                    type="text"
+                    id="accountNumber"
+                    maxLength={14}
+                    placeholder="'-'를 제외한 계좌번호를 입력해주세요"
+                    value={isRefundNumber}
+                    onChange={e => EditAccountNumHandler(e)}
+                  />
+                </InputDiv>
+              </OLIItem>
+              <OLIItem>
+                <ItemLabelTitle htmlFor="holderName">환불예금주</ItemLabelTitle>
+                <InputDiv>
+                  <Input
+                    type="text"
+                    id="holderName"
+                    maxLength={10}
+                    value={isRefundHolder}
+                    onChange={e => EditHolderHandler(e)}
+                  />
+                </InputDiv>
+              </OLIItem>
+            </>
+          )}
           {showModal && (
             <MsgModal msg="저장되었습니다." setOpenModal={setShowModal} />
           )}
@@ -147,7 +154,7 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
           isData.status === "PAYMENT_VERIFICATION" ? (
             <div className="pt-10 text-right">
               <WideB id="shippingInfoSubmit" onClick={InfoEditClick}>
-                배송/환불 정보 저장하기
+                배송{isData?.payMethod !== "CARD" && "/환불"} 정보 저장하기
               </WideB>
             </div>
           ) : null}

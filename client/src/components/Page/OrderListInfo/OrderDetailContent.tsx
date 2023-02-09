@@ -57,7 +57,8 @@ export default function OrderDetailContent() {
       ) : (
         <PurchaserEditInfo isData={isData} />
       )}
-      <DepositInfo isData={isData} />
+      {isData?.payMethod !== "CARD" && <DepositInfo isData={isData} />}
+
       <OrderInfo isData={isData} />
     </>
   );
