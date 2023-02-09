@@ -82,3 +82,20 @@ export const patchOrderInfo = async (data: any, id: number) => {
     return ErrorHandler(err);
   }
 };
+
+// 카드 결제 검증
+export const postPayment = async (data: any) => {
+  try {
+    const orderData = await axios.post(
+      `http://59.12.62.150:8080/api/orders/payment/complete`,
+      data,
+      {
+        headers: { authorization: localStorage.getItem("authorization") },
+      },
+    );
+    return orderData;
+  } catch (err: unknown) {
+    console.log(err);
+    return ErrorHandler(err);
+  }
+};
