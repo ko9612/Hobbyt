@@ -1,4 +1,5 @@
 import { postPayment } from "../api/OrderApi";
+import ScrollRoader from "../components/Scroll/ScrollRoader";
 import { OrderDataProps } from "../type/OrderType";
 import CreateOrderNum from "./OrederNumber";
 
@@ -20,12 +21,16 @@ interface PaymentProps {
   };
   orderData: OrderDataProps;
   userId: number;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Payment({
   paymentData,
   orderData,
   userId,
+  isLoading,
+  setIsLoading,
 }: PaymentProps) {
   const onClickPayment = () => {
     const { IMP } = window;
@@ -79,6 +84,7 @@ export default function Payment({
 
       const PostOrderData = await postPayment(OrderDataInfo);
       if ((PostOrderData as any).status === 200) {
+        setIsLoading(true);
         setTimeout(() => {
           window.location.replace(
             `/mypage/${userId}/orderdetail/${(PostOrderData as any).data}`,
@@ -90,5 +96,10 @@ export default function Payment({
     }
   };
 
-  return <>{onClickPayment()};</>;
+  return (
+    <>
+      {isLoading && <ScrollRoader />}
+      {onClickPayment()};
+    </>
+  );
 }

@@ -178,7 +178,13 @@ export default function PaymentModal({
                   <PayButton
                     onClick={() => {
                       setIsBankTransfer(false);
-                      Payment({ paymentData, orderData, userId });
+                      Payment({
+                        paymentData,
+                        orderData,
+                        userId,
+                        isLoading,
+                        setIsLoading,
+                      });
                     }}
                   >
                     카드결제
