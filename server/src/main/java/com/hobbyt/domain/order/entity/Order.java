@@ -77,7 +77,7 @@ public class Order extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private PayMethod payMethod;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "payments_id")
 	private Payments payments;
 
