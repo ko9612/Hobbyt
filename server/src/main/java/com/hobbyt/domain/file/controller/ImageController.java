@@ -46,7 +46,7 @@ public class ImageController {
 
 	@PostMapping("/thumbnails")
 	public ResponseEntity<String> uploadThumbnail(
-		@RequestPart(name = "image") MultipartFile image, @RequestPart ThumbnailSizeDto size) {
+		@RequestPart MultipartFile image, @RequestPart ThumbnailSizeDto size) {
 		String imageName = fileService.saveThumbnail(image, size);
 
 		return ResponseEntity.ok(imageName);
