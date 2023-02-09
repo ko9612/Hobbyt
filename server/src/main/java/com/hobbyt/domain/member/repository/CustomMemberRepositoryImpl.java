@@ -64,6 +64,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				postComment.content,
 				postComment.createdAt,
 				post.id.as("postId"),
+				post.writer.id.as("postWriterId"),
 				post.thumbnailImage,
 				post.title.as("postTitle")
 			))
