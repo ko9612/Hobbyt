@@ -20,7 +20,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
+import com.hobbyt.global.security.handler.Oauth2SuccessHandler;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.service.OAuth2DetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,17 +33,16 @@ public class SecurityConfig {
 
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final OAuth2DetailsService oAuth2DetailsService;
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> {
 			web.ignoring()
-				//.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
 				.antMatchers(
 					"/api-document/**"
 				);
 		};
-		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 컨트롤러 test시 에러 발생(MemberDetailsService의 MemberNotExistException)
 	}
 
 	@Bean
@@ -61,9 +62,6 @@ public class SecurityConfig {
 			.csrf()
 			.disable()
 			.cors(Customizer.withDefaults())
-
-			/*.apply(new CustomFilterConfigurer())
-			.and()*/
 
 			.authorizeRequests()
 			.mvcMatchers("/websocket")
@@ -89,7 +87,14 @@ public class SecurityConfig {
 			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup")
 			.permitAll()
 			.anyRequest()
-			.authenticated();
+			.authenticated()
+
+			.and()
+			.oauth2Login(oauth2 -> oauth2
+				.userInfoEndpoint().userService(oAuth2DetailsService)
+				.and()
+				.successHandler(new Oauth2SuccessHandler(jwtTokenProvider, redisService))
+			);
 
 		return http.build();
 	}
@@ -118,26 +123,4 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
-
-	/*public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-		@Override
-		public void configure(HttpSecurity builder) throws Exception {
-
-			AuthenticationManager authenticationManager =
-				builder.getSharedObject(AuthenticationManager.class);
-
-			JwtAuthenticationFilter jwtAuthenticationFilter =
-				new JwtAuthenticationFilter(authenticationManager, redisService, jwtTokenProvider);
-
-			JwtVerificationFilter jwtVerificationFilter =
-				new JwtVerificationFilter(jwtTokenProvider, userDetailsService, redisService);
-
-			jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
-			jwtAuthenticationFilter.setPostOnly(true);
-
-			builder
-				.addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-		}
-	}*/
 }
