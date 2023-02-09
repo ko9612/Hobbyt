@@ -42,8 +42,11 @@ public class PostService {
 
 	public Post updatePost(Long id, Post post) {
 		Post found = findVerifiedOneById(id);
+
 		found.updateTitle(post.getTitle());
 		found.updateContent(post.getContent());
+		found.updateThumbnailImage(post.getThumbnailImage());
+		found.updateIsPublic(post.isPublic());
 
 		return found;
 	}
