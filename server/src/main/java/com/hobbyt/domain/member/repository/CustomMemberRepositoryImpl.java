@@ -5,6 +5,7 @@ import static com.hobbyt.domain.post.entity.QPost.*;
 import static com.hobbyt.domain.post.entity.QPostComment.*;
 import static com.hobbyt.domain.post.entity.QPostLike.*;
 import static com.hobbyt.domain.sale.entity.QSale.*;
+import static com.hobbyt.domain.sale.entity.QSaleLike.*;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.SaleCard;
 import com.querydsl.core.types.Projections;
@@ -126,6 +128,33 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return new PrivateHomePostLikeResponse(hasNext, cards);
+	}
+
+	@Override
+	public PrivateHomeSaleLikeResponse getSaleLikeByMemberId(Long memberId, PrivateHomeRequest params) {
+		List<PrivateHomeSaleLikeResponse.SaleCard> cards = queryFactory
+			.select(Projections.fields(PrivateHomeSaleLikeResponse.SaleCard.class,
+				saleLike.id.as("saleLikeId"),
+				sale.id.as("saleId"),
+				sale.title,
+				sale.content,
+				sale.thumbnailImage,
+				sale.viewCount,
+				sale.likeCount,
+				sale.createdAt
+			))
+			.from(saleLike)
+			.join(saleLike.sale, sale)
+			.join(saleLike.member, member)
+			.where(member.id.eq(memberId))
+			.orderBy(saleLike.id.desc())
+			.offset(params.getOffset())
+			.limit(params.getLimit() + 1)
+			.fetch();
+
+		Boolean hasNext = getHasNext(cards, params.getLimit());
+
+		return new PrivateHomeSaleLikeResponse(hasNext, cards);
 	}
 
 	private Boolean getHasNext(List<?> cards, int limit) {

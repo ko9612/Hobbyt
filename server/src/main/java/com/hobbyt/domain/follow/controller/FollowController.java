@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.follow.dto.SliceResponse;
 import com.hobbyt.domain.follow.service.FollowService;
+import com.hobbyt.global.dto.SliceResponse;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
