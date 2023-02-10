@@ -39,7 +39,8 @@ public class Payments {
 		int totalCancel = this.cancelAmount + cancelAmount;
 
 		if (totalCancel > amount) {
-			throw new BusinessLogicException(REFUND_NOT_PERMITTED, "환불요청 금액이 남은 환불 가능금액보다 큼");
+			throw new BusinessLogicException(REFUND_NOT_PERMITTED,
+				"The amount requested for refund is greater than the amount that can be refunded");
 		}
 
 		this.cancelAmount = totalCancel;

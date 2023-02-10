@@ -31,7 +31,6 @@ import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
@@ -140,7 +139,7 @@ class MemberServiceTest {
 		UpdatePassword updatePassword = dummyUpdatePassword(oldPassword, newPassword, checkPassword);
 
 		assertThatThrownBy(() -> memberService.updatePassword(EMAIL, updatePassword))
-			.isInstanceOf(PasswordException.class);
+			.isInstanceOf(BusinessLogicException.class);
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}
 

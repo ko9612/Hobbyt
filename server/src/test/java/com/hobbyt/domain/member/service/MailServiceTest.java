@@ -14,7 +14,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import com.hobbyt.global.exception.CMailException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 @ExtendWith(MockitoExtension.class)
 class MailServiceTest {
@@ -53,7 +53,7 @@ class MailServiceTest {
 
 		//then
 		assertThatThrownBy(() -> mailService.sendMail(notificationEmail))
-			.isInstanceOf(CMailException.class);
+			.isInstanceOf(BusinessLogicException.class);
 		then(mailSender).should(times(1)).send(any(MimeMessagePreparator.class));
 	}
 }

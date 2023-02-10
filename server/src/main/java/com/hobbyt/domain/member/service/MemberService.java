@@ -22,7 +22,6 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.PasswordException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -102,7 +101,7 @@ public class MemberService {
 		if (isOldPasswordEqualsNewPassword(updatePassword)
 			|| !isNewPasswordEqualsCheckPassword(updatePassword)
 			|| !isCorrectPassword(updatePassword.getOldPassword(), memberPassword)) {
-			throw new PasswordException();
+			throw new BusinessLogicException(AUTH_INVALID_PASSWORD);
 		}
 	}
 

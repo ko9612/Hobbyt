@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.LoginInfo;
 import com.hobbyt.domain.member.dto.response.LoginResponse;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
@@ -36,7 +37,7 @@ public class AuthController {
 
 	@GetMapping("/loginInfo")
 	public ResponseEntity getLoginInfo(@AuthenticationPrincipal MemberDetails loginMember) {
-		LoginResponse response = authService.getLoginInfo(loginMember.getEmail());
+		LoginInfo response = authService.getLoginInfo(loginMember.getEmail());
 
 		return ResponseEntity.ok(response);
 	}
@@ -56,7 +57,7 @@ public class AuthController {
 
 		LoginDto loginDto = authService.login(loginRequest);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + loginDto.getAccessToken());
+		response.setHeader(AUTH_HEADER, loginDto.getAccessToken());
 		response.setHeader(REFRESH_TOKEN_HEADER, loginDto.getRefreshToken());
 		LoginResponse loginResponse = new LoginResponse(loginDto.getId(), loginDto.getNickname());
 		return ResponseEntity.ok(loginResponse);
@@ -70,7 +71,7 @@ public class AuthController {
 		String reissuedAccessToken = authService.reissueAccessToken(accessToken, refreshToken);
 		String reissuedRefreshToken = authService.reissueRefreshToken(refreshToken);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken);
+		response.setHeader(AUTH_HEADER, reissuedAccessToken);
 		response.setHeader(REFRESH_TOKEN_HEADER, reissuedRefreshToken);
 
 		return new ResponseEntity(HttpStatus.OK);
