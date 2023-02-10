@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
+import com.hobbyt.domain.member.dto.response.LoginInfo;
 import com.hobbyt.domain.member.dto.response.LoginResponse;
 import com.hobbyt.domain.member.service.AuthService;
 import com.hobbyt.domain.member.service.MailContentBuilder;
@@ -36,7 +37,7 @@ public class AuthController {
 
 	@GetMapping("/loginInfo")
 	public ResponseEntity getLoginInfo(@AuthenticationPrincipal MemberDetails loginMember) {
-		LoginResponse response = authService.getLoginInfo(loginMember.getEmail());
+		LoginInfo response = authService.getLoginInfo(loginMember.getEmail());
 
 		return ResponseEntity.ok(response);
 	}

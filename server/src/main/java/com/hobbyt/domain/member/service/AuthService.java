@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.dto.LoginDto;
 import com.hobbyt.domain.member.dto.request.EmailRequest;
-import com.hobbyt.domain.member.dto.response.LoginResponse;
+import com.hobbyt.domain.member.dto.response.LoginInfo;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -114,8 +114,8 @@ public class AuthService {
 			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 	}
 
-	public LoginResponse getLoginInfo(String email) {
+	public LoginInfo getLoginInfo(String email) {
 		Member member = memberService.findMemberByEmail(email);
-		return new LoginResponse(member.getId(), member.getNickname());
+		return new LoginInfo(member.getId(), member.getNickname(), member.getEmail());
 	}
 }
