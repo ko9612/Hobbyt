@@ -3,12 +3,13 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import Image from "next/image";
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
-import { getBlogDetail, postLikePlus } from "../../../api/blogApi";
+import { getBlogDetail, getImage, postLikePlus } from "../../../api/blogApi";
 import { IBlogDetailData } from "../../../type/blogType";
 import { LoginState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
@@ -32,6 +33,26 @@ export default function BlogPostDetail() {
   const isLogin = useRecoilValue(LoginState);
   // hover 여부
   const [isHover, setIsHover] = useState(false);
+
+  // // 썸네일 get 요청
+  // const thumbnailImageAPI = async (BlogThumbnailImage): any => {
+  //   const thumbnailImage = await getImage(BlogThumbnailImage);
+  //   return console.log("thumbnailImage Get", thumbnailImage);
+  // };
+
+  //   // post 디테일 데이터 불러오는 api
+  // const getData = async () => {
+  //   const blogDetail = await getBlogDetail(pid);
+  //   setGetNewData(blogDetail.data);
+  //   console.log("블로그 디테일", blogDetail.data);
+  //   thumbnailImageAPI(blogDetail.data.thumbnailImage);
+  // };
+
+  // 썸네일 get 요청
+  // const thumbnailImageAPI = async (BlogThumbnailImage: any) => {
+  //   const thumbnailImage = await getImage(BlogThumbnailImage);
+  //   return console.log("thumbnailImage Get", thumbnailImage);
+  // };
 
   // post 디테일 데이터 불러오는 api
   const getData = async () => {
@@ -72,6 +93,8 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
+  console.log("getNewData?.thumbnailImage}", getNewData?.thumbnailImage);
+
   return (
     <Detail id="viewer">
       <Title>{getNewData?.title}</Title>
@@ -89,6 +112,16 @@ export default function BlogPostDetail() {
         </VWInfo>
       </Info>
       <Main>
+        {getNewData && getNewData?.thumbnailImage.length === 0 ? null : (
+          <div className="flex justify-center my-8">
+            <Image
+              src={`/api/images/${getNewData?.thumbnailImage}`}
+              width={500}
+              height={500}
+              alt=""
+            />
+          </div>
+        )}
         <Content>
           <TextViewer initialValue={getNewData?.content} />
         </Content>

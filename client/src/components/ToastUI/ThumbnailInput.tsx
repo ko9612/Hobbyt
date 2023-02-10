@@ -10,6 +10,23 @@ export default function ThumbnailInput() {
   // atom에 title 내용 저장
   const [thumbnail, setThumbnail] = useRecoilState(ThumbnailState);
 
+  // const onChangeImage = async (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     const thumbnailData = e.target.files[0];
+
+  //     const formData = new FormData();
+  //     formData.append("thumbnailImage", thumbnailData);
+
+  //     try {
+  //       // post 썸네일 이미지
+  //       setThumbnail(thumbnailData);
+  //       // const res = (req as any).data;
+  //     } catch (err: unknown) {
+  //       return console.log("썸네일 이미지", err);
+  //     }
+  //   }
+  // };
+
   const onChangeImage = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const thumbnailData = e.target.files[0];
@@ -27,6 +44,8 @@ export default function ThumbnailInput() {
       }
     }
   };
+
+  console.log("thumbnail", thumbnail);
 
   return (
     <Title>

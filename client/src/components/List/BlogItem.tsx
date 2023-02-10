@@ -58,9 +58,13 @@ export default function BlogItem({ list }: ListProps) {
     >
       <BLImage>
         <Image
-          // src={thumbnailImage || DefalutImage}
-          src={DefalutImage}
+          src={
+            thumbnailImage !== null
+              ? `/api/images/${thumbnailImage}`
+              : DefalutImage
+          }
           alt="img"
+          className={thumbnailImage !== null ? "rounded-xl" : ""}
           width={150}
           height={150}
         />
