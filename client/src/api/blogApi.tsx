@@ -132,13 +132,3 @@ export const postThumbnailUpload = async (data: any) => {
     return ErrorHandler(err);
   }
 };
-
-// 이미지 get 요청
-export const getImage = async (url: string) => {
-  try {
-    const Image = await axios.get(`/api/images/${url}`);
-    return Image;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
-  }
-};

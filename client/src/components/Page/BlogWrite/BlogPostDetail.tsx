@@ -34,26 +34,6 @@ export default function BlogPostDetail() {
   // hover 여부
   const [isHover, setIsHover] = useState(false);
 
-  // // 썸네일 get 요청
-  // const thumbnailImageAPI = async (BlogThumbnailImage): any => {
-  //   const thumbnailImage = await getImage(BlogThumbnailImage);
-  //   return console.log("thumbnailImage Get", thumbnailImage);
-  // };
-
-  //   // post 디테일 데이터 불러오는 api
-  // const getData = async () => {
-  //   const blogDetail = await getBlogDetail(pid);
-  //   setGetNewData(blogDetail.data);
-  //   console.log("블로그 디테일", blogDetail.data);
-  //   thumbnailImageAPI(blogDetail.data.thumbnailImage);
-  // };
-
-  // 썸네일 get 요청
-  // const thumbnailImageAPI = async (BlogThumbnailImage: any) => {
-  //   const thumbnailImage = await getImage(BlogThumbnailImage);
-  //   return console.log("thumbnailImage Get", thumbnailImage);
-  // };
-
   // post 디테일 데이터 불러오는 api
   const getData = async () => {
     const blogDetail = await getBlogDetail(pid);
@@ -112,7 +92,7 @@ export default function BlogPostDetail() {
         </VWInfo>
       </Info>
       <Main>
-        {getNewData && getNewData?.thumbnailImage.length === 0 ? null : (
+        {getNewData && getNewData?.thumbnailImage === null ? null : (
           <div className="flex justify-center my-8">
             <Image
               src={`/api/images/${getNewData?.thumbnailImage}`}
