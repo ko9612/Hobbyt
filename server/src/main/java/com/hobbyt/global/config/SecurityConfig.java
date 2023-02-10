@@ -19,7 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.redis.RedisService;
-import com.hobbyt.global.security.CustomAuthenticationEntryPoint;
+import com.hobbyt.global.security.exception.CustomAuthenticationEntryPoint;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
 import com.hobbyt.global.security.handler.Oauth2SuccessHandler;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
