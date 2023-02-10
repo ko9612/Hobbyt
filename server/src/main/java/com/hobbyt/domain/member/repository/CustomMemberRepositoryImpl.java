@@ -109,6 +109,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
 				postLike.id.as("postLikeId"),
 				post.id.as("postId"),
+				post.writer.id.as("postWriterId"),
+				post.writer.nickname.as("postWriterNickname"),
 				post.title,
 				post.content,
 				post.thumbnailImage,

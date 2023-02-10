@@ -3,6 +3,8 @@ package com.hobbyt.domain.chat.repository;
 import static com.hobbyt.domain.chat.entity.QChatRoom.*;
 import static com.hobbyt.domain.chat.entity.QChatUser.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +21,14 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 
 	@Override
 	public ChatRoom findChatRoomByUserIds(Long userId1, Long userId2) {
-		queryFactory
+		List<ChatRoom> chatRooms = queryFactory
 			.select(chatRoom)
 			.from(chatUser)
 			.join(chatUser.chatRoom, chatRoom)
-			.where()
-			.fetchFirst();
+			.where(chatUser.member.id.eq(userId1).or(
+				chatUser.member.id.eq(userId2)
+			))
+			.fetch();
 
 		return null;
 	}

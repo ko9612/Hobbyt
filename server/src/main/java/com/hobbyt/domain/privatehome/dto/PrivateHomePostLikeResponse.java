@@ -18,6 +18,8 @@ public class PrivateHomePostLikeResponse {
 	public static class PostCard {
 		private Long postLikeId;
 		private Long postId;
+		private Long postWriterId;
+		private String postWriterNickname;
 		private String title;
 		private String content;
 		private String thumbnailImage;
