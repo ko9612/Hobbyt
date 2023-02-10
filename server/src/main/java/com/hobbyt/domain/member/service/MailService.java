@@ -1,5 +1,7 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -7,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.hobbyt.global.exception.CMailException;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ public class MailService {
 			log.info("MailService Thread: " + Thread.currentThread().getName());
 			mailSender.send(messagePreparator);
 		} catch (MailException e) {
-			throw new CMailException();
+			throw new BusinessLogicException(MAIL_SEND_FAILED);
 		}
 	}
 

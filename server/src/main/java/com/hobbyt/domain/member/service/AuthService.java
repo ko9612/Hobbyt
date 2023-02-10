@@ -14,7 +14,6 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.LoginFailException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -112,7 +111,7 @@ public class AuthService {
 	private Member findMemberByEmailAndNotWithdrawal(String email) {
 
 		return memberRepository.findByEmailAndStatusNot(email, MemberStatus.WITHDRAWAL)
-			.orElseThrow(LoginFailException::new);
+			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 	}
 
 	public LoginResponse getLoginInfo(String email) {
