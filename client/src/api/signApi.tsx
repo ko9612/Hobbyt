@@ -49,7 +49,7 @@ export const postReToken = async () => {
       "",
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
           refreshtoken: localStorage.getItem("refresh"),
         },
       },
@@ -69,7 +69,7 @@ export const postSignout = async () => {
       "",
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -86,7 +86,7 @@ export const delAccount = async () => {
       "http://59.12.62.150:8080/api/members/myPage/delete",
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -96,4 +96,19 @@ export const delAccount = async () => {
   }
 };
 
-//
+// 로그인 이후 정보 조회
+export const getOauthInfo = async () => {
+  try {
+    const userData = await axios.get(
+      `http://59.12.62.150:8080/api/auth/loginInfo`,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
+      },
+    );
+    return userData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};

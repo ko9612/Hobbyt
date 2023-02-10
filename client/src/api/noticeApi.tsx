@@ -5,7 +5,9 @@ import ErrorHandler from "./errorHandler";
 export const getSSE = async () => {
   try {
     const sse = await axios.get("/api/notifications/subscribe", {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return sse;
   } catch (err: unknown) {
@@ -17,7 +19,9 @@ export const getSSE = async () => {
 export const getNotice = async () => {
   try {
     const noticeList = await axios.get("/api/notifications?offset=0&limit=10", {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return noticeList;
   } catch (err: unknown) {
@@ -31,7 +35,9 @@ export const patchNotice = async (notificationId: number) => {
     const noticeList = await axios.patch(
       `/api/notifications/${notificationId}`,
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return noticeList;

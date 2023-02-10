@@ -98,7 +98,9 @@ export const postFollowing = async (homeUserId: number) => {
       `/api/members/${homeUserId}/follow`,
       {},
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return Follow;
@@ -113,7 +115,9 @@ export const getFollower = async (homeUserId: number) => {
     const Follower = await axios.get(
       `/api/members/${homeUserId}/follower?page=0&size=10`,
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return Follower;
@@ -128,7 +132,9 @@ export const getFollowing = async (homeUserId: number) => {
     const Following = await axios.get(
       `/api/members/${homeUserId}/following?page=0&size=10`,
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return Following;
@@ -143,7 +149,9 @@ export const getProductsList = async () => {
     const list = await axios.get(
       `/api/members/myPage/products?page=0&size=10`,
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return list;
@@ -156,7 +164,9 @@ export const getProductsList = async () => {
 export const getOrderList = async () => {
   try {
     const list = await axios.get(`/api/members/myPage/orders?page=0&size=10`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return list;
   } catch (err: unknown) {
@@ -170,7 +180,9 @@ export const getManagementList = async () => {
     const list = await axios.get(
       `/api/members/myPage/products/management?page=0&size=10`,
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return list;
