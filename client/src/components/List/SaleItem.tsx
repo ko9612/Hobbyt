@@ -12,7 +12,7 @@ import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
 export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`rounded-lg mb-2 relative`;
+export const SLImage = tw.div`mb-2 relative`;
 export const SLProductInfo = tw.div`mx-4`;
 const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
 
@@ -49,11 +49,11 @@ export default function SaleItem({ list }: ListProps) {
           </SLImageC>
         ) : null}
         <Image
-          // src={thumbnailImage || saleDImage}
-          src={saleDImage}
+          src={thumbnailImage ? `/api/images/${thumbnailImage}` : saleDImage}
           alt="img"
           width={225}
           height={225}
+          className="object-cover rounded-t-lg h-[14rem]"
         />
       </SLImage>
       <SLProductInfo>
