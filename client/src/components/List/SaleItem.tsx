@@ -12,7 +12,7 @@ import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
 export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`mb-2 relative`;
+export const SLImage = tw.div`mb-2 relative h-auto`;
 export const SLProductInfo = tw.div`mx-4`;
 const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
 
@@ -38,6 +38,7 @@ export default function SaleItem({ list }: ListProps) {
   const { startedAt, endAt } = period || {};
 
   // console.log("판매아이템", list);
+  console.log(thumbnailImage);
 
   return (
     <SLContent>
@@ -51,8 +52,8 @@ export default function SaleItem({ list }: ListProps) {
         <Image
           src={thumbnailImage ? `/api/images/${thumbnailImage}` : saleDImage}
           alt="img"
-          width={225}
-          height={225}
+          width={250}
+          height={250}
           className="object-cover rounded-t-lg h-[14rem]"
         />
       </SLImage>
