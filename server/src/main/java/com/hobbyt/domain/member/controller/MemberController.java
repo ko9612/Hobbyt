@@ -40,13 +40,6 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	// test용 api >> 나중에 제거
-	@GetMapping("/check")
-	public ResponseEntity check() {
-		System.out.println("========== check ok ==========");
-		return new ResponseEntity("check ok", HttpStatus.OK);
-	}
-
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
 		Long id = memberService.createUser(signupRequest);
