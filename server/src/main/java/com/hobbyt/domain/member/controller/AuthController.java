@@ -57,7 +57,7 @@ public class AuthController {
 
 		LoginDto loginDto = authService.login(loginRequest);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + loginDto.getAccessToken());
+		response.setHeader(AUTH_HEADER, loginDto.getAccessToken());
 		response.setHeader(REFRESH_TOKEN_HEADER, loginDto.getRefreshToken());
 		LoginResponse loginResponse = new LoginResponse(loginDto.getId(), loginDto.getNickname());
 		return ResponseEntity.ok(loginResponse);
@@ -71,7 +71,7 @@ public class AuthController {
 		String reissuedAccessToken = authService.reissueAccessToken(accessToken, refreshToken);
 		String reissuedRefreshToken = authService.reissueRefreshToken(refreshToken);
 
-		response.setHeader(AUTH_HEADER, TOKEN_TYPE + " " + reissuedAccessToken);
+		response.setHeader(AUTH_HEADER, reissuedAccessToken);
 		response.setHeader(REFRESH_TOKEN_HEADER, reissuedRefreshToken);
 
 		return new ResponseEntity(HttpStatus.OK);
