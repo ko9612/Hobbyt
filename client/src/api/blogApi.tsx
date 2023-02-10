@@ -17,7 +17,9 @@ export const getBlogDetail = async (id: number | undefined) => {
 export const postBlogContent = async (data: any) => {
   try {
     const blogContent = await axios.post("/api/posts", data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogContent;
   } catch (err: unknown) {
@@ -29,7 +31,9 @@ export const postBlogContent = async (data: any) => {
 export const patchBlogContent = async (data: any, postId: number) => {
   try {
     const blogContent = await axios.patch(`/api/posts/${postId}`, data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogContent;
   } catch (err: unknown) {
@@ -41,7 +45,9 @@ export const patchBlogContent = async (data: any, postId: number) => {
 export const deleteBlogContent = async (id: any) => {
   try {
     const blogContent = await axios.delete(`/api/posts/${id}`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogContent;
   } catch (err: unknown) {
@@ -55,7 +61,9 @@ export const deleteBlogContent = async (id: any) => {
 export const postBlogComment = async (data: any) => {
   try {
     const blogComment = await axios.post("/api/post-comments", data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogComment;
   } catch (err: unknown) {
@@ -67,7 +75,9 @@ export const postBlogComment = async (data: any) => {
 export const patchBlogComment = async (data: any, id: any) => {
   try {
     const blogComment = await axios.patch(`/api/post-comments/${id}`, data, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogComment;
   } catch (err: unknown) {
@@ -79,7 +89,9 @@ export const patchBlogComment = async (data: any, id: any) => {
 export const deleteBlogComment = async (id: any) => {
   try {
     const blogComment = await axios.delete(`/api/post-comments/${id}`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+      },
     });
     return blogComment;
   } catch (err: unknown) {
@@ -96,7 +108,9 @@ export const postLikePlus = async (postId: number) => {
       `/api/posts/${postId}/like`,
       {},
       {
-        headers: { Authorization: localStorage.getItem("authorization") },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return likeData;
@@ -110,7 +124,7 @@ export const postImageUpload = async (data: any) => {
   try {
     const Image = await axios.post("/api/images", data, {
       headers: {
-        Authorization: localStorage.getItem("authorization"),
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
       },
     });
     return Image;
@@ -124,7 +138,7 @@ export const postThumbnailUpload = async (data: any) => {
   try {
     const Image = await axios.post("/api/images/thumbnails", data, {
       headers: {
-        Authorization: localStorage.getItem("authorization"),
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
       },
     });
     return Image;

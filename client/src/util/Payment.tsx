@@ -22,7 +22,7 @@ interface PaymentProps {
   orderData: OrderDataProps;
   userId: number;
   isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setIsLoading(state: boolean): void;
 }
 
 export default function Payment({
@@ -90,6 +90,8 @@ export default function Payment({
             `/mypage/${userId}/orderdetail/${(PostOrderData as any).data}`,
           );
         }, 500);
+      } else {
+        alert(`결제 실패: ${error_msg}`);
       }
     } else {
       alert(`결제 실패: ${error_msg}`);

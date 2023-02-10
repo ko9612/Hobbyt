@@ -11,7 +11,7 @@ export const postSaleWrite = async (data: any) => {
       data,
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -41,7 +41,7 @@ export const patchSaleContent = async (data: any, id: number) => {
       `http://59.12.62.150:8080/api/sales/${id}`,
       data,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: { authorization: `Bearer ${localStorage.getItem("authorization")}` },
       },
     );
     return SaleContent;
@@ -56,7 +56,7 @@ export const deleteSaleContent = async (id: any) => {
     const saleContent = await axios.delete(
       `http://59.12.62.150:8080/api/sales/${id}`,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: { authorization: `Bearer ${localStorage.getItem("authorization")}` },
       },
     );
     return saleContent;
@@ -72,7 +72,7 @@ export const postSaleLike = async (id: any) => {
       `http://59.12.62.150:8080/api/sales/${id}/like`,
       {},
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: { authorization: `Bearer ${localStorage.getItem("authorization")}` },
       },
     );
     return likeData;

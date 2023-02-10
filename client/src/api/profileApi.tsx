@@ -17,7 +17,7 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
   try {
     const blogProfile = await axios.get(`/api/members/${homeUserId}/profile`, {
       headers: {
-        Authorization: localStorage.getItem("authorization"),
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
       },
     });
     return blogProfile;
@@ -31,7 +31,7 @@ export const patchBlogProfile = async (data: any) => {
   try {
     const blogProfile = await axios.patch("/api/members/profile", data, {
       headers: {
-        Authorization: localStorage.getItem("authorization"),
+        Authorization: `Bearer ${localStorage.getItem("authorization")}`,
       },
     });
     return blogProfile;

@@ -10,7 +10,9 @@ export const postOrder = async (data: any) => {
       `http://59.12.62.150:8080/api/orders`,
       data,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return orderData;
@@ -26,7 +28,7 @@ export const getOrderDetail = async (id: number | undefined) => {
       `http://59.12.62.150:8080/api/members/myPage/orders/${id}`,
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -42,7 +44,9 @@ export const deleteOrder = async (id: number) => {
     const orderData = await axios.delete(
       `http://59.12.62.150:8080/api/orders/${id}`,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return orderData;
@@ -58,7 +62,9 @@ export const patchOrderState = async (data: any, orderId: number) => {
       `http://59.12.62.150:8080/api/members/myPage/orders/${orderId}/status`,
       data,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return orderData;
@@ -74,7 +80,9 @@ export const patchOrderInfo = async (data: any, id: number) => {
       `http://59.12.62.150:8080/api/members/myPage/orders/${id}`,
       data,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return orderData;
@@ -90,7 +98,9 @@ export const postPayment = async (data: any) => {
       `http://59.12.62.150:8080/api/orders/payment/complete`,
       data,
       {
-        headers: { authorization: localStorage.getItem("authorization") },
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
+        },
       },
     );
     return orderData;

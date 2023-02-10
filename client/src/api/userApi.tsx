@@ -10,7 +10,7 @@ export const patchPaswword = async (data: PasswordProps) => {
       data,
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -27,7 +27,7 @@ export const getUserInfo = async () => {
       "http://59.12.62.150:8080/api/members/myPage/info",
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );
@@ -45,7 +45,7 @@ export const patchUserInfo = async (data: MyInfoProps) => {
       data,
       {
         headers: {
-          authorization: localStorage.getItem("authorization"),
+          authorization: `Bearer ${localStorage.getItem("authorization")}`,
         },
       },
     );

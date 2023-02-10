@@ -119,10 +119,14 @@ export default function SaleDetailContent() {
   useEffect(() => {
     if (router.isReady) {
       getSaleData();
-      getInputData();
+      if (typeof window !== "undefined") {
+        if (localStorage.getItem("authorization")) {
+          getInputData();
+        }
+      }
     }
   }, [router.isReady]);
-  console.log(SaleData);
+
   // 계좌, 휴대폰 번호 하이픈 replace 때문에 useForm x
   const receiverPhonelHandler: ComponentProps<"input">["onChange"] = e => {
     if (phoneNumRegex.test(e.target.value)) {
