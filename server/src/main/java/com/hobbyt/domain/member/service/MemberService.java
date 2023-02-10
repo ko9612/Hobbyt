@@ -1,5 +1,6 @@
 package com.hobbyt.domain.member.service;
 
+import static com.hobbyt.domain.member.entity.MemberStatus.*;
 import static com.hobbyt.global.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
@@ -40,17 +41,62 @@ public class MemberService {
 
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {
-		checkUserExist(signupRequest.getEmail());
+		// 회원탈퇴 안한 email 유일한지 체크
+		// 회원탈퇴 안한 nickname 유일한지 체크
+
+		// 회원 탈퇴한 email 이 있는 경우 입력받은 nickname, password로 변경하고 상태를 회원상태로 변경
+		checkEmailDuplicated(signupRequest.getEmail());
+		checkNicknameDuplicated(signupRequest.getNickname());
+
 		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
 		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
-		// 기본 이미지 저장 s3Service 이용해서 이미지 저장
-		Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+		createOrRejoin(signupRequest, profileImage, headerImage);
 
-		return memberRepository.save(member).getId();
+		return findMemberByEmail(signupRequest.getEmail()).getId();
 	}
 
-	private void checkUserExist(String email) {
-		if (memberRepository.existsByEmail(email)) {
+	private void createOrRejoin(SignupRequest signupRequest, String profileImage, String headerImage) {
+		memberRepository.findByEmailAndStatus(signupRequest.getEmail(), WITHDRAWAL).ifPresentOrElse(
+			member -> {
+				member.rejoin(passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname());
+			},
+			() -> {
+				Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+				memberRepository.save(member);
+			}
+		);
+	}
+
+	private void checkNicknameDuplicated(String nickname) {
+		if (memberRepository.existsByNicknameAndStatus(nickname, MEMBER)) {
+			throw new BusinessLogicException(MEMBER_NICKNAME_DUPLICATED);
+		}
+	}
+
+	/*@Transactional
+	public Long createUser(String email, String nickname, String password) {
+		// 회원탈퇴 안한 email 유일한지 체크
+		// 회원탈퇴 안한 nickname 유일한지 체크
+
+		// 회원 탈퇴한 email 이 있는 경우 입력받은 nickname, password로 변경하고 상태를 회원상태로 변경
+
+		checkUserExist(email);
+		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
+		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
+		// Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+		Member member = Member.builder()
+			.email(email)
+			.password(password)
+			.nickname(nickname)
+			.profileImage(profileImage)
+			.headerImage(headerImage)
+			.build();
+
+		return memberRepository.save(member).getId();
+	}*/
+
+	private void checkEmailDuplicated(String email) {
+		if (memberRepository.existsByEmailAndStatus(email, MEMBER)) {
 			throw new BusinessLogicException(MEMBER_EMAIL_DUPLICATED);
 		}
 	}

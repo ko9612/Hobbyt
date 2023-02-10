@@ -97,6 +97,12 @@ public class Member extends BaseEntity {
 		status = MemberStatus.WITHDRAWAL;
 	}
 
+	public void rejoin(String password, String nickname) {
+		this.password = password;
+		this.nickname = nickname;
+		status = MemberStatus.MEMBER;
+	}
+
 	public void updateMemberInfo(String phoneNumber, Recipient recipient, Account account) {
 
 		this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;
