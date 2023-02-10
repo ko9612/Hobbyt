@@ -102,7 +102,7 @@ public class FileService {
 	}
 
 	private void verifyFile(MultipartFile file) {
-		if (file.getSize() < 0) {
+		if (file.isEmpty() || file.getSize() < 0) {
 			throw new BusinessLogicException(FILE_EMPTY_UPLOADED);
 		}
 	}
