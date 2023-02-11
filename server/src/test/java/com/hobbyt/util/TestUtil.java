@@ -140,8 +140,8 @@ public class TestUtil {
 		return ProfileResponse.builder().nickname(nickname).description(description).build();
 	}
 
-	public static ProfileRequest dummyProfileRequest(String nickname, String description) {
-		return new ProfileRequest(nickname, description);
+	public static ProfileRequest dummyProfileRequest(String nickname, String description) throws IOException {
+		return new ProfileRequest(nickname, description, dummyProfileImage(), dummyHeaderImage());
 	}
 
 	public static MockMultipartFile dummyProfileImage() throws IOException {

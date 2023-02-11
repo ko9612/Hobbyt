@@ -153,10 +153,10 @@ public class Member extends BaseEntity {
 		this.followingCount--;
 	}
 
-	public void updateProfile(String nickname, String description) {
+	public void updateProfile(String nickname, String description, String profileImage, String headerImage) {
 		this.nickname = nickname == null ? this.nickname : nickname;
 		this.description = description == null ? this.description : description;
-		// TODO 나중에 S3 이미지 저장처리시 profileImage 도 추가
-		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
+		this.profileImage = profileImage == null ? this.profileImage : profileImage;
+		this.headerImage = headerImage == null ? this.headerImage : headerImage;
 	}
 }

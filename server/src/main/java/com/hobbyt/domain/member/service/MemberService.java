@@ -6,11 +6,13 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hobbyt.domain.file.service.FileService;
 import com.hobbyt.domain.follow.repository.FollowRepository;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
@@ -27,24 +29,32 @@ import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
+	private final FileService fileService;
+	private final String path;
+
+	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
+		JwtTokenProvider jwtTokenProvider, RedisService redisService, FollowRepository followRepository,
+		FileService fileService, @Value("${hostname}") String hostname) {
+
+		this.memberRepository = memberRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtTokenProvider = jwtTokenProvider;
+		this.redisService = redisService;
+		this.followRepository = followRepository;
+		this.fileService = fileService;
+		this.path = hostname + "api/images/";
+	}
 
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {
-		// 회원탈퇴 안한 email 유일한지 체크
-		// 회원탈퇴 안한 nickname 유일한지 체크
-
-		// 회원 탈퇴한 email 이 있는 경우 입력받은 nickname, password로 변경하고 상태를 회원상태로 변경
 		checkEmailDuplicated(signupRequest.getEmail());
 		checkNicknameDuplicated(signupRequest.getNickname());
 
@@ -72,28 +82,6 @@ public class MemberService {
 			throw new BusinessLogicException(MEMBER_NICKNAME_DUPLICATED);
 		}
 	}
-
-	/*@Transactional
-	public Long createUser(String email, String nickname, String password) {
-		// 회원탈퇴 안한 email 유일한지 체크
-		// 회원탈퇴 안한 nickname 유일한지 체크
-
-		// 회원 탈퇴한 email 이 있는 경우 입력받은 nickname, password로 변경하고 상태를 회원상태로 변경
-
-		checkUserExist(email);
-		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
-		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
-		// Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
-		Member member = Member.builder()
-			.email(email)
-			.password(password)
-			.nickname(nickname)
-			.profileImage(profileImage)
-			.headerImage(headerImage)
-			.build();
-
-		return memberRepository.save(member).getId();
-	}*/
 
 	private void checkEmailDuplicated(String email) {
 		if (memberRepository.existsByEmailAndStatus(email, MEMBER)) {
@@ -198,15 +186,18 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updateProfile(final String email, final ProfileRequest profileRequest,
-		final MultipartFile profileImage, final MultipartFile headerImage) {
+	public void updateProfile(final String email, final ProfileRequest profileRequest) {
 
 		Member member = findMemberByEmail(email);
+		MultipartFile profileImage = profileRequest.getProfileImage();
+		MultipartFile headerImage = profileRequest.getHeaderImage();
+		// String profileImageUrl = path + fileService.saveImage(profileImage);
+		// String headerImageUrl = path + fileService.saveImage(headerImage);
 
-		// TODO S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
-		// S3 내부에서 이미지 null 체크
-		// String path = s3Service.updateImage(List.of(member.getProfileImage(), member.getHeaderImage()), List.of(profileImage, headerImage));
+		String profileImageUrl = profileImage.getOriginalFilename();
+		String headerImageUrl = headerImage.getOriginalFilename();
 
-		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription());
+		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription(),
+			profileImageUrl, headerImageUrl);
 	}
 }

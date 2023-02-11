@@ -17,7 +17,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
@@ -150,12 +149,10 @@ class MemberServiceTest {
 		/*Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
 			PHONE_NUMBER);*/
 
-		MockMultipartFile headerImage = dummyHeaderImage();
-		MockMultipartFile profileImage = dummyProfileImage();
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 		ProfileRequest profileRequest = dummyProfileRequest(UPDATE_NICKNAME, UPDATE_DESCRIPTION);
 
-		memberService.updateProfile(EMAIL, profileRequest, profileImage, headerImage);
+		memberService.updateProfile(EMAIL, profileRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		assertThat(member.getNickname()).isEqualTo(UPDATE_NICKNAME);
