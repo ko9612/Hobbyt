@@ -47,27 +47,16 @@ public class SaleController {
 		return ResponseEntity.ok(response);
 	}
 
-	// TODO 이미지 처리
-	// @PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	@PostMapping
 	public ResponseEntity postSale(@AuthenticationPrincipal MemberDetails loginMember,
-		// @RequestPart List<MultipartFile> productImages,
-		// @Validated @RequestPart SaleRequest request) {
-		@Validated @RequestBody SaleRequest request) {
+		@Validated SaleRequest request) {
 
 		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
-			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}*/
-
 		Sale sale = saleService.post(loginMember.getEmail(), request.toSale(), request.getThumbnailImage());
-		// TODO 이부분에서 이미지 처리, 파라미터에 List<MultipartFile> productImages 넣기
-		productService.addProducts(sale, request.toProducts());
+		productService.addProducts(sale, request.getProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.addTagsToSale(sale, tags);
 
@@ -94,11 +83,6 @@ public class SaleController {
 			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
-
-		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}*/
 
 		// Sale 수정
 		Sale updatedSale = saleService.updateSale(saleId, request.toSale());

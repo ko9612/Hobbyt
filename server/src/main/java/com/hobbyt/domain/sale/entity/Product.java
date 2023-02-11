@@ -47,11 +47,12 @@ public class Product extends BaseEntity {
 	private boolean isDeleted = false;
 
 	@Builder
-	private Product(Long id, String name, int price, int stockQuantity) {
+	private Product(Long id, String name, int price, int stockQuantity, String imageUrl) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.stockQuantity = stockQuantity;
+		this.imageUrl = imageUrl;
 	}
 
 	public static Product of(Long id, String name, int price, int stockQuantity) {
@@ -63,11 +64,12 @@ public class Product extends BaseEntity {
 			.build();
 	}
 
-	public static Product of(String name, int price, int stockQuantity) {
+	public static Product of(String name, int price, int stockQuantity, String imageUrl) {
 		return Product.builder()
 			.name(name)
 			.price(price)
 			.stockQuantity(stockQuantity)
+			.imageUrl(imageUrl)
 			.build();
 	}
 

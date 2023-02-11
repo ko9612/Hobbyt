@@ -2,33 +2,51 @@ package com.hobbyt.domain.sale.service;
 
 import static com.hobbyt.global.exception.ExceptionCode.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.file.service.FileService;
+import com.hobbyt.domain.sale.dto.request.ProductDto;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.ProductRepository;
 import com.hobbyt.global.exception.BusinessLogicException;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class ProductService {
 	private final SaleService saleService;
 	private final ProductRepository productRepository;
+	private final FileService fileService;
+	private final String path;
 
-	public void addProducts(Sale sale, List<Product> products) {
-		for (Product product : products) {
-			sale.addProduct(product);
-			product.updateImageUrl("이미지 링크");
+	public ProductService(SaleService saleService, ProductRepository productRepository,
+		FileService fileService, @Value("${hostname}") String hostname) {
+		this.saleService = saleService;
+		this.productRepository = productRepository;
+		this.fileService = fileService;
+		this.path = hostname + "api/images/";
+	}
+
+	public void addProducts(Sale sale, List<ProductDto> productDtos) {
+		List<Product> products = new ArrayList<>();
+		for (ProductDto productDto : productDtos) {
+			String imageUrl = path + fileService.saveImage(productDto.getImage());
+
+			Product product = Product.of(productDto.getName(), productDto.getPrice(),
+				productDto.getStockQuantity(), imageUrl);
+			product.setSale(sale);
+			products.add(product);
 		}
+
 		productRepository.saveAll(products);
 	}
 
