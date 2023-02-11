@@ -85,14 +85,16 @@ public class ProductService {
 			}
 		}
 
+		List<Long> removed = new ArrayList<>();
 		for (Long id : foundProductsIdAndCheckOrder.keySet()) {
 			if (foundProductsIdAndCheckOrder.get(id)) {    // 주문된적 있는 상품
 				Product found = findProductById(id);
 				found.delete();
-				foundProductsIdAndCheckOrder.remove(id);
+				// foundProductsIdAndCheckOrder.remove(id);
+				removed.add(id);
 			}
 		}
-
+		removed.forEach(productId -> foundProductsIdAndCheckOrder.remove(productId));
 		productRepository.deleteAllByIdInBatch(foundProductsIdAndCheckOrder.keySet());
 	}
 
