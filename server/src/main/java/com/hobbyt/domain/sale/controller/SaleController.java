@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,15 +55,11 @@ public class SaleController {
 		}
 
 		Sale sale = saleService.post(loginMember.getEmail(), request.toSale(), request.getThumbnailImage());
-		productService.addProducts(sale, request.getProducts());
+		productService.addProducts(sale.getId(), request.getProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.addTagsToSale(sale, tags);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(sale.getId());
-	}
-
-	private boolean productsAndImageCountIsNotSame(int imageSize, int productSize) {
-		return imageSize != productSize;
 	}
 
 	private boolean checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {
@@ -72,25 +67,16 @@ public class SaleController {
 	}
 
 	// TODO 이미지 처리, period의 start가 end 이전인지 체크
-	// @PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	@PatchMapping("/{saleId}")
 	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long saleId,
-		// @RequestPart(required = false) List<MultipartFile> productImages,
-		// @Validated @RequestPart UpdateSaleRequest request) {
-		@Validated @RequestBody UpdateSaleRequest request) {
+		@Validated UpdateSaleRequest request) {
 
 		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
-			// 예외처리?
 			return ResponseEntity.badRequest().build();
 		}
 
-		// Sale 수정
 		Sale updatedSale = saleService.updateSale(saleId, request.toSale());
-		// Product 수정
-		// 이미지 처리후 넣은 갑의 경로 반환
-		// TODO request.toProducts(이미지 경로 List) 로 변경
-		productService.updateProducts(updatedSale.getId(), request.toProducts());
-		// Tag 수정
+		productService.updateProducts(updatedSale.getId(), request.getProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.updateTagsToSale(updatedSale, tags);
 		return ResponseEntity.ok(updatedSale.getId());

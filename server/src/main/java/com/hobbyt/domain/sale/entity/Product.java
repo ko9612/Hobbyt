@@ -83,7 +83,7 @@ public class Product extends BaseEntity {
 
 	public void update(Product product) {
 		this.name = product.name;
-		// this.imageUrl = product.imageUrl;
+		this.imageUrl = product.imageUrl;
 		this.price = product.price;
 		this.stockQuantity = product.stockQuantity;
 	}
