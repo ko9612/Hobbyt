@@ -53,6 +53,8 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 		Provider provider = oAuth2UserInfo.getProvider();
 		String providerId = oAuth2UserInfo.getProviderId();
 
+		// TODO 같은 이메일 다른 플랫폼으로 접속하는 경우 처리
+		// TODO 회원탈퇴 후 다시 접속하는 경우 처리
 		// 첫 로그인이면 회원가입, 아니면 지나게가 될 것.
 		if (!memberRepository.existsByEmail(email)) {
 			saveMember(email, name, provider, providerId);

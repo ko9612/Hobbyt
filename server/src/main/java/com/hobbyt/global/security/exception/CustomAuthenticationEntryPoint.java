@@ -1,4 +1,4 @@
-package com.hobbyt.global.security;
+package com.hobbyt.global.security.exception;
 
 import java.io.IOException;
 

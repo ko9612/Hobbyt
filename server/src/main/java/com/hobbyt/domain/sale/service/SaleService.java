@@ -59,22 +59,19 @@ public class SaleService {
 	@Transactional
 	public SaleResponse getSaleDetails(Long saleId) {
 
-		// Sale 조회 >> Sale, Product fetch join
 		Sale sale = findSaleWithWriterAndProduct(saleId);
 
 		List<Product> products = sale.getProducts();
 
-		// Tag 조회
 		List<String> tags = tagRepository.getTagsBySaleId(saleId);
 
 		sale.increaseViewCount();
 
-		// TODO 이런식으로 화면단의 SaleResponse 가 Service 계층까지 들어오는게 맞을지 고민
 		return SaleResponse.of(sale, products, tags);
 	}
 
-	private Sale findSaleWithWriterAndProduct(Long id) {
-		return saleRepository.findSaleFetchJoinWriterAndProductBySaleId(id)
+	private Sale findSaleWithWriterAndProduct(Long saleId) {
+		return saleRepository.findSaleAndProductsBySaleId(saleId)
 			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 	}
 

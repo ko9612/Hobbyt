@@ -1,8 +1,12 @@
 package com.hobbyt.domain.sale.dto.request;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyt.domain.sale.entity.Delivery;
 import com.hobbyt.domain.sale.entity.Period;
@@ -12,8 +16,10 @@ import com.hobbyt.global.entity.Account;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class UpdateSaleRequest {
 	private String title;
@@ -27,7 +33,7 @@ public class UpdateSaleRequest {
 
 	private List<String> tags;
 	private Account account;
-	private Period period;    // 판매기간
+	private PeriodDto period;    // 판매기간
 
 	private String refundExchangePolicy;    // 환불, 교환 정책
 
@@ -35,15 +41,28 @@ public class UpdateSaleRequest {
 	private Boolean isAlwaysOnSale;    // 상시판매여부
 
 	@Getter
+	@Setter
 	@NoArgsConstructor
-	private static class ProductDto {
+	private static class PeriodDto {
+		@DateTimeFormat(pattern = "yyyy-MM-dd")
+		private LocalDate startedAt;
+		@DateTimeFormat(pattern = "yyyy-MM-dd")
+		private LocalDate endAt;
+	}
+
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	public static class ProductDto {
 		private Long id;
 		private String name;
 		private int price;
 		private int stockQuantity;
+		private MultipartFile image;
 	}
 
 	public Sale toSale() {
+		Period period = new Period(this.period.startedAt, this.period.endAt);
 		return Sale.of(title, thumbnailImage, content, refundExchangePolicy, period, account, productionProcessLink,
 			caution, delivery, depositEffectiveTime, isAlwaysOnSale);
 	}
