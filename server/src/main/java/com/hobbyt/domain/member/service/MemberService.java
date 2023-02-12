@@ -39,6 +39,8 @@ public class MemberService {
 	private final FollowRepository followRepository;
 	private final FileService fileService;
 	private final String path;
+	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
+	private final String defaultHeaderImage = "fffe69e4-8152-478d-ad2c-d37bf0cf4424.jpeg";
 
 	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
 		JwtTokenProvider jwtTokenProvider, RedisService redisService, FollowRepository followRepository,
@@ -58,8 +60,8 @@ public class MemberService {
 		checkEmailDuplicated(signupRequest.getEmail());
 		checkNicknameDuplicated(signupRequest.getNickname());
 
-		String profileImage = path + "default profile image";    // 기본 프로필 이미지
-		String headerImage = path + "default header image";    // 기본 헤더 이미지
+		String profileImage = path + defaultProfileImage;    // 기본 프로필 이미지
+		String headerImage = path + defaultHeaderImage;    // 기본 헤더 이미지
 		createOrRejoin(signupRequest, profileImage, headerImage);
 
 		return findMemberByEmail(signupRequest.getEmail()).getId();
