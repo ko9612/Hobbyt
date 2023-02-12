@@ -58,8 +58,8 @@ public class MemberService {
 		checkEmailDuplicated(signupRequest.getEmail());
 		checkNicknameDuplicated(signupRequest.getNickname());
 
-		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
-		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
+		String profileImage = path + "default profile image";    // 기본 프로필 이미지
+		String headerImage = path + "default header image";    // 기본 헤더 이미지
 		createOrRejoin(signupRequest, profileImage, headerImage);
 
 		return findMemberByEmail(signupRequest.getEmail()).getId();
@@ -191,11 +191,8 @@ public class MemberService {
 		Member member = findMemberByEmail(email);
 		MultipartFile profileImage = profileRequest.getProfileImage();
 		MultipartFile headerImage = profileRequest.getHeaderImage();
-		// String profileImageUrl = path + fileService.saveImage(profileImage);
-		// String headerImageUrl = path + fileService.saveImage(headerImage);
-
-		String profileImageUrl = profileImage.getOriginalFilename();
-		String headerImageUrl = headerImage.getOriginalFilename();
+		String profileImageUrl = path + fileService.saveImage(profileImage);
+		String headerImageUrl = path + fileService.saveImage(headerImage);
 
 		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription(),
 			profileImageUrl, headerImageUrl);
