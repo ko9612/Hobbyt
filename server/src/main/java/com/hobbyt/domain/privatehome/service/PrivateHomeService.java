@@ -1,5 +1,6 @@
 package com.hobbyt.domain.privatehome.service;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +28,14 @@ public class PrivateHomeService {
 	private final VisitRepository visitRepository;
 
 	@Transactional
+	@Scheduled(cron = "0 0 0 * * *")
+	public void initVisit() {
+		memberRepository.updateTodayViews();
+		visitRepository.deleteVisitBeforeToday();
+	}
+
+	@Transactional
 	public void countVisitor(Long targetId, String visitorEmail) {
-		// TODO 배치, 스케줄러 이용하여 매일 0시에 오늘날짜 이전의 visit 데이터 삭제
 		Member visitor = memberService.findMemberByEmail(visitorEmail);
 		Member target = memberService.findMemberById(targetId);
 

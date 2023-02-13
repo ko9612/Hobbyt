@@ -19,18 +19,26 @@ public class CustomVisitRepositoryImpl implements CustomVisitRepository {
 	private final JPAQueryFactory queryFactory;
 
 	public Optional<Visit> findTodayVisitByVisitorAndTarget(Member visitor, Member target) {
-		// 현재 시간이 아닌 오늘 날짜로 변경
 		LocalDate todayDate = LocalDate.now();
 		LocalDateTime today = todayDate.atStartOfDay();
-		log.info("오늘의 날짜: {}", today);
 
 		Visit found = queryFactory.select(visit)
 			.from(visit)
-			// .join(visit.visitor, member)
 			.where(visit.visitor.eq(visitor), visit.target.eq(target),
-				visit.modifiedAt.after(today).or(visit.modifiedAt.eq(today)))
+				visit.modifiedAt.goe(today))
 			.fetchOne();
 
 		return Optional.ofNullable(found);
+	}
+
+	@Override
+	public Long deleteVisitBeforeToday() {
+		LocalDate todayDate = LocalDate.now();
+		LocalDateTime today = todayDate.atStartOfDay();
+
+		queryFactory.delete(visit)
+			.where(visit.modifiedAt.before(today))
+			.execute();
+		return null;
 	}
 }

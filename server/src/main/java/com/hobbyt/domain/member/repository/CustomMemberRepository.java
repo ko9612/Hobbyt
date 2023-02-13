@@ -17,4 +17,6 @@ public interface CustomMemberRepository {
 	PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params);
 
 	PrivateHomeSaleLikeResponse getSaleLikeByMemberId(Long memberId, PrivateHomeRequest params);
+
+	Long updateTodayViews();
 }

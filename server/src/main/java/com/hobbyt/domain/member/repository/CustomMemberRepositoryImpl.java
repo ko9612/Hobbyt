@@ -160,6 +160,14 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		return new PrivateHomeSaleLikeResponse(hasNext, cards);
 	}
 
+	@Override
+	public Long updateTodayViews() {
+		return queryFactory.update(member)
+			.set(member.views.today, 0)
+			.where(member.views.today.ne(0))
+			.execute();
+	}
+
 	private Boolean getHasNext(List<?> cards, int limit) {
 		if (cards.size() > limit) {
 			cards.remove(limit);

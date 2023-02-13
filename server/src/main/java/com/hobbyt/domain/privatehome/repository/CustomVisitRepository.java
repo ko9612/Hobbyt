@@ -7,4 +7,6 @@ import com.hobbyt.domain.privatehome.entity.Visit;
 
 public interface CustomVisitRepository {
 	Optional<Visit> findTodayVisitByVisitorAndTarget(Member visitor, Member target);
+
+	Long deleteVisitBeforeToday();
 }
