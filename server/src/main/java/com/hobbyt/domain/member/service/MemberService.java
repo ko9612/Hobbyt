@@ -23,6 +23,7 @@ import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.domain.privatehome.repository.VisitRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
@@ -37,6 +38,7 @@ public class MemberService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
+	private final VisitRepository visitRepository;
 	private final FileService fileService;
 	private final String path;
 	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
@@ -44,13 +46,14 @@ public class MemberService {
 
 	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
 		JwtTokenProvider jwtTokenProvider, RedisService redisService, FollowRepository followRepository,
-		FileService fileService, @Value("${hostname}") String hostname) {
+		VisitRepository visitRepository, FileService fileService, @Value("${hostname}") String hostname) {
 
 		this.memberRepository = memberRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.redisService = redisService;
 		this.followRepository = followRepository;
+		this.visitRepository = visitRepository;
 		this.fileService = fileService;
 		this.path = hostname + "api/images/";
 	}

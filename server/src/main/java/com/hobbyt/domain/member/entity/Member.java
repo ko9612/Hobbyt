@@ -159,4 +159,8 @@ public class Member extends BaseEntity {
 		this.profileImage = profileImage == null ? this.profileImage : profileImage;
 		this.headerImage = headerImage == null ? this.headerImage : headerImage;
 	}
+
+	public void increaseVisitors() {
+		this.views.increaseViewCount();
+	}
 }

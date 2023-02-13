@@ -3,6 +3,7 @@ package com.hobbyt.domain.privatehome.controller;
 import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,10 +31,11 @@ public class PrivateHomeController {
 
 	@GetMapping("/posts")
 	public ResponseEntity<PrivateHomePostResponse> getPostList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params,
+		@AuthenticationPrincipal MemberDetails loginMember) {
 
 		PrivateHomePostResponse response = privateHomeService
-			.getBlogListByMemberId(memberId, params);
+			.getBlogListByMemberId(memberId, params, loginMember);
 
 		return ResponseEntity.ok(response);
 	}
