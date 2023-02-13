@@ -54,11 +54,16 @@ export default function Home() {
         const alarms = document.querySelector("#alarm");
         const alarm = document.createElement("li");
 
-        // if(message.body){
-        //   if(message.body)
-        // }
+        if (datas) {
+          if (datas.type === "POST_COMMENT") {
+            alarm.innerText = `${datas.sender} 님께서 ${datas.title}에 댓글을 남겼습니다.`;
+          } else if (datas.type === "ORDER_CANCEL") {
+            alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 취소하였습니다.`;
+          } else if (datas.type === "SALE_ORDER") {
+            alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 했습니다.`;
+          }
+        }
         // alarm.innerText = `${message.body.sender}님께서 ${message.body.title}에 댓글을 남겼습니다.`;
-        alarm.innerText = `${datas.sender}님께서 ${datas.title}에 댓글을 남겼습니다.`;
         alarms?.appendChild(alarm);
       });
     };
