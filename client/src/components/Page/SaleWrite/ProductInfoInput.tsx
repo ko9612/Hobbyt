@@ -127,7 +127,7 @@ export default function ProductInfoInput() {
     };
   };
 
-  console.log(pdImgList);
+  // console.log(pdImgList);
 
   return (
     <PostWriteContent>
@@ -160,7 +160,7 @@ export default function ProductInfoInput() {
               />
             )}
           </ImgBox>
-          <div className="  flex flex-wrap">
+          <div className="flex flex-wrap ">
             <SubLabel className="w-3/5 px-5">
               <PostInput
                 type="text"
@@ -211,7 +211,7 @@ export default function ProductInfoInput() {
         )}
         <PostWriteLabel className="my-7">
           판매 제품 리스트
-          <span className="text-gray-500 text-sm">
+          <span className="text-sm text-gray-500">
             {" "}
             (총 {products.length}개의 제품)
           </span>
@@ -253,7 +253,7 @@ export default function ProductInfoInput() {
                 />
               )}
             </ImgBox>
-            <div className="  flex flex-wrap">
+            <div className="flex flex-wrap ">
               <SubLabel className="w-3/5 px-5">
                 <PostInput
                   type="text"

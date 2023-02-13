@@ -144,10 +144,10 @@ export const getFollowing = async (homeUserId: number) => {
 };
 
 // 판매작품 조회
-export const getProductsList = async () => {
+export const getProductsList = async (page: number) => {
   try {
     const list = await axios.get(
-      `/api/members/myPage/products?page=0&size=10`,
+      `/api/members/myPage/products?page=${page}&size=10`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authorization")}`,

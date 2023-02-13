@@ -5,15 +5,13 @@ import MyPageCategory from "../../Category/MyPageCategory";
 import { ProductMenus } from "../../Category/CategoryArr";
 import { getProductsList } from "../../../api/tabApi";
 
-export const PContent = tw.div`
-  w-[50rem] justify-center items-center m-auto
-  `;
+export const PContent = tw.div`w-[50rem] justify-center items-center m-auto`;
 
 export default function ProductstList() {
   const [data, setData] = useState([]);
 
   const getData = async () => {
-    const res = await getProductsList();
+    const res = await getProductsList(0);
     setData(res.data);
     console.log("판매작품 리스트", res.data);
   };

@@ -27,9 +27,9 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
 };
 
 // 블로그 프로필 수정 api
-export const patchBlogProfile = async (data: any) => {
+export const patchBlogProfile = async () => {
   try {
-    const blogProfile = await axios.patch("/api/members/profile", data, {
+    const blogProfile = await axios.patch("/api/members/profile", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authorization")}`,
       },

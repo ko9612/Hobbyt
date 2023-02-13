@@ -122,7 +122,6 @@ export default function BlogPostDetail() {
         <CommentInput />
         <CommentList detail={getNewData} />
       </Comment>
-      {/* <div>{data.commentList.userId}</div> */}
     </Detail>
   );
 }
