@@ -14,6 +14,7 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.entity.Visit;
 import com.hobbyt.domain.privatehome.repository.VisitRepository;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,24 +27,39 @@ public class PrivateHomeService {
 	private final VisitRepository visitRepository;
 
 	@Transactional
-	private void countVisitor(Long targetId, String visitorEmail) {
+	public void countVisitor(Long targetId, String visitorEmail) {
 		// TODO 배치, 스케줄러 이용하여 매일 0시에 오늘날짜 이전의 visit 데이터 삭제
 		Member visitor = memberService.findMemberByEmail(visitorEmail);
 		Member target = memberService.findMemberById(targetId);
 
-		if (isNotVisitExist(visitor, target)) {
+		if (canIncreaseVisitingNumber(visitor, target)) {
 			target.increaseVisitors();
 			Visit visit = new Visit(visitor, target);
 			visitRepository.save(visit);
 		}
 	}
 
+	private boolean canIncreaseVisitingNumber(Member visitor, Member target) {
+		return isDifferentMember(visitor, target) && isNotVisitExist(visitor, target);
+	}
+
+	private boolean isDifferentMember(Member visitor, Member target) {
+		return !visitor.equals(target);
+	}
+
 	private boolean isNotVisitExist(Member visitor, Member target) {
 		return !visitRepository.findTodayVisitByVisitorAndTarget(visitor, target).isPresent();
 	}
 
-	public PrivateHomePostResponse getBlogListByMemberId(Long id, PrivateHomeRequest params) {
-		return memberRepository.getBlogListByWriterId(id, params);
+	@Transactional
+	public PrivateHomePostResponse getBlogListByMemberId(Long memberId, PrivateHomeRequest params,
+		MemberDetails loginMember) {
+
+		if (loginMember != null) {
+			countVisitor(memberId, loginMember.getEmail());
+		}
+
+		return memberRepository.getBlogListByWriterId(memberId, params);
 	}
 
 	public PrivateHomeCommentResponse getCommentListByMemberId(Long id, PrivateHomeRequest params) {

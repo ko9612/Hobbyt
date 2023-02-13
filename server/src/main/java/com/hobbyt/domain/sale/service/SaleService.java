@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.tag.repository.TagRepository;
 import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ public class SaleService {
 	private final MemberService memberService;
 	private final SaleRepository saleRepository;
 	private final TagRepository tagRepository;
+	private final PrivateHomeService privateHomeService;
 
 	public Sale post(final String email, Sale sale, String thumbnailImage) {
 		Member member = memberService.findMemberByEmail(email);
@@ -57,9 +60,14 @@ public class SaleService {
 	}
 
 	@Transactional
-	public SaleResponse getSaleDetails(Long saleId) {
+	public SaleResponse getSaleDetails(Long saleId, MemberDetails loginMember) {
 
 		Sale sale = findSaleWithWriterAndProduct(saleId);
+
+		if (loginMember != null) {
+			Member writer = sale.getWriter();
+			privateHomeService.countVisitor(writer.getId(), loginMember.getEmail());
+		}
 
 		List<Product> products = sale.getProducts();
 

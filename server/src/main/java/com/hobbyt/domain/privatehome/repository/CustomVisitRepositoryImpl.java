@@ -1,6 +1,5 @@
 package com.hobbyt.domain.privatehome.repository;
 
-import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.privatehome.entity.QVisit.*;
 
 import java.time.LocalDate;
@@ -27,9 +26,9 @@ public class CustomVisitRepositoryImpl implements CustomVisitRepository {
 
 		Visit found = queryFactory.select(visit)
 			.from(visit)
-			.join(visit.visitor, member)
+			// .join(visit.visitor, member)
 			.where(visit.visitor.eq(visitor), visit.target.eq(target),
-				visit.modifiedAt.before(today))
+				visit.modifiedAt.after(today).or(visit.modifiedAt.eq(today)))
 			.fetchOne();
 
 		return Optional.ofNullable(found);
