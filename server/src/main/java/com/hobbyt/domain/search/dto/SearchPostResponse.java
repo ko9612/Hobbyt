@@ -22,11 +22,13 @@ public class SearchPostResponse {
 		private Long id;
 		private String title;
 		private String content;
+		private String thumbnailImage;
 		private long viewCount;
 		private long likeCount;
 		private Boolean isPublic;
 		private Long writerId;
 		private String nickname;
+		private String writerProfileImage;
 		private LocalDateTime createdAt;
 	}
 }
