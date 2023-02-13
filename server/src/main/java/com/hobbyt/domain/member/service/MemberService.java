@@ -6,7 +6,6 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +22,16 @@ import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.domain.privatehome.repository.VisitRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
 	private final MemberRepository memberRepository;
@@ -38,25 +39,10 @@ public class MemberService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
-	private final VisitRepository visitRepository;
 	private final FileService fileService;
-	private final String path;
+	private final String path = "api/images/";
 	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
 	private final String defaultHeaderImage = "fffe69e4-8152-478d-ad2c-d37bf0cf4424.jpeg";
-
-	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
-		JwtTokenProvider jwtTokenProvider, RedisService redisService, FollowRepository followRepository,
-		VisitRepository visitRepository, FileService fileService, @Value("${hostname}") String hostname) {
-
-		this.memberRepository = memberRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.jwtTokenProvider = jwtTokenProvider;
-		this.redisService = redisService;
-		this.followRepository = followRepository;
-		this.visitRepository = visitRepository;
-		this.fileService = fileService;
-		this.path = hostname + "api/images/";
-	}
 
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,24 +17,18 @@ import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.ProductRepository;
 import com.hobbyt.global.exception.BusinessLogicException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductService {
 	private final SaleService saleService;
 	private final ProductRepository productRepository;
 	private final FileService fileService;
-	private final String path;
-
-	public ProductService(SaleService saleService, ProductRepository productRepository,
-		FileService fileService, @Value("${hostname}") String hostname) {
-		this.saleService = saleService;
-		this.productRepository = productRepository;
-		this.fileService = fileService;
-		this.path = hostname + "api/images/";
-	}
+	private final String path = "api/images/";
 
 	public void addProducts(Long saleId, List<ProductDto> productDtos) {
 		Sale sale = saleService.findSaleById(saleId);
