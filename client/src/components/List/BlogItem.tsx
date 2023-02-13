@@ -52,6 +52,35 @@ export default function BlogItem({ list }: ListProps) {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
+  const props = {
+    applicant: [
+      {
+        id: 1,
+        name: "김백수",
+      },
+      {
+        id: 2,
+        name: "박보검",
+      },
+      {
+        id: 3,
+        name: "김밥",
+      },
+      {
+        id: 4,
+        name: "유남생",
+      },
+    ],
+  };
+
+  // export const Listing = (props) => {
+  //   return <div id="list">
+  //             {props.applicant.map((item)=>{
+  //             <li key={item.id}>{item.name}</li>
+  //             })}
+  //         </div>
+  // }
+
   return (
     <BLComponent
       className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
@@ -124,6 +153,11 @@ export default function BlogItem({ list }: ListProps) {
               <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
             </span>
           </ActInfo>
+        </div>
+        <div id="list">
+          {props.applicant.map(item => {
+            <li key={item.id}>{item.name}</li>;
+          })}
         </div>
       </BLContent>
     </BLComponent>

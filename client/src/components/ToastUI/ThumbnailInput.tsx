@@ -27,6 +27,8 @@ export default function ThumbnailInput() {
     }
   };
 
+  // console.log("thumbnail", thumbnail);
+
   return (
     <Title>
       <h1 className="font-semibold w-[10rem]">

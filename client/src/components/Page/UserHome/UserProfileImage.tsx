@@ -1,14 +1,19 @@
 import Image from "next/image";
-import { useRecoilState } from "recoil";
-// import userProfile from "../../../image/userProfile_ex.jpeg"; // 프로필 사진 임시입니다
+import { useRecoilValue } from "recoil";
+import userDProfile from "../../../image/userDImage.svg";
+// 프로필 사진 임시입니다
 import { ProfileImageState } from "../../../state/ProfileState";
 
 export default function UserProfileImage() {
-  const [profile] = useRecoilState(ProfileImageState);
+  const profile = useRecoilValue(ProfileImageState);
+  // 응답이 http 붙어서 들어오기 때문에 그 부분을 짜르가 위함
+  const newProfile = profile.slice(-52);
+  console.log("newProfile", newProfile);
+
   return (
     <div>
       <Image
-        src={profile}
+        src={profile !== null ? newProfile : userDProfile}
         alt="유저 프로필 사진"
         width={250}
         height={250}

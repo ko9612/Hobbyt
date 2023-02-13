@@ -25,6 +25,10 @@ import LoginRefresh from "../../../util/LoginRefresh";
 import { getBlogProfile } from "../../../api/profileApi";
 // import { NoticeState } from "../../../state/Socket";
 import NoticeModal from "../../Modal/NoticeModal";
+import {
+  HeaderImageState,
+  ProfileImageState,
+} from "../../../state/ProfileState";
 
 export const Input = tw.div`
   my-6
@@ -50,6 +54,10 @@ export default function SigninForm() {
   const [errMsg, setErrMsg] = useState<string>("");
   // 알림 왔는 지 안 왔는지 상태 저장
   const [notice, setNotice] = useState();
+  // 프로필 사진 저장
+  const [profile, setProfile] = useRecoilState(ProfileImageState);
+  // 헤더 사진 저장
+  const [header, setHeader] = useRecoilState(HeaderImageState);
 
   const {
     register,
@@ -76,7 +84,10 @@ export default function SigninForm() {
       // NavBar의 Profile 이미지 때문에 로그인 후 1번 get 요청
       const profileData = await getBlogProfile(userData.memberId);
       console.log(`profileData`, profileData);
+      // 리코일에 프로필 이미지, 유저 아이디, 헤더 이미지 저장
+      setProfile(profileData.data.profileImage);
       setUserId(signinSubmit.data.memberId);
+      setHeader(profileData.data.headerImage);
 
       if (accessToken && refreshToken) {
         setLogin(true);
@@ -97,63 +108,68 @@ export default function SigninForm() {
     // }
   };
 
-  if (isLogin) {
-    const token = localStorage.getItem("authorization");
-    // 웹 소켓 연결
-    const webSocket = new WebSocket("ws://59.12.62.150:8080/websocket");
-    webSocket.onopen = function () {
-      console.log("웹소켓 연결 성공");
-    };
+  console.log("프로필 저장됨?", profile);
 
-    //
-    const client = new StompJs.Client({
-      brokerURL: "ws://59.12.62.150:8080/websocket",
-      beforeConnect: () => {
-        console.log("beforeConnect");
-      },
-      connectHeaders: {
-        Authorization: `${token}`,
-      },
-      debug(str) {
-        console.log(`str`, str);
-      },
-      reconnectDelay: 5000, // 자동 재연결
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
+  // if (isLogin) {
+  //   const token = localStorage.getItem("authorization");
+  //   // 웹 소켓 연결
+  //   const webSocket = new WebSocket("ws://59.12.62.150:8080/websocket");
+  //   webSocket.onopen = function () {
+  //     console.log("웹소켓 연결 성공");
+  //   };
 
-    // 연결됐을 때 실행할 함수, 에러 처리 담당 함수 구현
-    client.onConnect = function (frame) {
-      client.subscribe("/message", message => {
-        const datas = JSON.parse(message.body);
-        console.log("message", datas);
-        setNotice(datas);
-      });
-      client.subscribe(`/alarm/${userId}`, message => {
-        const datas = JSON.parse(message.body);
-        console.log("alarm", JSON.parse(message.body));
-        console.log("alarm2", datas);
-        setNotice(JSON.parse(message.body));
-        // alert(datas.title);
-        // console.log("notice", message);
-        // setNotice(JSON.parse(message.body));
-        // console.log("notice", notice);
-        return <NoticeModal data={datas} />;
-      });
-      // client.subscribe(`/chat/${chatRoomId}`, message => {
-      //   const datas = JSON.parse(message.body);
-      //   console.log("alarm", datas);
-      // });
-    };
+  //   //
+  //   const client = new StompJs.Client({
+  //     brokerURL: "ws://59.12.62.150:8080/websocket",
+  //     beforeConnect: () => {
+  //       console.log("beforeConnect");
+  //     },
+  //     connectHeaders: {
+  //       Authorization: `${token}`,
+  //     },
+  //     debug(str) {
+  //       console.log(`str`, str);
+  //     },
+  //     reconnectDelay: 5000, // 자동 재연결
+  //     heartbeatIncoming: 4000,
+  //     heartbeatOutgoing: 4000,
+  //   });
 
-    client.onStompError = function (frame) {
-      console.log(`Broker reported error`, frame.headers.message);
-      console.log(`Additional details:${frame.body}`);
-    };
+  //   // 연결됐을 때 실행할 함수, 에러 처리 담당 함수 구현
+  //   client.onConnect = function (frame) {
+  //     client.subscribe("/message", message => {
+  //       const datas = JSON.parse(message.body);
+  //       console.log("message", datas);
+  //       setNotice(datas);
+  //     });
+  //     client.subscribe(`/alarm/${userId}`, message => {
+  //       const datas = JSON.parse(message.body);
+  //       console.log("alarm", JSON.parse(message.body));
+  //       console.log("alarm2", datas);
+  //       setNotice(JSON.parse(message.body));
+  //       // alert(datas.title);
+  //       // console.log("notice", message);
+  //       // setNotice(JSON.parse(message.body));
+  //       // console.log("notice", notice);
+  //       const alarms = document.querySelector("#alarm");
+  //       const alarm = document.createElement("li");
+  //       alarm.innerText = message.body;
+  //       alarms?.appendChild(alarm);
+  //     });
+  //     // client.subscribe(`/chat/${chatRoomId}`, message => {
+  //     //   const datas = JSON.parse(message.body);
+  //     //   console.log("alarm", datas);
+  //     // });
+  //   };
 
-    // 클라이언트 활성화
-    client.activate();
-  }
+  //   client.onStompError = function (frame) {
+  //     console.log(`Broker reported error`, frame.headers.message);
+  //     console.log(`Additional details:${frame.body}`);
+  //   };
+
+  //   // 클라이언트 활성화
+  //   client.activate();
+  // }
 
   useEffect(() => {
     console.log("노티스", notice);
