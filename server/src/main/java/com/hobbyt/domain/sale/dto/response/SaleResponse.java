@@ -66,7 +66,7 @@ public class SaleResponse {
 	private static class ProductDto {
 		private Long id;
 		private String name;
-		private String imageUrl;
+		private String image;
 		private int price;
 		private int stockQuantity;
 
@@ -74,7 +74,7 @@ public class SaleResponse {
 		private ProductDto(Product product) {
 			this.id = product.getId();
 			this.name = product.getName();
-			this.imageUrl = product.getImageUrl();
+			this.image = product.getImageUrl();
 			this.price = product.getPrice();
 			this.stockQuantity = product.getStockQuantity();
 		}
