@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.file.service.FileService;
 import com.hobbyt.domain.sale.dto.request.ProductDto;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.entity.Product;
@@ -27,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 	private final SaleService saleService;
 	private final ProductRepository productRepository;
-	private final FileService fileService;
-	private final String path = "api/images/";
 
 	public void addProducts(Long saleId, List<ProductDto> productDtos) {
 		Sale sale = saleService.findSaleById(saleId);

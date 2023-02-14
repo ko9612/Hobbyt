@@ -6,6 +6,11 @@ spring:
       hibernate:
         default_batch_fetch_size: 200
 
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+
   mail:
     host: smtp.gmail.com
     port: 587

@@ -42,7 +42,7 @@ public class MemberService {
 	private final FileService fileService;
 	private final String path = "api/images/";
 	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
-	private final String defaultHeaderImage = "fffe69e4-8152-478d-ad2c-d37bf0cf4424.jpeg";
+	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {
