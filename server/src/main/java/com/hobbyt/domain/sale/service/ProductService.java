@@ -34,10 +34,8 @@ public class ProductService {
 		Sale sale = saleService.findSaleById(saleId);
 		List<Product> products = new ArrayList<>();
 		for (ProductDto productDto : productDtos) {
-			String imageUrl = path + fileService.saveImage(productDto.getImage());
-
-			Product product = Product.of(productDto.getName(), productDto.getPrice(),
-				productDto.getStockQuantity(), imageUrl);
+			// String imageUrl = path + fileService.saveImage(productDto.getImage());
+			Product product = productDto.toEntity();
 			sale.addProduct(product);
 			products.add(product);
 		}
@@ -53,10 +51,8 @@ public class ProductService {
 			Long id = productDto.getId();
 			if (id == null) {    // 추가 등록된 상품
 				// 이미지 저장
-				String imageUrl = path + fileService.saveImage(productDto.getImage());
-
-				Product product = Product.of(productDto.getName(), productDto.getPrice(),
-					productDto.getStockQuantity(), imageUrl);
+				// String imageUrl = path + fileService.saveImage(productDto.getImage());
+				Product product = productDto.toEntity();
 				sale.addProduct(product);
 				productRepository.save(product);
 				continue;
@@ -64,11 +60,9 @@ public class ProductService {
 			if (foundProductsIdAndCheckOrder.containsKey(id)) {    // 기존 등록된 상품 변경
 				Product found = findProductById(id);
 				// TODO 현재는 이미지 저장이지만 추후 이미지 수정으로 변경
-				String imageUrl = path + fileService.saveImage(productDto.getImage());
+				// String imageUrl = path + fileService.saveImage(productDto.getImage());
 
-				Product product = Product.of(productDto.getName(), productDto.getPrice(),
-					productDto.getStockQuantity(), imageUrl);
-
+				Product product = productDto.toEntity();
 				found.update(product);
 				foundProductsIdAndCheckOrder.remove(id);
 			}
