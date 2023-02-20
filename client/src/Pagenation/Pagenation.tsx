@@ -1,4 +1,3 @@
-export default function Pagenation(){
-    
-return() 
+export default function Pagenation() {
+  // return()
 }

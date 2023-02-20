@@ -44,7 +44,7 @@ export const postReToken = async () => {
     });
     console.log("토큰 갱신");
     return tokenData;
-  } catch (err: unknown) {
+  } catch (err: any) {
     console.log(err);
     if (
       err.response &&

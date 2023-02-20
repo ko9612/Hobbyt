@@ -42,7 +42,7 @@ export default function Home() {
     });
 
     // 연결됐을 때 실행할 함수
-    client.onConnect = frame => {
+    client.onConnect = () => {
       client.subscribe("/message", message => {
         const datas = JSON.parse(message.body);
         console.log("message", datas);
