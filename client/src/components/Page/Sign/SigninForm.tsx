@@ -96,7 +96,6 @@ export default function SigninForm() {
         setNickname(userData.nickname);
         // 이미지 처리 후, 밑의 주석 풀기
         // setNavProfileImg((profileData as any).data.profileImage);
-        setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }
     }

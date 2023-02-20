@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 // import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
   InfoSection,
   InfoTitle,
@@ -16,6 +17,7 @@ import { passwordRegex } from "../../../util/Regex";
 import MsgModal from "../../Modal/MsgModal";
 import { patchPaswword } from "../../../api/userApi";
 import { ErrMsg } from "../Sign/SigninForm";
+import { OauthState } from "../../../state/UserState";
 
 export default function PasswordInfo() {
   const {
@@ -25,6 +27,7 @@ export default function PasswordInfo() {
     formState: { errors },
   } = useForm<PasswordProps>();
 
+  const oauthLogin = useRecoilValue(OauthState);
   // 리렌더링 방지
   const newPassword = useRef<string | null>();
   newPassword.current = watch("newPassword");
@@ -148,8 +151,15 @@ export default function PasswordInfo() {
                 )}
             </InputDiv>
           </EditList>
-          <div className="flex justify-end">
-            <DButton id="passwordEdit">비밀번호 변경</DButton>
+          <div className="flex justify-end items-center">
+            {oauthLogin && (
+              <p className="text-sm text-red-400 px-6">
+                소셜 로그인 회원은 비밀번호 변경이 불가합니다.
+              </p>
+            )}
+            <DButton id="passwordEdit" disabled={oauthLogin === true}>
+              비밀번호 변경
+            </DButton>
           </div>
         </InfoContent>
       </InfoSection>
