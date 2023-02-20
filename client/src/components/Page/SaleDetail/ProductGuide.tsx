@@ -70,7 +70,7 @@ export default function ProductGuide({ id }: IdProps) {
   const deleteSale = async () => {
     const deleteSalepost = await deleteSaleContent(id);
     if ((deleteSalepost as any).status === 204) {
-      router.replace("/blog");
+      router.replace(`/blog/${userId}`);
     }
     console.log(deleteSalepost);
   };
