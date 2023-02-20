@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import TitleInput from "../../ToastUI/TitleInput";
+import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 import DefalutTag from "../../Tag/DefalutTag";
 import { WideB } from "../../Button/SubmitButton";
 import { SaleWriteProps } from "../../../type/saleType";
@@ -28,7 +29,6 @@ import { accountNumRegex } from "../../../util/Regex";
 import ProductInfoInput from "./ProductInfoInput";
 import { SaleProductList } from "../../../state/SaleState";
 import { UserIdState } from "../../../state/UserState";
-import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
   ssr: false,
@@ -87,7 +87,7 @@ export default function SaleEditContent() {
       setTagData(data.tags);
     }
   };
-  console.log(thumbnail);
+
   useEffect(() => {
     getData();
   }, []);
@@ -125,22 +125,6 @@ export default function SaleEditContent() {
       isAlwaysOnSale: togleData,
       products: productsData,
     };
-
-    // console.log(saleData);
-    // console.log(pdImgList);
-
-    // const formData = new FormData();
-
-    // if (pdImgList) {
-    //   for (let i = 0; i < pdImgList.length; i += 1) {
-    //     formData.append("productImages", pdImgList[i]);
-    //   }
-    // }
-
-    // formData.append(
-    //   "request",
-    //   new Blob([JSON.stringify(saleData)] as any, { type: "application/json" }),
-    // );
 
     try {
       const PatchSaleData = await patchSaleContent(saleData, saleId);

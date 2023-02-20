@@ -163,7 +163,7 @@ export default function SaleDetailContent() {
           delete temp.name;
           delete temp.stockQuantity;
           delete temp.price;
-          delete temp.imageUrl;
+          delete temp.image;
           temp.count = temp.quantity;
           delete temp.quantity;
           return el;

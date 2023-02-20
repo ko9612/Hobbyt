@@ -160,8 +160,13 @@ export default function OrderProgress({ isData }: IDataProps) {
             <div className="flex items-center">
               <span className="w-20 h-20 overflow-hidden bg-black rounded-md ring-4 ring-gray-300">
                 <Image
-                  // src={isData.thumbnailImage || example}
-                  src={example}
+                  src={
+                    isData.thumbnailImage !== null
+                      ? `/api/images/${isData.thumbnailImage}`
+                      : example
+                  }
+                  width={150}
+                  height={150}
                   alt="작품 이미지"
                   className="w-20 h-20"
                 />

@@ -14,7 +14,7 @@ export default function ThumbnailInput() {
       const thumbnailData = e.target.files[0];
 
       const formData = new FormData();
-      const size = { width: 250, height: 250 };
+      const size = { width: 500, height: 500 };
       formData.append("image", thumbnailData);
       formData.append(
         "size",
