@@ -1,11 +1,12 @@
 package com.hobbyt.global.config;
 
+import static org.springframework.security.config.Customizer.*;
+
 import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -41,7 +42,7 @@ public class SecurityConfig {
 		return web -> {
 			web.ignoring()
 				.antMatchers(
-					"/api-document/**"
+					"/api-document/**", "/api/auth/reissue"
 				);
 		};
 	}
@@ -62,7 +63,7 @@ public class SecurityConfig {
 
 			.csrf()
 			.disable()
-			.cors(Customizer.withDefaults())
+			.cors(withDefaults())
 
 			.exceptionHandling()
 			.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
@@ -89,7 +90,7 @@ public class SecurityConfig {
 			.permitAll()
 			.antMatchers(HttpMethod.GET, "/api/posts/{postId:[0-9]+}")
 			.permitAll()
-			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup")
+			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/members/signup")
 			.permitAll()
 			.anyRequest()
 			.authenticated()

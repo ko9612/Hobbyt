@@ -51,13 +51,13 @@ public class AuthService {
 		return code;
 	}
 
-	public String reissueAccessToken(final String accessToken, final String refreshToken) {
+	public String reissueAccessToken(final String refreshToken) {
 		String email = jwtTokenProvider.parseEmail(refreshToken);
-		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
+		/*Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
 		if (expiration > 0) {
 			redisService.setValue(accessToken, BLACK_LIST, expiration);
-		}
+		}*/
 
 		Member member = findMemberByEmail(email);
 		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority().toString());
