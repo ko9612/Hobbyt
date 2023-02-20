@@ -23,9 +23,9 @@ import com.hobbyt.global.security.oauth2.NaverUserInfo;
 import com.hobbyt.global.security.oauth2.OAuth2UserInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-// @Service
-// @Transactional
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -39,6 +39,11 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 		OAuth2UserInfo oAuth2UserInfo = null;
 
 		String registrationId = userRequest.getClientRegistration().getRegistrationId(); // registrationId -> 기업을 구분한다.
+
+		log.info("============ attribute: {}", oAuth2User.getAttributes());
+		log.info("============ userNameAttributeName: {}",
+			userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
+		log.info("============ registrationId: {}", registrationId);
 
 		if (registrationId.equals("google")) {
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
