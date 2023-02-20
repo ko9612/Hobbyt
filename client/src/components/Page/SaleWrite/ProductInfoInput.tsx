@@ -1,6 +1,5 @@
 import {
   useState,
-  // useRef
 } from "react";
 import Image from "next/image";
 import { RiImageAddFill } from "react-icons/ri";
@@ -17,15 +16,15 @@ import {
   ImgBox,
 } from "./PostWriteStyle";
 import { DButton } from "../../Button/DefalutButton";
-// import PostInput from "../Input/PostInput";
-import { ProductList, ProductImg } from "../../../type/saleType";
-import { SalePdImgsList, SaleProductList } from "../../../state/SaleState";
+import { ProductList } from "../../../type/saleType";
+import { SaleProductList } from "../../../state/SaleState";
 // 이미지 처리 전, 제품 정보의 default img 필요해서
 import exampleImg from "../../../image/userProfile_ex.jpeg";
+import { postImageUpload } from "../../../api/blogApi";
 
 export default function ProductInfoInput() {
   // 제품 정보 Input
-  const [imagePreview, setImagePreview] = useState();
+  const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [stockQuantity, setStockQuantity] = useState<
     number | undefined | string
@@ -36,31 +35,31 @@ export default function ProductInfoInput() {
   const [products, setProducts] =
     useRecoilState<ProductList[]>(SaleProductList);
 
-  // 제품 정보 이미지 리스트
-  const [pdImgList, setPdImgList] = useRecoilState<any>(SalePdImgsList);
+  // 제품 정보 이미지 리스트(미리보기)
+  // const [pdImgList, setPdImgList] = useRecoilState<any>(SalePdImgsList);
+  const [pdImgList, setPdImgList] = useState<any>([]);
 
   // 제품정보 이미지 업로드 핸들러
-  const handleFile = async (e: any) => {
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const imageData = e.target.files[0];
+      const formData = new FormData();
+      formData.append("image", imageData);
+      const data = await postImageUpload(formData);
+      if ((data as any).status === 200) {
+        setImage((data as any).data);
+      }
     }
-    reader.onloadend = () => {
-      const file: any = reader.result;
-      setImagePreview(file);
-    };
   };
+  console.log(products, image);
 
   // 제품정보 추가 버튼 핸들러
   const handleProductAdd = () => {
-    setProducts([...products, { name, stockQuantity, price }]);
-    if (imagePreview && pdImgList) {
-      setPdImgList([...pdImgList, { img: imagePreview }]);
-    }
-    setImagePreview(undefined);
+    setProducts([...products, { name, stockQuantity, price, image }]);
     setName("");
     setStockQuantity("");
     setPrice("");
+    setImage("");
   };
 
   // 제품정보 삭제 버튼 핸들러
@@ -97,34 +96,27 @@ export default function ProductInfoInput() {
   };
 
   // 리스트의 제품 정보 이미지 변경 핸들러
-  const replaceImgAtIndex = (
-    arr: ProductImg[],
-    index: number,
-    newValue: ProductImg,
-  ): ProductImg[] => [
-    ...arr.slice(0, index),
-    newValue,
-    ...arr.slice(index + 1),
-  ];
 
-  const editImgHandler = (
+  const editImgHandler = async (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const reader = new FileReader();
     if (e.target.files && e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-    reader.onloadend = () => {
-      const file: any = reader.result;
-      if (pdImgList) {
-        const newList = replaceImgAtIndex(pdImgList, index, {
-          ...pdImgList[index],
-          img: file,
-        });
-        setPdImgList(newList);
+      // post APi 작성 후, setImage((data as any).data)
+      const imageData = e.target.files[0];
+      const formData = new FormData();
+      formData.append("image", imageData);
+      const data = await postImageUpload(formData);
+      if ((data as any).status === 200) {
+        if (products) {
+          const newList = replaceItemAtIndex(products, index, {
+            ...products[index],
+            image: (data as any).data,
+          });
+          setProducts(newList);
+        }
       }
-    };
+    }
   };
 
   // console.log(pdImgList);
@@ -150,9 +142,9 @@ export default function ProductInfoInput() {
                 accept="image/jpeg, image/png, image/jpg"
               />
             </label>
-            {imagePreview && (
+            {image && (
               <Image
-                src={imagePreview && imagePreview}
+                src={image.slice(26)}
                 alt="Thumb"
                 className="object-cover w-[8rem] h-[6.5rem] rounded-md"
                 width={130}
@@ -235,9 +227,9 @@ export default function ProductInfoInput() {
                   onChange={e => editImgHandler(index, e)}
                 />
               </label>
-              {pdImgList.length !== 0 ? (
+              {products[index] ? (
                 <Image
-                  src={pdImgList && pdImgList[index].img}
+                  src={products[index].image && products[index].image.slice(26)}
                   alt="Thumb"
                   className="object-cover w-[8rem] h-[6.5rem] rounded-md"
                   width={130}

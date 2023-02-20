@@ -27,10 +27,7 @@ import {
 } from "./PostWriteStyle";
 import { accountNumRegex } from "../../../util/Regex";
 import ProductInfoInput from "./ProductInfoInput";
-import {
-  SaleProductList,
-  // SalePdImgsList
-} from "../../../state/SaleState";
+import { SaleProductList } from "../../../state/SaleState";
 import { getUserInfo } from "../../../api/userApi";
 import { UserIdState } from "../../../state/UserState";
 
@@ -111,23 +108,6 @@ export default function SaleWriteContent() {
       isAlwaysOnSale: togleData,
       products: productsData,
     };
-
-    // console.log(saleData);
-    // console.log(pdImgList);
-
-    // const formData = new FormData();
-
-    // if (pdImgList) {
-    //   for (let i = 0; i < pdImgList.length; i += 1) {
-    //     formData.append("productImages", pdImgList[i]);
-    //   }
-    // }
-
-    // formData.append(
-    //   "request",
-    //   new Blob([JSON.stringify(saleData)] as any, { type: "application/json" }),
-    // );
-
     try {
       const PostSaleWriteData = await postSaleWrite(saleData);
       router.replace(`/blog/${userId}/sale/${(PostSaleWriteData as any).data}`);

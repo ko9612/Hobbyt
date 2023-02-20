@@ -70,8 +70,9 @@ export default function ProductList() {
               <div className="flex items-center">
                 {/* 서버 에러 처리 후 */}
                 <Image
-                  // src={item.imageUrl}
-                  src={exampleImg}
+                  //  src={item.imageUrl || exampleImg}
+                  src={item.image.slice(26) || exampleImg}
+                  // src={exampleImg}
                   alt="제품이미지"
                   width={200}
                   height={200}

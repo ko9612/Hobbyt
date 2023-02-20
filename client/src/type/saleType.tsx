@@ -3,10 +3,7 @@ export interface ProductList {
   name: string;
   price: number | undefined | string;
   stockQuantity: number | undefined | string;
-}
-
-export interface ProductImg {
-  img: string | undefined;
+  image: string | undefined | StaticImport;
 }
 
 // 판매글 작성 데이터 타입
