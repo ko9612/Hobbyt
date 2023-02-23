@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderedProductInfo;
 import com.hobbyt.domain.mypage.dto.PageDto;
-import com.hobbyt.domain.mypage.dto.PageResponse;
+import com.hobbyt.domain.mypage.dto.response.OrderDetails;
+import com.hobbyt.domain.mypage.dto.response.PageResponse;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderStatus;
 import com.hobbyt.domain.order.repository.OrderRepository;

@@ -11,9 +11,9 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.hobbyt.domain.mypage.dto.MyOrderDto;
-import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
 import com.hobbyt.domain.mypage.dto.PageDto;
+import com.hobbyt.domain.mypage.dto.response.OrderDetails;
 import com.hobbyt.domain.order.entity.Order;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;

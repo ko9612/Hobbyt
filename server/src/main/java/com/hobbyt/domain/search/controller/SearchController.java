@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.search.dto.SearchPostResponse;
-import com.hobbyt.domain.search.dto.SearchRequest;
-import com.hobbyt.domain.search.dto.SearchSaleResponse;
+import com.hobbyt.domain.search.dto.request.SearchRequest;
+import com.hobbyt.domain.search.dto.response.SearchPostResponse;
+import com.hobbyt.domain.search.dto.response.SearchSaleResponse;
 import com.hobbyt.domain.search.service.SearchService;
 
 import lombok.RequiredArgsConstructor;

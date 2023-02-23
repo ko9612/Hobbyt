@@ -1,4 +1,4 @@
-package com.hobbyt.domain.search.dto;
+package com.hobbyt.domain.search.dto.request;
 
 import com.hobbyt.global.entity.OrderBy;
 import com.querydsl.core.types.OrderSpecifier;

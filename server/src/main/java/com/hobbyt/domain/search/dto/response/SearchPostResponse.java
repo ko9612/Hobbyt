@@ -1,4 +1,4 @@
-package com.hobbyt.domain.search.dto;
+package com.hobbyt.domain.search.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;

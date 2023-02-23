@@ -1,4 +1,4 @@
-package com.hobbyt.global.exception;
+package com.hobbyt.global.error.exception;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -37,7 +37,7 @@ public enum ExceptionCode {
 	FILE_EMPTY_UPLOADED(BAD_REQUEST, "EMPTY_FILE_UPLOADED"),
 	FILE_NOT_IMAGE_UPLOADED(BAD_REQUEST, "NOT_IMAGE_FILE_UPLOADED"),
 	WRONG_PERIOD(BAD_REQUEST, "WRONG_PERIOD");
-	
+
 	private final HttpStatus status;
 	private final String message;
 }

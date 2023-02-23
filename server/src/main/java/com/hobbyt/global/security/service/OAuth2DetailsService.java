@@ -1,6 +1,6 @@
 package com.hobbyt.global.security.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.entity.Provider;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.oauth2.GoogleUserInfo;
 import com.hobbyt.global.security.oauth2.KakaoUserInfo;

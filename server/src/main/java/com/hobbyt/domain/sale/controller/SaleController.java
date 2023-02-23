@@ -26,8 +26,8 @@ import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.domain.sale.service.SaleTagService;
 import com.hobbyt.domain.tag.entity.Tag;
 import com.hobbyt.domain.tag.service.TagService;
-import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.ExceptionCode;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.ExceptionCode;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;

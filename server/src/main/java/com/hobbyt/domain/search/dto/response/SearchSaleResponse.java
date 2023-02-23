@@ -1,6 +1,8 @@
-package com.hobbyt.domain.search.dto;
+package com.hobbyt.domain.search.dto.response;
 
 import java.util.List;
+
+import com.hobbyt.domain.search.dto.SaleCard;
 
 import lombok.Getter;
 

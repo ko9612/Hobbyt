@@ -1,4 +1,4 @@
-package com.hobbyt.global.exception;
+package com.hobbyt.global.error.exception;
 
 import org.springframework.http.HttpStatus;
 

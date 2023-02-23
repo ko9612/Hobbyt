@@ -1,6 +1,6 @@
 package com.hobbyt.domain.order.entity;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
