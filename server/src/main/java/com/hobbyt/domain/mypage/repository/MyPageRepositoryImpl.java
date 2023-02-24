@@ -1,4 +1,4 @@
-package com.hobbyt.domain.order.repository;
+package com.hobbyt.domain.mypage.repository;
 
 import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.order.entity.QOrder.*;
@@ -9,23 +9,51 @@ import static com.hobbyt.domain.sale.entity.QSale.*;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.hobbyt.domain.mypage.dto.MyOrderDto;
-import com.hobbyt.domain.mypage.dto.OrderDetails;
 import com.hobbyt.domain.mypage.dto.OrderDto;
+import com.hobbyt.domain.mypage.dto.OrderedProductInfo;
 import com.hobbyt.domain.mypage.dto.PageDto;
+import com.hobbyt.domain.mypage.dto.response.OrderDetails;
 import com.hobbyt.domain.order.entity.Order;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Repository
 @RequiredArgsConstructor
-public class CustomOrderRepositoryImpl implements CustomOrderRepository {
+public class MyPageRepositoryImpl implements MyPageRepository {
 	private final JPAQueryFactory queryFactory;
+
+	@Override
+	public PageDto getOrderedProductsByMemberEmail(String email, Pageable pageable) {
+		List<OrderedProductInfo> content = queryFactory.select(
+				Projections.constructor(OrderedProductInfo.class,
+					sale.id,
+					sale.writer.id,
+					product.name,
+					sale.period,
+					sale.isAlwaysOnSale,
+					sale.isDeleted,
+					product.salesVolume,
+					product.createdAt
+				))
+			.from(sale)
+			.join(sale.products, product)
+			.join(sale.writer, member)
+			.where(member.email.eq(email))
+			.orderBy(sale.id.desc(), product.id.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		Long total = getOrderedProductsCount(email);
+
+		return new PageDto(content, total);
+	}
 
 	@Override
 	public OrderDetails findOrderDetailsByOrderId(Long orderId) {
@@ -61,6 +89,17 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 			.sellerAccount(tuple.get(sale.account))
 			.deliveryPrice(tuple.get(sale.delivery.deliveryPrice))
 			.build();
+	}
+
+	private Long getOrderedProductsCount(String email) {
+		return queryFactory.select(
+				product.count()
+			)
+			.from(sale)
+			.join(sale.products, product)
+			.join(sale.writer, member)
+			.where(member.email.eq(email))
+			.fetchOne();
 	}
 
 	@Override

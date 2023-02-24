@@ -1,6 +1,6 @@
 package com.hobbyt.domain.sale.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.ProductRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.hobbyt.domain.mypage.dto;
+package com.hobbyt.domain.mypage.dto.response;
 
 import java.util.List;
 

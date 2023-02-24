@@ -1,6 +1,6 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +13,7 @@ import com.hobbyt.domain.member.dto.response.LoginInfo;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;

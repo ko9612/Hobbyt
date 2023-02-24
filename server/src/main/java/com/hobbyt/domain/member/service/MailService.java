@@ -1,6 +1,6 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

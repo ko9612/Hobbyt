@@ -10,7 +10,7 @@ import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.notification.dto.NotificationResponse;
 import com.hobbyt.domain.notification.entity.Notification;
 import com.hobbyt.domain.notification.repository.EmitterRepository;
-import com.hobbyt.global.exception.SseConnectException;
+import com.hobbyt.global.error.exception.SseConnectException;
 
 @Service
 public class SseService {

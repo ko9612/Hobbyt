@@ -1,6 +1,6 @@
 package com.hobbyt.domain.post.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.repository.PostRepository;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;

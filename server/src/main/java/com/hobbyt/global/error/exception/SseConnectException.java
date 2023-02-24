@@ -1,4 +1,4 @@
-package com.hobbyt.global.exception;
+package com.hobbyt.global.error.exception;
 
 public class SseConnectException extends RuntimeException {
 	public SseConnectException() {

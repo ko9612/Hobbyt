@@ -1,4 +1,4 @@
-package com.hobbyt.domain.mypage.dto;
+package com.hobbyt.domain.mypage.dto.response;
 
 import static com.hobbyt.domain.order.entity.OrderStatus.*;
 

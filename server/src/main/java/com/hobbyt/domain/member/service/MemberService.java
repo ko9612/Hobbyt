@@ -1,7 +1,7 @@
 package com.hobbyt.domain.member.service;
 
 import static com.hobbyt.domain.member.entity.MemberStatus.*;
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;

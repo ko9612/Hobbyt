@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.search.dto.SaleCard;
-import com.hobbyt.domain.search.dto.SearchPostResponse;
-import com.hobbyt.domain.search.dto.SearchRequest;
-import com.hobbyt.domain.search.dto.SearchSaleResponse;
+import com.hobbyt.domain.search.dto.request.SearchRequest;
+import com.hobbyt.domain.search.dto.response.SearchPostResponse;
+import com.hobbyt.domain.search.dto.response.SearchSaleResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;

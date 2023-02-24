@@ -1,6 +1,6 @@
 package com.hobbyt.domain.file.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
 import com.hobbyt.domain.file.dto.ThumbnailSizeDto;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 @Service
 public class FileService {

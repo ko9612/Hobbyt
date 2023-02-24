@@ -16,9 +16,9 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.notification.dto.NotificationEvent;
 import com.hobbyt.domain.notification.entity.NotificationType;
-import com.hobbyt.domain.order.dto.OrderImportRequest;
-import com.hobbyt.domain.order.dto.OrderInfo;
-import com.hobbyt.domain.order.dto.ProductDto;
+import com.hobbyt.domain.order.dto.request.OrderImportRequest;
+import com.hobbyt.domain.order.dto.request.OrderInfo;
+import com.hobbyt.domain.order.dto.request.ProductDto;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderItem;
 import com.hobbyt.domain.order.entity.Payments;
@@ -29,9 +29,9 @@ import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
-import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.ExceptionCode;
-import com.hobbyt.global.exception.PaymentException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.ExceptionCode;
+import com.hobbyt.global.error.exception.PaymentException;
 
 import lombok.RequiredArgsConstructor;
 
