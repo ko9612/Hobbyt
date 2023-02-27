@@ -37,7 +37,7 @@ export const postSignin = async (data: SigninInputs) => {
 // refreshToken
 export const postReToken = async () => {
   try {
-    const tokenData = await customAxios.post("/api/auth/reissue", "", {
+    const tokenData = await axios.post("/api/auth/reissue", "", {
       headers: {
         refreshtoken: localStorage.getItem("refresh"),
       },
@@ -45,17 +45,6 @@ export const postReToken = async () => {
     console.log("토큰 갱신");
     return tokenData;
   } catch (err: any) {
-    console.log(err);
-    if (
-      err.response &&
-      err.response.status === 401 &&
-      err.response.data === "EXPIRED_TOKEN"
-    ) {
-      localStorage.clear();
-      window.location.href = "/signin";
-    } else {
-      throw err;
-    }
     return ErrorHandler(err);
   }
 };
