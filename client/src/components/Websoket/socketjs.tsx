@@ -16,14 +16,14 @@ export default function WebSoketConnect(isLogin, userId) {
   if (isLogin) {
     const token = localStorage.getItem("authorization");
     // 웹 소켓 연결
-    const webSocket = new WebSocket("ws://59.12.62.150:8080/websocket");
+    const webSocket = new WebSocket("wws://hobbyt.saintho.dev/websocket");
 
     webSocket.onopen = function () {
       console.log("웹소켓 연결 성공");
     };
 
     const client = new StompJs.Client({
-      brokerURL: "ws://59.12.62.150:8080/websocket",
+      brokerURL: "wws://hobbyt.saintho.dev/websocket",
       beforeConnect: () => {
         console.log("beforeConnect");
       },
