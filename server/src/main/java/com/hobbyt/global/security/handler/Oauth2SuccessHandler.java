@@ -37,8 +37,9 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		redisService.setValue(email, refreshToken, jwtTokenProvider.calculateExpiration(refreshToken));
 
 		// 프론트 엔드 수신 uri
-		String uri = "http://localhost:3000/oauth?AccessToken=" + accessToken + "&RefreshToken=" + refreshToken;
-		
+		String uri = "https://hobbyt-git-dev-ko9612.vercel.app/oauth?AccessToken=" + accessToken + "&RefreshToken="
+			+ refreshToken;
+
 		log.info("보내는 access token: {}", accessToken);
 		log.info("보내는 refresh token: {}", refreshToken);
 
