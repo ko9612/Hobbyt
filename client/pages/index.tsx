@@ -31,7 +31,7 @@ export default function Home() {
         console.log("beforeConnect");
       },
       connectHeaders: {
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`,
       },
       debug(str) {
         console.log(`str`, str);
