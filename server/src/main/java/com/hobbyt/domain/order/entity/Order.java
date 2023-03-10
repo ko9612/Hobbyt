@@ -1,6 +1,6 @@
 package com.hobbyt.domain.order.entity;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
 import com.hobbyt.global.entity.BaseEntity;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -77,7 +77,7 @@ public class Order extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private PayMethod payMethod;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "payments_id")
 	private Payments payments;
 

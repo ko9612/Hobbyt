@@ -51,6 +51,7 @@ export default function SalesManagementList() {
                   {product.createdAt && getParsedDate(product.createdAt)}
                 </li>
                 <ProgressCategory
+                  isCanceled={product.isCanceled}
                   orderStatus={product.status}
                   orderId={product.orderId}
                 />

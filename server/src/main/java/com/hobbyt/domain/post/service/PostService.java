@@ -1,6 +1,6 @@
 package com.hobbyt.domain.post.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.List;
 
@@ -12,7 +12,9 @@ import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.repository.PostRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.domain.privatehome.service.PrivateHomeService;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,9 +24,16 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 	private final PostRepository postRepository;
 	private final MemberService memberService;
+	private final PrivateHomeService privateHomeService;
 
-	public PostResponse getPostDetailById(Long id) {
+	public PostResponse getPostDetailById(Long id, MemberDetails loginMember) {
 		Post post = findVerifiedOneById(id);
+
+		if (loginMember != null) {
+			Member writer = post.getWriter();
+			privateHomeService.countVisitor(writer.getId(), loginMember.getEmail());
+		}
+
 		List<PostResponse.CommentBox> comments = postRepository.getPostCommentsByPostId(id);
 		List<String> tags = postRepository.getTagsByPostId(id);
 

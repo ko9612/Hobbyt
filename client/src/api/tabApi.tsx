@@ -1,5 +1,6 @@
 // Tab 컴포넌트에서 사용하는 api
 import axios from "axios";
+import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
 // 블로그 게시글 리스트 조회 최신순 api
@@ -91,12 +92,10 @@ export const getLikeList = async (userId: number, off: number, lim: number) => {
 };
 
 // 팔로잉, 팔로워
-// 팔로잉 요청, 취소 post
+// 팔로우 요청, 취소 post
 export const postFollowing = async (homeUserId: number) => {
   try {
-    const Follow = await axios.post(`/api/members/${homeUserId}/following`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
+    const Follow = await customAxios.post(`/api/members/${homeUserId}/follow`);
     return Follow;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -106,11 +105,8 @@ export const postFollowing = async (homeUserId: number) => {
 // 팔로워 조회
 export const getFollower = async (homeUserId: number) => {
   try {
-    const Follower = await axios.get(
+    const Follower = await customAxios.get(
       `/api/members/${homeUserId}/follower?page=0&size=10`,
-      {
-        headers: { Authorization: localStorage.getItem("authorization") },
-      },
     );
     return Follower;
   } catch (err: unknown) {
@@ -121,11 +117,8 @@ export const getFollower = async (homeUserId: number) => {
 // 팔로잉 조회
 export const getFollowing = async (homeUserId: number) => {
   try {
-    const Following = await axios.get(
+    const Following = await customAxios.get(
       `/api/members/${homeUserId}/following?page=0&size=10`,
-      {
-        headers: { Authorization: localStorage.getItem("authorization") },
-      },
     );
     return Following;
   } catch (err: unknown) {
@@ -134,13 +127,10 @@ export const getFollowing = async (homeUserId: number) => {
 };
 
 // 판매작품 조회
-export const getProductsList = async () => {
+export const getProductsList = async (page: number) => {
   try {
-    const list = await axios.get(
-      `/api/members/myPage/products?page=0&size=10`,
-      {
-        headers: { Authorization: localStorage.getItem("authorization") },
-      },
+    const list = await customAxios.get(
+      `/api/members/myPage/products?page=${page}&size=10`,
     );
     return list;
   } catch (err: unknown) {
@@ -151,9 +141,9 @@ export const getProductsList = async () => {
 // 구매작품 조회
 export const getOrderList = async () => {
   try {
-    const list = await axios.get(`/api/members/myPage/orders?page=0&size=10`, {
-      headers: { Authorization: localStorage.getItem("authorization") },
-    });
+    const list = await customAxios.get(
+      `/api/members/myPage/orders?page=0&size=10`,
+    );
     return list;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -163,11 +153,8 @@ export const getOrderList = async () => {
 // 판매관리 조회
 export const getManagementList = async () => {
   try {
-    const list = await axios.get(
+    const list = await customAxios.get(
       `/api/members/myPage/products/management?page=0&size=10`,
-      {
-        headers: { Authorization: localStorage.getItem("authorization") },
-      },
     );
     return list;
   } catch (err: unknown) {

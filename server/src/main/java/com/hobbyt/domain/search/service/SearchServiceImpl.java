@@ -3,9 +3,9 @@ package com.hobbyt.domain.search.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.search.dto.SearchPostResponse;
-import com.hobbyt.domain.search.dto.SearchRequest;
-import com.hobbyt.domain.search.dto.SearchSaleResponse;
+import com.hobbyt.domain.search.dto.request.SearchRequest;
+import com.hobbyt.domain.search.dto.response.SearchPostResponse;
+import com.hobbyt.domain.search.dto.response.SearchSaleResponse;
 import com.hobbyt.domain.search.repository.SearchRepository;
 
 import lombok.RequiredArgsConstructor;

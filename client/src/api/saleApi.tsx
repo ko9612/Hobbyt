@@ -1,20 +1,13 @@
 // 판매 api
 
 import axios from "axios";
+import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
 // 판매 게시글 작성
 export const postSaleWrite = async (data: any) => {
   try {
-    const saleWriteData = await axios.post(
-      "http://59.12.62.150:8080/api/sales",
-      data,
-      {
-        headers: {
-          authorization: localStorage.getItem("authorization"),
-        },
-      },
-    );
+    const saleWriteData = await customAxios.post("/api/sales", data);
     return saleWriteData;
   } catch (err: unknown) {
     console.log(err);
@@ -25,9 +18,7 @@ export const postSaleWrite = async (data: any) => {
 // 판매 게시글 상세 조회
 export const getSaleDetail = async (id: number | undefined) => {
   try {
-    const SaleContent = await axios.get(
-      `http://59.12.62.150:8080/api/sales/${id}`,
-    );
+    const SaleContent = await axios.get(`/api/sales/${id}`);
     return SaleContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -37,13 +28,7 @@ export const getSaleDetail = async (id: number | undefined) => {
 // 판매 게시글 수정
 export const patchSaleContent = async (data: any, id: number) => {
   try {
-    const SaleContent = await axios.patch(
-      `http://59.12.62.150:8080/api/sales/${id}`,
-      data,
-      {
-        headers: { authorization: localStorage.getItem("authorization") },
-      },
-    );
+    const SaleContent = await customAxios.patch(`/api/sales/${id}`, data);
     return SaleContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -53,12 +38,7 @@ export const patchSaleContent = async (data: any, id: number) => {
 // 판매 게시글 삭제
 export const deleteSaleContent = async (id: any) => {
   try {
-    const saleContent = await axios.delete(
-      `http://59.12.62.150:8080/api/sales/${id}`,
-      {
-        headers: { authorization: localStorage.getItem("authorization") },
-      },
-    );
+    const saleContent = await customAxios.delete(`/api/sales/${id}`);
     return saleContent;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -68,13 +48,7 @@ export const deleteSaleContent = async (id: any) => {
 // 판매 게시글 좋아요
 export const postSaleLike = async (id: any) => {
   try {
-    const likeData = await axios.post(
-      `http://59.12.62.150:8080/api/sales/${id}/like`,
-      {},
-      {
-        headers: { authorization: localStorage.getItem("authorization") },
-      },
-    );
+    const likeData = await customAxios.post(`/api/sales/${id}/like`);
     return likeData;
   } catch (err: unknown) {
     return ErrorHandler(err);

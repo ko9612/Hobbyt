@@ -16,9 +16,9 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.notification.dto.NotificationEvent;
 import com.hobbyt.domain.notification.entity.NotificationType;
-import com.hobbyt.domain.order.dto.OrderImportRequest;
-import com.hobbyt.domain.order.dto.OrderInfo;
-import com.hobbyt.domain.order.dto.ProductDto;
+import com.hobbyt.domain.order.dto.request.OrderImportRequest;
+import com.hobbyt.domain.order.dto.request.OrderInfo;
+import com.hobbyt.domain.order.dto.request.ProductDto;
 import com.hobbyt.domain.order.entity.Order;
 import com.hobbyt.domain.order.entity.OrderItem;
 import com.hobbyt.domain.order.entity.Payments;
@@ -29,9 +29,9 @@ import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleService;
-import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.ExceptionCode;
-import com.hobbyt.global.exception.PaymentException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.ExceptionCode;
+import com.hobbyt.global.error.exception.PaymentException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -68,7 +68,7 @@ public class OrderService {
 
 		Order order = order(loginEmail, orderInfo);
 
-		Payments payments = new Payments(request.getImpUid(), amount, 0);
+		Payments payments = new Payments(request.getImpUid(), amount);
 
 		order.setPayments(payments);
 		order.updateOrderStatus(PAYMENT_VERIFICATION);
@@ -135,9 +135,9 @@ public class OrderService {
 		order.updateOrderStatus(PREPARE_REFUND);
 
 		if (isIamportPayments(order)) {    // 아임포트 이용한 계산인 경우 아임포트 환불처리
-			// 환불처리
 			String token = paymentService.getToken();
 			Payments payments = order.getPayments();
+			payments.cancel(payments.getAmount());
 			paymentService.paymentCancel(token, payments.getImpUid(), payments.getAmount(), "주문취소");
 			order.updateOrderStatus(FINISH_REFUND);
 		}

@@ -68,9 +68,14 @@ public class Member extends BaseEntity {
 	@Column(nullable = false)
 	private boolean dmReceive = true;    // DM 수신여부
 
+	@Enumerated(EnumType.STRING)
+	private Provider provider;
+
+	private String providerId;
+
 	@Builder
 	public Member(Long id, String nickname, String email, String password, String profileImage, String headerImage,
-		String description, String phoneNumber) {
+		String description, String phoneNumber, Provider provider, String providerId) {
 
 		this.id = id;
 		this.nickname = nickname;
@@ -80,6 +85,8 @@ public class Member extends BaseEntity {
 		this.headerImage = headerImage;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
+		this.provider = provider;
+		this.providerId = providerId;
 
 		this.followerCount = 0;
 		this.followingCount = 0;
@@ -88,6 +95,12 @@ public class Member extends BaseEntity {
 
 	public void withdraw() {
 		status = MemberStatus.WITHDRAWAL;
+	}
+
+	public void rejoin(String password, String nickname) {
+		this.password = password;
+		this.nickname = nickname;
+		status = MemberStatus.MEMBER;
 	}
 
 	public void updateMemberInfo(String phoneNumber, Recipient recipient, Account account) {
@@ -140,10 +153,14 @@ public class Member extends BaseEntity {
 		this.followingCount--;
 	}
 
-	public void updateProfile(String nickname, String description) {
+	public void updateProfile(String nickname, String description, String profileImage, String headerImage) {
 		this.nickname = nickname == null ? this.nickname : nickname;
 		this.description = description == null ? this.description : description;
-		// TODO 나중에 S3 이미지 저장처리시 profileImage 도 추가
-		// this.profileImage = profileImage == null ? this.profileImage : profileImage;
+		this.profileImage = profileImage == null ? this.profileImage : profileImage;
+		this.headerImage = headerImage == null ? this.headerImage : headerImage;
+	}
+
+	public void increaseVisitors() {
+		this.views.increaseViewCount();
 	}
 }

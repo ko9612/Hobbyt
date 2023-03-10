@@ -9,9 +9,11 @@ import {
   ContentState,
   PublicState,
   TagState,
+  ThumbnailState,
 } from "../../../state/BlogPostState";
 import { postBlogContent } from "../../../api/blogApi";
 import { UserIdState } from "../../../state/UserState";
+import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,
@@ -24,6 +26,7 @@ export default function BlogWriteComponent() {
   const [tagData, setTagData] = useRecoilState(TagState);
   const [publicData, setPublicData] = useRecoilState(PublicState);
   const userId = useRecoilValue(UserIdState);
+  const [thumbnailData, setThumnail] = useRecoilState(ThumbnailState);
   // console.log(router);
   // console.log(`router`, router.query.id);
   // console.log(`editData`, editData);
@@ -35,7 +38,10 @@ export default function BlogWriteComponent() {
       content: contentData,
       tags: tagData,
       isPublic: publicData,
+      thumbnailImage: thumbnailData,
     };
+
+    console.log("post 요청 data", data);
 
     if (titleData?.length !== 0 && contentData?.length !== 0) {
       try {
@@ -45,6 +51,7 @@ export default function BlogWriteComponent() {
         setTitleData("");
         setContentData("");
         setTagData([]);
+        setThumnail(null);
         setPublicData(true);
       } catch (err: unknown) {
         console.error(err);
@@ -55,6 +62,7 @@ export default function BlogWriteComponent() {
   return (
     <>
       <TitleInput />
+      <ThumbnailInput />
       <ToastEditor />
       <DefalutTag />
       <DefalutButton id="postSubmitBut" onClick={() => onSubmitClick()}>

@@ -1,6 +1,6 @@
 package com.hobbyt.domain.sale.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.List;
 
@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.SaleRepository;
 import com.hobbyt.domain.tag.repository.TagRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ public class SaleService {
 	private final MemberService memberService;
 	private final SaleRepository saleRepository;
 	private final TagRepository tagRepository;
+	private final PrivateHomeService privateHomeService;
 
 	public Sale post(final String email, Sale sale, String thumbnailImage) {
 		Member member = memberService.findMemberByEmail(email);
@@ -57,24 +60,26 @@ public class SaleService {
 	}
 
 	@Transactional
-	public SaleResponse getSaleDetails(Long saleId) {
+	public SaleResponse getSaleDetails(Long saleId, MemberDetails loginMember) {
 
-		// Sale 조회 >> Sale, Product fetch join
 		Sale sale = findSaleWithWriterAndProduct(saleId);
+
+		if (loginMember != null) {
+			Member writer = sale.getWriter();
+			privateHomeService.countVisitor(writer.getId(), loginMember.getEmail());
+		}
 
 		List<Product> products = sale.getProducts();
 
-		// Tag 조회
 		List<String> tags = tagRepository.getTagsBySaleId(saleId);
 
 		sale.increaseViewCount();
 
-		// TODO 이런식으로 화면단의 SaleResponse 가 Service 계층까지 들어오는게 맞을지 고민
 		return SaleResponse.of(sale, products, tags);
 	}
 
-	private Sale findSaleWithWriterAndProduct(Long id) {
-		return saleRepository.findSaleFetchJoinWriterAndProductBySaleId(id)
+	private Sale findSaleWithWriterAndProduct(Long saleId) {
+		return saleRepository.findSaleAndProductsBySaleId(saleId)
 			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 	}
 

@@ -20,7 +20,7 @@ import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
-import com.hobbyt.global.exception.LoginFailException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -134,7 +134,7 @@ class AuthServiceTest {
 		given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
 		given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn(ACCESS_TOKEN);
 		given(jwtTokenProvider.createRefreshToken(anyString())).willReturn(REFRESH_TOKEN);
-		LoginDto loginDto = new LoginDto(ACCESS_TOKEN, REFRESH_TOKEN);
+		LoginDto loginDto = new LoginDto(MEMBER_ID, NICKNAME, ACCESS_TOKEN, REFRESH_TOKEN);
 		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
 
@@ -168,7 +168,7 @@ class AuthServiceTest {
 		given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
 
 		assertThatThrownBy(() -> authService.login(loginRequest))
-			.isInstanceOf(LoginFailException.class);
+			.isInstanceOf(BusinessLogicException.class);
 	}
 
 	@DisplayName("LoginFailException 예외: 잘못된 email 입력")
@@ -176,9 +176,9 @@ class AuthServiceTest {
 	void login_fail_by_email() {
 		LoginRequest loginRequest = new LoginRequest(EMAIL, PASSWORD);
 		given(memberRepository.findByEmailAndStatusNot(anyString(), any(MemberStatus.class))).willThrow(
-			LoginFailException.class);
+			BusinessLogicException.class);
 
 		assertThatThrownBy(() -> authService.login(loginRequest))
-			.isInstanceOf(LoginFailException.class);
+			.isInstanceOf(BusinessLogicException.class);
 	}
 }

@@ -1,10 +1,14 @@
 package com.hobbyt.domain.order.entity;
 
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,11 +28,21 @@ public class Payments {
 
 	// 아임포트 환불시 checksum 에 활용
 	private int amount;    // 총 결제금액
-	private int cancelAmount;    // 환불된 총 금액
+	private int cancelAmount = 0;    // 환불된 총 금액
 
-	public Payments(String impUid, int amount, int cancelAmount) {
+	public Payments(String impUid, int amount) {
 		this.impUid = impUid;
 		this.amount = amount;
-		this.cancelAmount = cancelAmount;
+	}
+
+	public void cancel(int cancelAmount) {
+		int totalCancel = this.cancelAmount + cancelAmount;
+
+		if (totalCancel > amount) {
+			throw new BusinessLogicException(REFUND_NOT_PERMITTED,
+				"The amount requested for refund is greater than the amount that can be refunded");
+		}
+
+		this.cancelAmount = totalCancel;
 	}
 }

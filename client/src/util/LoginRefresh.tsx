@@ -1,46 +1,77 @@
+import axios, { AxiosInstance } from "axios";
 import { postReToken } from "../api/signApi";
 
-const LoginRefresh = async () => {
-  try {
-    const tokenSubmit = await postReToken();
-    switch ((tokenSubmit as any).status) {
-      case 200:
-        localStorage.setItem(
-          "authorization",
-          (tokenSubmit as any).headers.authorization,
-        );
-        localStorage.setItem(
-          "refresh",
-          (tokenSubmit as any).headers.refreshtoken,
-        );
-        setTimeout(LoginRefresh, 60000 * 20);
-        console.log("토큰 갱신");
-        break;
-      // case 401:
-      //   localStorage.removeItem("authorization");
-      //   localStorage.removeItem("refresh");
-      //   localStorage.clear();
-      //   window.location.reload();
-      //   break;
-      default:
-    }
-  } catch (err) {
-    if ((err as any).response.status === 401) {
-      localStorage.removeItem("authorization");
-      localStorage.removeItem("refresh");
-      localStorage.clear();
-      window.location.reload();
-    }
+export const getAccessToken = () => {
+  let accessToken: any = "";
+  if (typeof window !== "undefined") {
+    accessToken = `Bearer ${localStorage.getItem("authorization")}`;
   }
 
-  // if ((tokenSubmit as any).status === 200) {
-  //   const accessToken = (tokenSubmit as any).headers.authorization;
-  //   const refreshToken = (tokenSubmit as any).headers.refreshtoken;
-  //   localStorage.setItem("authorization", accessToken);
-  //   localStorage.setItem("refresh", refreshToken);
-  //   setTimeout(LoginRefresh, 60000 * 20);
-  //   console.log("토큰 갱신");
-  // }
+  return accessToken;
 };
 
-export default LoginRefresh;
+export const refreshAccessToken = async () => {
+  try {
+    const res = await postReToken();
+    const newAccessToken = (res as any).headers.authorization;
+    const newRefreshToken = (res as any).headers.refreshToken;
+    localStorage.setItem("authorization", newAccessToken);
+    localStorage.setItem("refresh", newRefreshToken);
+  } catch (err: any) {
+    if (
+      err.response &&
+      err.response.status === 401 &&
+      err.response.data === "EXPIRED_TOKEN"
+    ) {
+      localStorage.clear();
+      window.location.href = "/signin";
+    } else {
+      return err;
+    }
+  }
+};
+
+export const customAxios: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  headers: {
+    Authorization: getAccessToken(),
+  },
+});
+
+customAxios.interceptors.request.use(
+  config => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      config.headers.Authorization = accessToken;
+    }
+    return config;
+  },
+  error => Promise.reject(error),
+);
+
+customAxios.interceptors.response.use(
+  response => response,
+  async err => {
+    const {
+      config,
+      response: { status },
+    } = err;
+    // Access Token was expired
+    if (config.url !== "/signin" && status === 401) {
+      const newAccessToken = await refreshAccessToken();
+
+      const modifiedConfig = {
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: newAccessToken,
+        },
+      };
+      return customAxios(modifiedConfig);
+    }
+
+    return Promise.reject(err);
+  },
+);
+
+export default customAxios;

@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+
+		/*String authHeader = request.getHeader(AUTH_HEADER);
+
+		if (authHeaderIsInvalid(authHeader)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		String accessToken = resolveToken(request);
+
+		checkTokenIsBlackList(accessToken);
+
+		setAuthenticationToSecurityContext(accessToken);
+		filterChain.doFilter(request, response);*/
 
 		try {
 			String authHeader = request.getHeader(AUTH_HEADER);
@@ -46,12 +61,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			setAuthenticationToSecurityContext(accessToken);
 			filterChain.doFilter(request, response);
-		} catch (Exception e) {
-			log.error("[exceptionHandler] ex", e);
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		} catch (ExpiredJwtException exception) {
+			log.error("만료된 토큰");
+			request.setAttribute("error", "expired");
+			throw exception;
 		}
-
-		// filterChain.doFilter(request, response);
 	}
 
 	private void checkTokenIsBlackList(String accessToken) throws AuthenticationException {

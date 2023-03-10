@@ -5,8 +5,6 @@ import Header from "../../../../src/components/Page/UserHome/Header";
 import Footer from "../../../../src/components/Footer/Footer";
 import UserProfile from "../../../../src/components/Page/UserHome/UserProfile";
 import UserProfileImage from "../../../../src/components/Page/UserHome/UserProfileImage";
-import Followig from "../../../../src/components/Page/UserHome/Following";
-import TodayCount from "../../../../src/components/ViewLikeWrite/TodayCount";
 import { Content, BlogContent, UserContent, UserInfo } from "../../[userId]";
 import BlogPostDetail from "../../../../src/components/Page/BlogWrite/BlogPostDetail";
 
@@ -27,10 +25,6 @@ export default function BlogDetail() {
           <UserInfo>
             <UserProfileImage />
             <UserProfile />
-            <div className="w-[10rem] m-auto">
-              <Followig />
-            </div>
-            <TodayCount />
           </UserInfo>
         </UserContent>
       </Content>

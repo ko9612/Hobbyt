@@ -1,11 +1,13 @@
 package com.hobbyt.global.config;
 
+import static org.springframework.security.config.Customizer.*;
+
 import java.util.Arrays;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -19,8 +21,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hobbyt.global.redis.RedisService;
+import com.hobbyt.global.security.exception.CustomAuthenticationEntryPoint;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
+import com.hobbyt.global.security.handler.Oauth2SuccessHandler;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
+import com.hobbyt.global.security.service.OAuth2DetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,17 +36,17 @@ public class SecurityConfig {
 
 	private final RedisService redisService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final OAuth2DetailsService oAuth2DetailsService;
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> {
 			web.ignoring()
-				//.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
 				.antMatchers(
-					"/api-document/**"
+					"/api-document/**", "/api/auth/reissue"
 				);
 		};
-		// reissue 를 security에서 제외하지 않으면 필터 jwtVerificationFilter 에서 컨트롤러 test시 에러 발생(MemberDetailsService의 MemberNotExistException)
 	}
 
 	@Bean
@@ -60,10 +65,11 @@ public class SecurityConfig {
 
 			.csrf()
 			.disable()
-			.cors(Customizer.withDefaults())
+			.cors(withDefaults())
 
-			/*.apply(new CustomFilterConfigurer())
-			.and()*/
+			.exceptionHandling()
+			.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+			.and()
 
 			.authorizeRequests()
 			.mvcMatchers("/websocket")
@@ -86,10 +92,17 @@ public class SecurityConfig {
 			.permitAll()
 			.antMatchers(HttpMethod.GET, "/api/posts/{postId:[0-9]+}")
 			.permitAll()
-			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/auth/reissue", "/api/members/signup")
+			.antMatchers("/api/healthcheck", "/api/auth/code", "/api/members/signup")
 			.permitAll()
 			.anyRequest()
-			.authenticated();
+			.authenticated()
+
+			.and()
+			.oauth2Login(oauth2 -> oauth2
+				.userInfoEndpoint().userService(oAuth2DetailsService)
+				.and()
+				.successHandler(new Oauth2SuccessHandler(jwtTokenProvider, redisService))
+			);
 
 		return http.build();
 	}
@@ -118,26 +131,4 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
-
-	/*public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-		@Override
-		public void configure(HttpSecurity builder) throws Exception {
-
-			AuthenticationManager authenticationManager =
-				builder.getSharedObject(AuthenticationManager.class);
-
-			JwtAuthenticationFilter jwtAuthenticationFilter =
-				new JwtAuthenticationFilter(authenticationManager, redisService, jwtTokenProvider);
-
-			JwtVerificationFilter jwtVerificationFilter =
-				new JwtVerificationFilter(jwtTokenProvider, userDetailsService, redisService);
-
-			jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
-			jwtAuthenticationFilter.setPostOnly(true);
-
-			builder
-				.addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-		}
-	}*/
 }

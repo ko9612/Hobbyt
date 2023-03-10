@@ -16,4 +16,9 @@ public class Views {
 	private int today = 0;
 	@Column(name = "total_views", nullable = false)
 	private int total = 0;
+
+	public void increaseViewCount() {
+		this.today++;
+		this.total++;
+	}
 }

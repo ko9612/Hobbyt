@@ -64,6 +64,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				postComment.content,
 				postComment.createdAt,
 				post.id.as("postId"),
+				post.writer.id.as("postWriterId"),
 				post.thumbnailImage,
 				post.title.as("postTitle")
 			))
@@ -157,6 +158,14 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		Boolean hasNext = getHasNext(cards, params.getLimit());
 
 		return new PrivateHomeSaleLikeResponse(hasNext, cards);
+	}
+
+	@Override
+	public Long updateTodayViews() {
+		return queryFactory.update(member)
+			.set(member.views.today, 0)
+			.where(member.views.today.ne(0))
+			.execute();
 	}
 
 	private Boolean getHasNext(List<?> cards, int limit) {

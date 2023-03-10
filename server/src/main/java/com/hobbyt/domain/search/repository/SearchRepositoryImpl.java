@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.search.dto.SaleCard;
-import com.hobbyt.domain.search.dto.SearchPostResponse;
-import com.hobbyt.domain.search.dto.SearchRequest;
-import com.hobbyt.domain.search.dto.SearchSaleResponse;
+import com.hobbyt.domain.search.dto.request.SearchRequest;
+import com.hobbyt.domain.search.dto.response.SearchPostResponse;
+import com.hobbyt.domain.search.dto.response.SearchSaleResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -38,12 +38,14 @@ public class SearchRepositoryImpl implements SearchRepository {
 				post.id,
 				post.title,
 				post.content,
+				post.thumbnailImage,
 				post.viewCount,
 				post.likeCount,
 				post.isPublic,
 				post.createdAt,
 				member.id.as("writerId"),
-				member.nickname
+				member.nickname,
+				member.profileImage.as("writerProfileImage")
 			)).distinct()
 			.from(postTag)
 			.join(postTag.post, post)

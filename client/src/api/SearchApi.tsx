@@ -10,7 +10,7 @@ export const getSearchBlogList = async (
 ) => {
   try {
     const NewestBlog = await axios.get(
-      `http://59.12.62.150:8080/api/search/posts?keyword=${keyword}&offset=${off}&limit=${lim}&orderBy=${sort}`,
+      `/api/search/posts?keyword=${keyword}&offset=${off}&limit=${lim}&orderBy=${sort}`,
     );
     return NewestBlog;
   } catch (err: unknown) {
@@ -27,7 +27,7 @@ export const getSearchSaleList = async (
 ) => {
   try {
     const NewestSale = await axios.get(
-      `http://59.12.62.150:8080/api/search/sales?keyword=${keyword}&offset=${off}&limit=${lim}&orderBy=${sort}`,
+      `/api/search/sales?keyword=${keyword}&offset=${off}&limit=${lim}&orderBy=${sort}`,
     );
     return NewestSale;
   } catch (err: unknown) {

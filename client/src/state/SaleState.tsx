@@ -8,12 +8,6 @@ export const SaleProductList = atom<ProductList[]>({
   default: [],
 });
 
-// 판매 작성- 제품 이미지 리스트
-export const SalePdImgsList = atom<any>({
-  key: "SalePdImgsList",
-  default: [],
-});
-
 // 판매 상세 조회 - 약관동의 check
 export const OrderAgreeState = atom<boolean>({
   key: "OrderAgreeState",

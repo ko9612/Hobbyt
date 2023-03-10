@@ -12,7 +12,7 @@ import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
 export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`rounded-lg mb-2 relative`;
+export const SLImage = tw.div`mb-2 relative h-auto`;
 export const SLProductInfo = tw.div`mx-4`;
 const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
 
@@ -37,6 +37,9 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
+  // console.log("판매아이템", list);
+  // console.log(thumbnailImage);
+
   return (
     <SLContent>
       <SLImage>
@@ -47,11 +50,11 @@ export default function SaleItem({ list }: ListProps) {
           </SLImageC>
         ) : null}
         <Image
-          // src={thumbnailImage || saleDImage}
-          src={saleDImage}
+          src={thumbnailImage ? `/api/images/${thumbnailImage}` : saleDImage}
           alt="img"
-          width={225}
-          height={225}
+          width={250}
+          height={250}
+          className="object-cover rounded-t-lg h-[14rem]"
         />
       </SLImage>
       <SLProductInfo>
@@ -65,7 +68,10 @@ export default function SaleItem({ list }: ListProps) {
           </div>
         </Link>
         {!router.pathname.includes("/blog") && (
-          <div className="flex items-center float-left py-2">
+          <Link
+            href={`/blog/${writerId}`}
+            className="flex items-center float-left py-2"
+          >
             <div className="w-[1.75rem]">
               <DefaultProfileImage
                 // profileImg={profileImage}
@@ -76,7 +82,7 @@ export default function SaleItem({ list }: ListProps) {
               />
             </div>
             <div>{nickname}</div>
-          </div>
+          </Link>
         )}
         <div className="float-right py-2">
           <LikeCount>{likeCount}</LikeCount>

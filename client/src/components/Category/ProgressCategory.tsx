@@ -1,19 +1,24 @@
 // import tw from "tailwind-styled-components";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { ProgressArr } from "./CategoryArr";
+// import { useSetRecoilState } from "recoil";
+import { ProgressArr, RefundArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
-import { OrderDetailState, OrderStatus } from "../../state/OrderState";
+// import { OrderStatus } from "../../state/OrderState";
 
 interface Istatus {
   orderStatus: string;
   orderId: number;
+  isCanceled: boolean;
 }
 
-export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
+export default function ProgressCategory({
+  orderStatus,
+  orderId,
+  isCanceled,
+}: Istatus) {
   const [categorySpread, setCategorySpread] = useState(false);
-  const setOrderStatus = useSetRecoilState(OrderStatus);
+  // const setOrderStatus = useSetRecoilState(OrderStatus);
   const spreadOnClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCategorySpread(!categorySpread);
@@ -62,7 +67,7 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
     const { value } = e.currentTarget;
     setClickName(value);
     setCategorySpread(!categorySpread);
-    setOrderStatus(value);
+    // setOrderStatus(value);
 
     // 진행사항 변경시 patch 요청
     const data = {
@@ -103,7 +108,7 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
   //   // console.log("핸들클릭안에", clcikName);
   //   // }
   // };
-  console.log(orderStatus);
+  console.log(`프로그래스 카테고리`, orderStatus);
   return (
     <div className="relative flex flex-col border-2 mr-[2rem]">
       <button
@@ -115,7 +120,7 @@ export default function ProgressCategory({ orderStatus, orderId }: Istatus) {
       </button>
       {categorySpread && (
         <div className="absolute z-10 w-full p-1 overflow-hidden text-sm bg-gray-100 border-2 top-9">
-          {progressArr.map((progress, idx) => (
+          {(isCanceled ? RefundArr : progressArr).map((progress, idx) => (
             <button
               className="flex py-1 m-auto "
               key={idx}

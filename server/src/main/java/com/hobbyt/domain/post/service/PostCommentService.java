@@ -1,7 +1,7 @@
 package com.hobbyt.domain.post.service;
 
 import static com.hobbyt.domain.notification.entity.NotificationType.*;
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ import com.hobbyt.domain.post.dto.PostCommentRequest;
 import com.hobbyt.domain.post.entity.Post;
 import com.hobbyt.domain.post.entity.PostComment;
 import com.hobbyt.domain.post.repository.PostCommentRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 

@@ -39,8 +39,9 @@ public class PostController {
 	private final TagService tagService;
 
 	@GetMapping("{id}")
-	public ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
-		PostResponse response = postService.getPostDetailById(id);
+	public ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id,
+		@AuthenticationPrincipal MemberDetails loginMember) {
+		PostResponse response = postService.getPostDetailById(id, loginMember);
 
 		return ResponseEntity.ok(response);
 	}

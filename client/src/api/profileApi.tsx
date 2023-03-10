@@ -1,11 +1,24 @@
 // 프로필 관련 api
 import axios from "axios";
+import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
-// 프로필 조회
+// 프로필 조회 (비회원용)
 export const getBlogProfile = async (homeUserId: number) => {
   try {
-    const blogProfile = await axios.get(`/api/members/profile/${homeUserId}`);
+    const blogProfile = await axios.get(`/api/members/${homeUserId}/profile`);
+    return blogProfile;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 프로필 조회 (회원용)
+export const getBlogLoginProfile = async (homeUserId: number) => {
+  try {
+    const blogProfile = await customAxios.get(
+      `/api/members/${homeUserId}/profile`,
+    );
     return blogProfile;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -13,13 +26,9 @@ export const getBlogProfile = async (homeUserId: number) => {
 };
 
 // 블로그 프로필 수정 api
-export const patchBlogProfile = async (data: any) => {
+export const patchBlogProfile = async () => {
   try {
-    const blogProfile = await axios.patch("/api/members/profile", data, {
-      headers: {
-        Authorization: localStorage.getItem("authorization"),
-      },
-    });
+    const blogProfile = await customAxios.patch("/api/members/profile");
     return blogProfile;
   } catch (err: unknown) {
     return ErrorHandler(err);

@@ -1,17 +1,20 @@
 package com.hobbyt.domain.sale.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.sale.dto.request.ProductDto;
+import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.repository.ProductRepository;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,42 +27,53 @@ public class ProductService {
 	private final SaleService saleService;
 	private final ProductRepository productRepository;
 
-	public void addProducts(Sale sale, List<Product> products) {
-		for (Product product : products) {
+	public void addProducts(Long saleId, List<ProductDto> productDtos) {
+		Sale sale = saleService.findSaleById(saleId);
+		List<Product> products = new ArrayList<>();
+		for (ProductDto productDto : productDtos) {
+			// String imageUrl = path + fileService.saveImage(productDto.getImage());
+			Product product = productDto.toEntity();
 			sale.addProduct(product);
-			product.updateImageUrl("이미지 링크");
+			products.add(product);
 		}
+
 		productRepository.saveAll(products);
 	}
 
-	public void updateProducts(Long saleId, List<Product> products) {
+	public void updateProducts(Long saleId, List<UpdateSaleRequest.ProductDto> productDtos) {
 		Map<Long, Boolean> foundProductsIdAndCheckOrder = productRepository.getProductsIdBySaleId(saleId);
 		Sale sale = saleService.findSaleById(saleId);
 
-		for (Product product : products) {
-			Long id = product.getId();
-			if (id == null) {
-				product.updateImageUrl("이미지 링크");
+		for (UpdateSaleRequest.ProductDto productDto : productDtos) {
+			Long id = productDto.getId();
+			if (id == null) {    // 추가 등록된 상품
+				// 이미지 저장
+				// String imageUrl = path + fileService.saveImage(productDto.getImage());
+				Product product = productDto.toEntity();
 				sale.addProduct(product);
 				productRepository.save(product);
 				continue;
 			}
-			if (foundProductsIdAndCheckOrder.containsKey(id)) {
+			if (foundProductsIdAndCheckOrder.containsKey(id)) {    // 기존 등록된 상품 변경
 				Product found = findProductById(id);
+				// TODO 현재는 이미지 저장이지만 추후 이미지 수정으로 변경
+				// String imageUrl = path + fileService.saveImage(productDto.getImage());
+
+				Product product = productDto.toEntity();
 				found.update(product);
-				product.updateImageUrl("이미지 링크");
 				foundProductsIdAndCheckOrder.remove(id);
 			}
 		}
 
+		List<Long> removed = new ArrayList<>();
 		for (Long id : foundProductsIdAndCheckOrder.keySet()) {
-			if (foundProductsIdAndCheckOrder.get(id)) {    // 주문된 상품
+			if (foundProductsIdAndCheckOrder.get(id)) {    // 주문된적 있는 상품
 				Product found = findProductById(id);
 				found.delete();
-				foundProductsIdAndCheckOrder.remove(id);
+				removed.add(id);
 			}
 		}
-
+		removed.forEach(productId -> foundProductsIdAndCheckOrder.remove(productId));
 		productRepository.deleteAllByIdInBatch(foundProductsIdAndCheckOrder.keySet());
 	}
 

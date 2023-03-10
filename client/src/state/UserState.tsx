@@ -11,6 +11,13 @@ export const LoginState = atom<boolean | null>({
   // effects_UNSTABLE: [persistAtom], 있으면 hydration error 뜸
 });
 
+// 소셜 로그인 여부
+export const OauthState = atom<boolean | null>({
+  key: "OauthState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 // 로그인한 사용자 이메일
 export const EmailState = atom<string | undefined>({
   key: "EmailState",

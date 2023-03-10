@@ -15,6 +15,7 @@ import {
   EmailState,
   LoginState,
   NicknameState,
+  OauthState,
   UserIdState,
   UserProfileState,
 } from "../../state/UserState";
@@ -47,6 +48,7 @@ export default function NavContent() {
   const [, setNavProfileImg] = useRecoilState(UserProfileState);
   const [userId, setIsUserId] = useRecoilState(UserIdState);
   const [myProfileImg] = useRecoilState(UserProfileState);
+  const [, setOauthLogin] = useRecoilState(OauthState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
   // 홈 버튼 클릭
@@ -72,6 +74,7 @@ export default function NavContent() {
       localStorage.removeItem("authorization");
       localStorage.removeItem("refresh");
       setLogin(false);
+      setOauthLogin(false);
       setEmailState("");
       setIsUserId(0);
       setIsNickname("");

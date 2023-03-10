@@ -8,6 +8,7 @@ import {
   UserIdState,
   UserProfileState,
   UserPhoneNumState,
+  OauthState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
 import DelModal from "../../Modal/DelModal";
@@ -25,6 +26,7 @@ import { phoneNumRegex } from "../../../util/Regex";
 export default function AccountInfo() {
   const router = useRouter();
   const [, setLogin] = useRecoilState(LoginState);
+  const [, setOauthLogin] = useRecoilState(OauthState);
   const [isEmail, setEmailState] = useRecoilState(EmailState);
   const [, setIsNickname] = useRecoilState(NicknameState);
   const [, setIsUserId] = useRecoilState(UserIdState);
@@ -57,6 +59,7 @@ export default function AccountInfo() {
     if ((delAccountSubmit as any).status === 200) {
       localStorage.clear();
       setLogin(false);
+      setOauthLogin(false);
       setEmailState("");
       setIsUserId(0);
       setIsNickname("");

@@ -1,6 +1,6 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 import static com.hobbyt.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
@@ -17,7 +17,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
@@ -30,8 +29,7 @@ import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.entity.Address;
-import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.PasswordException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 
@@ -140,7 +138,7 @@ class MemberServiceTest {
 		UpdatePassword updatePassword = dummyUpdatePassword(oldPassword, newPassword, checkPassword);
 
 		assertThatThrownBy(() -> memberService.updatePassword(EMAIL, updatePassword))
-			.isInstanceOf(PasswordException.class);
+			.isInstanceOf(BusinessLogicException.class);
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 	}
 
@@ -151,12 +149,10 @@ class MemberServiceTest {
 		/*Member updateMember = dummyMember(MEMBER_ID, UPDATE_NICKNAME, EMAIL, PASSWORD, UPDATE_DESCRIPTION,
 			PHONE_NUMBER);*/
 
-		MockMultipartFile headerImage = dummyHeaderImage();
-		MockMultipartFile profileImage = dummyProfileImage();
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
 		ProfileRequest profileRequest = dummyProfileRequest(UPDATE_NICKNAME, UPDATE_DESCRIPTION);
 
-		memberService.updateProfile(EMAIL, profileRequest, profileImage, headerImage);
+		memberService.updateProfile(EMAIL, profileRequest);
 
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		assertThat(member.getNickname()).isEqualTo(UPDATE_NICKNAME);

@@ -26,6 +26,8 @@ import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.domain.sale.service.SaleTagService;
 import com.hobbyt.domain.tag.entity.Tag;
 import com.hobbyt.domain.tag.service.TagService;
+import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.ExceptionCode;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -40,82 +42,49 @@ public class SaleController {
 	private final SaleTagService saleTagService;
 
 	@GetMapping("/{saleId}")
-	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId) {
+	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId,
+		@AuthenticationPrincipal MemberDetails loginMember) {
 
-		SaleResponse response = saleService.getSaleDetails(saleId);
+		SaleResponse response = saleService.getSaleDetails(saleId, loginMember);
 
 		return ResponseEntity.ok(response);
 	}
 
-	// TODO 이미지 처리
-	// @PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	@PostMapping
 	public ResponseEntity postSale(@AuthenticationPrincipal MemberDetails loginMember,
-		// @RequestPart List<MultipartFile> productImages,
-		// @Validated @RequestPart SaleRequest request) {
 		@Validated @RequestBody SaleRequest request) {
 
-		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}
-
-		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}*/
+		checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull());
 
 		Sale sale = saleService.post(loginMember.getEmail(), request.toSale(), request.getThumbnailImage());
-		// TODO 이부분에서 이미지 처리, 파라미터에 List<MultipartFile> productImages 넣기
-		productService.addProducts(sale, request.toProducts());
+		productService.addProducts(sale.getId(), request.getProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.addTagsToSale(sale, tags);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(sale.getId());
 	}
 
-	private boolean productsAndImageCountIsNotSame(int imageSize, int productSize) {
-		return imageSize != productSize;
+	private void checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {
+		if ((isAlwaysOnSale && !isPeriodNull) || (!isAlwaysOnSale && isPeriodNull)) {
+			throw new BusinessLogicException(ExceptionCode.WRONG_PERIOD);
+		}
 	}
 
-	private boolean checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {
-		return (isAlwaysOnSale && !isPeriodNull) || (!isAlwaysOnSale && isPeriodNull);
-	}
-
-	// TODO 이미지 처리, period의 start가 end 이전인지 체크
-	// @PatchMapping(value = "/{id}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
 	@PatchMapping("/{saleId}")
 	public ResponseEntity updateSale(@Min(value = 1) @PathVariable Long saleId,
-		// @RequestPart(required = false) List<MultipartFile> productImages,
-		// @Validated @RequestPart UpdateSaleRequest request) {
 		@Validated @RequestBody UpdateSaleRequest request) {
 
-		if (checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}
+		checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull());
 
-		/*if (productsAndImageCountIsNotSame(productImages.size(), request.getProductsSize())) {
-			// 예외처리?
-			return ResponseEntity.badRequest().build();
-		}*/
-
-		// Sale 수정
 		Sale updatedSale = saleService.updateSale(saleId, request.toSale());
-		// Product 수정
-		// 이미지 처리후 넣은 갑의 경로 반환
-		// TODO request.toProducts(이미지 경로 List) 로 변경
-		productService.updateProducts(updatedSale.getId(), request.toProducts());
-		// Tag 수정
+		productService.updateProducts(updatedSale.getId(), request.getProducts());
 		List<Tag> tags = tagService.addTags(request.getTags());
 		saleTagService.updateTagsToSale(updatedSale, tags);
 		return ResponseEntity.ok(updatedSale.getId());
 	}
 
-	// TODO 이미지 처리
 	@DeleteMapping("/{id}")
 	public ResponseEntity deleteSale(@Min(value = 1) @PathVariable Long id) {
-		// TODO Tag 처리
 		Sale deletedSale = saleService.delete(id);
 		productService.delete(deletedSale);
 

@@ -1,9 +1,10 @@
 package com.hobbyt.domain.file.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +22,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
 import com.hobbyt.domain.file.dto.ThumbnailSizeDto;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 @Service
 public class FileService {
@@ -63,6 +64,8 @@ public class FileService {
 		try {
 			verifyFile(image);
 			checkIsImage(image);
+
+			System.out.println(IMAGE_PATH);
 
 			String imageName = getFileName(image);
 			String savedPath = IMAGE_PATH + imageName;
@@ -108,8 +111,10 @@ public class FileService {
 	}
 
 	private void checkIsImage(MultipartFile file) throws IOException {
-		if (!tika.detect(file.getInputStream()).startsWith("image")) {
+		InputStream inputStream = file.getInputStream();
+		if (!tika.detect(inputStream).startsWith("image")) {
 			throw new BusinessLogicException(FILE_NOT_IMAGE_UPLOADED);
 		}
+		inputStream.close();
 	}
 }

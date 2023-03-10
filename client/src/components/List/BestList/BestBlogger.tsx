@@ -1,12 +1,16 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Section, Title, BestContent, BestItem } from "./BestBlog";
-import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
+// import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
 import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/MainApi";
+import DefaultImage from "../../../image/userDImage.svg";
+import DefalutImage from "../../../image/userProfile_ex.jpeg";
+import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
 const BloggerInfo = tw.div`
-bg-slate-100 flex rounded-2xl items-center justify-center p-4
+bg-slate-100 rounded-2xl p-4
 `;
 
 interface BloggerProps {
@@ -35,15 +39,21 @@ export default function BestBlogger() {
             listData[0] &&
             listData[0].hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>
-                <span className="w-16 mr-4">
-                  <DefaultProfileImg
-                    profileImg={item.profileImage}
-                    width={70}
-                    height={70}
-                    borderW={0}
-                  />
-                </span>
-                <span className="text-xl">{item.nickname}</span>
+                <Link
+                  href={`/blog/${item.bloggerId}`}
+                  className="flex items-center"
+                >
+                  <span className="w-16 mr-4">
+                    <DefaultProfileImage
+                      // profileImg={item.profileImage}
+                      profileImg={DefalutImage}
+                      width={70}
+                      height={70}
+                      borderW={0}
+                    />
+                  </span>
+                  <span className="text-xl">{item.nickname}</span>
+                </Link>
               </BloggerInfo>
             ))}
         </BestItem>

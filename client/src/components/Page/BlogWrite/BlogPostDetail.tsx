@@ -3,12 +3,13 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import Image from "next/image";
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
-import { getBlogDetail, postLikePlus } from "../../../api/blogApi";
+import { getBlogDetail, getImage, postLikePlus } from "../../../api/blogApi";
 import { IBlogDetailData } from "../../../type/blogType";
 import { LoginState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
@@ -72,6 +73,8 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
+  console.log("getNewData?.thumbnailImage}", getNewData?.thumbnailImage);
+
   return (
     <Detail id="viewer">
       <Title>{getNewData?.title}</Title>
@@ -89,6 +92,16 @@ export default function BlogPostDetail() {
         </VWInfo>
       </Info>
       <Main>
+        {getNewData && getNewData?.thumbnailImage === null ? null : (
+          <div className="flex justify-center my-8">
+            <Image
+              src={`/api/images/${getNewData?.thumbnailImage}`}
+              width={500}
+              height={500}
+              alt=""
+            />
+          </div>
+        )}
         <Content>
           <TextViewer initialValue={getNewData?.content} />
         </Content>
@@ -109,7 +122,6 @@ export default function BlogPostDetail() {
         <CommentInput />
         <CommentList detail={getNewData} />
       </Comment>
-      {/* <div>{data.commentList.userId}</div> */}
     </Detail>
   );
 }

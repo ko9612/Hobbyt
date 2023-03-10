@@ -52,15 +52,48 @@ export default function BlogItem({ list }: ListProps) {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
+  const props = {
+    applicant: [
+      {
+        id: 1,
+        name: "김백수",
+      },
+      {
+        id: 2,
+        name: "박보검",
+      },
+      {
+        id: 3,
+        name: "김밥",
+      },
+      {
+        id: 4,
+        name: "유남생",
+      },
+    ],
+  };
+
+  // export const Listing = (props) => {
+  //   return <div id="list">
+  //             {props.applicant.map((item)=>{
+  //             <li key={item.id}>{item.name}</li>
+  //             })}
+  //         </div>
+  // }
+
   return (
     <BLComponent
       className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
     >
       <BLImage>
         <Image
-          // src={thumbnailImage || DefalutImage}
-          src={DefalutImage}
+          src={
+            thumbnailImage !== null
+              ? `/api/images/${thumbnailImage}`
+              : DefalutImage
+          }
           alt="img"
+          className={thumbnailImage !== null ? "rounded-xl" : ""}
           width={150}
           height={150}
         />
@@ -87,18 +120,20 @@ export default function BlogItem({ list }: ListProps) {
           }`}
         >
           {!router.pathname.includes("/blog") && (
-            <ActInfo>
-              <div className="w-[2.5rem]">
-                <DefaultProfileImage
-                  // profileImg={profileImage}
-                  profileImg={DefalutImage}
-                  width={25}
-                  height={25}
-                  borderW={1}
-                />
-              </div>
-              <div>{nickname}</div>
-            </ActInfo>
+            <Link href={`/blog/${writerId}`}>
+              <ActInfo>
+                <div className="w-[2.5rem]">
+                  <DefaultProfileImage
+                    // profileImg={profileImage}
+                    profileImg={DefalutImage}
+                    width={25}
+                    height={25}
+                    borderW={1}
+                  />
+                </div>
+                <div>{nickname}</div>
+              </ActInfo>
+            </Link>
           )}
           <ActInfo
             className={`${
@@ -118,6 +153,11 @@ export default function BlogItem({ list }: ListProps) {
               <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
             </span>
           </ActInfo>
+        </div>
+        <div id="list">
+          {props.applicant.map(item => {
+            <li key={item.id}>{item.name}</li>;
+          })}
         </div>
       </BLContent>
     </BLComponent>

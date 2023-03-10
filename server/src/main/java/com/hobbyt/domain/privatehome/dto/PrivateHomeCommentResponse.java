@@ -19,6 +19,7 @@ public class PrivateHomeCommentResponse {
 		private Long id;
 		private String content;
 		private Long postId;
+		private Long postWriterId;
 		private String postTitle;
 		private String thumbnailImage;
 		private LocalDateTime createdAt;

@@ -4,7 +4,10 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { EventSourcePolyfill } from "event-source-polyfill";
+// import { EventSourcePolyfill } from "event-source-polyfill";
+// import SockJS from "sockjs-client";
+import * as StompJs from "@stomp/stompjs";
+// import { CompatClient, Stomp } from "@stomp/stompjs";
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
@@ -18,8 +21,14 @@ import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
 import LoginRefresh from "../../../util/LoginRefresh";
-import { getSSE } from "../../../api/noticeApi";
+// import { getSSE } from "../../../api/noticeApi";
 import { getBlogProfile } from "../../../api/profileApi";
+// import { NoticeState } from "../../../state/Socket";
+import NoticeModal from "../../Modal/NoticeModal";
+import {
+  HeaderImageState,
+  ProfileImageState,
+} from "../../../state/ProfileState";
 
 export const Input = tw.div`
   my-6
@@ -38,11 +47,17 @@ export default function SigninForm() {
   const router = useRouter();
   const [isLogin, setLogin] = useRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
-  const setUserId = useSetRecoilState<number>(UserIdState);
+  const [userId, setUserId] = useRecoilState<number>(UserIdState);
   const setNickname = useSetRecoilState<string | undefined>(NicknameState);
   // const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
+  // 알림 왔는 지 안 왔는지 상태 저장
+  const [notice, setNotice] = useState();
+  // 프로필 사진 저장
+  const [profile, setProfile] = useRecoilState(ProfileImageState);
+  // 헤더 사진 저장
+  const [header, setHeader] = useRecoilState(HeaderImageState);
 
   const {
     register,
@@ -69,7 +84,10 @@ export default function SigninForm() {
       // NavBar의 Profile 이미지 때문에 로그인 후 1번 get 요청
       const profileData = await getBlogProfile(userData.memberId);
       console.log(`profileData`, profileData);
+      // 리코일에 프로필 이미지, 유저 아이디, 헤더 이미지 저장
+      setProfile(profileData.data.profileImage);
       setUserId(signinSubmit.data.memberId);
+      setHeader(profileData.data.headerImage);
 
       if (accessToken && refreshToken) {
         setLogin(true);
@@ -78,13 +96,8 @@ export default function SigninForm() {
         setNickname(userData.nickname);
         // 이미지 처리 후, 밑의 주석 풀기
         // setNavProfileImg((profileData as any).data.profileImage);
-        setTimeout(LoginRefresh, 60000 * 20);
         router.replace("/");
       }
-    } else {
-      setErrMsg("이메일 또는 비밀번호를 다시 확인해주세요.");
-      setShowModal(true);
-      console.log(signinSubmit);
     }
     // 나중에 에러 처리
     // switch ((signinSubmit as any).status) {
@@ -94,104 +107,72 @@ export default function SigninForm() {
     // }
   };
 
-  // // SSE 구독 api
-  // const noticeApi = async () => {
-  //   console.log("로그인된거임?", isLogin);
-  //   if (isLogin === true) {
-  //     const SSE = await getSSE();
-  //     console.log(`noticeApi`, SSE);
-  //     console.log("된거냐고", isLogin);
-  //   }
-  // };
+  console.log("프로필 저장됨?", profile);
 
-  // useEffect(() => {
-  //   noticeApi();
-  //   console.log("된거임?");
-  // }, [isLogin]);
+  // if (isLogin) {
+  //   const token = localStorage.getItem("authorization");
+  //   // 웹 소켓 연결
+  //   const webSocket = new WebSocket("ws://59.12.62.150:8080/websocket");
+  //   webSocket.onopen = function () {
+  //     console.log("웹소켓 연결 성공");
+  //   };
 
-  // // sse 구독 api
-  // useEffect(() => {
-  //   if(localStorage.getItem("authorization") !== null){
-  //     let token = localStorage.getItem("authorization")
-  //     let eventSource = new EventSource("/api/notifications/subscribe" + "?token=" + token);
+  //   //
+  //   const client = new StompJs.Client({
+  //     brokerURL: "ws://59.12.62.150:8080/websocket",
+  //     beforeConnect: () => {
+  //       console.log("beforeConnect");
+  //     },
+  //     connectHeaders: {
+  //       Authorization: `${token}`,
+  //     },
+  //     debug(str) {
+  //       console.log(`str`, str);
+  //     },
+  //     reconnectDelay: 5000, // 자동 재연결
+  //     heartbeatIncoming: 4000,
+  //     heartbeatOutgoing: 4000,
+  //   });
 
-  //     eventSource.addEventListener()
-  //   }
-  // },[])
+  //   // 연결됐을 때 실행할 함수, 에러 처리 담당 함수 구현
+  //   client.onConnect = function (frame) {
+  //     client.subscribe("/message", message => {
+  //       const datas = JSON.parse(message.body);
+  //       console.log("message", datas);
+  //       setNotice(datas);
+  //     });
+  //     client.subscribe(`/alarm/${userId}`, message => {
+  //       const datas = JSON.parse(message.body);
+  //       console.log("alarm", JSON.parse(message.body));
+  //       console.log("alarm2", datas);
+  //       setNotice(JSON.parse(message.body));
+  //       // alert(datas.title);
+  //       // console.log("notice", message);
+  //       // setNotice(JSON.parse(message.body));
+  //       // console.log("notice", notice);
+  //       const alarms = document.querySelector("#alarm");
+  //       const alarm = document.createElement("li");
+  //       alarm.innerText = message.body;
+  //       alarms?.appendChild(alarm);
+  //     });
+  //     // client.subscribe(`/chat/${chatRoomId}`, message => {
+  //     //   const datas = JSON.parse(message.body);
+  //     //   console.log("alarm", datas);
+  //     // });
+  //   };
 
-  // const EventSource = EventSourcePolyfill || NativeEventSource;
+  //   client.onStompError = function (frame) {
+  //     console.log(`Broker reported error`, frame.headers.message);
+  //     console.log(`Additional details:${frame.body}`);
+  //   };
+
+  //   // 클라이언트 활성화
+  //   client.activate();
+  // }
 
   useEffect(() => {
-    console.log("useEffect 앞");
-    if (isLogin === true) {
-      const axiosSEE = async () => {
-        let eventSource;
-        console.log("useEffect 중");
-        try {
-          eventSource = new EventSourcePolyfill(
-            "/api/notifications/subscribe",
-            {
-              headers: { Authorization: localStorage.getItem("authorization") },
-            },
-          );
-          console.log("useEffect 중하");
-          console.log("useEffect", eventSource);
-
-          // eventSource.onmessage = async event => {
-          //   // const data = JSON.parse(event.data);
-          //   // console.log("data", data.message);
-          //   console.log("data", event);
-          // };
-
-          //   // if (data.type !== "error") {
-          //   //   console.log("data", data.message);
-          //   // }
-          // };
-
-          // eventSource.onerror = async event => {
-          //   // eventSource.close();
-          //   // const data = JSON.parse(error.data);
-          //   // console.log("error 메세지", data.message);
-          //   const data = JSON.parse(event.data);
-          //   if (data.type === "error") {
-          //     console.log("error", data.message);
-          //   }
-          // };
-
-          eventSource.addEventListener("notificaiton", e => {
-            const receivedConnectData = e.data;
-            console.log("들어왔어!", receivedConnectData);
-          });
-
-          // eventSource.addEventListener("message", e => {
-          //   console.log("메세지 들어왔어!", e);
-          // });
-
-          // eventSource.addEventListener("error", e => {
-          //   console.log(e);
-          // });
-        } catch (err: unknown) {
-          console.log("err", err);
-          return console.error(err);
-        }
-      };
-      axiosSEE();
-      console.log("useEffect 끝");
-    }
-  }, [isLogin]);
-
-  // const evSource = new EventSource("/api/notifications/subscribe");
-  // const parseMyEvent = (ev: MessageEvent) => {
-  //   const evData = JSON.parse(ev.data);
-  //   console.log("돼냐", evData);
-  // };
-  // evSource.addEventListener("/api/notifications/subscribe", parseMyEvent);
-
-  // // notice SSE 요청
-  // const noticeApi = async () => {
-  //   const noticeApi = await getSSE();
-  //   console.log(`noticeApi`, noticeApi);
-  // };
+    console.log("노티스", notice);
+  }, [notice]);
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,

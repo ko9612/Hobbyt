@@ -5,6 +5,7 @@ export interface SelectPdList {
   price: number;
   stockQuantity: number;
   quantity: number;
+  image: string;
 }
 
 // 주문 정보 입력

@@ -12,9 +12,9 @@ import { Viewer } from "@toast-ui/react-editor";
 
 function TextViewer({ initialValue }: any) {
   return (
-    <p id="viewer">
+    <div id="viewer">
       <Viewer initialValue={initialValue} />
-    </p>
+    </div>
   );
 }
 

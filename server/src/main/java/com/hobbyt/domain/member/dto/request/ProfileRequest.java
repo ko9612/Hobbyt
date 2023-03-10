@@ -1,13 +1,18 @@
 package com.hobbyt.domain.member.dto.request;
 
-import lombok.AllArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProfileRequest {
 	private String nickname;
 	private String description;
+	private MultipartFile profileImage;
+	private MultipartFile headerImage;
+
 }

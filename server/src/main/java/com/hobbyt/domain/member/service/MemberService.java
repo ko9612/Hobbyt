@@ -1,6 +1,7 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.domain.member.entity.MemberStatus.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hobbyt.domain.file.service.FileService;
 import com.hobbyt.domain.follow.repository.FollowRepository;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
@@ -21,8 +23,7 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.entity.Account;
-import com.hobbyt.global.exception.BusinessLogicException;
-import com.hobbyt.global.exception.PasswordException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -30,28 +31,51 @@ import com.hobbyt.global.security.member.MemberDetails;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
+	private final FileService fileService;
+	private final String path = "api/images/";
+	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
+	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
 	@Transactional
 	public Long createUser(SignupRequest signupRequest) {
-		checkUserExist(signupRequest.getEmail());
-		String profileImage = "S3 default profile image";    // S3의 기본 프로필 이미지
-		String headerImage = "S3 default header image";    // S3의 기본 헤더 이미지
-		// 기본 이미지 저장 s3Service 이용해서 이미지 저장
-		Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+		checkEmailDuplicated(signupRequest.getEmail());
+		checkNicknameDuplicated(signupRequest.getNickname());
 
-		return memberRepository.save(member).getId();
+		String profileImage = path + defaultProfileImage;    // 기본 프로필 이미지
+		String headerImage = path + defaultHeaderImage;    // 기본 헤더 이미지
+		createOrRejoin(signupRequest, profileImage, headerImage);
+
+		return findMemberByEmail(signupRequest.getEmail()).getId();
 	}
 
-	private void checkUserExist(String email) {
-		if (memberRepository.existsByEmail(email)) {
+	private void createOrRejoin(SignupRequest signupRequest, String profileImage, String headerImage) {
+		memberRepository.findByEmailAndStatus(signupRequest.getEmail(), WITHDRAWAL).ifPresentOrElse(
+			member -> {
+				member.rejoin(passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname());
+			},
+			() -> {
+				Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+				memberRepository.save(member);
+			}
+		);
+	}
+
+	private void checkNicknameDuplicated(String nickname) {
+		if (memberRepository.existsByNicknameAndStatus(nickname, MEMBER)) {
+			throw new BusinessLogicException(MEMBER_NICKNAME_DUPLICATED);
+		}
+	}
+
+	private void checkEmailDuplicated(String email) {
+		if (memberRepository.existsByEmailAndStatus(email, MEMBER)) {
 			throw new BusinessLogicException(MEMBER_EMAIL_DUPLICATED);
 		}
 	}
@@ -102,7 +126,7 @@ public class MemberService {
 		if (isOldPasswordEqualsNewPassword(updatePassword)
 			|| !isNewPasswordEqualsCheckPassword(updatePassword)
 			|| !isCorrectPassword(updatePassword.getOldPassword(), memberPassword)) {
-			throw new PasswordException();
+			throw new BusinessLogicException(AUTH_INVALID_PASSWORD);
 		}
 	}
 
@@ -153,15 +177,15 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void updateProfile(final String email, final ProfileRequest profileRequest,
-		final MultipartFile profileImage, final MultipartFile headerImage) {
+	public void updateProfile(final String email, final ProfileRequest profileRequest) {
 
 		Member member = findMemberByEmail(email);
+		MultipartFile profileImage = profileRequest.getProfileImage();
+		MultipartFile headerImage = profileRequest.getHeaderImage();
+		String profileImageUrl = path + fileService.saveImage(profileImage);
+		String headerImageUrl = path + fileService.saveImage(headerImage);
 
-		// TODO S3 에서 기존의 이미지를 새로 업로드한 이미지로 변경
-		// S3 내부에서 이미지 null 체크
-		// String path = s3Service.updateImage(List.of(member.getProfileImage(), member.getHeaderImage()), List.of(profileImage, headerImage));
-
-		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription());
+		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription(),
+			profileImageUrl, headerImageUrl);
 	}
 }

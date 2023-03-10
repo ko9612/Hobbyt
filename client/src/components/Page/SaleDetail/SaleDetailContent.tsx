@@ -65,7 +65,6 @@ export default function SaleDetailContent() {
 
   // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
   const [, setOrderData] = useRecoilState(OrderState);
-
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
@@ -120,7 +119,11 @@ export default function SaleDetailContent() {
   useEffect(() => {
     if (router.isReady) {
       getSaleData();
-      getInputData();
+      if (typeof window !== "undefined") {
+        if (localStorage.getItem("authorization")) {
+          getInputData();
+        }
+      }
     }
   }, [router.isReady]);
 
@@ -160,7 +163,7 @@ export default function SaleDetailContent() {
           delete temp.name;
           delete temp.stockQuantity;
           delete temp.price;
-          delete temp.imageUrl;
+          delete temp.image;
           temp.count = temp.quantity;
           delete temp.quantity;
           return el;

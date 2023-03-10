@@ -1,19 +1,23 @@
 import tw from "tailwind-styled-components";
 import { VscChromeClose } from "react-icons/vsc";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import { ModalContainer, ModalBackdrop, ModalView } from "./MsgModal";
 import CreateOrderNum from "../../util/OrederNumber";
 import { OrderState } from "../../state/OrderState";
 import { postOrder } from "../../api/OrderApi";
 import ScrollRoader from "../Scroll/ScrollRoader";
 import {
+  EmailState,
   UserIdState,
   UserRecipientDetailState,
   UserRecipientStreetState,
   UserRecipientZipCodeState,
 } from "../../state/UserState";
+import Payment from "../../util/Payment";
+import { SaleDetailState, totalState } from "../../state/SaleState";
 
 const ModalContent = tw.section`
 p-14
@@ -63,11 +67,27 @@ export default function PaymentModal({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isBankTransfer, setIsBankTransfer] = useState(false);
-  const [orderData] = useRecoilState(OrderState);
   const [userId] = useRecoilState(UserIdState);
   const [, setIsZipcode] = useRecoilState(UserRecipientZipCodeState);
   const [, setIsStreet] = useRecoilState(UserRecipientStreetState);
   const [, setIsDetail] = useRecoilState(UserRecipientDetailState);
+
+  // 결제창에 넘길 데이터
+  const orderData = useRecoilValue(OrderState);
+  const saleData = useRecoilValue(SaleDetailState);
+  const emailData = useRecoilValue(EmailState);
+  const priceSum = useRecoilValue(totalState);
+
+  const paymentData = {
+    name: saleData.title,
+    amount: priceSum.total + Number(saleData.delivery.deliveryPrice),
+    buyer_email: emailData,
+    buyer_name: orderData.depositor,
+    buyer_tel: orderData.recipient.phoneNumber,
+    buyer_addr:
+      orderData.recipient.address.street + orderData.recipient.address.detail,
+    buyer_postcode: orderData.recipient.address.zipcode,
+  };
 
   const handleClose = () => {
     setOpenModal(false);
@@ -115,82 +135,103 @@ export default function PaymentModal({
   };
 
   return (
-    <ModalContainer>
-      <ModalBackdrop onClick={handleClose}>
-        <ModalView
-          className="w-[45rem] relative"
-          onClick={e => e.stopPropagation()}
-        >
-          <button
-            className="absolute top-3 right-3 inline-flex"
-            onClick={handleClose}
+    <>
+      <Head>
+        <script
+          type="text/javascript"
+          src="https://code.jquery.com/jquery-1.12.4.min.js"
+          async
+        />
+        <script
+          type="text/javascript"
+          src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
+          async
+        />
+      </Head>
+      <ModalContainer>
+        <ModalBackdrop onClick={handleClose}>
+          <ModalView
+            className="w-[45rem] relative"
+            onClick={e => e.stopPropagation()}
           >
-            <VscChromeClose size="2rem" />
-          </button>
-          {isLoading && (
-            <div className="h-full w-full absolute z-50 flex justify-center items-center">
-              <ScrollRoader />
-            </div>
-          )}
-          <ModalContent>
-            <ModalTitle>
-              <h2 className="text-2xl font-semibold">결제를 진행해주세요</h2>
-              <p className="w-[25rem] py-2 text-sm">
-                이 페이지를 벗어날 시 주문이 취소됩니다.
-              </p>
-            </ModalTitle>
-            <PayContent>
-              <PayTitle>결제수단</PayTitle>
-              <PayButtonDiv>
-                <PayButton
-                  onClick={() => {
-                    setIsBankTransfer(false);
-                  }}
-                >
-                  카드결제
-                </PayButton>
-                <PayButton
-                  onClick={() => {
-                    setIsBankTransfer(true);
-                  }}
-                >
-                  계좌이체
-                </PayButton>
-              </PayButtonDiv>
-            </PayContent>
-            {isBankTransfer && (
+            <button
+              className="absolute top-3 right-3 inline-flex"
+              onClick={handleClose}
+            >
+              <VscChromeClose size="2rem" />
+            </button>
+            {isLoading && (
+              <div className="h-full w-full absolute z-50 flex justify-center items-center">
+                <ScrollRoader />
+              </div>
+            )}
+            <ModalContent>
+              <ModalTitle>
+                <h2 className="text-2xl font-semibold">결제를 진행해주세요</h2>
+                <p className="w-[25rem] py-2 text-sm">
+                  이 페이지를 벗어날 시 주문이 취소됩니다.
+                </p>
+              </ModalTitle>
               <PayContent>
-                <PayTitle>계좌이체</PayTitle>
-                <BankTFInfo>
-                  <InfoList>
-                    <div className="w-[8rem]">판매자명</div>
-                    <div className="w-[16rem]">{seller}</div>
-                  </InfoList>
-                  <InfoList>
-                    <div className="w-[8rem]">은행명</div>
-                    <div className="w-[16rem]">{bank}</div>
-                  </InfoList>
-                  <InfoList>
-                    <div className="w-[8rem]">계좌번호</div>
-                    <div className="w-[16rem]">{number}</div>
-                  </InfoList>
-                </BankTFInfo>
+                <PayTitle>결제수단</PayTitle>
                 <PayButtonDiv>
-                  <PayButton onClick={orderCompleteClick}>
-                    나중에 하기
+                  <PayButton
+                    onClick={() => {
+                      setIsBankTransfer(false);
+                      Payment({
+                        paymentData,
+                        orderData,
+                        userId,
+                        isLoading,
+                        setIsLoading,
+                      });
+                    }}
+                  >
+                    카드결제
                   </PayButton>
                   <PayButton
-                    onClick={orderCompleteClick}
-                    className="bg-MainColor hover:bg-SubColor focus:bg-SubColor text-white"
+                    onClick={() => {
+                      setIsBankTransfer(true);
+                    }}
                   >
-                    주문완료
+                    계좌이체
                   </PayButton>
                 </PayButtonDiv>
               </PayContent>
-            )}
-          </ModalContent>
-        </ModalView>
-      </ModalBackdrop>
-    </ModalContainer>
+              {isBankTransfer && (
+                <PayContent>
+                  <PayTitle>계좌이체</PayTitle>
+                  <BankTFInfo>
+                    <InfoList>
+                      <div className="w-[8rem]">판매자명</div>
+                      <div className="w-[16rem]">{seller}</div>
+                    </InfoList>
+                    <InfoList>
+                      <div className="w-[8rem]">은행명</div>
+                      <div className="w-[16rem]">{bank}</div>
+                    </InfoList>
+                    <InfoList>
+                      <div className="w-[8rem]">계좌번호</div>
+                      <div className="w-[16rem]">{number}</div>
+                    </InfoList>
+                  </BankTFInfo>
+                  <PayButtonDiv>
+                    <PayButton onClick={orderCompleteClick}>
+                      나중에 하기
+                    </PayButton>
+                    <PayButton
+                      onClick={orderCompleteClick}
+                      className="bg-MainColor hover:bg-SubColor focus:bg-SubColor text-white"
+                    >
+                      주문완료
+                    </PayButton>
+                  </PayButtonDiv>
+                </PayContent>
+              )}
+            </ModalContent>
+          </ModalView>
+        </ModalBackdrop>
+      </ModalContainer>
+    </>
   );
 }
