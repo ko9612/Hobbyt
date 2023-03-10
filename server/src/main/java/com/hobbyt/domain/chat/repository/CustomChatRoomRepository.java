@@ -1,7 +1,14 @@
 package com.hobbyt.domain.chat.repository;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.hobbyt.domain.chat.dto.ChatRoomResponse;
 import com.hobbyt.domain.chat.entity.ChatRoom;
+import com.hobbyt.domain.member.entity.Member;
 
 public interface CustomChatRoomRepository {
-	ChatRoom findChatRoomByUserIds(Long userId1, Long userId2);
+	Optional<ChatRoom> findChatRoomByUserIds(Long userId1, Long userId2);
+
+	List<ChatRoomResponse> getChatRoomsByEmail(Member member);
 }

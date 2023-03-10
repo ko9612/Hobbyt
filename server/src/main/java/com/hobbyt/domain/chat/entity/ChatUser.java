@@ -30,4 +30,12 @@ public class ChatUser extends BaseEntity {
 	@JoinColumn(name = "chat_room_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ChatRoom chatRoom;
+
+	public static ChatUser of(Member member, ChatRoom chatRoom) {
+		ChatUser chatUser = new ChatUser();
+		chatUser.member = member;
+		chatUser.chatRoom = chatRoom;
+
+		return chatUser;
+	}
 }
