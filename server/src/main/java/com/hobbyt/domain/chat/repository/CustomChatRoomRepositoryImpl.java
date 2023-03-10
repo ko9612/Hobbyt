@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
+import com.hobbyt.domain.chat.dto.ChatRoomIdResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomResponse;
+import com.hobbyt.domain.chat.entity.ChatMessage;
 import com.hobbyt.domain.chat.entity.ChatRoom;
 import com.hobbyt.domain.chat.entity.ChatUser;
 import com.hobbyt.domain.member.entity.Member;
@@ -42,16 +44,52 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 	}
 
 	@Override
-	public List<ChatRoomResponse> getChatRoomsByEmail(Member member) {
-		// List<Long> chatRoomIds = queryFactory
-		// 	.select(chatUser.chatRoom.id)
-		// 	.from(chatUser)
-		// 	.where(chatUser.member.eq(member))
-		// 	.fetch();
-		//
-		// queryFactory.select()
+	public ChatRoomResponse getChatRooms(Member member) {
+		List<Long> chatRoomIds = getChatRoomIdsByMember(member);
 
-		return null;
+		List<ChatRoomResponse.ChatRoomInfo> chatRoomInfos = queryFactory
+			.select(Projections.fields(ChatRoomResponse.ChatRoomInfo.class,
+				chatUser.chatRoom.id.as("chatRoomId"),
+				chatUser.member.id.as("partnerId"),
+				chatUser.member.nickname.as("partnerNickname"),
+				chatUser.member.profileImage
+			))
+			.from(chatUser)
+			.where(chatUser.chatRoom.id.in(chatRoomIds),
+				chatUser.member.ne(member))
+			.fetch();
+
+		for (ChatRoomResponse.ChatRoomInfo chatRoomInfo : chatRoomInfos) {
+			ChatMessage found = queryFactory
+				.select(chatMessage)
+				.from(chatMessage)
+				.where(chatMessage.chatUser.chatRoom.id.eq(chatRoomInfo.getChatroomId()),
+					chatMessage.chatUser.member.id.eq(chatRoomInfo.getPartnerId()))
+				.orderBy(chatMessage.id.desc())
+				.fetchFirst();
+
+			chatRoomInfo.setLastMessage(found.getContent());
+			chatRoomInfo.setLastSentAt(found.getCreatedAt());
+		}
+
+		return new ChatRoomResponse(chatRoomInfos);
+	}
+
+	@Override
+	public ChatRoomIdResponse getChatRoomIds(Member member) {
+		List<Long> chatRoomIds = getChatRoomIdsByMember(member);
+
+		List<ChatRoomIdResponse.ChatRoomIdInfo> chatRoomIdInfos = queryFactory
+			.select(Projections.fields(ChatRoomIdResponse.ChatRoomIdInfo.class,
+				chatUser.chatRoom.id.as("chatRoomId"),
+				chatUser.id.as("partnerId")
+			))
+			.from(chatUser)
+			.where(chatUser.chatRoom.id.in(chatRoomIds),
+				chatUser.member.ne(member))
+			.fetch();
+
+		return new ChatRoomIdResponse(chatRoomIdInfos);
 	}
 
 	@Override
@@ -86,6 +124,14 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 			.select(chatUser.chatRoom.id)
 			.from(chatUser)
 			.where(chatUser.id.eq(userId1))
+			.fetch();
+	}
+
+	private List<Long> getChatRoomIdsByMember(Member member) {
+		return queryFactory
+			.select(chatUser.chatRoom.id)
+			.from(chatUser)
+			.where(chatUser.member.eq(member))
 			.fetch();
 	}
 }

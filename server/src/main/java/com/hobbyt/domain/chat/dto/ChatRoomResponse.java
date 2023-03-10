@@ -3,14 +3,19 @@ package com.hobbyt.domain.chat.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class ChatRoomResponse {
 	private List<ChatRoomInfo> chatrooms;
 
+	@Getter
+	@Setter
+	@NoArgsConstructor
 	public static class ChatRoomInfo {
 		private Long chatroomId;
 		private Long partnerId;

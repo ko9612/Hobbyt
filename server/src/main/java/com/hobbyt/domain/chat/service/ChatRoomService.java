@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
+import com.hobbyt.domain.chat.dto.ChatRoomIdResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomResponse;
 import com.hobbyt.domain.chat.entity.ChatRoom;
 import com.hobbyt.domain.chat.repository.ChatRoomRepository;
@@ -35,9 +36,14 @@ public class ChatRoomService {
 
 	public ChatRoomResponse getChatRoomsByEmail(String email) {
 		Member member = memberService.findMemberByEmail(email);
-		chatRoomRepository.getChatRoomsByEmail(member);
 
-		return null;
+		return chatRoomRepository.getChatRooms(member);
+	}
+
+	public ChatRoomIdResponse getChatRoomIdsByEmail(String email) {
+		Member member = memberService.findMemberByEmail(email);
+
+		return chatRoomRepository.getChatRoomIds(member);
 	}
 
 	public ChatRoomDetailResponse getChatRoomMessages(Long chatRoomId, Member member) {

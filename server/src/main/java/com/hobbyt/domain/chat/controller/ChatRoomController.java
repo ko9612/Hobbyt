@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
+import com.hobbyt.domain.chat.dto.ChatRoomIdResponse;
+import com.hobbyt.domain.chat.dto.ChatRoomResponse;
 import com.hobbyt.domain.chat.entity.ChatMessage;
 import com.hobbyt.domain.chat.entity.ChatRoom;
 import com.hobbyt.domain.chat.entity.ChatUser;
@@ -45,15 +47,21 @@ public class ChatRoomController {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@GetMapping
-	public ResponseEntity<?> getChatRooms(@AuthenticationPrincipal MemberDetails memberDetails) {
+	public ResponseEntity<ChatRoomResponse> getChatRooms(@AuthenticationPrincipal MemberDetails memberDetails) {
+		String email = memberDetails.getEmail();
+
+		ChatRoomResponse response = chatRoomService.getChatRoomsByEmail(email);
 
 		return ResponseEntity.ok(null);
 	}
 
 	@GetMapping("/ids")
-	public ResponseEntity<?> getChatRoomIds(@AuthenticationPrincipal MemberDetails memberDetails) {
+	public ResponseEntity<ChatRoomIdResponse> getChatRoomIds(@AuthenticationPrincipal MemberDetails memberDetails) {
+		String email = memberDetails.getEmail();
 
-		return ResponseEntity.ok(null);
+		ChatRoomIdResponse response = chatRoomService.getChatRoomIdsByEmail(email);
+
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/{chatroomId}")
