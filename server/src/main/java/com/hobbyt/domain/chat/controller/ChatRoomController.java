@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
 import com.hobbyt.domain.chat.entity.ChatMessage;
 import com.hobbyt.domain.chat.entity.ChatRoom;
 import com.hobbyt.domain.chat.entity.ChatUser;
@@ -58,8 +59,12 @@ public class ChatRoomController {
 	@GetMapping("/{chatroomId}")
 	public ResponseEntity<?> getChatroomMessages(
 		@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chatroomId) {
+		String email = memberDetails.getEmail();
+		Member member = memberService.findMemberByEmail(email);
 
-		return ResponseEntity.ok(null);
+		ChatRoomDetailResponse response = chatRoomService.getChatRoomMessages(chatroomId, member);
+
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping

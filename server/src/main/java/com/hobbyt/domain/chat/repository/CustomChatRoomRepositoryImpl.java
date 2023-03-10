@@ -1,5 +1,6 @@
 package com.hobbyt.domain.chat.repository;
 
+import static com.hobbyt.domain.chat.entity.QChatMessage.*;
 import static com.hobbyt.domain.chat.entity.QChatRoom.*;
 import static com.hobbyt.domain.chat.entity.QChatUser.*;
 
@@ -9,9 +10,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomResponse;
 import com.hobbyt.domain.chat.entity.ChatRoom;
+import com.hobbyt.domain.chat.entity.ChatUser;
 import com.hobbyt.domain.member.entity.Member;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +52,33 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 		// queryFactory.select()
 
 		return null;
+	}
+
+	@Override
+	public ChatRoomDetailResponse getChatRoomMessages(Long chatRoomId, Member member) {
+		List<ChatUser> chatUsers = queryFactory
+			.select(chatUser)
+			.from(chatUser)
+			.where(chatUser.chatRoom.id.eq(chatRoomId))
+			.fetch();
+
+		List<ChatRoomDetailResponse.ChatRoomMessage> chatRoomMessages = queryFactory
+			.select(Projections.fields(ChatRoomDetailResponse.ChatRoomMessage.class,
+				chatMessage.chatUser.id.as("senderId"),
+				chatMessage.content,
+				chatMessage.createdAt.as("sentAt")
+			))
+			.from(chatMessage)
+			.where(chatMessage.chatUser.in(chatUsers))
+			.orderBy(chatMessage.id.asc())
+			.fetch();
+
+		ChatUser partner = chatUsers.stream()
+			.filter(chatUser -> !chatUser.getMember().equals(member))
+			.findFirst()
+			.get();
+
+		return ChatRoomDetailResponse.of(chatRoomId, partner, chatRoomMessages);
 	}
 
 	private List<Long> getChatRoomIdsCorrespondingUserId(Long userId1) {

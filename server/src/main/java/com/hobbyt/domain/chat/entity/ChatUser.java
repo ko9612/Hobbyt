@@ -15,9 +15,11 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.global.entity.BaseEntity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatUser extends BaseEntity {
 	@Id
