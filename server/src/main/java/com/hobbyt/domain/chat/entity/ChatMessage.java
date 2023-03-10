@@ -35,4 +35,12 @@ public class ChatMessage extends BaseEntity {
 	@JoinColumn(name = "chat_user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ChatUser chatUser;
+
+	public static ChatMessage of(ChatUser chatUser, String content) {
+		ChatMessage chatMessage = new ChatMessage();
+		chatMessage.content = content;
+		chatMessage.chatUser = chatUser;
+
+		return chatMessage;
+	}
 }
