@@ -1,5 +1,7 @@
 package com.hobbyt.domain.chat.service;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.hobbyt.domain.chat.entity.ChatUser;
 import com.hobbyt.domain.chat.repository.ChatUserRepository;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.global.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,9 +41,15 @@ public class ChatUserService {
 			.orElseGet(() -> createChatUser(member, chatRoom));
 	}
 
+	public ChatUser findVerifiedOneByMemberAndChatRoom(Member member, ChatRoom chatRoom) {
+		return chatUserRepository.findByMemberAndChatRoom(member, chatRoom)
+			.orElseThrow(() -> new BusinessLogicException(RESOURCE_NOT_FOUND));
+	}
+
 	private ChatUser createChatUser(Member member, ChatRoom chatRoom) {
 		ChatUser chatUser = ChatUser.of(member, chatRoom);
 
 		return chatUserRepository.save(chatUser);
 	}
+
 }

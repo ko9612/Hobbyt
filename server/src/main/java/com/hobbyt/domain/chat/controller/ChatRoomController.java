@@ -1,10 +1,16 @@
 package com.hobbyt.domain.chat.controller;
 
+import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.security.constants.AuthConstants.*;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.chat.entity.ChatMessage;
 import com.hobbyt.domain.chat.entity.ChatRoom;
 import com.hobbyt.domain.chat.entity.ChatUser;
+import com.hobbyt.domain.chat.service.ChatMessageService;
 import com.hobbyt.domain.chat.service.ChatRoomService;
 import com.hobbyt.domain.chat.service.ChatUserService;
+import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.service.MemberService;
+import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +38,10 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomController {
 	private final ChatRoomService chatRoomService;
 	private final ChatUserService chatUserService;
+	private final ChatMessageService chatMessageService;
+	private final MemberService memberService;
 	private final SimpMessageSendingOperations messagingTemplate;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@GetMapping
 	public ResponseEntity<?> getChatRooms(@AuthenticationPrincipal MemberDetails memberDetails) {
@@ -59,7 +74,24 @@ public class ChatRoomController {
 	}
 
 	@MessageMapping("/chatrooms/{chatroomId}")
-	public void sendMessage(@DestinationVariable Long chatroomId, String message) {
-		messagingTemplate.convertAndSend("/chatrooms/" + chatroomId, message);
+	public void sendMessage(@DestinationVariable Long chatroomId, Message<String> message) {
+		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
+
+		String header = headerAccessor.getFirstNativeHeader(AUTH_HEADER);
+
+		if (!StringUtils.hasText(header) || !header.startsWith(TOKEN_TYPE)) {
+			throw new BusinessLogicException(UNAUTHORIZED);
+		}
+
+		String jwt = header.substring(7);
+		String email = jwtTokenProvider.parseEmail(jwt);
+
+		Member member = memberService.findMemberByEmail(email);
+		ChatRoom chatRoom = chatRoomService.findByVerifiedOneById(chatroomId);
+		ChatUser chatUser = chatUserService.findVerifiedOneByMemberAndChatRoom(member, chatRoom);
+
+		ChatMessage created = chatMessageService.createChatMessage(chatUser, message.getPayload());
+
+		messagingTemplate.convertAndSend("/chatrooms/" + chatroomId, created.getContent());
 	}
 }
