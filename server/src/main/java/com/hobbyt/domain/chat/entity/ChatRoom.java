@@ -7,11 +7,12 @@ import javax.persistence.Id;
 
 import com.hobbyt.global.entity.BaseEntity;
 
-import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor
 public class ChatRoom extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
