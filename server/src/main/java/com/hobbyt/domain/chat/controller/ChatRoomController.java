@@ -1,6 +1,6 @@
 package com.hobbyt.domain.chat.controller;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ import com.hobbyt.domain.chat.service.ChatRoomService;
 import com.hobbyt.domain.chat.service.ChatUserService;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
