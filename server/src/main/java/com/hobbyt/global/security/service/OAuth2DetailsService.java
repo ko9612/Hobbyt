@@ -16,6 +16,7 @@ import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.entity.Provider;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.OAuth2AuthenticationProcessingException;
 import com.hobbyt.global.security.member.MemberDetails;
 import com.hobbyt.global.security.oauth2.GoogleUserInfo;
 import com.hobbyt.global.security.oauth2.KakaoUserInfo;
@@ -30,19 +31,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	private final MemberRepository memberRepository;
+	private final String path = "/api/images/";
+	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
+	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
 		OAuth2UserService delegate = new DefaultOAuth2UserService();
 
-		OAuth2User oAuth2User = delegate.loadUser(userRequest); // OAuth2서버에서 받아온 유저정보를 넣어준다.
+		OAuth2User oAuth2User = delegate.loadUser(oAuth2UserRequest); // OAuth2서버에서 받아온 유저정보를 넣어준다.
 		OAuth2UserInfo oAuth2UserInfo = null;
 
-		String registrationId = userRequest.getClientRegistration().getRegistrationId(); // registrationId -> 기업을 구분한다.
+		String registrationId = oAuth2UserRequest.getClientRegistration()
+			.getRegistrationId(); // registrationId -> 기업을 구분한다.
 
 		log.info("============ attribute: {}", oAuth2User.getAttributes());
 		log.info("============ userNameAttributeName: {}",
-			userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName());
+			oAuth2UserRequest.getClientRegistration()
+				.getProviderDetails()
+				.getUserInfoEndpoint()
+				.getUserNameAttributeName());
 		log.info("============ registrationId: {}", registrationId);
 
 		if (registrationId.equals("google")) {
@@ -67,6 +75,12 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 
 		Member member = findMemberByEmailAndNotWithdrawal(email);
 
+		if (!member.getProvider().equals(Provider.valueOf(registrationId))) {
+			throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
+				member.getProvider() + " account. Please use your " + member.getProvider() +
+				" account to login.");
+		}
+
 		return MemberDetails.of(member.getEmail(), member.getAuthority().toString(), oAuth2User.getAttributes());
 	}
 
@@ -78,6 +92,9 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 	}
 
 	private void saveMember(String email, String nickname, Provider provider, String providerId) {
+		String profileImage = path + defaultProfileImage;    // 기본 프로필 이미지
+		String headerImage = path + defaultHeaderImage;    // 기본 헤더 이미지
+
 		if (memberRepository.existsByNickname(nickname)) {
 			nickname = UUID.randomUUID().toString();
 		}
@@ -87,8 +104,8 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 			// .password(UUID.randomUUID().toString())
 			.provider(provider)
 			.providerId(providerId)
-			.profileImage("default profileImage")
-			.headerImage("default headerImage")
+			.profileImage(profileImage)
+			.headerImage(headerImage)
 			.build();
 
 		memberRepository.save(member);
