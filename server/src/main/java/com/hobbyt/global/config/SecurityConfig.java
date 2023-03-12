@@ -23,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.exception.CustomAuthenticationEntryPoint;
 import com.hobbyt.global.security.filter.JwtAuthenticationFilter;
+import com.hobbyt.global.security.handler.Oauth2FailureHandler;
 import com.hobbyt.global.security.handler.Oauth2SuccessHandler;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.service.OAuth2DetailsService;
@@ -102,6 +103,7 @@ public class SecurityConfig {
 				.userInfoEndpoint().userService(oAuth2DetailsService)
 				.and()
 				.successHandler(new Oauth2SuccessHandler(jwtTokenProvider, redisService))
+				.failureHandler(new Oauth2FailureHandler())
 			);
 
 		return http.build();
