@@ -1,5 +1,6 @@
 package com.hobbyt.domain.chat.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.hobbyt.domain.chat.entity.ChatUser;
@@ -21,7 +22,7 @@ public class ChatRoomDetailResponse {
 	public static class ChatRoomMessage {
 		private Long senderId;
 		private String content;
-		private String sentAt;
+		private LocalDateTime sentAt;
 	}
 
 	public static ChatRoomDetailResponse of(Long chatroomId, ChatUser partner, List<ChatRoomMessage> chatRoomMessages) {

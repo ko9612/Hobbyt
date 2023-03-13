@@ -14,7 +14,7 @@ public class ChatRoomIdResponse {
 	@Getter
 	@NoArgsConstructor
 	public static class ChatRoomIdInfo {
-		private Long chatroomId;
+		private Long chatRoomId;
 		private Long partnerId;
 	}
 }

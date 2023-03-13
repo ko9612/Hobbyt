@@ -17,7 +17,7 @@ public class ChatRoomResponse {
 	@Setter
 	@NoArgsConstructor
 	public static class ChatRoomInfo {
-		private Long chatroomId;
+		private Long chatRoomId;
 		private Long partnerId;
 		private String partnerNickname;
 		private String profileImage;

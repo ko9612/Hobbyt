@@ -1,6 +1,6 @@
 package com.hobbyt.domain.chat.service;
 
-import static com.hobbyt.global.exception.ExceptionCode.*;
+import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import com.hobbyt.domain.chat.entity.ChatUser;
 import com.hobbyt.domain.chat.repository.ChatUserRepository;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.global.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 

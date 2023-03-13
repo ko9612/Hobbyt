@@ -52,7 +52,7 @@ public class ChatRoomController {
 
 		ChatRoomResponse response = chatRoomService.getChatRoomsByEmail(email);
 
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/ids")

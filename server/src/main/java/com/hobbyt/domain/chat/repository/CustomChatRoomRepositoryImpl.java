@@ -63,7 +63,7 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 			ChatMessage found = queryFactory
 				.select(chatMessage)
 				.from(chatMessage)
-				.where(chatMessage.chatUser.chatRoom.id.eq(chatRoomInfo.getChatroomId()),
+				.where(chatMessage.chatUser.chatRoom.id.eq(chatRoomInfo.getChatRoomId()),
 					chatMessage.chatUser.member.id.eq(chatRoomInfo.getPartnerId()))
 				.orderBy(chatMessage.id.desc())
 				.fetchFirst();
