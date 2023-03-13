@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class ChatUserService {
-	private MemberService memberService;
+	private final MemberService memberService;
 	private final ChatUserRepository chatUserRepository;
 
 	public ChatUser createChatUserOrFindIfExist(Long memberId, ChatRoom chatRoom) {

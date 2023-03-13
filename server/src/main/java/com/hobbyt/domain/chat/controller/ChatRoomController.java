@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
+import com.hobbyt.domain.chat.dto.ChatRoomIdPostRequest;
 import com.hobbyt.domain.chat.dto.ChatRoomIdResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomResponse;
 import com.hobbyt.domain.chat.entity.ChatMessage;
@@ -77,11 +78,13 @@ public class ChatRoomController {
 
 	@PostMapping
 	public ResponseEntity<Long> createChatroomOrFindIfExist(
-		@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody Long partnerId) {
-		ChatRoom chatRoom = chatRoomService.createChatRoomOrFindIfExist(memberDetails.getEmail(), partnerId);
+		@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody ChatRoomIdPostRequest request) {
+
+		ChatRoom chatRoom = chatRoomService
+			.createChatRoomOrFindIfExist(memberDetails.getEmail(), request.getPartnerId());
 
 		ChatUser chatUser = chatUserService.createChatUserOrFindIfExist(memberDetails.getEmail(), chatRoom);
-		ChatUser partner = chatUserService.createChatUserOrFindIfExist(partnerId, chatRoom);
+		ChatUser partner = chatUserService.createChatUserOrFindIfExist(request.getPartnerId(), chatRoom);
 
 		return ResponseEntity.ok(chatRoom.getId());
 	}
