@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -36,35 +37,17 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 		redisService.setValue(email, refreshToken, jwtTokenProvider.calculateExpiration(refreshToken));
 
-		// 프론트 엔드 수신 uri
-		String uri = "https://hobbyt-git-dev-ko9612.vercel.app/oauth?AccessToken=" + accessToken + "&RefreshToken="
-			+ refreshToken;
+		String targetUrl = createSuccessUri(accessToken, refreshToken);
 
-		log.info("보내는 access token: {}", accessToken);
-		log.info("보내는 refresh token: {}", refreshToken);
-
-		getRedirectStrategy().sendRedirect(request, response, uri);
+		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}
 
-	/*private URI createURI(String accessToken, String refreshToken) {
-		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-		queryParams.add(ACCESS_TOKEN, accessToken);
-		queryParams.add(REFRESH_TOKEN, refreshToken);
+	private String createSuccessUri(String accessToken, String refreshToken) {
+		String targetUrl = "https://hobbyt-git-dev-ko9612.vercel.app/oauth";
 
-		return UriComponentsBuilder
-			.newInstance()
-			.scheme("http")
-			.host("localhost:8080")
-			.path("/home")
-			.queryParams(queryParams)
-			.build()
-			.toUri();
-
-		// .newInstance()
-		// .scheme("http")
-		// .host("http://localhost:3000/oauth")    // 프론트 url 로 변경
-		// .queryParams(queryParams)
-		// .build()
-		// .toUri();
-	}*/
+		return UriComponentsBuilder.fromUriString(targetUrl)
+			.queryParam("AccessToken", accessToken)
+			.queryParam("RefreshToken", refreshToken)
+			.build().toUriString();
+	}
 }

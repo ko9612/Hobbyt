@@ -40,7 +40,7 @@ public class MemberService {
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
 	private final FileService fileService;
-	private final String path = "api/images/";
+	private final String path = "/api/images/";
 	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
 	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
