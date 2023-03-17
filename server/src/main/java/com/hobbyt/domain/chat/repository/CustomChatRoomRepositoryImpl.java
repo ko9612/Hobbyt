@@ -21,10 +21,12 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 	private final JPAQueryFactory queryFactory;
 
@@ -33,14 +35,18 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 		List<Long> chatRoomIdsCorrespondingUserId = getChatRoomIdsCorrespondingUserId(userId1);
 		List<Long> chatRoomIdsCorrespondingUserId2 = getChatRoomIdsCorrespondingUserId(userId2);
 
+		log.error("" + chatRoomIdsCorrespondingUserId.size());
+		log.error("" + chatRoomIdsCorrespondingUserId2.size());
+
 		chatRoomIdsCorrespondingUserId.retainAll(chatRoomIdsCorrespondingUserId2);
 
-		return Optional.ofNullable(
-			queryFactory
-				.select(chatRoom)
-				.from(chatRoom)
-				.where(chatRoom.id.in(chatRoomIdsCorrespondingUserId))
-				.fetchFirst());
+		log.error("" + chatRoomIdsCorrespondingUserId.size());
+
+		return Optional.ofNullable(queryFactory
+			.select(chatRoom)
+			.from(chatRoom)
+			.where(chatRoom.id.in(chatRoomIdsCorrespondingUserId))
+			.fetchFirst());
 	}
 
 	@Override

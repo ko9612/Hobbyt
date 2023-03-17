@@ -17,10 +17,12 @@ import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomService {
 	private final MemberService memberService;
 	private final ChatRoomRepository chatRoomRepository;
@@ -29,6 +31,7 @@ public class ChatRoomService {
 		Member member = memberService.findMemberByEmail(email);
 
 		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findChatRoomByUserIds(member.getId(), partnerId);
+		log.error("" + chatRoomOptional.isEmpty());
 
 		return chatRoomOptional
 			.orElseGet(this::createChatRoom);
