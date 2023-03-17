@@ -35,10 +35,12 @@ import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/chatrooms")
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomController {
 	private final ChatRoomService chatRoomService;
 	private final ChatUserService chatUserService;
