@@ -59,16 +59,20 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 			.fetch();
 
 		for (ChatRoomResponse.ChatRoomInfo chatRoomInfo : chatRoomInfos) {
-			ChatMessage found = queryFactory
+			Optional<ChatMessage> foundOptional = Optional.ofNullable(queryFactory
 				.select(chatMessage)
 				.from(chatMessage)
 				.where(chatMessage.chatUser.chatRoom.id.eq(chatRoomInfo.getChatRoomId()),
 					chatMessage.chatUser.member.id.eq(chatRoomInfo.getPartnerId()))
 				.orderBy(chatMessage.id.desc())
-				.fetchFirst();
+				.fetchFirst());
 
-			chatRoomInfo.setLastMessage(found.getContent());
-			chatRoomInfo.setLastSentAt(found.getCreatedAt());
+			if (foundOptional.isPresent()) {
+				ChatMessage found = foundOptional.get();
+
+				chatRoomInfo.setLastMessage(found.getContent());
+				chatRoomInfo.setLastSentAt(found.getCreatedAt());
+			}
 		}
 
 		return new ChatRoomResponse(chatRoomInfos);
