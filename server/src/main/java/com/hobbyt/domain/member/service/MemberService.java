@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyt.domain.file.service.FileService;
 import com.hobbyt.domain.follow.repository.FollowRepository;
@@ -180,12 +179,9 @@ public class MemberService {
 	public void updateProfile(final String email, final ProfileRequest profileRequest) {
 
 		Member member = findMemberByEmail(email);
-		MultipartFile profileImage = profileRequest.getProfileImage();
-		MultipartFile headerImage = profileRequest.getHeaderImage();
-		String profileImageUrl = path + fileService.saveImage(profileImage);
-		String headerImageUrl = path + fileService.saveImage(headerImage);
 
-		member.updateProfile(profileRequest.getNickname(), profileRequest.getDescription(),
-			profileImageUrl, headerImageUrl);
+		Member updateProfile = profileRequest.toEntity();
+
+		member.updateProfile(updateProfile);
 	}
 }

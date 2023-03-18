@@ -1,18 +1,25 @@
 package com.hobbyt.domain.member.dto.request;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.hobbyt.domain.member.entity.Member;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProfileRequest {
 	private String nickname;
 	private String description;
-	private MultipartFile profileImage;
-	private MultipartFile headerImage;
+	private String profileImage;
+	private String headerImage;
 
+	public Member toEntity() {
+		return Member.builder().nickname(nickname)
+			.description(description)
+			.profileImage(profileImage)
+			.headerImage(headerImage)
+			.build();
+	}
 }

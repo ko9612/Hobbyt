@@ -107,30 +107,7 @@ public class Member extends BaseEntity {
 
 		this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;
 		this.recipient = recipient == null ? this.recipient : recipient;
-		// this.address = address == null ? this.address : address;
 		this.account = account == null ? this.account : account;
-
-		/*if (email != null && !email.equals(this.email)) {
-			this.email = email;
-		}
-		if (nickname != null && !nickname.equals(this.nickname)) {
-			this.nickname = nickname;
-		}
-		if (profileImage != null && !profileImage.equals(this.profileImage)) {
-			this.profileImage = profileImage;
-		}
-		if (description != null && !description.equals(this.description)) {
-			this.description = description;
-		}
-		if (phoneNumber != null && !phoneNumber.equals(this.phoneNumber)) {
-			this.phoneNumber = phoneNumber;
-		}
-		if (account != null && !account.equals(this.account)) {
-			this.account = account;
-		}
-		if (address != null && !address.equals(this.address)) {
-			this.address = address;
-		}*/
 	}
 
 	public void updatePassword(String password) {
@@ -153,11 +130,11 @@ public class Member extends BaseEntity {
 		this.followingCount--;
 	}
 
-	public void updateProfile(String nickname, String description, String profileImage, String headerImage) {
-		this.nickname = nickname == null ? this.nickname : nickname;
-		this.description = description == null ? this.description : description;
-		this.profileImage = profileImage == null ? this.profileImage : profileImage;
-		this.headerImage = headerImage == null ? this.headerImage : headerImage;
+	public void updateProfile(Member member) {
+		this.nickname = nickname == null ? this.nickname : member.nickname;
+		this.description = description == null ? this.description : member.description;
+		this.profileImage = profileImage == null ? this.profileImage : member.profileImage;
+		this.headerImage = headerImage == null ? this.headerImage : member.headerImage;
 	}
 
 	public void increaseVisitors() {
