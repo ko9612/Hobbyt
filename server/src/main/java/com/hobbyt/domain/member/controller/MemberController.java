@@ -92,7 +92,7 @@ public class MemberController {
 
 	@PatchMapping("/profile")
 	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
-		@Validated ProfileRequest profileRequest) {
+		@RequestBody ProfileRequest profileRequest) {
 
 		memberService.updateProfile(memberDetails.getEmail(), profileRequest);
 

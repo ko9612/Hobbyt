@@ -141,7 +141,7 @@ public class TestUtil {
 	}
 
 	public static ProfileRequest dummyProfileRequest(String nickname, String description) throws IOException {
-		return new ProfileRequest(nickname, description, dummyProfileImage(), dummyHeaderImage());
+		return new ProfileRequest(nickname, description, PROFILE_IMAGE, HEADER_IMAGE);
 	}
 
 	public static MockMultipartFile dummyProfileImage() throws IOException {

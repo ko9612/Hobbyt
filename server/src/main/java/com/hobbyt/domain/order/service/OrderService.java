@@ -34,7 +34,9 @@ import com.hobbyt.global.error.exception.ExceptionCode;
 import com.hobbyt.global.error.exception.PaymentException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -159,6 +161,10 @@ public class OrderService {
 		OrderInfo orderInfo = request.getOrderInfo();
 		try {
 			int totalPrice = getTotalPrice(orderInfo.getSaleId(), orderInfo.getProducts());
+
+			log.info("amount: {}", amount);
+			log.info("totalPrice: {}", totalPrice);
+
 			if (amount != totalPrice) {
 				throw new PaymentException();
 			}
