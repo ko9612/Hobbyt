@@ -131,10 +131,10 @@ public class Member extends BaseEntity {
 	}
 
 	public void updateProfile(Member member) {
-		this.nickname = nickname == null ? this.nickname : member.nickname;
-		this.description = description == null ? this.description : member.description;
-		this.profileImage = profileImage == null ? this.profileImage : member.profileImage;
-		this.headerImage = headerImage == null ? this.headerImage : member.headerImage;
+		this.nickname = member.nickname == null ? this.nickname : member.nickname;
+		this.description = member.description == null ? this.description : member.description;
+		this.profileImage = member.profileImage == null ? this.profileImage : member.profileImage;
+		this.headerImage = member.headerImage == null ? this.headerImage : member.headerImage;
 	}
 
 	public void increaseVisitors() {
