@@ -115,7 +115,7 @@ public class CustomChatRoomRepositoryImpl implements CustomChatRoomRepository {
 			.fetch();
 
 		ChatUser partner = chatUsers.stream()
-			.filter(chatUser -> !chatUser.getMember().equals(member))
+			.filter(chatUser -> !chatUser.getMember().getId().equals(member.getId()))
 			.findFirst()
 			.get();
 
