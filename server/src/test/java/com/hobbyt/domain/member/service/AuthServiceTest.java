@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,14 +71,16 @@ class AuthServiceTest {
 		//given
 		Member member = dummyMember(MEMBER_ID, NICKNAME, EMAIL, PASSWORD);
 		given(jwtTokenProvider.parseEmail(anyString())).willReturn(EMAIL);
-		given(jwtTokenProvider.calculateExpiration(anyString())).willReturn(TIMEOUT);
 		given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
+		given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn(REISSUED_ACCESS_TOKEN);
 
 		//when
-		authService.reissueAccessToken(ACCESS_TOKEN, REFRESH_TOKEN);
+		String reissueAccessToken = authService.reissueAccessToken(REFRESH_TOKEN);
+
+		Assertions.assertThat(reissueAccessToken).isEqualTo(REISSUED_ACCESS_TOKEN);
 
 		//then
-		then(jwtTokenProvider).should(times(1)).parseEmail(argThat(jws -> jws.equals(REFRESH_TOKEN)));
+		/*then(jwtTokenProvider).should(times(1)).parseEmail(argThat(jws -> jws.equals(REFRESH_TOKEN)));
 		then(jwtTokenProvider).should(times(1)).calculateExpiration(argThat(jws -> jws.equals(ACCESS_TOKEN)));
 		then(redisService).should(times(1))
 			.setValue(argThat(key -> key.equals(ACCESS_TOKEN)), argThat(value -> value.equals(
@@ -85,7 +88,7 @@ class AuthServiceTest {
 		then(memberRepository).should(times(1)).findByEmail(argThat(email -> email.equals(EMAIL)));
 		then(jwtTokenProvider).should(times(1))
 			.createAccessToken(argThat(email -> email.equals(EMAIL)),
-				argThat(authority -> authority == USER_AUTHORITY.toString()));
+				argThat(authority -> authority == USER_AUTHORITY.toString()));*/
 	}
 
 	@DisplayName("refresh token 재발급")

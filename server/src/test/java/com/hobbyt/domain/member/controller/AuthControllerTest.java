@@ -80,7 +80,7 @@ class AuthControllerTest {
 		String refreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
 		String reissuedAccessToken = jwtTokenProvider.createAccessToken(EMAIL, USER_AUTHORITY.toString());
 		String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(EMAIL);
-		given(authService.reissueAccessToken(anyString(), anyString())).willReturn(reissuedAccessToken);
+		given(authService.reissueAccessToken(anyString())).willReturn(reissuedAccessToken);
 		given(authService.reissueRefreshToken(anyString())).willReturn(reissuedRefreshToken);
 		//when
 		ResultActions actions = mockMvc.perform(
