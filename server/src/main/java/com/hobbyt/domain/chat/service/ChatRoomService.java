@@ -4,9 +4,11 @@ import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.Optional;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.chat.dto.ChatRoomCreateEvent;
 import com.hobbyt.domain.chat.dto.ChatRoomDetailResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomIdResponse;
 import com.hobbyt.domain.chat.dto.ChatRoomResponse;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomService {
 	private final MemberService memberService;
 	private final ChatRoomRepository chatRoomRepository;
+	private final ApplicationEventPublisher eventPublisher;
 
 	public ChatRoom createChatRoomOrFindIfExist(String email, Long partnerId) {
 		Member member = memberService.findMemberByEmail(email);
@@ -31,7 +34,7 @@ public class ChatRoomService {
 		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findChatRoomByUserIds(member.getId(), partnerId);
 
 		return chatRoomOptional
-			.orElseGet(this::createChatRoom);
+			.orElseGet(() -> createChatRoom(partnerId));
 	}
 
 	public ChatRoomResponse getChatRoomsByEmail(String email) {
@@ -56,7 +59,10 @@ public class ChatRoomService {
 			.orElseThrow(() -> new BusinessLogicException(RESOURCE_NOT_FOUND));
 	}
 
-	private ChatRoom createChatRoom() {
+	private ChatRoom createChatRoom(Long partnerId) {
+		ChatRoom created = chatRoomRepository.save(new ChatRoom());
+		eventPublisher.publishEvent(ChatRoomCreateEvent.of(partnerId, created.getId()));
+
 		return chatRoomRepository.save(new ChatRoom());
 	}
 }
