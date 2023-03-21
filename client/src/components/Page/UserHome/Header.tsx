@@ -6,7 +6,7 @@ import { HeaderImageState } from "../../../state/ProfileState";
 export default function Header() {
   const headerImage = useRecoilValue(HeaderImageState);
   // 응답이 http 붙어서 들어오기 때문에 그 부분을 짜르가 위함
-  const newHeaderImage = `/${headerImage}`;
+  const newHeaderImage = `${headerImage}`;
   // console.log("헤더 이미지 어떻게 들어옴?", headerImage);
   // console.log("newHeaderImage", newHeaderImage);
 

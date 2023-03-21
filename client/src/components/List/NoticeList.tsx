@@ -113,8 +113,8 @@ export default function NoticeList() {
               <Link
                 href={
                   notice.type === "POST_COMMENT"
-                    ? `/post/${notice.articleId}`
-                    : `/sale/${notice.articleId}`
+                    ? `/blog/${notice.receiverId}/post/${notice.redirectId}`
+                    : `/blog/${notice.receiverId}/sale/${notice.redirectId}`
                 }
                 key={notice.notificationId}
               >
