@@ -1,5 +1,4 @@
 import tw from "tailwind-styled-components";
-import Link from "next/link";
 
 const PButton = tw.button`
 p-2 px-5 bg-MainColor rounded-lg text-white

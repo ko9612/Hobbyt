@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import * as StompJS from "@stomp/stompjs";
 import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
 import Footer from "../src/components/Footer/Footer";
 import BestBlog from "../src/components/List/BestList/BestBlog";
 import BestBlogger from "../src/components/List/BestList/BestBlogger";
@@ -14,76 +15,115 @@ export const MainContent = tw.div`w-[50rem] m-auto`;
 // J: w-[80rem] border ml-auto
 // H: lg:ml-[18rem] py-10 px-3
 
+// export const Client = (router, userId, clear, chatRoomId, newMsg) => {
+// export const Client = () => {
+//   const router = useRouter();
+//   const userId = useRecoilValue(UserIdState);
+//   const token = localStorage.getItem("authorization");
+//   const webSocket = new WebSocket("wss://hobbyt.saintho.dev/websocket");
+//   webSocket.onopen = function () {
+//     console.log("웹소켓 연결 성공");
+//   };
+
+//   const client = new StompJS.Client({
+//     brokerURL: "wss://hobbyt.saintho.dev/websocket",
+//     beforeConnect: () => {
+//       console.log("beforeConnect");
+//     },
+//     connectHeaders: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//     debug(str) {
+//       console.log(`str`, str);
+//     },
+//     reconnectDelay: 5000, // 자동 재연결
+//     heartbeatIncoming: 4000,
+//     heartbeatOutgoing: 4000,
+//   });
+
+//   // 연결됐을 때 실행할 함수
+//   client.onConnect = () => {
+//     client.subscribe("/message", message => {
+//       const datas = JSON.parse(message.body);
+//       console.log("message", datas);
+//     });
+//     client.subscribe(`/alarm/${userId}`, message => {
+//       const datas = JSON.parse(message.body);
+//       console.log("alarm", JSON.parse(message.body));
+//       console.log("alarm2", datas);
+//       const alarms = document.querySelector("#alarm");
+//       const alarm = document.createElement("li");
+//       // const alarm = document.createElement("li");
+//       // // 부모요소 id #alarm에 alarm 이라는 자식 요소 추가하기
+//       // const alarms = document.querySelector("#alarm")?.append(alarm);
+
+//       if (datas) {
+//         if (datas.type === "POST_COMMENT") {
+//           alarm.innerText = `${datas.sender} 님께서 ${datas.title}에 댓글을 남겼습니다.`;
+//         } else if (datas.type === "ORDER_CANCEL") {
+//           alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 취소하였습니다.`;
+//         } else if (datas.type === "SALE_ORDER") {
+//           alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 했습니다.`;
+//         }
+//       }
+//       // alarm.innerText = `${message.body.sender}님께서 ${message.body.title}에 댓글을 남겼습니다.`;
+//       alarms?.appendChild(alarm);
+//       // alarm에 id 만들어서 getElementById로 찾아서 onClick 달려고 했는데 안 되는 듯...
+//       // alarm.setAttribute("id", "onClickId");
+
+//       // className이 아니라 class로 적어야 됨...
+//       alarm.setAttribute("class", "alarm-list");
+
+//       alarm.onclick = e => {
+//         e.preventDefault();
+//         router.replace("/notice");
+//         if (alarms !== null) {
+//           alarms.remove();
+//         }
+//       };
+//     });
+
+//     if (clear === true) {
+//       client.subscribe(`/chat/${chatRoomId}`, message => {
+//         const datas = JSON.parse(message.body);
+//         console.log("채팅", datas);
+//         // const senderId = JSON[Symbol]p
+//       });
+//     }
+
+//     client.publish({
+//       destination: `/chat/room/${chatRoomId}`,
+//       body: newMsg,
+//     });
+//   };
+
+//   // 연결 실패했을 때 실행할 함수
+//   client.onStompError = frame => {
+//     console.log(`Broker reported error`, frame.headers.message);
+//     console.log(`Additional details:${frame.body}`);
+//   };
+
+//   // 클라이언트 활성화
+//   client.activate();
+// };
+
 export default function Home() {
+  // const router = useRouter();
   const isLogin = useRecoilValue(LoginState);
-  const userId = useRecoilValue(UserIdState);
+  // const userId = useRecoilValue(UserIdState);
 
-  if (isLogin) {
-    const token = localStorage.getItem("authorization");
-    const webSocket = new WebSocket("wss://hobbyt.saintho.dev/websocket");
-    webSocket.onopen = function () {
-      console.log("웹소켓 연결 성공");
-    };
+  // if (isLogin) {
+  //   // Client(router, userId, false, 0, 0, false);
+  //   // Client();
+  // }
 
-    const client = new StompJS.Client({
-      brokerURL: "wss://hobbyt.saintho.dev/websocket",
-      beforeConnect: () => {
-        console.log("beforeConnect");
-      },
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-      debug(str) {
-        console.log(`str`, str);
-      },
-      reconnectDelay: 5000, // 자동 재연결
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
-
-    // 연결됐을 때 실행할 함수
-    client.onConnect = () => {
-      client.subscribe("/message", message => {
-        const datas = JSON.parse(message.body);
-        console.log("message", datas);
-      });
-      client.subscribe(`/alarm/${userId}`, message => {
-        const datas = JSON.parse(message.body);
-        console.log("alarm", JSON.parse(message.body));
-        console.log("alarm2", datas);
-        const alarms = document.querySelector("#alarm");
-        const alarm = document.createElement("li");
-
-        if (datas) {
-          if (datas.type === "POST_COMMENT") {
-            alarm.innerText = `${datas.sender} 님께서 ${datas.title}에 댓글을 남겼습니다.`;
-          } else if (datas.type === "ORDER_CANCEL") {
-            alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 취소하였습니다.`;
-          } else if (datas.type === "SALE_ORDER") {
-            alarm.innerText = `${datas.sender} 님께서 ${datas.title} 주문을 했습니다.`;
-          }
-        }
-        // alarm.innerText = `${message.body.sender}님께서 ${message.body.title}에 댓글을 남겼습니다.`;
-        alarms?.appendChild(alarm);
-      });
-    };
-
-    // 연결 실패했을 때 실행할 함수
-    client.onStompError = frame => {
-      console.log(`Broker reported error`, frame.headers.message);
-      console.log(`Additional details:${frame.body}`);
-    };
-
-    // 클라이언트 활성화
-    client.activate();
-  }
   return (
     <>
       <Navbar />
       <Main>
         <div
           id="alarm"
-          className="ml-10 list-none bg-gray-400 border-2 border-red-500"
+          className="p-2 list-none w-[24rem] absolute ml-[38rem] cursor-pointer"
         />
         <MainContent>
           <BestBlog />

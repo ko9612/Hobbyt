@@ -50,4 +50,7 @@
   .scrollbar::-webkit-scrollbar-thumb {
     @apply rounded-full bg-white/50;
   }
+  .alarm-list {
+    @apply border-2 border-blue-500 bg-MainColor p-2 rounded-xl text-center mb-2 z-50;
+  }
 }

@@ -1,6 +1,7 @@
 // 블로그 게시글 상세 페이지 댓글 리스트
 import tw from "tailwind-styled-components";
-import UserProfileImage from "../../Page/UserHome/DefaultProfileImg";
+import Image from "next/image";
+// import UserProfileImage from "../../Page/UserHome/DefaultProfileImg";
 import { IBlogDetailData } from "../../../type/blogType";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 
@@ -24,7 +25,8 @@ export default function CommentList({ detail }: IBlogDetailData) {
       {comments &&
         newComment.map((item: any) => (
           <Container key={item.id}>
-            <UserProfileImage width={40} height={40} borderW={0} />
+            <Image src={item.profileImg} />
+            {/* <UserProfileImage width={40} height={40} borderW={0} /> */}
             <Content>
               <User>
                 <p className="font-semibold">{item.nickname}</p>
