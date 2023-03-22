@@ -16,7 +16,7 @@ import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500 justify-between`;
-export const BLImage = tw.div`w-1/5`;
+export const BLImage = tw.div`w-1/5 h-[6.8rem]`;
 export const BLContent = tw.div`ml-5 w-4/5 flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
 export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 h-[4rem]`;
@@ -52,27 +52,6 @@ export default function BlogItem({ list }: ListProps) {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  const props = {
-    applicant: [
-      {
-        id: 1,
-        name: "김백수",
-      },
-      {
-        id: 2,
-        name: "박보검",
-      },
-      {
-        id: 3,
-        name: "김밥",
-      },
-      {
-        id: 4,
-        name: "유남생",
-      },
-    ],
-  };
-
   // export const Listing = (props) => {
   //   return <div id="list">
   //             {props.applicant.map((item)=>{
@@ -93,7 +72,11 @@ export default function BlogItem({ list }: ListProps) {
               : DefalutImage
           }
           alt="img"
-          className={thumbnailImage !== null ? "rounded-xl" : ""}
+          className={
+            thumbnailImage !== null
+              ? "rounded-xl object-cover h-full w-full"
+              : ""
+          }
           width={150}
           height={150}
         />
@@ -101,7 +84,7 @@ export default function BlogItem({ list }: ListProps) {
       <BLContent>
         <BLTitle>
           <Link href={`/blog/${writerId}/post/${id}`}>
-            <h2 className="overflow-hidden text-2xl w-[28rem] font-semibold text-clip flex items-center">
+            <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
               {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
             </h2>
@@ -111,8 +94,9 @@ export default function BlogItem({ list }: ListProps) {
             <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
           ) : null}
         </BLTitle>
-        <Text>
-          <TextViewer initialValue={content} />
+        <Text className="overflow-hidden">
+          {/* <TextViewer initialValue={content} /> */}
+          <div>{content}</div>
         </Text>
         <div
           className={`${
@@ -153,11 +137,11 @@ export default function BlogItem({ list }: ListProps) {
             </span>
           </ActInfo>
         </div>
-        <div id="list">
+        {/* <div id="list">
           {props.applicant.map(item => {
             <li key={item.id}>{item.name}</li>;
           })}
-        </div>
+        </div> */}
       </BLContent>
     </BLComponent>
   );

@@ -20,6 +20,7 @@ import { OrderStatus } from "../../../state/OrderState";
 import { OrderDetailProps } from "../../../type/OrderType";
 import { orderErrorHandler } from "../../../util/ErrorHandler";
 import MsgModal from "../../Modal/MsgModal";
+import DMButton from "../../Button/DMButton";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
@@ -220,13 +221,15 @@ export default function OrderProgress({ isData }: IDataProps) {
 
             <div className="flex items-center">
               {router.pathname.includes("ordermanagement") ? (
-                <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                  채팅하기
-                </DButton>
+                <DMButton>채팅하기</DMButton>
               ) : (
-                <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                  문의하기
-                </DButton>
+                // <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                //   채팅하기
+                // </DButton>
+                // <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
+                //   문의하기
+                // </DButton>
+                <DMButton>문의하기</DMButton>
               )}
               {router.pathname.includes("ordermanagement") ? (
                 <div>

@@ -6,7 +6,12 @@ export const TitleState = atom<string | undefined>({
   default: "",
 });
 
-export const ThumbnailState = atom<File | null>({
+// export const ThumbnailState = atom<File | null>({
+//   key: "ThumbnailState",
+//   default: null,
+// });
+
+export const ThumbnailState = atom<string | null>({
   key: "ThumbnailState",
   default: null,
 });

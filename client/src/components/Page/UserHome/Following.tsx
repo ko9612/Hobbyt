@@ -39,8 +39,8 @@ export default function Followig({ isFollowing }) {
             </div>
           ) : (
             <div className="inline-flex items-center justify-between border-2 border-blue-500">
-              <div className="mr-10">
-                <DMButton />
+              <div className="mr-4">
+                <DMButton>블로그</DMButton>
               </div>
               <FollowButton
                 onClick={handleClick}

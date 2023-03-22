@@ -25,8 +25,12 @@ export default function CommentList({ detail }: IBlogDetailData) {
       {comments &&
         newComment.map((item: any) => (
           <Container key={item.id}>
-            <Image src={item.profileImg} />
-            {/* <UserProfileImage width={40} height={40} borderW={0} /> */}
+            <Image
+              src={item.profileImage}
+              width={50}
+              height={50}
+              alt="댓글 작성자 프로필 이미지"
+            />
             <Content>
               <User>
                 <p className="font-semibold">{item.nickname}</p>

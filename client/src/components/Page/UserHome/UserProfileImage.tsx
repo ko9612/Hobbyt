@@ -14,7 +14,7 @@ export default function UserProfileImage() {
         alt="유저 프로필 사진"
         width={250}
         height={250}
-        className="mb-3 overflow-hidden border-8 border-white rounded-full"
+        className="object-cover mb-3 border-8 border-white rounded-full w-[15rem] h-[15rem]"
       />
     </div>
   );

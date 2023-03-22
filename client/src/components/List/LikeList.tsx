@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "next/image";
 import { BLContainer, BLComponent, BLImage, BLContent, Text } from "./BlogItem"; // 새로 추가
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
@@ -11,6 +12,7 @@ import WriteDate from "../ViewLikeWrite/WriteDate";
 import { getLikeList } from "../../api/tabApi";
 import { UserIdState } from "../../state/UserState";
 import { ILikeList } from "../../type/blogType";
+import DefalutImage from "../../image/pictureDefalut.svg";
 
 export default function LikeList() {
   // 블로그 주인 userId
@@ -28,7 +30,7 @@ export default function LikeList() {
     const getData = async () => {
       const res = await getLikeList(userId, 0, 10);
       setListData(res.data);
-      console.log(`MyLikeList`, res);
+      console.log(`MyLikeList`, res.data);
     };
     getData();
   }, []);
@@ -42,7 +44,19 @@ export default function LikeList() {
       {listData?.cards &&
         listData?.cards.map((item: any, idx: number) => (
           <BLComponent key={idx}>
-            <BLImage>{item.thumbnailImage}</BLImage>
+            {/* <BLImage>{item.thumbnailImage}</BLImage> */}
+            <BLImage>
+              <Image
+                src={
+                  item.thumbnailImage !== null
+                    ? item.thumbnailImage
+                    : DefalutImage
+                }
+                alt="img"
+                width={150}
+                height={150}
+              />
+            </BLImage>
             <BLContent>
               <Link href={`/blog/${item.writerId}/post/${item.postId}`}>
                 <div className="flex justify-between">

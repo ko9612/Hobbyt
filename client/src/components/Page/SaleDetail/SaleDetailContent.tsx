@@ -245,7 +245,7 @@ export default function SaleDetailContent() {
                 />
               </PurInputDiv>
               <PurInputDiv className="pl-4">
-                <div className="px-2 py-1 border rounded-lg  bg-slate-100 border-slate-300">
+                <div className="px-2 py-1 border rounded-lg bg-slate-100 border-slate-300">
                   {priceSum.total + Number(SaleData.delivery.deliveryPrice)}
                 </div>
               </PurInputDiv>
