@@ -8,8 +8,8 @@ export const postOrder = async (data: any) => {
   try {
     const orderData = await customAxios.post(`/api/orders`, data);
     return orderData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -18,8 +18,8 @@ export const getOrderDetail = async (id: number | undefined) => {
   try {
     const OrderData = await customAxios.get(`/api/members/myPage/orders/${id}`);
     return OrderData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -28,8 +28,8 @@ export const deleteOrder = async (id: number) => {
   try {
     const orderData = await customAxios.delete(`/api/orders/${id}`);
     return orderData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -41,8 +41,8 @@ export const patchOrderState = async (data: any, orderId: number) => {
       data,
     );
     return orderData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -54,8 +54,8 @@ export const patchOrderInfo = async (data: any, id: number) => {
       data,
     );
     return orderData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -68,7 +68,6 @@ export const postPayment = async (data: any) => {
     );
     return orderData;
   } catch (err: unknown) {
-    console.log(err);
     return ErrorHandler(err);
   }
 };

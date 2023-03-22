@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 // import { useSetRecoilState } from "recoil";
 import { ProgressArr, RefundArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
+import { orderErrorHandler } from "../../util/ErrorHandler";
+import MsgModal from "../Modal/MsgModal";
 // import { OrderStatus } from "../../state/OrderState";
 
 interface Istatus {
@@ -17,6 +19,9 @@ export default function ProgressCategory({
   orderId,
   isCanceled,
 }: Istatus) {
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const [categorySpread, setCategorySpread] = useState(false);
   // const setOrderStatus = useSetRecoilState(OrderStatus);
   const spreadOnClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +81,9 @@ export default function ProgressCategory({
     };
     const patchData = async () => {
       const res = await patchOrderState(data, orderId);
+      if ((res as any).status !== 200) {
+        orderErrorHandler({ data: res, setErrMsg, setShowMsgModal });
+      }
       return res;
     };
     patchData();
@@ -110,29 +118,32 @@ export default function ProgressCategory({
   // };
   console.log(`프로그래스 카테고리`, orderStatus);
   return (
-    <div className="relative flex flex-col border-2 mr-[2rem]">
-      <button
-        onClick={spreadOnClickHandler}
-        className="flex justify-between p-[0.5rem] w-22 text-sm"
-      >
-        {clcikName && getStatus(clcikName)}
-        {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
-      </button>
-      {categorySpread && (
-        <div className="absolute z-10 w-full p-1 overflow-hidden text-sm bg-gray-100 border-2 top-9">
-          {(isCanceled ? RefundArr : progressArr).map((progress, idx) => (
-            <button
-              className="flex py-1 m-auto "
-              key={idx}
-              onClick={handleClick}
-              value={progress.status}
-            >
-              {progress.title}
-              <hr />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    <>
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
+      <div className="relative flex flex-col border-2 mr-[2rem]">
+        <button
+          onClick={spreadOnClickHandler}
+          className="flex justify-between p-[0.5rem] w-22 text-sm"
+        >
+          {clcikName && getStatus(clcikName)}
+          {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
+        </button>
+        {categorySpread && (
+          <div className="absolute z-10 w-full p-1 overflow-hidden text-sm bg-gray-100 border-2 top-9">
+            {(isCanceled ? RefundArr : progressArr).map((progress, idx) => (
+              <button
+                className="flex py-1 m-auto "
+                key={idx}
+                onClick={handleClick}
+                value={progress.status}
+              >
+                {progress.title}
+                <hr />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

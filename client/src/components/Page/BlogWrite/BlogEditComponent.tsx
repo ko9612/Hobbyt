@@ -47,11 +47,12 @@ export default function BlogEditComponent() {
         setContentData(get.data.content);
         setTagData(get.data.tags);
         setPublicData(get.data.isPublic);
-      } else if (get.status === 404) {
-        setErrMsg("존재하지 않는 게시글입니다.");
-        setShowModal(true);
       } else {
-        setErrMsg("Server Error");
+        if (get.status === 404) {
+          setErrMsg("존재하지 않는 게시글입니다.");
+        } else {
+          setErrMsg("Server Error");
+        }
         setShowModal(true);
       }
     } catch {

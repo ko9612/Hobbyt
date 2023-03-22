@@ -12,6 +12,7 @@ import {
   UserRefundNumState,
 } from "../../../state/UserState";
 import { OrderDetailProps } from "../../../type/OrderType";
+import MsgModal from "../../Modal/MsgModal";
 import DepositInfo from "./DepositInfo";
 import OrderInfo from "./OrderInfo";
 import OrderProgress from "./OrderProgress";
@@ -21,6 +22,10 @@ import SellerInfo from "./SellerInfo";
 
 export default function OrderDetailContent() {
   const router = useRouter();
+
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const pid = Number(router.query.id);
   const [isData, setData] = useState<OrderDetailProps>();
   const setIsZipcode = useSetRecoilState(UserRecipientZipCodeState);
@@ -34,14 +39,22 @@ export default function OrderDetailContent() {
   const getOrderData = async () => {
     const detailData = await getOrderDetail(pid);
     const { data } = detailData as any;
-    setData(data);
-    setIsStatus(data.status);
-    setIsZipcode(data.recipient.address.zipcode);
-    setIsStreet(data.recipient.address.street);
-    setIsDetail(data.recipient.address.detail);
-    setIsRefundHolder(data.refundAccount.holder);
-    setIsRefundBank(data.refundAccount.bank);
-    setIsRefundNumber(data.refundAccount.number);
+    if ((detailData as any).status === 200) {
+      setData(data);
+      setIsStatus(data.status);
+      setIsZipcode(data.recipient.address.zipcode);
+      setIsStreet(data.recipient.address.street);
+      setIsDetail(data.recipient.address.detail);
+      setIsRefundHolder(data.refundAccount.holder);
+      setIsRefundBank(data.refundAccount.bank);
+      setIsRefundNumber(data.refundAccount.number);
+    } else if ((detailData as any).status === 404) {
+      setErrMsg("주문정보를 찾을 수 없습니다.");
+      setShowMsgModal(true);
+    } else {
+      setErrMsg("Server Error");
+      setShowMsgModal(true);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +63,7 @@ export default function OrderDetailContent() {
 
   return (
     <>
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       {isData?.status && <OrderProgress isData={isData} />}
       <SellerInfo isData={isData} />
       {router.pathname.includes("/ordermanagement") ? (

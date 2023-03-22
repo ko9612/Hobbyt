@@ -84,11 +84,14 @@ export default function SigninForm() {
         setNavProfileImg((profileData as any).data.profileImage);
         router.replace("/");
       }
-    } else if ((signinSubmit as any).status === 404) {
-      setErrMsg("등록되지 않은 회원입니다.");
-      setShowModal(true);
-    } else if ((signinSubmit as any).status === 400) {
-      setErrMsg("비밀번호가 일치하지 않습니다.");
+    } else {
+      if ((signinSubmit as any).status === 404) {
+        setErrMsg("등록되지 않은 회원입니다.");
+      } else if ((signinSubmit as any).status === 400) {
+        setErrMsg("비밀번호가 일치하지 않습니다.");
+      } else {
+        setErrMsg("서버에러. 관리자에게 문의해주세요.");
+      }
       setShowModal(true);
     }
   };

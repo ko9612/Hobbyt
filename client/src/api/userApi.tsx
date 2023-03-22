@@ -10,8 +10,8 @@ export const patchPaswword = async (data: PasswordProps) => {
       data,
     );
     return editPassword;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 

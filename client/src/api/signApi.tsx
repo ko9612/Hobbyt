@@ -27,7 +27,6 @@ export const postSignupEmailBut = async (data: any) => {
 export const postSignin = async (data: SigninInputs) => {
   try {
     const signinUserData = await axios.post("/api/auth/login", data);
-    console.log(signinUserData);
     return signinUserData;
   } catch (err: any) {
     return err.response;

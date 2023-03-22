@@ -23,6 +23,9 @@ const ItemLabelTitle = tw.label`w-[10rem]`;
 
 export default function PurchaserEditInfo({ isData }: IDataProps) {
   const router = useRouter();
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const oid = Number(router.query.id);
   const isZipcode = useRecoilValue(UserRecipientZipCodeState);
   const isStreet = useRecoilValue(UserRecipientStreetState);
@@ -33,7 +36,6 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
   const [isRefundBank, setIsRefundBank] = useRecoilState(UserRefundBankState);
   const [isRefundNumber, setIsRefundNumber] =
     useRecoilState(UserRefundNumState);
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   // 예금주 handler
   const EditHolderHandler: ComponentProps<"input">["onChange"] = e => {
@@ -71,8 +73,13 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
 
     // 에러처리 나중에
     if ((EditSubmit as any).status === 200) {
-      setShowModal(true);
+      setErrMsg("저장되었습니다.");
+    } else if ((EditSubmit as any).status === 404) {
+      setErrMsg("주문정보를 찾을 수 없습니다.");
+    } else {
+      setErrMsg("서버에러. 관리자에게 문의해주세요.");
     }
+    setShowMsgModal(true);
   };
 
   return (
@@ -147,8 +154,8 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
               </OLIItem>
             </>
           )}
-          {showModal && (
-            <MsgModal msg="저장되었습니다." setOpenModal={setShowModal} />
+          {showMsgModal && (
+            <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
           )}
           {isData.status === "ORDER" ||
           isData.status === "PAYMENT_VERIFICATION" ? (

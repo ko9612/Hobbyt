@@ -47,7 +47,6 @@ export default function PasswordInfo() {
 
     if (data.oldPassword === data.newPassword) {
       setMsg("현재 비밀번호와 다른 비밀번호를 입력해주세요.");
-      setShowModal(true);
     } else {
       const passwordData = {
         oldPassword: data.oldPassword,
@@ -59,17 +58,13 @@ export default function PasswordInfo() {
       // 에러처리 나중에
       if ((passwordSubmit as any).status === 200) {
         setMsg("비밀번호가 변경되었습니다.");
-        setShowModal(true);
+      } else if ((passwordSubmit as any).status === 400) {
+        setMsg("현재 비밀번호가 올바르지 않습니다.");
+      } else {
+        setMsg("서버에러. 관리자에게 문의해주세요.");
       }
-      console.log(passwordSubmit);
     }
-    // switch ((passwordSubmit as any).status) {
-    //   case 200:
-    //   setMsg("비밀번호가 변경되었습니다.");
-    //   setPassword(data.newPassword);
-    //     break;
-    //   default:
-    // }
+    setShowModal(true);
   };
 
   return (

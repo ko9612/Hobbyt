@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { ThumbnailState } from "../../state/BlogPostState";
 import { postThumbnailUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
-import imageErrorHandler from "../../util/ImageErrorHandler";
+import { imageErrorHandler } from "../../util/ErrorHandler";
 
 const Title = tw.div`mt-5 mb-5 px-5`;
 
@@ -32,10 +32,9 @@ export default function ThumbnailInput() {
       if ((data as any).status === 200) {
         setThumbnail((data as any).data);
       } else {
-        const inputName = "thumbnailImg";
         imageErrorHandler({
           data,
-          inputName,
+          inputName: "thumbnailImg",
           setErrMsg,
           setShowMsgModal,
         });
@@ -50,9 +49,7 @@ export default function ThumbnailInput() {
         {showMsgModal && (
           <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
         )}
-        <h1 className="font-semibold w-[10rem]">
-          대표 이미지 <span className="text-red-500">&#42;</span>
-        </h1>
+        <h1 className="font-semibold w-[10rem]">대표 이미지</h1>
         <input
           type="file"
           id="thumbnailImg"

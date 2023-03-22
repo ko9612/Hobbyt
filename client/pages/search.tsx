@@ -1,6 +1,3 @@
-// import {useLocation}
-// import SearchProduct from './SearchProduct';
-// import SearchReview from './SearchReview';
 import tw from "tailwind-styled-components";
 import Footer from "../src/components/Footer/Footer";
 import Navbar from "../src/components/Nav/NavBar";

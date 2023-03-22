@@ -113,8 +113,8 @@ export default function PaymentModal({
         bank: orderData.refundAccount.bank,
         number: orderData.refundAccount.number,
       },
-      checkPrivacyPolicy: orderData.checkPrivacyPolicy, //
-      payMethod: "BANK_TRANSFER", // 카드결제 구현 시 수정
+      checkPrivacyPolicy: orderData.checkPrivacyPolicy,
+      payMethod: "BANK_TRANSFER",
       products: orderData.products,
     };
 

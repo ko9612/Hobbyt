@@ -20,7 +20,6 @@ export default function BestBlogger() {
       const res = await getBestSaleList("SALE_NEWEST");
       const listRes = (res as any).data;
       setListData([listRes]);
-      console.log("금주의 작품 최신순", listRes);
     } else {
       const res = await getBestSaleList("SALE_MOST_LIKE");
       const listRes = (res as any).data;
