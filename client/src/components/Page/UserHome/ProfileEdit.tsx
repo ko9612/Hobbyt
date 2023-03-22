@@ -1,60 +1,98 @@
 // 프로필 수정 페이지
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 import { DefalutButton } from "../../Button/DefalutButton";
-import { patchBlogProfile } from "../../../api/profileApi";
+import { getBlogLoginProfile, patchBlogProfile } from "../../../api/profileApi";
 import {
   ProfileImageState,
   HeaderImageState,
 } from "../../../state/ProfileState";
 import { NicknameState, UserProfileState } from "../../../state/UserState";
+import { postImageUpload } from "../../../api/blogApi";
+import MsgModal from "../../Modal/MsgModal";
+import imageErrorHandler from "../../../util/ImageErrorHandler";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
 const ImageEdit = tw.div`flex items-center mt-14`;
 
 export default function ProfileEdit() {
+  const router = useRouter();
+  const homeUserId = Number(router.query.userId);
+
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const [profileImage, setProfileImage] = useRecoilState(ProfileImageState);
   const [headerImage, setHeaderImage] = useRecoilState(HeaderImageState);
-  // 닉네임의 기본 값을 현재 닉네임으로 둔다.
-  const [nickName, setNickName] = useRecoilState(NicknameState);
-  // const setNavNickName = useSetRecoilState(NicknameState);
+
+  // const [headerImgFile, setHeaderImgFile] = useState("");
+  // const [profileImgFile, setProfileImgFile] = useState("");
+
+  // 닉네임, 자기소개의 기본 값을 현재 값으로 둔다.
+  const [defaultNickName, setDefaultNickName] = useRecoilState(NicknameState);
+  const [nickname, setNickname] = useState(defaultNickName);
   const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [description, setDescription] = useState("");
+  // 개인홈 프로필 조회 api 요청 함수
+  const request = async () => {
+    // 로그인한 유저용 프로필 조회
+    // 블로그 주인 userID api 함수로 보내줘야함
+    const res = await getBlogLoginProfile(homeUserId);
+    setDescription((res as any).data.description);
+  };
+
+  useEffect(() => {
+    if (router.isReady) {
+      request();
+    }
+  }, [router.isReady]);
+
   // 자기소개 글자수 카운팅
   const [count, setCount] = useState("");
 
   // 헤더 이미지 변경 함수
   const handleChangeHeaderImage = async (e: any) => {
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    const data = await postImageUpload(formData);
+    if ((data as any).status === 200) {
+      setHeaderImage((data as any).data.slice(26));
+    } else {
+      const inputName = "headerImage";
+      imageErrorHandler({
+        data,
+        inputName,
+        setErrMsg,
+        setShowMsgModal,
+      });
     }
-    reader.onloadend = () => {
-      const newHeader: any = reader.result;
-      setHeaderImage(newHeader);
-    };
   };
 
   // 프로필 이미지 변경 함수
   const handleChangeProfileImage = async (e: any) => {
-    console.log(e.target.files);
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    const data = await postImageUpload(formData);
+    if ((data as any).status === 200) {
+      setProfileImage((data as any).data.slice(26));
+    } else {
+      const inputName = "profileImage";
+      imageErrorHandler({
+        data,
+        inputName,
+        setErrMsg,
+        setShowMsgModal,
+      });
     }
-    reader.onloadend = () => {
-      const newProfile: any = reader.result;
-      setProfileImage(newProfile);
-    };
   };
 
   // 닉네임 변경 함수
   const hadleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = e.target.value;
-    setNickName(data);
+    setNickname(data);
   };
 
   // 자기소개 변경 함수
@@ -66,35 +104,24 @@ export default function ProfileEdit() {
     setCount(data);
   };
 
-  // api 요청 함수
+  // 수정 api 요청 함수
   const onSubmitClick = async () => {
-    // const data = {
-    //   nickname: nickName,
-    //   description,
-    // };
-
-    const formData = new FormData();
-    formData.append("headerImage", headerImage);
-    formData.append("profileImage", profileImage);
-    formData.append(
-      "nickname",
-      new Blob([JSON.stringify(nickName)] as any, { type: "application/json" }),
-    );
-    formData.append(
-      "description",
-      new Blob([JSON.stringify(description)] as any, {
-        type: "application/json",
-      }),
-    );
-
-    console.log(formData);
+    const data = {
+      headerImage,
+      profileImage,
+      nickname,
+      description,
+    };
 
     try {
-      const req = await patchBlogProfile(formData);
-      setNickName(nickName);
-      setNavProfileImg(profileImage);
-      // const res = req.data;
-      console.log(`req`, req);
+      const req = await patchBlogProfile(data);
+      if ((req as any).status === 200) {
+        setDefaultNickName(nickname);
+        setNavProfileImg(profileImage);
+        router.reload();
+        // const res = req.data;
+        console.log(`req`, req);
+      }
     } catch (err: unknown) {
       console.log(`err`, err);
     }
@@ -102,12 +129,14 @@ export default function ProfileEdit() {
 
   return (
     <ProfileContainer>
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <ProfileContent>
         <h1 className="mt-10 text-2xl font-bold">프로필 수정</h1>
         <ImageEdit>
           <h3 className="text-xl font-semibold mr-7">헤더 이미지 수정</h3>
           <input
             type="file"
+            id="headerImage"
             className="p-2 mt-2 bg-gray-200 rounded-lg w-60"
             accept="image/jpeg, image/png, image/jpg"
             onChange={handleChangeHeaderImage}
@@ -117,6 +146,7 @@ export default function ProfileEdit() {
           <h3 className="mr-4 text-xl font-semibold">프로필 이미지 수정</h3>
           <input
             type="file"
+            id="profileImage"
             className="p-2 mt-2 bg-gray-200 rounded-lg w-60"
             accept="image/jpeg, image/png, image/jpg"
             onChange={handleChangeProfileImage}
@@ -130,7 +160,7 @@ export default function ProfileEdit() {
           type="text"
           className="p-2 mt-2 bg-gray-200 rounded-lg w-80"
           placeholder="닉네임"
-          value={nickName}
+          value={nickname}
           onChange={hadleChangeName}
           maxLength={6}
         />
