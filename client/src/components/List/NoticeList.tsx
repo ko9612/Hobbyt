@@ -1,32 +1,9 @@
 // import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { getNotice, patchNotice } from "../../api/noticeApi";
 // import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
-
-// const arr = [
-//   {
-//     userprofile: <DefaultProfileImg width={50} height={50} borderW={0} />,
-//     username: "페레로",
-//     and: "님이",
-//     title: "심플 피어싱 제작기",
-//     progress: "블로그에 댓글을 등록했습니다.",
-//   },
-//   {
-//     userprofile: <DefaultProfileImg width={50} height={50} borderW={0} />,
-//     username: "안지은",
-//     and: "님으로부터",
-//     title: "자체제작 무속성 20cm 솜인형",
-//     progress: "작품에 대한 주문이 접수되었습니다.",
-//   },
-//   {
-//     userprofile: <DefaultProfileImg width={50} height={50} borderW={0} />,
-//     username: "고하나",
-//     and: "님이",
-//     title: "내가 원하는 탑꾸 만들기",
-//     progress: "블로그를 좋아합니다.",
-//   },
-// ];
 
 // function NoticeData() {
 //   const [noticeData, setNoticeData] = useState([]);
@@ -65,7 +42,7 @@ import { getNotice, patchNotice } from "../../api/noticeApi";
 // export default function NoticeList(props) {
 export default function NoticeList() {
   // NoticeData();
-  // const router = useRouter();
+  const router = useRouter();
 
   // const { noticeData } = props || {};
   const [noticeData, setNoticeData] = useState([]);
@@ -102,6 +79,20 @@ export default function NoticeList() {
 
   // }
 
+  const noticeClick = (notice: any) => {
+    if (notice.type === "POST_COMMENT") {
+      router.replace(`/blog/${notice.receiverId}/post/${notice.redirectId}`);
+    }
+    if (notice.type === "SALE_ORDER") {
+      router.replace(`/blog/${notice.receiverId}/sale/${notice.redirectId}`);
+    }
+    if (notice.type === "ORDER_CANCEL") {
+      router.replace(
+        `/mypage/${notice.receiverID}/orderdetail/${notice.receiverID}/ordermanagement/${notice.redirectId}`,
+      );
+    }
+  };
+
   return (
     <div>
       {isLoding ? (
@@ -110,13 +101,17 @@ export default function NoticeList() {
         <div>
           {noticeData &&
             noticeData.map((notice: any) => (
-              <Link
-                href={
-                  notice.type === "POST_COMMENT"
-                    ? `/blog/${notice.receiverId}/post/${notice.redirectId}`
-                    : `/blog/${notice.receiverId}/sale/${notice.redirectId}`
-                }
+              // <Link
+              //   href={
+              //     notice.type === "POST_COMMENT"
+              //       ? `/blog/${notice.receiverId}/post/${notice.redirectId}`
+              //       : `/blog/${notice.receiverId}/sale/${notice.redirectId}`
+              //   }
+              //   key={notice.notificationId}
+              // >
+              <div
                 key={notice.notificationId}
+                onClick={() => noticeClick(notice)}
               >
                 <div className="flex items-center p-8 mb-5 rounded-lg bg-slate-100">
                   {/* <p className="mr-5">{notice.userprofile}</p> */}
@@ -134,9 +129,13 @@ export default function NoticeList() {
                     {notice.type === "SALE_ORDER"
                       ? "상품에 주문이 들어왔습니다"
                       : null}
+                    {notice.type === "ORDER_CANCEL"
+                      ? "상품에 주문이 취소되었습니다"
+                      : null}
                   </p>
                 </div>
-              </Link>
+              </div>
+              // </Link>
             ))}
         </div>
       )}

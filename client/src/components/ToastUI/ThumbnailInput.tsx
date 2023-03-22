@@ -45,7 +45,7 @@ export default function ThumbnailInput() {
 
   return (
     <Title>
-      <div className=" flex items-center">
+      <div className="flex items-center ">
         {showMsgModal && (
           <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
         )}

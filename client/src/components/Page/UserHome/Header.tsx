@@ -24,7 +24,7 @@ export default function Header() {
   // 로그인 여부
   const [isLogin] = useRecoilState(LoginState);
   // 프로필 정보
-  const [, setUserData] = useRecoilState(UserProfileDataState);
+  const [userData, setUserData] = useRecoilState(UserProfileDataState);
 
   // 개인홈 프로필 조회 api 요청 함수
   const request = async () => {
@@ -69,7 +69,7 @@ export default function Header() {
     }
   }, [router.isReady]);
 
-  // const headerImage = useRecoilValue(HeaderImageState);
+  console.log("userData", userData);
   const newHeaderImage = `${headerImg}`;
 
   return (
