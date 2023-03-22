@@ -71,8 +71,22 @@ export default function SaleWriteContent() {
     }
   };
 
+  // 페이지 벗어날 시, 데이터 reset
+  const resetData = () => {
+    setTitleData("");
+    setTogleData(true);
+    setContentData("");
+    setTagData([]);
+    setProductData([]);
+    setThumbnail(null);
+  };
+
   useEffect(() => {
     getUserData();
+    router.events.on("routeChangeComplete", resetData);
+    return () => {
+      router.events.off("routeChangeComplete", resetData);
+    };
   }, []);
 
   // 엔터키 submit 방지
@@ -110,14 +124,8 @@ export default function SaleWriteContent() {
     };
     try {
       const PostSaleWriteData = await postSaleWrite(saleData);
+      resetData();
       router.replace(`/blog/${userId}/sale/${(PostSaleWriteData as any).data}`);
-      setTitleData("");
-      setTogleData(true);
-      setContentData("");
-      setTagData([]);
-      setProductData([]);
-      setThumbnail(null);
-      console.log(PostSaleWriteData);
     } catch (err: unknown) {
       console.log(`err`, err);
     }
@@ -345,6 +353,7 @@ export default function SaleWriteContent() {
               contentData &&
               contentData.length >= 300 &&
               tagData?.length &&
+              thumbnail &&
               watch("depositEffectiveTime") &&
               watch("delivery.deliveryTime") &&
               watch("delivery.deliveryCompany") &&

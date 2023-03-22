@@ -1,6 +1,4 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { RiImageAddFill } from "react-icons/ri";
 import { MdRemoveCircle } from "react-icons/md";
@@ -21,8 +19,13 @@ import { SaleProductList } from "../../../state/SaleState";
 // 이미지 처리 전, 제품 정보의 default img 필요해서
 import exampleImg from "../../../image/userProfile_ex.jpeg";
 import { postImageUpload } from "../../../api/blogApi";
+import MsgModal from "../../Modal/MsgModal";
+import imageErrorHandler from "../../../util/ImageErrorHandler";
 
 export default function ProductInfoInput() {
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   // 제품 정보 Input
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -36,7 +39,6 @@ export default function ProductInfoInput() {
     useRecoilState<ProductList[]>(SaleProductList);
 
   // 제품 정보 이미지 리스트(미리보기)
-  // const [pdImgList, setPdImgList] = useRecoilState<any>(SalePdImgsList);
   const [pdImgList, setPdImgList] = useState<any>([]);
 
   // 제품정보 이미지 업로드 핸들러
@@ -46,12 +48,20 @@ export default function ProductInfoInput() {
       const formData = new FormData();
       formData.append("image", imageData);
       const data = await postImageUpload(formData);
+
       if ((data as any).status === 200) {
         setImage((data as any).data);
+      } else {
+        const inputName = "itemImg";
+        imageErrorHandler({
+          data,
+          inputName,
+          setErrMsg,
+          setShowMsgModal,
+        });
       }
     }
   };
-  console.log(products, image);
 
   // 제품정보 추가 버튼 핸들러
   const handleProductAdd = () => {
@@ -115,6 +125,14 @@ export default function ProductInfoInput() {
           });
           setProducts(newList);
         }
+      } else {
+        const inputName = `ListitemImg${index}`;
+        imageErrorHandler({
+          data,
+          inputName,
+          setErrMsg,
+          setShowMsgModal,
+        });
       }
     }
   };
@@ -128,6 +146,9 @@ export default function ProductInfoInput() {
           제품정보 <Sign>&#42;</Sign>
         </PostWriteLabel>
         <InfoContent>
+          {showMsgModal && (
+            <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
+          )}
           <ImgBox>
             <label htmlFor="itemImg" className="cursor-pointer text-MainColor">
               <RiImageAddFill
@@ -224,6 +245,7 @@ export default function ProductInfoInput() {
                   type="file"
                   id={`ListitemImg${index}`}
                   className="hidden"
+                  accept="image/jpeg, image/png, image/jpg"
                   onChange={e => editImgHandler(index, e)}
                 />
               </label>

@@ -16,10 +16,10 @@ export default function Following() {
   // 팔로잉, 팔로워 버튼 클릭시 api 호출 함수
   const postData = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = Number(e.currentTarget.value);
-    console.log("id", id);
-
     const res = await postFollowing(id);
-    console.log(res.data);
+    if ((res as any).status === 200) {
+      router.reload();
+    }
   };
 
   // 팔로워 리스트 불러오는 api 호출 함수
@@ -27,7 +27,7 @@ export default function Following() {
     // 개인홈 주인 아이디
     console.log(`homeUserId`, router);
     const res = await getFollower(homeUserId);
-    console.log("팔로워 리스트", res.data);
+
     setData(res.data);
   };
 
