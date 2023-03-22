@@ -50,7 +50,11 @@ export default function SaleItem({ list }: ListProps) {
           </SLImageC>
         ) : null}
         <Image
-          src={thumbnailImage ? `/api/images/${thumbnailImage}` : saleDImage}
+          src={
+            thumbnailImage !== "기본 이미지"
+              ? `/api/images/${thumbnailImage}`
+              : saleDImage
+          }
           alt="img"
           width={250}
           height={250}

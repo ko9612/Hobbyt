@@ -10,9 +10,10 @@ py-5
 
 export default function ProductThumbnail() {
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
+  console.log(SaleData.thumbnailImage);
   return (
     <PdThumbnail>
-      {SaleData && SaleData.thumbnailImage ? (
+      {SaleData && SaleData.thumbnailImage !== "기본 이미지" ? (
         <Image
           src={`/api/images/${SaleData.thumbnailImage}`}
           alt="유저 프로필 사진"
