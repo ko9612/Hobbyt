@@ -1,15 +1,9 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.error.exception.ExceptionCode.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,31 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class MailService {
-	private static final String ENCODING = "UTF-8";
+	private static final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
+	private static final String CODE_KEY = "code";
+	private static final String AUTH_CODE_TEMPLATE = "authCodeMail";
 
-	private final JavaMailSender mailSender;
+	private final MailerSender mailerSender;
+	private final HtmlTemplate htmlTemplate;
 
-	@Async
-	public void sendMail(final NotificationEmail notificationEmail) {
-		MimeMessagePreparator messagePreparator = toMimeMessagePreparator(notificationEmail);
+	public String sendAuthenticationCodeEmail(final String email) {
+		AuthenticationCode authenticationCode = AuthenticationCode.createCode();
+		Map<String, Object> contents = fillAuthCodeMailContents(authenticationCode.getCode());
+		String message = htmlTemplate.build(AUTH_CODE_TEMPLATE, contents);
+		Email authCodeEmail = Email.of(email, AUTH_CODE_MAIL_TITLE, message);
 
-		try {
-			log.info("MailService Thread: " + Thread.currentThread().getName());
-			mailSender.send(messagePreparator);
-		} catch (MailException e) {
-			throw new BusinessLogicException(MAIL_SEND_FAILED);
-		}
+		log.info("AuthService Thread: " + Thread.currentThread().getName());
+		mailerSender.sendMail(authCodeEmail);
+
+		return authenticationCode.getCode();
 	}
 
-	private MimeMessagePreparator toMimeMessagePreparator(NotificationEmail notificationEmail) {
-		MimeMessagePreparator messagePreparator = mimeMessage -> {
-			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, ENCODING);
-
-			messageHelper.setTo(notificationEmail.getReceiver());
-			messageHelper.setSubject(notificationEmail.getSubject());
-			messageHelper.setText(notificationEmail.getContent(), true);
-		};
-
-		return messagePreparator;
+	private Map<String, Object> fillAuthCodeMailContents(final String code) {
+		Map<String, Object> contents = new HashMap<>();
+		contents.put(CODE_KEY, code);
+		return contents;
 	}
 }

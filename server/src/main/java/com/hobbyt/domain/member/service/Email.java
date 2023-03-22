@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class NotificationEmail {
+public class Email {
 	private String receiver;
 	private String subject;
 	private String content;
 
-	public static NotificationEmail of(String receiver, String subject, String content) {
-		return new NotificationEmail(receiver, subject, content);
+	public static Email of(String receiver, String subject, String content) {
+		return new Email(receiver, subject, content);
 	}
 }
