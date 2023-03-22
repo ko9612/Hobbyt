@@ -353,7 +353,6 @@ export default function SaleWriteContent() {
               contentData &&
               contentData.length >= 300 &&
               tagData?.length &&
-              thumbnail &&
               watch("depositEffectiveTime") &&
               watch("delivery.deliveryTime") &&
               watch("delivery.deliveryCompany") &&
