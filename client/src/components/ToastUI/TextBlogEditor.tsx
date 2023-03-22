@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { ContentState } from "../../state/BlogPostState";
 import { postImageUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
-import imageErrorHandler from "../../util/ImageErrorHandler";
+import { imageErrorHandler } from "../../util/ErrorHandler";
 
 const Title = tw.div`flex justify-between`;
 
@@ -57,10 +57,9 @@ export default function TextEditor() {
                 const imageURLData = data.data;
                 callback(`${imageURLData}`, "");
               } else {
-                const inputName = "";
                 imageErrorHandler({
                   data,
-                  inputName,
+                  inputName: "",
                   setErrMsg,
                   setShowMsgModal,
                 });

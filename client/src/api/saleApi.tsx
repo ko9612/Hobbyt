@@ -10,7 +10,6 @@ export const postSaleWrite = async (data: any) => {
     const saleWriteData = await customAxios.post("/api/sales", data);
     return saleWriteData;
   } catch (err: unknown) {
-    console.log(err);
     return ErrorHandler(err);
   }
 };
@@ -21,7 +20,6 @@ export const getSaleDetail = async (id: number | undefined) => {
     const SaleContent = await axios.get(`/api/sales/${id}`);
     return SaleContent;
   } catch (err: any) {
-    console.log(err);
     return err.response;
   }
 };
@@ -31,8 +29,8 @@ export const patchSaleContent = async (data: any, id: number) => {
   try {
     const SaleContent = await customAxios.patch(`/api/sales/${id}`, data);
     return SaleContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -41,8 +39,8 @@ export const deleteSaleContent = async (id: any) => {
   try {
     const saleContent = await customAxios.delete(`/api/sales/${id}`);
     return saleContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 

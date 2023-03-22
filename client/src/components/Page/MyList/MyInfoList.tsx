@@ -48,6 +48,7 @@ export default function MyInfoList() {
     "휴대폰번호 형식이 올바르지 않습니다.",
     "연락처 형식이 올바르지 않습니다.",
     "저장되었습니다.",
+    "서버에러. 관리자에게 문의해주세요.",
   ];
   const [msg, setMsg] = useState<string>(modalMsg[0]);
 
@@ -66,8 +67,10 @@ export default function MyInfoList() {
       setIsHolder(data.account.holder);
       setIsBank(data.account.bank);
       setIsAccountNum(data.account.number);
+    } else {
+      setMsg("Server Error");
+      setShowModal(true);
     }
-    console.log(userInfo);
   };
 
   useEffect(() => {
@@ -111,8 +114,9 @@ export default function MyInfoList() {
       // 에러처리 나중에
       if ((EditSubmit as any).status === 200) {
         setMsg(modalMsg[2]);
+      } else {
+        setMsg(modalMsg[3]);
       }
-      console.log(EditSubmit);
     }
     setShowModal(true);
   };

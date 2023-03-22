@@ -17,6 +17,7 @@ import { deleteSaleContent, postSaleLike } from "../../../api/saleApi";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
 import { UserIdState } from "../../../state/UserState";
+import MsgModal from "../../Modal/MsgModal";
 
 const PdGuideSeaction = tw.section``;
 
@@ -30,6 +31,9 @@ interface IdProps {
 
 export default function ProductGuide({ id }: IdProps) {
   const router = useRouter();
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const [initalUserId] = useRecoilState(UserIdState);
   const [userId, setUserId] = useState(0);
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
@@ -71,8 +75,15 @@ export default function ProductGuide({ id }: IdProps) {
     const deleteSalepost = await deleteSaleContent(id);
     if ((deleteSalepost as any).status === 204) {
       router.replace(`/blog/${userId}`);
+    } else {
+      if ((deleteSalepost as any).status === 404) {
+        setErrMsg("존재하지 않는 게시글입니다.");
+      } else {
+        setErrMsg("Server Error");
+      }
+      setDeleteModal(false);
+      setShowMsgModal(true);
     }
-    console.log(deleteSalepost);
   };
 
   return (
@@ -86,6 +97,7 @@ export default function ProductGuide({ id }: IdProps) {
           buttonString="삭제"
         />
       )}
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <PdGuideSeaction>
         <PdContent>
           <ListTitle className="font-semibold">

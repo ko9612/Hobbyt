@@ -1,8 +1,12 @@
 import React, { useState, useCallback, ChangeEvent } from "react";
 import tw from "tailwind-styled-components";
-import { useRouter } from "next/router";
 import ModalButton from "../Button/ModalButton";
-import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
+import MsgModal, {
+  ModalContainer,
+  ModalBackdrop,
+  ModalView,
+  Content,
+} from "./MsgModal";
 import { patchBlogComment } from "../../api/blogApi";
 
 export const Msg = tw.div`font-semibold mb-3`;
@@ -20,7 +24,10 @@ export default function EditModal({
   content: string;
   setEditModal(state: boolean): void;
 }) {
-  const router = useRouter();
+
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const [newComment, setNewComment] = useState(content);
 
   console.log(`에딧모달`, id);
@@ -58,7 +65,13 @@ export default function EditModal({
     if (children === "댓글") {
       try {
         const res = await patchBlogComment(data, id);
-        console.log(`댓글 수정 요청`, res);
+        if ((res as any).status === 404) {
+          setErrMsg("댓글을 수정할 수 없습니다.");
+          setShowMsgModal(true);
+        } else if ((res as any).status === 500) {
+          setErrMsg("서버에러. 관리자에게 문의해주세요.");
+          setShowMsgModal(true);
+        }
         // router.replace("/");
       } catch (err: unknown) {
         return console.error(err);
@@ -74,6 +87,7 @@ export default function EditModal({
 
   return (
     <ModalContainer>
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <ModalBackdrop onClick={handleClose}>
         <ModalView onClick={e => e.stopPropagation()}>
           <Content className="flex-col">

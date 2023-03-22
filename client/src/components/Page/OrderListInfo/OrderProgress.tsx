@@ -9,7 +9,7 @@ import {
   RiCheckDoubleFill,
 } from "react-icons/ri";
 import Image from "next/image";
-import example from "src/image/header_ex.jpg";
+import example from "src/image/pictureDefalut.svg";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { DButton } from "../../Button/DefalutButton";
@@ -18,6 +18,8 @@ import DelModal from "../../Modal/DelModal";
 import ProgressCategory from "../../Category/ProgressCategory";
 import { OrderStatus } from "../../../state/OrderState";
 import { OrderDetailProps } from "../../../type/OrderType";
+import { orderErrorHandler } from "../../../util/ErrorHandler";
+import MsgModal from "../../Modal/MsgModal";
 
 const IconDiv = tw.span`
 bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
@@ -95,6 +97,10 @@ export interface IDataProps {
 
 export default function OrderProgress({ isData }: IDataProps) {
   const router = useRouter();
+
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
   const pid = Number(router.query.id);
   const isStatus = useRecoilValue(OrderStatus);
   const [orderState, setOrderState] = useState(stateArr[0].id);
@@ -108,6 +114,9 @@ export default function OrderProgress({ isData }: IDataProps) {
     const delOrderData = await deleteOrder(pid);
     if ((delOrderData as any).status === 200) {
       router.reload();
+    } else {
+      setShowModalCancle(false);
+      orderErrorHandler({ data: delOrderData, setErrMsg, setShowMsgModal });
     }
   };
 
@@ -115,6 +124,9 @@ export default function OrderProgress({ isData }: IDataProps) {
     const finOrderData = await patchOrderState({ status: "FINISH" }, pid);
     if ((finOrderData as any).status === 200) {
       router.reload();
+    } else {
+      setShowModalFinish(false);
+      orderErrorHandler({ data: finOrderData, setErrMsg, setShowMsgModal });
     }
   };
 
@@ -152,16 +164,18 @@ export default function OrderProgress({ isData }: IDataProps) {
     }
   }, [isStatus]);
 
+  console.log(isData);
   return (
     <PgSection>
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       {isData && (
         <>
           <PgTitle>
             <div className="flex items-center">
-              <span className="w-20 h-20 overflow-hidden bg-black rounded-md ring-4 ring-gray-300">
+              <span className="w-20 h-20 overflow-hidden rounded-md ring-4 ring-gray-300">
                 <Image
                   src={
-                    isData.thumbnailImage !== null
+                    isData.thumbnailImage !== "기본 이미지"
                       ? `/api/images/${isData.thumbnailImage}`
                       : example
                   }
@@ -172,7 +186,12 @@ export default function OrderProgress({ isData }: IDataProps) {
                 />
               </span>
               <h2 className="px-6 text-2xl">
-                {isData.title}
+                <button
+                  className="hover:text-MainColor"
+                  onClick={() => router.push("/")}
+                >
+                  {isData.title}
+                </button>
                 {isData.status === "CANCEL" && (
                   <span className="px-6 font-semibold text-red-400">
                     [미입금 주문 취소]

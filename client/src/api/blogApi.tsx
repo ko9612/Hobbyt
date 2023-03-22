@@ -44,8 +44,6 @@ export const deleteBlogContent = async (id: any) => {
   }
 };
 
-/// ///////////////////////////////
-
 // 블로그 댓글 작성 api
 export const postBlogComment = async (data: any) => {
   try {
@@ -64,8 +62,8 @@ export const patchBlogComment = async (data: any, id: any) => {
       data,
     );
     return blogComment;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -74,8 +72,8 @@ export const deleteBlogComment = async (id: any) => {
   try {
     const blogComment = await customAxios.delete(`/api/post-comments/${id}`);
     return blogComment;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -97,7 +95,6 @@ export const postImageUpload = async (data: any) => {
     const Image = await customAxios.post("/api/images", data);
     return Image;
   } catch (err: any) {
-    console.log(err);
     return err.response;
   }
 };

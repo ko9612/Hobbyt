@@ -12,7 +12,7 @@ import {
 import { NicknameState, UserProfileState } from "../../../state/UserState";
 import { postImageUpload } from "../../../api/blogApi";
 import MsgModal from "../../Modal/MsgModal";
-import imageErrorHandler from "../../../util/ImageErrorHandler";
+import { imageErrorHandler } from "../../../util/ErrorHandler";
 
 const ProfileContainer = tw.div`w-[40rem] m-auto`;
 const ProfileContent = tw.div`mb-20`;
@@ -61,10 +61,9 @@ export default function ProfileEdit() {
     if ((data as any).status === 200) {
       setHeaderImage((data as any).data.slice(26));
     } else {
-      const inputName = "headerImage";
       imageErrorHandler({
         data,
-        inputName,
+        inputName: "headerImage",
         setErrMsg,
         setShowMsgModal,
       });
@@ -79,10 +78,9 @@ export default function ProfileEdit() {
     if ((data as any).status === 200) {
       setProfileImage((data as any).data.slice(26));
     } else {
-      const inputName = "profileImage";
       imageErrorHandler({
         data,
-        inputName,
+        inputName: "profileImage",
         setErrMsg,
         setShowMsgModal,
       });
@@ -119,8 +117,6 @@ export default function ProfileEdit() {
         setDefaultNickName(nickname);
         setNavProfileImg(profileImage);
         router.reload();
-        // const res = req.data;
-        console.log(`req`, req);
       }
     } catch (err: unknown) {
       console.log(`err`, err);

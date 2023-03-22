@@ -21,7 +21,6 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
     );
     return blogProfile;
   } catch (err: any) {
-    console.log(err);
     return err.response;
   }
 };

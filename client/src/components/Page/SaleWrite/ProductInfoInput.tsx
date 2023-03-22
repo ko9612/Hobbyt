@@ -20,7 +20,7 @@ import { SaleProductList } from "../../../state/SaleState";
 import exampleImg from "../../../image/userProfile_ex.jpeg";
 import { postImageUpload } from "../../../api/blogApi";
 import MsgModal from "../../Modal/MsgModal";
-import imageErrorHandler from "../../../util/ImageErrorHandler";
+import { imageErrorHandler } from "../../../util/ErrorHandler";
 
 export default function ProductInfoInput() {
   const [showMsgModal, setShowMsgModal] = useState(false);
@@ -52,10 +52,9 @@ export default function ProductInfoInput() {
       if ((data as any).status === 200) {
         setImage((data as any).data);
       } else {
-        const inputName = "itemImg";
         imageErrorHandler({
           data,
-          inputName,
+          inputName: "itemImg",
           setErrMsg,
           setShowMsgModal,
         });
@@ -126,10 +125,9 @@ export default function ProductInfoInput() {
           setProducts(newList);
         }
       } else {
-        const inputName = `ListitemImg${index}`;
         imageErrorHandler({
           data,
-          inputName,
+          inputName: `ListitemImg${index}`,
           setErrMsg,
           setShowMsgModal,
         });

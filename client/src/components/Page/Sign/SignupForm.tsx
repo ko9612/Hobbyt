@@ -54,7 +54,6 @@ export default function SignupForm() {
   const onSubmit = async (data: PostSignupInputs) => {
     if (!emailComplete) {
       setMsg(modalMsg[6]);
-      setShowModal(true);
     } else {
       const signupData = {
         nickname: data.nickname,
@@ -64,22 +63,18 @@ export default function SignupForm() {
 
       const signupSubmit = await postsignupSubmit(signupData);
 
-      switch ((signupSubmit as any).status) {
-        case 201:
-          setMsg(modalMsg[0]);
-          setShowModal(true);
-          if (!showModal) {
-            router.push("/signin");
-          }
-          break;
-        // 닉네임&이메일 중복
-        case 409:
-          setMsg(modalMsg[5]);
-          setShowModal(true);
-          break;
-        default:
+      if ((signupSubmit as any).status === 201) {
+        setMsg(modalMsg[0]);
+        if (!showModal) {
+          router.replace("/signin");
+        }
+      } else if ((signupSubmit as any).status === 409) {
+        setMsg(modalMsg[5]);
+      } else {
+        setMsg("서버에러. 관리자에게 문의해주세요.");
       }
     }
+    setShowModal(true);
   };
 
   const handleEnter = (
@@ -102,15 +97,15 @@ export default function SignupForm() {
       email: email.current,
     };
     const emailCheckBut = await postSignupEmailBut(emailData);
+
     if ((emailCheckBut as any).status === 201) {
       setMsg(modalMsg[1]);
-      setShowModal(true);
       setIsEmailBut(true);
       setCertificationCode((emailCheckBut as any).data);
     } else {
       setMsg("서버에러. 관리자에게 문의해주세요.");
-      setShowModal(true);
     }
+    setShowModal(true);
   };
 
   // 이메일 인증 확인 버튼 Handler
