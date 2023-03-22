@@ -23,7 +23,7 @@ export default function BestBlogger() {
     const listRes = (res as any).data;
     setListData([listRes]);
   };
-  console.log(listData);
+  
   useEffect(() => {
     getBestBloggerData();
   }, []);

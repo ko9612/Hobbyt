@@ -5,8 +5,6 @@ import SignGuide from "../src/components/Page/Sign/SignGuide";
 import SignupForm from "../src/components/Page/Sign/SignupForm";
 
 export default function SignUp() {
-  // 인증메일 전송버튼 클릭 여부
-
   return (
     <Main>
       <Content>

@@ -37,9 +37,6 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
-  // console.log("판매아이템", list);
-  // console.log(thumbnailImage);
-
   return (
     <SLContent>
       <SLImage>
@@ -58,7 +55,7 @@ export default function SaleItem({ list }: ListProps) {
           alt="img"
           width={250}
           height={250}
-          className="object-cover rounded-t-lg h-[14rem]"
+          className="rounded-t-3xl object-cover w-full"
         />
       </SLImage>
       <SLProductInfo>

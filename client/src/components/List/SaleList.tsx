@@ -25,7 +25,6 @@ export default function SaleList() {
       const res = await getSaleList(userID, 0, 9);
       const listRes = res.data;
       setListData(listRes);
-      console.log("판매게시글리스트 최신순", listRes);
     } else if (select === "인기순") {
       const res = await getSaleListF(userID, 0, 9);
       const listRes = res.data;
