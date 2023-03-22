@@ -39,14 +39,13 @@ export default function SignupForm() {
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const modalMsg = [
-    "회원가입이 완료되었습니다.", //
-    "이메일로 인증번호가 전송되었습니다.", //
-    "인증번호를 입력해주세요.", //
-    "인증번호가 유효하지 않습니다.", //
-    "이메일 인증이 완료되었습니다.", //
-    "이미 가입되어있는 이메일입니다.",
-    "중복되는 닉네임 입니다.",
-    "이메일을 인증해주세요.", //
+    "회원가입이 완료되었습니다.",
+    "이메일로 인증번호가 전송되었습니다.",
+    "인증번호를 입력해주세요.",
+    "인증번호가 유효하지 않습니다.",
+    "이메일 인증이 완료되었습니다.",
+    "이미 가입되어있는 이메일이거나 닉네임입니다.",
+    "이메일을 인증해주세요.",
   ];
   const [msg, setMsg] = useState<string>(modalMsg[0]);
 
@@ -54,7 +53,7 @@ export default function SignupForm() {
   // 중복 이메일, 중복 닉네임xxx
   const onSubmit = async (data: PostSignupInputs) => {
     if (!emailComplete) {
-      setMsg(modalMsg[7]);
+      setMsg(modalMsg[6]);
       setShowModal(true);
     } else {
       const signupData = {
@@ -65,28 +64,21 @@ export default function SignupForm() {
 
       const signupSubmit = await postsignupSubmit(signupData);
 
-      // 에러처리 나중에
-      if ((signupSubmit as any).status === 201) {
-        setMsg(modalMsg[0]);
-        setShowModal(true);
-        if (!showModal) {
-          router.push("/signin");
-        }
+      switch ((signupSubmit as any).status) {
+        case 201:
+          setMsg(modalMsg[0]);
+          setShowModal(true);
+          if (!showModal) {
+            router.push("/signin");
+          }
+          break;
+        // 닉네임&이메일 중복
+        case 409:
+          setMsg(modalMsg[5]);
+          setShowModal(true);
+          break;
+        default:
       }
-      console.log(signupSubmit);
-      // switch ((signupSubmit as any).status) {
-      //   case 201:
-      //     setMsg(modalMsg[0]);
-      //     setShowModal(true);
-      //     if (!showModal) {
-      //       router.push("/signin");
-      //     }
-      //     break;
-      //   // 닉네임 중복
-      //   // 이메일 중복
-      //   // 로그인 실패- 관리자에게 문의
-      //   default:
-      // }
     }
   };
 
@@ -110,14 +102,14 @@ export default function SignupForm() {
       email: email.current,
     };
     const emailCheckBut = await postSignupEmailBut(emailData);
-    switch ((emailCheckBut as any).status) {
-      case 201:
-        setMsg(modalMsg[1]);
-        setShowModal(true);
-        setIsEmailBut(true);
-        setCertificationCode((emailCheckBut as any).data);
-        break;
-      default:
+    if ((emailCheckBut as any).status === 201) {
+      setMsg(modalMsg[1]);
+      setShowModal(true);
+      setIsEmailBut(true);
+      setCertificationCode((emailCheckBut as any).data);
+    } else {
+      setMsg("서버에러. 관리자에게 문의해주세요.");
+      setShowModal(true);
     }
   };
 

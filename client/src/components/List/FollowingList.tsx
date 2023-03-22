@@ -21,8 +21,10 @@ export default function FollowingList() {
   // 팔로잉, 팔로워 버튼 클릭시 api 호출 함수
   const postData = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = Number(e.currentTarget.value);
-
     const res = await postFollowing(id);
+    if ((res as any).status === 200) {
+      router.reload();
+    }
     console.log("팔로우 버튼 클릭시", res.data);
   };
 

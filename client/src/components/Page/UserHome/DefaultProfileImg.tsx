@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import ExamImg from "../../../image/userProfile_ex.jpeg";
 
 interface ImgProps {
@@ -14,13 +15,18 @@ export default function DefaultProfileImage({
   height,
   borderW,
 }: ImgProps) {
+  const router = useRouter();
   return (
     <Image
       src={profileImg || ExamImg}
       alt="유저 프로필 사진"
       width={width}
       height={height}
-      className={`overflow-hide rounded-full border-${borderW} border-white`}
+      className={`overflow-hide rounded-full border-${borderW} ${
+        router.pathname.startsWith("/mypage")
+          ? "border-yellow-200"
+          : "border-white"
+      }`}
     />
   );
 }

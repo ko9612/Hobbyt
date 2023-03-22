@@ -8,8 +8,8 @@ export const getBlogProfile = async (homeUserId: number) => {
   try {
     const blogProfile = await axios.get(`/api/members/${homeUserId}/profile`);
     return blogProfile;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -20,15 +20,16 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
       `/api/members/${homeUserId}/profile`,
     );
     return blogProfile;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    console.log(err);
+    return err.response;
   }
 };
 
 // 블로그 프로필 수정 api
-export const patchBlogProfile = async () => {
+export const patchBlogProfile = async (data: any) => {
   try {
-    const blogProfile = await customAxios.patch("/api/members/profile");
+    const blogProfile = await customAxios.patch("/api/members/profile", data);
     return blogProfile;
   } catch (err: unknown) {
     return ErrorHandler(err);

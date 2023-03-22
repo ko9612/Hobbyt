@@ -41,6 +41,9 @@ const PurInputDiv = tw.div`w-1/2`;
 
 export default function SaleDetailContent() {
   const router = useRouter();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
+
   const pid = Number(router.query.id);
   const [SaleData, setSaleData] =
     useRecoilState<SaleDetailProps>(SaleDetailState);
@@ -68,27 +71,22 @@ export default function SaleDetailContent() {
   // 판매 상세 데이터 get
   const getSaleData = async () => {
     const saleDetail = await getSaleDetail(pid);
-    setSaleData((saleDetail as any).data);
+    if ((saleDetail as any).status === 200) {
+      setSaleData((saleDetail as any).data);
 
-    // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
-    const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
-      ...el,
-      quantity: 0,
-    }));
-    setSelectItem(copySelectItem);
-    // if ((saleDetail as any).status === 200) {
-    //   setSaleData((saleDetail as any).data);
-
-    //   // 제품 list 복사 후, 제품 item Object에 새 key 추가
-    //   const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
-    //     ...el,
-    //     quantity: 0,
-    //   }));
-    //   setSelectItem(copySelectItem);
-    // } else {
-    //   alert("잘못된 요청입니다.");
-    //   router.back();
-    // }
+      // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
+      const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
+        ...el,
+        quantity: 0,
+      }));
+      setSelectItem(copySelectItem);
+    } else if ((saleDetail as any).status === 404) {
+      setErrMsg("존재하지 않는 게시글입니다.");
+      setShowModal(true);
+    } else {
+      setErrMsg("Server Error");
+      setShowModal(true);
+    }
   };
 
   // 주문 입력 default data get
@@ -113,6 +111,13 @@ export default function SaleDetailContent() {
       setValue("account.holder", data.account.holder);
       setValue("account.bank", data.account.bank);
       setIsAccountNum(data.account.number);
+    } else {
+      if ((userInfo as any).status === 404) {
+        setErrMsg("존재하지 않는 회원입니다.");
+      } else {
+        setErrMsg("Server Error");
+      }
+      setShowModal(true);
     }
   };
 
@@ -196,157 +201,160 @@ export default function SaleDetailContent() {
   };
 
   return (
-    <BlogContent className="px-5">
-      <ProductTitle />
-      <ProductThumbnail />
-      <ProductContent />
-      <ProductGuide id={pid} />
-      {/* 제품 선택 */}
-      <ProductList />
-      {/* 주문 정보 입력 */}
-      <PurForm>
-        <PurContent>
-          <ul className="font-semibold">배송</ul>
-          <li className="p-2">
-            우체국택배{" "}
-            <span className="font-semibold">
-              +{SaleData.delivery.deliveryPrice}
-            </span>{" "}
-            원
-          </li>
-        </PurContent>
-        <PurContent>
-          <ul className="font-semibold">입금시간</ul>
-          <li className="p-2">
-            주문완료 후{" "}
-            <span className="font-semibold">
-              {SaleData.depositEffectiveTime}
-            </span>{" "}
-            시간 이내
-          </li>
-        </PurContent>
-        <PurContent>
-          <div className="font-semibold">입금자 정보</div>
-          <PurContentInput>
-            <PurInputDiv>
-              <Input
-                type="text"
-                id="depositerName"
-                placeholder="입금자명"
-                maxLength={10}
-                {...register("holder")}
+    <>
+      {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
+      <BlogContent className="px-5">
+        <ProductTitle />
+        <ProductThumbnail />
+        <ProductContent />
+        <ProductGuide id={pid} />
+        {/* 제품 선택 */}
+        <ProductList />
+        {/* 주문 정보 입력 */}
+        <PurForm>
+          <PurContent>
+            <ul className="font-semibold">배송</ul>
+            <li className="p-2">
+              우체국택배{" "}
+              <span className="font-semibold">
+                +{SaleData.delivery.deliveryPrice}
+              </span>{" "}
+              원
+            </li>
+          </PurContent>
+          <PurContent>
+            <ul className="font-semibold">입금시간</ul>
+            <li className="p-2">
+              주문완료 후{" "}
+              <span className="font-semibold">
+                {SaleData.depositEffectiveTime}
+              </span>{" "}
+              시간 이내
+            </li>
+          </PurContent>
+          <PurContent>
+            <div className="font-semibold">입금자 정보</div>
+            <PurContentInput>
+              <PurInputDiv>
+                <Input
+                  type="text"
+                  id="depositerName"
+                  placeholder="입금자명"
+                  maxLength={10}
+                  {...register("holder")}
+                />
+              </PurInputDiv>
+              <PurInputDiv className="pl-4">
+                <div className="px-2 py-1 border rounded-lg  bg-slate-100 border-slate-300">
+                  {priceSum.total + Number(SaleData.delivery.deliveryPrice)}
+                </div>
+              </PurInputDiv>
+            </PurContentInput>
+          </PurContent>
+          <PurContent>
+            <div className="font-semibold">배송 정보</div>
+            <PurContentInput>
+              <PurInputDiv>
+                <Input
+                  type="text"
+                  id="receiverName"
+                  placeholder="주문자명"
+                  maxLength={10}
+                  {...register("recipient.name")}
+                />
+              </PurInputDiv>
+              <PurInputDiv className="pl-4">
+                <Input
+                  type="tel"
+                  id="purchaserTel"
+                  placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
+                  value={isReceiverPhone}
+                  minLength={11}
+                  onChange={e => receiverPhonelHandler(e)}
+                />
+              </PurInputDiv>
+              {/* 우편번호 검색 & 주소 */}
+              <AddressApi />
+            </PurContentInput>
+          </PurContent>
+          <PurContent>
+            <div className="font-semibold">환불계좌 정보</div>
+            <PurContentInput>
+              <PurInputDiv className="w-1/5">
+                <Input
+                  type="text"
+                  id="holderName"
+                  maxLength={10}
+                  placeholder="예금주"
+                  {...register("account.holder")}
+                />
+              </PurInputDiv>
+              <PurInputDiv className="w-1/5 px-4">
+                <Input
+                  type="text"
+                  id="bankName"
+                  placeholder="은행명"
+                  maxLength={10}
+                  {...register("account.bank")}
+                />
+              </PurInputDiv>
+              <PurInputDiv className="w-3/5">
+                <Input
+                  type="text"
+                  id="accountNumber"
+                  placeholder="'-'를 제외한 계좌번호를 입력해주세요"
+                  value={isAccountNum}
+                  minLength={10}
+                  onChange={e => AccountNumlHandler(e)}
+                />
+              </PurInputDiv>
+            </PurContentInput>
+          </PurContent>
+          <Agreement />
+          <div className="pt-10">
+            {showPaymentModal && (
+              <PaymentModal
+                setOpenModal={setShowPaymentModal}
+                seller={SaleData.account.holder}
+                bank={SaleData.account.bank}
+                number={SaleData.account.number}
               />
-            </PurInputDiv>
-            <PurInputDiv className="pl-4">
-              <div className="px-2 py-1 border rounded-lg  bg-slate-100 border-slate-300">
-                {priceSum.total + Number(SaleData.delivery.deliveryPrice)}
-              </div>
-            </PurInputDiv>
-          </PurContentInput>
-        </PurContent>
-        <PurContent>
-          <div className="font-semibold">배송 정보</div>
-          <PurContentInput>
-            <PurInputDiv>
-              <Input
-                type="text"
-                id="receiverName"
-                placeholder="주문자명"
-                maxLength={10}
-                {...register("recipient.name")}
+            )}
+            {showMsgModal && (
+              <DelModal
+                setOpenModal={setShowMsgModal}
+                msg="로그인 후 이용 가능합니다."
+                subMsg={["로그인 페이지로 이동하시겠습니까?"]}
+                buttonString="페이지 이동"
+                afterClick={() => {
+                  router.push("/signin");
+                }}
               />
-            </PurInputDiv>
-            <PurInputDiv className="pl-4">
-              <Input
-                type="tel"
-                id="purchaserTel"
-                placeholder="'-'를 제외한 휴대폰 번호를 입력해주세요"
-                value={isReceiverPhone}
-                minLength={11}
-                onChange={e => receiverPhonelHandler(e)}
-              />
-            </PurInputDiv>
-            {/* 우편번호 검색 & 주소 */}
-            <AddressApi />
-          </PurContentInput>
-        </PurContent>
-        <PurContent>
-          <div className="font-semibold">환불계좌 정보</div>
-          <PurContentInput>
-            <PurInputDiv className="w-1/5">
-              <Input
-                type="text"
-                id="holderName"
-                maxLength={10}
-                placeholder="예금주"
-                {...register("account.holder")}
-              />
-            </PurInputDiv>
-            <PurInputDiv className="w-1/5 px-4">
-              <Input
-                type="text"
-                id="bankName"
-                placeholder="은행명"
-                maxLength={10}
-                {...register("account.bank")}
-              />
-            </PurInputDiv>
-            <PurInputDiv className="w-3/5">
-              <Input
-                type="text"
-                id="accountNumber"
-                placeholder="'-'를 제외한 계좌번호를 입력해주세요"
-                value={isAccountNum}
-                minLength={10}
-                onChange={e => AccountNumlHandler(e)}
-              />
-            </PurInputDiv>
-          </PurContentInput>
-        </PurContent>
-        <Agreement />
-        <div className="pt-10">
-          {showPaymentModal && (
-            <PaymentModal
-              setOpenModal={setShowPaymentModal}
-              seller={SaleData.account.holder}
-              bank={SaleData.account.bank}
-              number={SaleData.account.number}
-            />
-          )}
-          {showMsgModal && (
-            <DelModal
-              setOpenModal={setShowMsgModal}
-              msg="로그인 후 이용 가능합니다."
-              subMsg={["로그인 페이지로 이동하시겠습니까?"]}
-              buttonString="페이지 이동"
-              afterClick={() => {
-                router.push("/signin");
-              }}
-            />
-          )}
-          {errorModal && <MsgModal msg={msg} setOpenModal={setErrorModal} />}
-          <WideB
-            onClick={e => OrderButtonHandler(e)}
-            disabled={
-              !(
-                watch("holder") &&
-                watch("recipient.name") &&
-                watch("recipient.name") &&
-                isReceiverPhone &&
-                isZipcode &&
-                isStreet &&
-                isDetail &&
-                watch("account.holder") &&
-                watch("account.bank") &&
-                isAccountNum &&
-                isAgree
-              )
-            }
-          >
-            주문하기
-          </WideB>
-        </div>
-      </PurForm>
-    </BlogContent>
+            )}
+            {errorModal && <MsgModal msg={msg} setOpenModal={setErrorModal} />}
+            <WideB
+              onClick={e => OrderButtonHandler(e)}
+              disabled={
+                !(
+                  watch("holder") &&
+                  watch("recipient.name") &&
+                  watch("recipient.name") &&
+                  isReceiverPhone &&
+                  isZipcode &&
+                  isStreet &&
+                  isDetail &&
+                  watch("account.holder") &&
+                  watch("account.bank") &&
+                  isAccountNum &&
+                  isAgree
+                )
+              }
+            >
+              주문하기
+            </WideB>
+          </div>
+        </PurForm>
+      </BlogContent>
+    </>
   );
 }

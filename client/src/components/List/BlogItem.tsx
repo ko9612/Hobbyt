@@ -124,8 +124,7 @@ export default function BlogItem({ list }: ListProps) {
               <ActInfo>
                 <div className="w-[2.5rem]">
                   <DefaultProfileImage
-                    // profileImg={profileImage}
-                    profileImg={DefalutImage}
+                    profileImg={profileImage}
                     width={25}
                     height={25}
                     borderW={1}

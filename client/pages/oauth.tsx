@@ -21,9 +21,7 @@ function Oauth() {
 
   const accessToken = String(router.query.AccessToken);
   const refreshToken = String(router.query.RefreshToken);
-  console.log(router.query);
-
-  console.log(accessToken);
+  console.log(router.asPath); //
 
   const getUserInfo = async () => {
     const userInfo = await getOauthInfo();

@@ -5,11 +5,15 @@ import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { ContentState } from "../../state/BlogPostState";
 import { postImageUpload } from "../../api/blogApi";
+import MsgModal from "../Modal/MsgModal";
+import imageErrorHandler from "../../util/ImageErrorHandler";
 
 const Title = tw.div`flex justify-between`;
 
 export default function TextEditor() {
   const editorRef = useRef<Editor>(null);
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   // atom에 에디터 내용 저장
   const setContent = useSetRecoilState(ContentState);
@@ -26,6 +30,7 @@ export default function TextEditor() {
 
   return (
     <div className="px-5">
+      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <Title>
         <p className="mb-5 font-semibold">
           본문 <span className="text-red-500">&#42;</span>
@@ -46,18 +51,19 @@ export default function TextEditor() {
           async addImageBlobHook(blob, callback) {
             const formData = new FormData();
             formData.append("image", blob);
-            console.log(`formData`, formData);
-            const imageURL = await postImageUpload(formData);
-            console.log(`엥?`, imageURL);
-            const imageURLData = imageURL.data;
-            // if(imageURL){
-            //   if(imageURL.thumnailcheck === 0){
-
-            //   }
-            // }
-
-            // const imageUrlData = imageURL.data;
-            callback(`${imageURLData}`, "");
+            const data = await postImageUpload(formData);
+            if ((data as any).status === 200) {
+              const imageURLData = data.data;
+              callback(`${imageURLData}`, "");
+            } else {
+              const inputName = "";
+              imageErrorHandler({
+                data,
+                inputName,
+                setErrMsg,
+                setShowMsgModal,
+              });
+            }
           },
         }}
       />

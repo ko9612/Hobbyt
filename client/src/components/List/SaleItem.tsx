@@ -74,8 +74,7 @@ export default function SaleItem({ list }: ListProps) {
           >
             <div className="w-[1.75rem]">
               <DefaultProfileImage
-                // profileImg={profileImage}
-                profileImg={saleDImage}
+                profileImg={profileImage}
                 width={20}
                 height={20}
                 borderW={1}

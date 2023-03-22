@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import TitleInput from "../../ToastUI/TitleInput";
 import DefalutTag from "../../Tag/DefalutTag";
-import { DefalutButton } from "../../Button/DefalutButton";
 import {
   TitleState,
   ContentState,
@@ -14,6 +14,7 @@ import {
 import { postBlogContent } from "../../../api/blogApi";
 import { UserIdState } from "../../../state/UserState";
 import ThumbnailInput from "../../ToastUI/ThumbnailInput";
+import { WideB } from "../../Button/SubmitButton";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
   ssr: false,
@@ -31,6 +32,22 @@ export default function BlogWriteComponent() {
   // console.log(`router`, router.query.id);
   // console.log(`editData`, editData);
 
+  // 페이지 벗어날 시, 데이터 reset
+  const resetData = () => {
+    setTitleData("");
+    setContentData("");
+    setTagData([]);
+    setThumnail(null);
+    setPublicData(true);
+  };
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", resetData);
+    return () => {
+      router.events.off("routeChangeComplete", resetData);
+    };
+  }, []);
+
   // 블로그 게시글 작성 api
   const onSubmitClick = async () => {
     const data = {
@@ -41,18 +58,12 @@ export default function BlogWriteComponent() {
       thumbnailImage: thumbnailData,
     };
 
-    console.log("post 요청 data", data);
-
     if (titleData?.length !== 0 && contentData?.length !== 0) {
       try {
         const submit = await postBlogContent(data);
         // console.log(`blogSubmit`, submit);
         router.replace(`/blog/${userId}/post/${submit.data}`);
-        setTitleData("");
-        setContentData("");
-        setTagData([]);
-        setThumnail(null);
-        setPublicData(true);
+        resetData();
       } catch (err: unknown) {
         console.error(err);
       }
@@ -65,9 +76,21 @@ export default function BlogWriteComponent() {
       <ThumbnailInput />
       <ToastEditor />
       <DefalutTag />
-      <DefalutButton id="postSubmitBut" onClick={() => onSubmitClick()}>
+      <WideB
+        id="postSubmitBut"
+        disabled={
+          !(
+            titleData &&
+            contentData &&
+            contentData?.length >= 300 &&
+            tagData?.length &&
+            thumbnailData
+          )
+        }
+        onClick={() => onSubmitClick()}
+      >
         저장
-      </DefalutButton>
+      </WideB>
     </>
   );
 }

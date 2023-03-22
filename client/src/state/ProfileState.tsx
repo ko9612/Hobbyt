@@ -7,6 +7,22 @@ export const ProfileImageState = atom<string | Blob | StaticImport>({
 });
 
 export const HeaderImageState = atom<string | Blob | StaticImport>({
-  key: "HeaderImageStat",
+  key: "HeaderImageState",
   default: "",
+});
+
+// 유저 프로필 데이터(이미지+닉네임..)
+export const UserProfileDataState = atom({
+  key: "UserProfileDataState",
+  default: {
+    createdAt: null,
+    description: null,
+    followerCount: 0,
+    followingCount: 0,
+    headerImage: null,
+    isFollowing: null,
+    nickname: null,
+    profileImage: null,
+    views: { today: 0, total: 0 },
+  },
 });

@@ -9,11 +9,12 @@ import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
-import { getBlogDetail, getImage, postLikePlus } from "../../../api/blogApi";
+import { getBlogDetail, postLikePlus } from "../../../api/blogApi";
 import { IBlogDetailData } from "../../../type/blogType";
 import { LoginState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
+import MsgModal from "../../Modal/MsgModal";
 
 const Detail = tw.div`mt-6`;
 const Title = tw.h1`text-2xl font-bold`;
@@ -29,6 +30,9 @@ export default function BlogPostDetail() {
   const router = useRouter();
   const pid = Number(router.query.id);
   const [getNewData, setGetNewData] = useState<IBlogDetailData[]>();
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
   // 로그인 여부
   const isLogin = useRecoilValue(LoginState);
   // hover 여부
@@ -37,8 +41,15 @@ export default function BlogPostDetail() {
   // post 디테일 데이터 불러오는 api
   const getData = async () => {
     const blogDetail = await getBlogDetail(pid);
-    setGetNewData(blogDetail.data);
-    console.log("블로그 디테일", blogDetail.data);
+    if (blogDetail.status === 200) {
+      setGetNewData(blogDetail.data);
+    } else if (blogDetail.status === 404) {
+      setErrMsg("존재하지 않는 게시글입니다.");
+      setShowModal(true);
+    } else {
+      setErrMsg("Server Error");
+      setShowModal(true);
+    }
   };
 
   const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
@@ -76,52 +87,55 @@ export default function BlogPostDetail() {
   console.log("getNewData?.thumbnailImage}", getNewData?.thumbnailImage);
 
   return (
-    <Detail id="viewer">
-      <Title>{getNewData?.title}</Title>
-      <Info>
-        <Tag>
-          {getNewData?.tags?.map((tag: any, idx: number) => (
-            <Tag key={idx}>{tag}</Tag>
-          ))}
-        </Tag>
-        <VWInfo>
-          <ViewCount>{getNewData?.viewCount}</ViewCount>
-          <WriteDate>
-            {getNewData?.createdAt && getParsedDate(getNewData?.createdAt)}
-          </WriteDate>
-        </VWInfo>
-      </Info>
-      <Main>
-        {getNewData && getNewData?.thumbnailImage === null ? null : (
-          <div className="flex justify-center my-8">
-            <Image
-              src={`/api/images/${getNewData?.thumbnailImage}`}
-              width={500}
-              height={500}
-              alt=""
-            />
-          </div>
-        )}
-        <Content>
-          <TextViewer initialValue={getNewData?.content} />
-        </Content>
-        <HR />
-        <Like>
-          <button
-            onClick={onClickLike}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          >
-            <LikeHandle isHover={isHover} />
-            <LikeHover />
-          </button>
-          <p>{getNewData?.likeCount}</p>
-        </Like>
-      </Main>
-      <Comment>
-        <CommentInput />
-        <CommentList detail={getNewData} />
-      </Comment>
-    </Detail>
+    <>
+      {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
+      <Detail id="viewer">
+        <Title>{getNewData?.title}</Title>
+        <Info>
+          <Tag>
+            {getNewData?.tags?.map((tag: any, idx: number) => (
+              <Tag key={idx}>{tag}</Tag>
+            ))}
+          </Tag>
+          <VWInfo>
+            <ViewCount>{getNewData?.viewCount}</ViewCount>
+            <WriteDate>
+              {getNewData?.createdAt && getParsedDate(getNewData?.createdAt)}
+            </WriteDate>
+          </VWInfo>
+        </Info>
+        <Main>
+          {getNewData && getNewData?.thumbnailImage === null ? null : (
+            <div className="flex justify-center my-8">
+              <Image
+                src={`/api/images/${getNewData?.thumbnailImage}`}
+                width={500}
+                height={500}
+                alt=""
+              />
+            </div>
+          )}
+          <Content>
+            <TextViewer initialValue={getNewData?.content} />
+          </Content>
+          <HR />
+          <Like>
+            <button
+              onClick={onClickLike}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
+              <LikeHandle isHover={isHover} />
+              <LikeHover />
+            </button>
+            <p>{getNewData?.likeCount}</p>
+          </Like>
+        </Main>
+        <Comment>
+          <CommentInput />
+          <CommentList detail={getNewData} />
+        </Comment>
+      </Detail>
+    </>
   );
 }

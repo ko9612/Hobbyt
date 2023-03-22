@@ -15,20 +15,16 @@ import {
   LoginState,
   UserIdState,
   NicknameState,
+  UserProfileState,
   // UserProfileState,
 } from "../../../state/UserState";
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
-import LoginRefresh from "../../../util/LoginRefresh";
 // import { getSSE } from "../../../api/noticeApi";
 import { getBlogProfile } from "../../../api/profileApi";
 // import { NoticeState } from "../../../state/Socket";
 import NoticeModal from "../../Modal/NoticeModal";
-import {
-  HeaderImageState,
-  ProfileImageState,
-} from "../../../state/ProfileState";
 
 export const Input = tw.div`
   my-6
@@ -45,19 +41,15 @@ export const ErrMsg = tw.p`
 
 export default function SigninForm() {
   const router = useRouter();
-  const [isLogin, setLogin] = useRecoilState<boolean | null>(LoginState);
+  const [, setLogin] = useRecoilState<boolean | null>(LoginState);
   const setEmail = useSetRecoilState<string | undefined>(EmailState);
-  const [userId, setUserId] = useRecoilState<number>(UserIdState);
+  const [, setUserId] = useRecoilState<number>(UserIdState);
   const setNickname = useSetRecoilState<string | undefined>(NicknameState);
-  // const setNavProfileImg = useSetRecoilState(UserProfileState);
+  const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
   // 알림 왔는 지 안 왔는지 상태 저장
-  const [notice, setNotice] = useState();
-  // 프로필 사진 저장
-  const [profile, setProfile] = useRecoilState(ProfileImageState);
-  // 헤더 사진 저장
-  const [header, setHeader] = useRecoilState(HeaderImageState);
+  // const [notice, setNotice] = useState();
 
   const {
     register,
@@ -83,31 +75,23 @@ export default function SigninForm() {
 
       // NavBar의 Profile 이미지 때문에 로그인 후 1번 get 요청
       const profileData = await getBlogProfile(userData.memberId);
-      console.log(`profileData`, profileData);
-      // 리코일에 프로필 이미지, 유저 아이디, 헤더 이미지 저장
-      setProfile(profileData.data.profileImage);
-      setUserId(signinSubmit.data.memberId);
-      setHeader(profileData.data.headerImage);
 
       if (accessToken && refreshToken) {
         setLogin(true);
         setEmail(data.email);
         setUserId(userData.memberId);
         setNickname(userData.nickname);
-        // 이미지 처리 후, 밑의 주석 풀기
-        // setNavProfileImg((profileData as any).data.profileImage);
+        setNavProfileImg((profileData as any).data.profileImage);
         router.replace("/");
       }
+    } else if ((signinSubmit as any).status === 404) {
+      setErrMsg("등록되지 않은 회원입니다.");
+      setShowModal(true);
+    } else if ((signinSubmit as any).status === 400) {
+      setErrMsg("비밀번호가 일치하지 않습니다.");
+      setShowModal(true);
     }
-    // 나중에 에러 처리
-    // switch ((signinSubmit as any).status) {
-    //   case 200:
-    //   case 400:
-    //   default:
-    // }
   };
-
-  console.log("프로필 저장됨?", profile);
 
   // if (isLogin) {
   //   const token = localStorage.getItem("authorization");
@@ -170,9 +154,9 @@ export default function SigninForm() {
   //   client.activate();
   // }
 
-  useEffect(() => {
-    console.log("노티스", notice);
-  }, [notice]);
+  // useEffect(() => {
+  //   console.log("노티스", notice);
+  // }, [notice]);
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,

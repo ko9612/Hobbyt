@@ -8,8 +8,8 @@ export const postsignupSubmit = async (data: PostSignupInputs) => {
   try {
     const signupUserData = await axios.post("/api/members/signup", data);
     return signupUserData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -29,8 +29,8 @@ export const postSignin = async (data: SigninInputs) => {
     const signinUserData = await axios.post("/api/auth/login", data);
     console.log(signinUserData);
     return signinUserData;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
