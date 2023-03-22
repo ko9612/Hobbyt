@@ -6,9 +6,9 @@ import {
   LoginState,
   NicknameState,
   UserIdState,
-  UserProfileState,
   UserPhoneNumState,
   OauthState,
+  UserProfileState,
 } from "../../../state/UserState";
 import { delAccount } from "../../../api/signApi";
 import DelModal from "../../Modal/DelModal";

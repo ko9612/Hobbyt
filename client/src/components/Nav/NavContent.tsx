@@ -45,9 +45,8 @@ export default function NavContent() {
   // 로그인 여부
   const [isLogin, setLogin] = useRecoilState(LoginState);
   const [isNickname, setIsNickname] = useRecoilState(NicknameState);
-  const [, setNavProfileImg] = useRecoilState(UserProfileState);
+  const [navProfileImg, setNavProfileImg] = useRecoilState(UserProfileState);
   const [userId, setIsUserId] = useRecoilState(UserIdState);
-  const [myProfileImg] = useRecoilState(UserProfileState);
   const [, setOauthLogin] = useRecoilState(OauthState);
   // 로그아웃 모달
   const [showModal, setShowModal] = useState(false);
@@ -141,7 +140,10 @@ export default function NavContent() {
             <List
               key={menu.id}
               className={`${
-                router.pathname === menu.href && "text-yellow-200"
+                (router.pathname === menu.href ||
+                  (menu.title === "내 블로그" &&
+                    router.pathname === "/blog/[userId]")) &&
+                "text-yellow-200"
               }`}
             >
               <Link href={menu.href}>
@@ -160,7 +162,7 @@ export default function NavContent() {
                 <Link href={`/mypage/${userId}`}>
                   <span className="block float-left text-2xl">
                     <DefaultProfileImg
-                      profileImg={myProfileImg}
+                      profileImg={`${navProfileImg}`}
                       width={35}
                       height={35}
                       borderW={2}

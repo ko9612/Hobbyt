@@ -5,8 +5,6 @@ import { Section, Title, BestContent, BestItem } from "./BestBlog";
 // import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
 import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/MainApi";
-import DefaultImage from "../../../image/userDImage.svg";
-import DefalutImage from "../../../image/userProfile_ex.jpeg";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
 const BloggerInfo = tw.div`
@@ -45,8 +43,7 @@ export default function BestBlogger() {
                 >
                   <span className="w-16 mr-4">
                     <DefaultProfileImage
-                      // profileImg={item.profileImage}
-                      profileImg={DefalutImage}
+                      profileImg={item.profileImage}
                       width={70}
                       height={70}
                       borderW={0}

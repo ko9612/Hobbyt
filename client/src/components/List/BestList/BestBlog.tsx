@@ -20,7 +20,6 @@ text-2xl py-2 max-w-[56rem] mx-auto
 // H: text-2xl py-2 w-[62rem] m-auto
 
 export const BestContent = tw.article`
-flex items-center
 `;
 
 export const BestItem = tw.div`
@@ -97,7 +96,7 @@ export default function BestBlog() {
   return (
     <Section>
       <Title>금주의 인기 블로그</Title>
-      <BestContent>
+      <BestContent className="flex items-center">
         <BsChevronLeft
           className="text-MainColor rounded-full hover:bg-MainColor/20 hover:p-2"
           size="2.5rem"
