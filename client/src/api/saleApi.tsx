@@ -20,8 +20,9 @@ export const getSaleDetail = async (id: number | undefined) => {
   try {
     const SaleContent = await axios.get(`/api/sales/${id}`);
     return SaleContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    console.log(err);
+    return err.response;
   }
 };
 

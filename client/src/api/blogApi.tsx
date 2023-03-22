@@ -9,8 +9,8 @@ export const getBlogDetail = async (id: number | undefined) => {
   try {
     const blogContent = await axios.get(`/api/posts/${id}`);
     return blogContent;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
 
@@ -96,8 +96,9 @@ export const postImageUpload = async (data: any) => {
   try {
     const Image = await customAxios.post("/api/images", data);
     return Image;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    console.log(err);
+    return err.response;
   }
 };
 
@@ -105,9 +106,8 @@ export const postImageUpload = async (data: any) => {
 export const postThumbnailUpload = async (data: any) => {
   try {
     const Image = await customAxios.post("/api/images/thumbnails", data);
-    console.log(Image);
     return Image;
-  } catch (err: unknown) {
-    return ErrorHandler(err);
+  } catch (err: any) {
+    return err.response;
   }
 };
