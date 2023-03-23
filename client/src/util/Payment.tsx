@@ -34,7 +34,8 @@ export default function Payment({
 }: PaymentProps) {
   const onClickPayment = () => {
     const { IMP } = window;
-    IMP.init(process.env.NEXT_PUBLIC_IMP_CODE);
+    // IMP.init(process.env.NEXT_PUBLIC_IMP_CODE);
+    IMP.init("imp47003037");
 
     const data = {
       pg: "html5_inicis",
