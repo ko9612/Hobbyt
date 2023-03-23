@@ -17,7 +17,7 @@ import { DButton } from "../../Button/DefalutButton";
 import { ProductList } from "../../../type/saleType";
 import { SaleProductList } from "../../../state/SaleState";
 // 이미지 처리 전, 제품 정보의 default img 필요해서
-import exampleImg from "../../../image/userProfile_ex.jpeg";
+import exampleImg from "../../../image/pictureDefalut.svg";
 import { postImageUpload } from "../../../api/blogApi";
 import MsgModal from "../../Modal/MsgModal";
 import { imageErrorHandler } from "../../../util/ErrorHandler";
