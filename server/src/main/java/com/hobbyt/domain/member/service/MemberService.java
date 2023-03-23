@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.file.service.FileService;
 import com.hobbyt.domain.follow.repository.FollowRepository;
 import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
@@ -21,6 +20,7 @@ import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
+import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
@@ -38,7 +38,7 @@ public class MemberService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
 	private final FollowRepository followRepository;
-	private final FileService fileService;
+	private final PrivateHomeService privateHomeService;
 	private final String path = "/api/images/";
 	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
 	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
@@ -148,20 +148,27 @@ public class MemberService {
 		return MyInfoResponse.of(member);
 	}
 
+	@Transactional
 	public ProfileResponse getProfile(final Long targetMemberId, MemberDetails loginMember) {
 		Member targetMember = findMemberById(targetMemberId);
-		ProfileResponse profileResponse = ProfileResponse.of(targetMember);
+		ProfileResponse profileResponse = null;
 
-		if (loginMember != null) {
-			String email = loginMember.getEmail();
-			Member myInfo = findMemberByEmail(email);
-			profileResponse.setIsFollowing(isFollowing(targetMemberId, myInfo));
+		if (loginMember == null) {
+			profileResponse = ProfileResponse.of(targetMember);
+			return profileResponse;
 		}
+
+		String email = loginMember.getEmail();
+		privateHomeService.countVisitor(targetMemberId, email);
+		profileResponse = ProfileResponse.of(targetMember);
+		profileResponse.setIsFollowing(isFollowing(targetMemberId, email));
 
 		return profileResponse;
 	}
 
-	private Boolean isFollowing(Long targetMemberId, Member myInfo) {
+	private Boolean isFollowing(Long targetMemberId, String email) {
+		Member myInfo = findMemberByEmail(email);
+
 		if (targetMemberId != myInfo.getId()) {
 			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
 			return myFollowingId.contains(targetMemberId);
