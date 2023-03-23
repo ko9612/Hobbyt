@@ -110,7 +110,7 @@ export default function BlogWriteComponent() {
         // router.replace(`/blog/${userId}/post/${submit.data}`);
         // resetData();
 
-        if ((submit as any).status === 200) {
+        if ((submit as any).status === 201) {
           resetData();
           router.replace(`/blog/${userId}/post/${(submit as any).data}`);
         } else {

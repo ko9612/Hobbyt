@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { ContentState } from "../../state/BlogPostState";
 import { postImageUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
@@ -16,15 +16,25 @@ export default function TextEditor() {
   const [errMsg, setErrMsg] = useState("");
 
   // atom에 에디터 내용 저장
-  const setContent = useSetRecoilState(ContentState);
+  const [content, setContent] = useRecoilState(ContentState);
 
   // 글자 수 세기
-  const [contentCount, setContentCount] = useState("");
+  const [contentCount, setContentCount] = useState(0);
   const onChangeContent = () => {
     const contentValue = editorRef.current?.getInstance().getHTML();
     if (contentValue !== undefined) {
-      setContentCount(contentValue);
-      setContent(contentValue);
+      setContentCount(
+        contentValue
+          .replaceAll("<br>", "")
+          .replaceAll("<p>", "")
+          .replaceAll("</p>", "").length,
+      );
+      setContent(
+        contentValue
+          .replaceAll("<br>", "")
+          .replaceAll("<p>", "")
+          .replaceAll("</p>", ""),
+      );
     }
   };
 
@@ -36,7 +46,7 @@ export default function TextEditor() {
           본문 <span className="text-red-500">&#42;</span>
         </p>
         <p className="text-sm text-gray-400">
-          현재 글자수 {contentCount.length} / 최소 글자수 300
+          현재 글자수 {contentCount} / 최소 글자수 300
         </p>
       </Title>
       <Editor

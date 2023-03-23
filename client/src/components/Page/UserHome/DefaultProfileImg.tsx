@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ExamImg from "../../../image/userProfile_ex.jpeg";
 
 interface ImgProps {
   profileImg: any;
@@ -18,7 +17,7 @@ export default function DefaultProfileImage({
   const router = useRouter();
   return (
     <Image
-      src={profileImg || ExamImg}
+      src={profileImg}
       alt="유저 프로필 사진"
       width={width}
       height={height}
