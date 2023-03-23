@@ -7,10 +7,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
@@ -29,13 +33,29 @@ import lombok.RequiredArgsConstructor;
 public class PrivateHomeController {
 	private final PrivateHomeService privateHomeService;
 
-	@GetMapping("/posts")
-	public ResponseEntity<PrivateHomePostResponse> getPostList(
-		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params,
+	@GetMapping("/profile")
+	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long memberId,
 		@AuthenticationPrincipal MemberDetails loginMember) {
 
-		PrivateHomePostResponse response = privateHomeService
-			.getBlogListByMemberId(memberId, params, loginMember);
+		ProfileResponse profileResponse = privateHomeService.getProfile(memberId, loginMember);
+
+		return ResponseEntity.ok(profileResponse);
+	}
+
+	@PatchMapping("/profile")
+	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
+		@RequestBody ProfileRequest profileRequest) {
+
+		privateHomeService.updateProfile(memberDetails.getEmail(), profileRequest);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/posts")
+	public ResponseEntity<PrivateHomePostResponse> getPostList(
+		@Min(value = 0) @PathVariable Long memberId, @ModelAttribute PrivateHomeRequest params) {
+
+		PrivateHomePostResponse response = privateHomeService.getBlogListByMemberId(memberId, params);
 
 		return ResponseEntity.ok(response);
 	}

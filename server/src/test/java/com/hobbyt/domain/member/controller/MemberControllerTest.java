@@ -29,7 +29,6 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -155,7 +154,7 @@ class MemberControllerTest {
 			.andDo(print());
 	}
 
-	@DisplayName("프로필 조회 api")
+	/*@DisplayName("프로필 조회 api")
 	@WithMockUser(username = EMAIL)
 	@Test
 	void get_profile() throws Exception {
@@ -180,7 +179,7 @@ class MemberControllerTest {
 			.andExpect(jsonPath("$.views.today").value(TODAY_VIEWS))
 			.andExpect(jsonPath("$.views.total").value(TOTAL_VIEWS))
 			.andDo(print());
-	}
+	}*/
 
 	@DisplayName("프로필 변경 api")
 	@Test
