@@ -90,10 +90,10 @@ export default function BlogPostDetail() {
   };
 
   useEffect(() => {
-    // if (router.isReady) {
-    getData();
-    // }
-  }, []);
+    if (router.isReady) {
+      getData();
+    }
+  }, [router.isReady]);
 
   console.log("getNewData", getNewData);
 

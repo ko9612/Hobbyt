@@ -112,7 +112,7 @@ export default function ProfileEdit() {
     };
 
     try {
-      const req = await patchBlogProfile(data);
+      const req = await patchBlogProfile(homeUserId, data);
       if ((req as any).status === 200) {
         setDefaultNickName(nickname);
         setNavProfileImg(profileImage);
