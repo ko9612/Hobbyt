@@ -85,7 +85,7 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.GET, "/api/sales/{saleId:[0-9]+}")
 			.permitAll()
 			// .antMatchers("/api/**").permitAll()
-			.antMatchers("/api/members/{memberId:[0-9]+}/profile")
+			.antMatchers(HttpMethod.GET, "/api/members/{memberId:[0-9]+}/private/profile")
 			.permitAll()
 			.antMatchers(HttpMethod.GET, "/api/search/**")
 			.permitAll()

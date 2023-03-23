@@ -1,9 +1,14 @@
 package com.hobbyt.domain.privatehome.service;
 
+import java.util.List;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hobbyt.domain.follow.repository.FollowRepository;
+import com.hobbyt.domain.member.dto.request.ProfileRequest;
+import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.domain.member.service.MemberService;
@@ -26,6 +31,7 @@ public class PrivateHomeService {
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 	private final VisitRepository visitRepository;
+	private final FollowRepository followRepository;
 
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *")
@@ -46,6 +52,45 @@ public class PrivateHomeService {
 		}
 	}
 
+	@Transactional
+	public ProfileResponse getProfile(final Long targetMemberId, MemberDetails loginMember) {
+		Member targetMember = memberService.findMemberById(targetMemberId);
+		ProfileResponse profileResponse = null;
+
+		if (loginMember == null) {
+			profileResponse = ProfileResponse.of(targetMember);
+			return profileResponse;
+		}
+
+		String email = loginMember.getEmail();
+		countVisitor(targetMemberId, email);
+		profileResponse = ProfileResponse.of(targetMember);
+		profileResponse.setIsFollowing(isFollowing(targetMemberId, email));
+
+		return profileResponse;
+	}
+
+	@Transactional
+	public void updateProfile(final String email, final ProfileRequest profileRequest) {
+
+		Member member = memberService.findMemberByEmail(email);
+
+		Member updateProfile = profileRequest.toEntity();
+
+		member.updateProfile(updateProfile);
+	}
+
+	private Boolean isFollowing(Long targetMemberId, String email) {
+		Member myInfo = memberService.findMemberByEmail(email);
+
+		if (targetMemberId != myInfo.getId()) {
+			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
+			return myFollowingId.contains(targetMemberId);
+		}
+
+		return null;
+	}
+
 	private boolean canIncreaseVisitingNumber(Member visitor, Member target) {
 		return isDifferentMember(visitor, target) && isNotVisitExist(visitor, target);
 	}
@@ -59,13 +104,7 @@ public class PrivateHomeService {
 	}
 
 	@Transactional
-	public PrivateHomePostResponse getBlogListByMemberId(Long memberId, PrivateHomeRequest params,
-		MemberDetails loginMember) {
-
-		if (loginMember != null) {
-			countVisitor(memberId, loginMember.getEmail());
-		}
-
+	public PrivateHomePostResponse getBlogListByMemberId(Long memberId, PrivateHomeRequest params) {
 		return memberRepository.getBlogListByWriterId(memberId, params);
 	}
 

@@ -30,6 +30,7 @@ public class OrderDetails {
 
 	private PayMethod payMethod;    // 결제수단
 	private Long sellerId;    // 판매자 id
+	private Long saleId;    // 판매 게시글 id
 
 	private String depositor;    // 입금자 이름
 	private Account sellerAccount;    // 판매자 계좌
@@ -61,7 +62,7 @@ public class OrderDetails {
 	}
 
 	@Builder
-	public OrderDetails(Order order, String title, String thumbnailImage, Long sellerId, String email,
+	public OrderDetails(Order order, String title, String thumbnailImage, Long sellerId, Long saleId, String email,
 		Account sellerAccount, int deliveryPrice) {
 
 		this.orderNumber = order.getOrderNumber();
@@ -71,6 +72,7 @@ public class OrderDetails {
 
 		this.payMethod = order.getPayMethod();
 		this.sellerId = sellerId;
+		this.saleId = saleId;
 		this.depositor = order.getDepositor();
 		this.sellerAccount = sellerAccount == null ? new Account() : sellerAccount;
 		Recipient recipient = order.getRecipient();

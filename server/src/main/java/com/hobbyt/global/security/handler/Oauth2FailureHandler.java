@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class Oauth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -20,6 +22,7 @@ public class Oauth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {
 
+		log.error("error: ", exception.getLocalizedMessage());
 		String targetUrl = createFailureUri(exception);
 
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
