@@ -3,6 +3,7 @@ package com.hobbyt.domain.post.service;
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,9 +53,9 @@ public class PostService {
 	public Post updatePost(Long id, Post post) {
 		Post found = findVerifiedOneById(id);
 
-		found.updateTitle(post.getTitle());
-		found.updateContent(post.getContent());
-		found.updateThumbnailImage(post.getThumbnailImage());
+		Optional.ofNullable(post.getTitle()).ifPresent(found::updateTitle);
+		Optional.ofNullable(post.getContent()).ifPresent(found::updateContent);
+		Optional.ofNullable(post.getThumbnailImage()).ifPresent(found::updateThumbnailImage);
 		found.updateIsPublic(post.isPublic());
 
 		return found;
