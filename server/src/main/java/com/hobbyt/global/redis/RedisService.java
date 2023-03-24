@@ -14,8 +14,10 @@ public class RedisService {
 	private final RedisTemplate<String, String> redisTemplate;
 
 	public void setValue(final String key, final String value, final Long expiration) {
-		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, value, expiration, TimeUnit.MILLISECONDS);
+		if (expiration > 0) {
+			ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+			valueOperations.set(key, value, expiration, TimeUnit.MILLISECONDS);
+		}
 	}
 
 	public String getValue(final String key) {

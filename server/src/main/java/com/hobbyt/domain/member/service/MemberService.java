@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
-import com.hobbyt.domain.member.dto.response.MyInfoResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -24,23 +23,19 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
-	private final String path = "/api/images/";
-	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
-	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
-	@Transactional
-	public Long createUser(SignupRequest signupRequest) {
+	public Long createMember(SignupRequest signupRequest) {
 		checkEmailDuplicated(signupRequest.getEmail());
 		checkNicknameDuplicated(signupRequest.getNickname());
 
-		String profileImage = path + defaultProfileImage;    // 기본 프로필 이미지
-		String headerImage = path + defaultHeaderImage;    // 기본 헤더 이미지
+		String profileImage = DefaultImage.profile.getValue();    // 기본 프로필 이미지
+		String headerImage = DefaultImage.header.getValue();    // 기본 헤더 이미지
 		createOrRejoin(signupRequest, profileImage, headerImage);
 
 		return findMemberByEmail(signupRequest.getEmail()).getId();
@@ -70,7 +65,6 @@ public class MemberService {
 		}
 	}
 
-	@Transactional
 	public void withdraw(final String accessToken, final String email) {
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
@@ -84,16 +78,6 @@ public class MemberService {
 		member.withdraw();
 	}
 
-	public Member findMemberByEmail(final String email) {
-		return memberRepository.findByEmail(email)
-			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
-	}
-
-	public Long findMemberIdByEmail(String email) {
-		return findMemberByEmail(email).getId();
-	}
-
-	@Transactional
 	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
@@ -103,7 +87,6 @@ public class MemberService {
 		member.updateMemberInfo(updateMyInfoRequest.getPhoneNumber(), recipient, account);
 	}
 
-	@Transactional
 	public void updatePassword(final String email, final UpdatePassword updatePassword) {
 		Member member = findMemberByEmail(email);
 
@@ -132,11 +115,9 @@ public class MemberService {
 		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}
 
-	// TODO 단순히 Member -> DTO 로 변환해주는 메소드인데 굳이 Service 내부에서 할필요가?
-	public MyInfoResponse getMyInfo(final String email) {
-		Member member = findMemberByEmail(email);
-
-		return MyInfoResponse.of(member);
+	public Member findMemberByEmail(final String email) {
+		return memberRepository.findByEmail(email)
+			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
 	}
 
 	public Member findMemberById(Long id) {
