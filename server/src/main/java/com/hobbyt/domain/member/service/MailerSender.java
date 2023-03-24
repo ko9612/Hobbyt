@@ -26,11 +26,12 @@ public class MailerSender {
 		MimeMessagePreparator messagePreparator = toMimeMessagePreparator(email);
 
 		try {
-			log.info("MailService Thread: " + Thread.currentThread().getName());
 			mailSender.send(messagePreparator);
 		} catch (MailException e) {
+			log.error("fail send mail");
 			throw new BusinessLogicException(MAIL_SEND_FAILED);
 		}
+		log.info("success send mail");
 	}
 
 	private MimeMessagePreparator toMimeMessagePreparator(Email email) {
