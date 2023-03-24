@@ -21,6 +21,7 @@ import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
+import com.hobbyt.domain.member.service.MemberQueryService;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -32,10 +33,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
 	private final MemberService memberService;
+	private final MemberQueryService memberQueryService;
 
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
-		Long id = memberService.createUser(signupRequest);
+		Long id = memberService.createMember(signupRequest);
 
 		return new ResponseEntity(id, HttpStatus.CREATED);
 	}
@@ -71,7 +73,7 @@ public class MemberController {
 
 	@GetMapping("/myPage/info")
 	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
-		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getEmail());
+		MyInfoResponse myInfoResponse = memberQueryService.getMyInfo(memberDetails.getEmail());
 
 		return ResponseEntity.ok(myInfoResponse);
 	}
