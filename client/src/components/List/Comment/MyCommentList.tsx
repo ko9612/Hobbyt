@@ -29,6 +29,8 @@ export default function MyCommentList(): React.ReactElement {
     }
   };
 
+  const onClickHandler = () => {};
+
   useEffect(() => {
     getData();
   }, []);
@@ -55,7 +57,6 @@ export default function MyCommentList(): React.ReactElement {
             </div>
             <div className="flex">
               <div className="w-[5rem] border-none">
-                {/* <Image src={item.}></Image> */}
                 <UserProfileImage wid={200} hei={200} />
               </div>
               <div className="w-[35rem] ml-3 mt-3">

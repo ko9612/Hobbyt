@@ -47,9 +47,9 @@ export default function BestBlogger() {
                       width={70}
                       height={70}
                       borderW={0}
-                      w={4}
-                      h={4}
-                    />
+                    >
+                      best blog
+                    </DefaultProfileImage>
                   </span>
                   <span className="text-xl">{item.nickname}</span>
                 </Link>

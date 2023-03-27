@@ -166,9 +166,11 @@ export default function NavContent() {
                       width={35}
                       height={35}
                       borderW={2}
-                      w={2.2}
-                      h={2.2}
-                    />
+                      w={0}
+                      h={0}
+                    >
+                      nav
+                    </DefaultProfileImg>
                   </span>
                   <span className="p-5 text-base font-medium">
                     {isNickname}

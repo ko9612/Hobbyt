@@ -2,10 +2,12 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
 import DefalutImage from "../../image/userDImage.svg";
-import { getFollowing, postFollowing } from "../../api/tabApi";
+import { getFollowing, getFollowingN, postFollowing } from "../../api/tabApi";
 // import { DefalutButton } from "../Button/DefalutButton";
 import FollowButton from "../Button/FollowButton";
+import { LoginState } from "../../state/UserState";
 
 export const Container = tw.ul`mt-6`;
 export const List = tw.li`flex mb-3 border-2 border-red-500`;
@@ -17,6 +19,8 @@ export default function FollowingList() {
   const router = useRouter();
   // 개인홈 주인 id
   const homeId = Number(router.query.userId);
+  // 로그인 유무
+  const isLogin = useRecoilValue(LoginState);
 
   // 팔로잉, 팔로워 버튼 클릭시 api 호출 함수
   const postData = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,16 +32,29 @@ export default function FollowingList() {
     console.log("팔로우 버튼 클릭시", res.data);
   };
 
-  // 팔로잉 리스트 불러오는 api 호출 함수
+  // 회원용 팔로잉 리스트 불러오는 api 호출 함수
   const getData = async () => {
     const res = await getFollowing(homeId);
-    console.log("팔로잉리스트", res);
+    console.log("회원 팔로잉리스트", res);
+    setData(res.data);
+  };
+
+  // 비회원용 팔로잉 리스트 불러오는 api 호출 함수
+  const getDataN = async () => {
+    const res = await getFollowingN(homeId);
+    console.log("비회원 팔로잉리스트", res);
     setData(res.data);
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (router.isReady) {
+      if (isLogin) {
+        getData();
+      } else {
+        getDataN();
+      }
+    }
+  }, [router.isReady]);
 
   return (
     <Container>

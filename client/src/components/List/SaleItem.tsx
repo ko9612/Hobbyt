@@ -80,9 +80,9 @@ export default function SaleItem({ list }: ListProps) {
                 width={20}
                 height={20}
                 borderW={1}
-                w={2}
-                h={2}
-              />
+              >
+                sale
+              </DefaultProfileImage>
             </div>
             <div>{nickname}</div>
           </Link>
