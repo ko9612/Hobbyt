@@ -9,7 +9,7 @@ import { getFollower, postFollowing } from "../../api/tabApi";
 export default function Following() {
   const router = useRouter();
   // 개인홈 주인 id
-  const homeUserId = Number(router.query.userId);
+  const homeId = Number(router.query.userId);
   // 불러온 팔로워 리스트 저장
   const [data, setData] = useState([]);
 
@@ -26,7 +26,7 @@ export default function Following() {
   const getData = async () => {
     // 개인홈 주인 아이디
     console.log(`homeUserId`, router);
-    const res = await getFollower(homeUserId);
+    const res = await getFollower(homeId);
 
     setData(res.data);
   };
@@ -37,21 +37,27 @@ export default function Following() {
     }
   }, [router.isReady]);
 
+  // useEffect(() => {}, []);
+
+  console.log("팔로워 리스트 // 팔로잉 여부", data);
+
   return (
     <Container>
       {data?.contents &&
         data?.contents.map(item => (
           <List key={item.id}>
             <Image
-              src={DefalutImage || item.profileImage}
+              src={item.profileImage || DefalutImage}
               width={50}
               height={50}
               alt="유저 이미지"
-              className="w-[4rem]"
+              className="w-[4rem] h-[4rem] rounded-full object-cover"
             />
             <Content className="ml-3">
-              <p>{item.nickname}</p>
-              <p className="w-[32rem] truncate">{item.description}</p>
+              <p className="text-xl font-semibold">{item.nickname}</p>
+              <p className="w-[32rem] truncate text-gray-400">
+                {item.description}
+              </p>
             </Content>
             {item.isFollowing === null ? null : (
               <FollowButton

@@ -8,30 +8,30 @@ import DMButton from "../../Button/DMButton";
 import FollowButton from "../../Button/FollowButton";
 import ProfileButton from "../../Button/ProfileButton";
 
-export default function Followig({ isFollowing }) {
+export default function Followig({ isFollowing }: any) {
   const router = useRouter();
   // 개인홈 주인 id
-  const homeUserId = Number(router.query.userId);
+  const homeId = Number(router.query.userId);
   // 로그인한 유저 id
   const userId = useRecoilValue(UserIdState);
   // 로그인 여부
   const isLogin = useRecoilValue(LoginState);
 
   // 팔로우 요청 post api
-  const handleClick = async () => {
-    const res = await postFollowing(homeUserId);
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const res = await postFollowing(homeId);
     console.log("팔로잉 post 요청", res);
   };
 
   // useEffect(() => {
-  //   // router.reload();
+  //   router.reload();
   // }, [isFollowing]);
 
   return (
     <div className="w-full">
       {isLogin === true ? (
         <div>
-          {homeUserId === userId ? (
+          {homeId === userId ? (
             <div className="inline-flex items-center border-2 border-red-500">
               <Link href={`/blog/${userId}/profile`}>
                 <ProfileButton />
@@ -42,19 +42,15 @@ export default function Followig({ isFollowing }) {
               <div className="mr-4">
                 <DMButton>블로그</DMButton>
               </div>
-              <FollowButton
-                onClick={handleClick}
-                id={
-                  isFollowing !== true || isFollowing !== null
-                    ? "팔로우"
-                    : "팔로잉"
-                }
-                value={0}
-              >
-                {isFollowing !== true || isFollowing !== null
-                  ? "팔로우"
-                  : "팔로잉"}
-              </FollowButton>
+              {isFollowing === null ? null : (
+                <FollowButton
+                  onClick={handleClick}
+                  id={isFollowing !== true ? "팔로우" : "팔로잉"}
+                  value={0}
+                >
+                  {isFollowing !== true ? "팔로우" : "팔로잉"}
+                </FollowButton>
+              )}
             </div>
           )}
         </div>

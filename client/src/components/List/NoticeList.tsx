@@ -84,11 +84,14 @@ export default function NoticeList() {
       router.replace(`/blog/${notice.receiverId}/post/${notice.redirectId}`);
     }
     if (notice.type === "SALE_ORDER") {
-      router.replace(`/blog/${notice.receiverId}/sale/${notice.redirectId}`);
+      // router.replace(`/blog/${notice.receiverId}/sale/${notice.redirectId}`);
+      router.replace(
+        `/mypage/${notice.receiverId}/orderdetail/${notice.receiverId}/ordermanagement/${notice.redirectId}`,
+      );
     }
     if (notice.type === "ORDER_CANCEL") {
       router.replace(
-        `/mypage/${notice.receiverID}/orderdetail/${notice.receiverID}/ordermanagement/${notice.redirectId}`,
+        `/mypage/${notice.receiverId}/orderdetail/${notice.receiverId}/ordermanagement/${notice.redirectId}`,
       );
     }
   };

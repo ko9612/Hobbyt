@@ -166,6 +166,8 @@ export default function NavContent() {
                       width={35}
                       height={35}
                       borderW={2}
+                      w={2.2}
+                      h={2.2}
                     />
                   </span>
                   <span className="p-5 text-base font-medium">

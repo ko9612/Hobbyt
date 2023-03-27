@@ -16,14 +16,14 @@ import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
 import MsgModal from "../../Modal/MsgModal";
 
-const Detail = tw.div`mt-6`;
+const Detail = tw.div`mt-6 w-[43rem]`;
 export const Title = tw.h1`text-2xl font-bold my-4`;
 export const Info = tw.div`flex justify-between items-center`;
 export const TagList = tw.div`text-sm flex mr-1`;
 export const Tag = tw.div`bg-gray-200 rounded-sm py-1 px-2`;
 export const VWInfo = tw.div`flex`;
 const Main = tw.main`mt-2`;
-const Content = tw.main`mb-10 inline-flex`;
+const Content = tw.main`mb-10 inline-flex break-all`;
 const Like = tw.div`w-12 m-auto my-8 text-center cursor-pointer`;
 const Comment = tw.div``;
 
@@ -124,12 +124,15 @@ export default function BlogPostDetail() {
                 src={`/api/images/${getNewData?.thumbnailImage}`}
                 width={500}
                 height={500}
-                alt=""
+                alt="썸네일 이미지"
               />
             </div>
           )}
           <Content>
-            <TextViewer initialValue={getNewData?.content} />
+            <TextViewer
+              initialValue={getNewData?.content}
+              className="break-all"
+            />
           </Content>
           <HR />
           <Like>
