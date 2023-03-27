@@ -1,26 +1,25 @@
 import tw from "tailwind-styled-components";
 import { BsArrow90DegRight } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import UserProfileImage from "../../Page/UserHome/UserProfileImage";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import { CommentType } from "../../../type/blogType";
 import { getBlogCommentList } from "../../../api/tabApi";
-import { UserIdState } from "../../../state/UserState";
 
 const CommentContainer = tw.div`block border-2 m-auto mt-8`;
 
 export default function MyCommentList(): React.ReactElement {
-  const userId = useRecoilValue(UserIdState);
+  // const userId = useRecoilValue(UserIdState);
   const router = useRouter();
+  const homeId = Number(router.query.userId);
 
   // 불러온 데이터 저장
   const [commentList, setCommentList] = useState<CommentType[]>();
 
   const getData = async () => {
-    const res = await getBlogCommentList(userId, 0, 10);
+    const res = await getBlogCommentList(homeId, 0, 10);
     const data = res.data.comments;
     console.log(`내가 쓴 댓글`, data);
     switch (res.status) {
@@ -56,7 +55,8 @@ export default function MyCommentList(): React.ReactElement {
             </div>
             <div className="flex">
               <div className="w-[5rem] border-none">
-                <UserProfileImage />
+                {/* <Image src={item.}></Image> */}
+                <UserProfileImage wid={200} hei={200} />
               </div>
               <div className="w-[35rem] ml-3 mt-3">
                 {/* <button

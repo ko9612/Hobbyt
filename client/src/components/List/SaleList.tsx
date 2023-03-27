@@ -31,7 +31,7 @@ export default function SaleList() {
     } else if (select === "인기순") {
       const res = await getSaleListF(homeId, 0, 9);
       const listRes = res.data;
-      setListData("판매게시글리스트 인기순", listRes);
+      setListData(listRes);
     }
   };
 
@@ -39,8 +39,7 @@ export default function SaleList() {
     getData();
   }, [select]);
 
-  console.log("판매 게시글 리스트", listData);
-  console.log("홈아이디", homeId);
+  // console.log("판매 게시글 리스트", listData);
 
   return (
     <SLContainer>

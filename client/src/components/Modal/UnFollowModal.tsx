@@ -1,5 +1,3 @@
-// import Image from "next/image";
-// import userProfile from "../../image/userProfile_ex.jpeg";
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 import { SubMsg, ButtonDiv } from "./DelModal";
 import ModalButton from "../Button/ModalButton";

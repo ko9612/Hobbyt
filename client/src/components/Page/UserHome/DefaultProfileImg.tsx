@@ -6,6 +6,8 @@ interface ImgProps {
   width: number;
   height: number;
   borderW: number;
+  w: number;
+  h: number;
 }
 
 export default function DefaultProfileImage({
@@ -13,6 +15,8 @@ export default function DefaultProfileImage({
   width,
   height,
   borderW,
+  w,
+  h,
 }: ImgProps) {
   const router = useRouter();
   return (
@@ -21,7 +25,7 @@ export default function DefaultProfileImage({
       alt="유저 프로필 사진"
       width={width}
       height={height}
-      className={`overflow-hide rounded-full border-${borderW} ${
+      className={`overflow-hide rounded-full object-cover border-${borderW} w-[${w}rem] h-[${h}rem] ${
         router.pathname.startsWith("/mypage")
           ? "border-yellow-200"
           : "border-white"

@@ -19,7 +19,7 @@ export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg bo
 export const BLImage = tw.div`w-1/5 h-[6.8rem]`;
 export const BLContent = tw.div`ml-5 w-4/5 flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
-export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 h-[4rem]`;
+export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 w-[31rem] h-[4rem] break-all`;
 const ActInfo = tw.div`flex items-center`;
 
 interface ListProps {
@@ -52,14 +52,12 @@ export default function BlogItem({ list }: ListProps) {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  // export const Listing = (props) => {
-  //   return <div id="list">
-  //             {props.applicant.map((item)=>{
-  //             <li key={item.id}>{item.name}</li>
-  //             })}
-  //         </div>
-  // }
+  // 텍스트에서 html 제거하는 정규식
+  const regText = content.replace(/<[^>]*>?/g, "");
 
+  // console.log(`아이디?`, router);
+  // console.log(`리스트?`, list);
+  // console.log(`유저아이디`, userId);
   return (
     <BLComponent
       className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
@@ -74,7 +72,7 @@ export default function BlogItem({ list }: ListProps) {
           alt="img"
           className={
             thumbnailImage !== null
-              ? "rounded-xl object-cover h-full w-full"
+              ? "rounded-xl object-cover w-[7.82rem] h-[7.82rem]"
               : ""
           }
           width={150}
@@ -89,15 +87,13 @@ export default function BlogItem({ list }: ListProps) {
               {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
             </h2>
           </Link>
-          {(writerId === userId && router.pathname !== "/") ||
-          router.pathname.includes("/blog") ? (
+          {/* {(writerId === userId && router.pathname !== "/") ||
+          router.pathname.includes("/blog") ? ( */}
+          {writerId === userId && router.pathname.includes("/blog") ? (
             <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
           ) : null}
         </BLTitle>
-        <Text className="overflow-hidden">
-          {/* <TextViewer initialValue={content} /> */}
-          <div>{content}</div>
-        </Text>
+        <Text>{regText}</Text>
         <div
           className={`${
             !router.pathname.includes("/blog") && "flex justify-between"
@@ -106,12 +102,14 @@ export default function BlogItem({ list }: ListProps) {
           {!router.pathname.includes("/blog") && (
             <Link href={`/blog/${writerId}`}>
               <ActInfo>
-                <div className="w-[2.5rem]">
+                <div className="w-[2.5rem] ">
                   <DefaultProfileImage
                     profileImg={profileImage}
                     width={25}
                     height={25}
-                    borderW={1}
+                    borderW={0}
+                    w={2}
+                    h={2}
                   />
                 </div>
                 <div>{nickname}</div>

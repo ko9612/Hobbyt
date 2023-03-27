@@ -20,7 +20,7 @@ const ImageEdit = tw.div`flex items-center mt-14`;
 
 export default function ProfileEdit() {
   const router = useRouter();
-  const homeUserId = Number(router.query.userId);
+  const homeId = Number(router.query.userId);
 
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -28,19 +28,22 @@ export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useRecoilState(ProfileImageState);
   const [headerImage, setHeaderImage] = useRecoilState(HeaderImageState);
 
-  // const [headerImgFile, setHeaderImgFile] = useState("");
-  // const [profileImgFile, setProfileImgFile] = useState("");
-
   // 닉네임, 자기소개의 기본 값을 현재 값으로 둔다.
   const [defaultNickName, setDefaultNickName] = useRecoilState(NicknameState);
   const [nickname, setNickname] = useState(defaultNickName);
   const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [description, setDescription] = useState("");
+
+  // 닉네임 띄어쓰기 불가 정규식
+  const reg = /\s/g;
+  // 닉네임에 띄어쓰기 있나 없나 유무
+  const [regCheck, setRegCheck] = useState(false);
+
   // 개인홈 프로필 조회 api 요청 함수
   const request = async () => {
     // 로그인한 유저용 프로필 조회
     // 블로그 주인 userID api 함수로 보내줘야함
-    const res = await getBlogLoginProfile(homeUserId);
+    const res = await getBlogLoginProfile(homeId);
     setDescription((res as any).data.description);
   };
 
@@ -90,6 +93,12 @@ export default function ProfileEdit() {
   // 닉네임 변경 함수
   const hadleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = e.target.value;
+    // 띄어쓰기 검사
+    if (data.match(reg)) {
+      setRegCheck(true);
+    } else {
+      setRegCheck(false);
+    }
     setNickname(data);
   };
 
@@ -112,7 +121,7 @@ export default function ProfileEdit() {
     };
 
     try {
-      const req = await patchBlogProfile(homeUserId, data);
+      const req = await patchBlogProfile(homeId, data);
       if ((req as any).status === 200) {
         setDefaultNickName(nickname);
         setNavProfileImg(profileImage);
@@ -152,6 +161,11 @@ export default function ProfileEdit() {
         <p className="text-gray-400">
           &#42; 닉네임은 최대 6글자까지 가능합니다.
         </p>
+        {regCheck ? (
+          <p className="text-red-500">
+            &#42; 닉네임엔 공백이 포함될 수 없습니다.
+          </p>
+        ) : null}
         <input
           type="text"
           className="p-2 mt-2 bg-gray-200 rounded-lg w-80"

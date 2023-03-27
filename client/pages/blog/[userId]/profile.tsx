@@ -16,7 +16,7 @@ export default function Profile() {
         </BlogContent>
         <UserContent>
           <UserInfo>
-            <UserProfileImage />
+            <UserProfileImage wid={250} hei={250} />
             <UserProfile />
           </UserInfo>
         </UserContent>

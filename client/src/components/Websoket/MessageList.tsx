@@ -72,6 +72,7 @@ export default function MessageList({ chatRoomList }: any) {
                     width={45}
                     height={45}
                     alt="유저 프로필 사진"
+                    className="object-cover w-[3rem] h-[3rem] rounded-full"
                   />
                   <Info>
                     <Title>
