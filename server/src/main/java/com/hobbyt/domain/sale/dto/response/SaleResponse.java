@@ -80,15 +80,15 @@ public class SaleResponse {
 		}
 	}
 
-	public static SaleResponse of(Sale sale, List<Product> products, List<String> tags) {
-		return new SaleResponse(sale, products, tags);
+	public static SaleResponse of(Sale sale, List<Product> products, Member writer, List<String> tags) {
+		return new SaleResponse(sale, products, writer, tags);
 	}
 
-	private SaleResponse(Sale sale, List<Product> products, List<String> tags) {
+	private SaleResponse(Sale sale, List<Product> products, Member writer, List<String> tags) {
 		setSale(sale);
 		setProducts(products);
 		setTags(tags);
-		setWriter(sale.getWriter());
+		setWriter(writer);
 	}
 
 	private void setWriter(Member writer) {
