@@ -18,9 +18,14 @@ export default function Followig({ isFollowing }: any) {
   const isLogin = useRecoilValue(LoginState);
 
   // 팔로우 요청 post api
-  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-    const res = await postFollowing(homeId);
-    console.log("팔로잉 post 요청", res);
+  const handleClick = async () => {
+    try {
+      const res = await postFollowing(homeId);
+      console.log("팔로잉 post 요청", res);
+      router.reload();
+    } catch (err: unknown) {
+      console.error(err);
+    }
   };
 
   // useEffect(() => {

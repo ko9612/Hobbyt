@@ -1,15 +1,19 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
 import { Container, List, Content } from "./FollowingList";
 import DefalutImage from "../../image/userDImage.svg";
 import FollowButton from "../Button/FollowButton";
-import { getFollower, postFollowing } from "../../api/tabApi";
+import { getFollower, getFollowerN, postFollowing } from "../../api/tabApi";
+import { LoginState } from "../../state/UserState";
 
 export default function Following() {
   const router = useRouter();
   // 개인홈 주인 id
   const homeId = Number(router.query.userId);
+  // 로그인 유무
+  const isLogin = useRecoilValue(LoginState);
   // 불러온 팔로워 리스트 저장
   const [data, setData] = useState([]);
 
@@ -22,18 +26,25 @@ export default function Following() {
     }
   };
 
-  // 팔로워 리스트 불러오는 api 호출 함수
+  // 회원용 팔로워 리스트 불러오는 api 호출 함수
   const getData = async () => {
-    // 개인홈 주인 아이디
-    console.log(`homeUserId`, router);
     const res = await getFollower(homeId);
+    setData(res.data);
+  };
 
+  // 비회원용 팔로워 리스트 불러오는 api 호출 함수
+  const getDataN = async () => {
+    const res = await getFollowerN(homeId);
     setData(res.data);
   };
 
   useEffect(() => {
     if (router.isReady) {
-      getData();
+      if (isLogin) {
+        getData();
+      } else {
+        getDataN();
+      }
     }
   }, [router.isReady]);
 

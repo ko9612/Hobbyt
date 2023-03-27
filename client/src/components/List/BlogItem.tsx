@@ -108,9 +108,9 @@ export default function BlogItem({ list }: ListProps) {
                     width={25}
                     height={25}
                     borderW={0}
-                    w={2}
-                    h={2}
-                  />
+                  >
+                    blog
+                  </DefaultProfileImage>
                 </div>
                 <div>{nickname}</div>
               </ActInfo>
