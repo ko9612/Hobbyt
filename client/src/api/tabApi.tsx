@@ -102,8 +102,32 @@ export const postFollowing = async (homeUserId: number) => {
   }
 };
 
-// 팔로워 조회
+// 회원용 팔로워 조회
 export const getFollower = async (homeUserId: number) => {
+  try {
+    const Follower = await customAxios.get(
+      `/api/members/${homeUserId}/follower?page=0&size=10`,
+    );
+    return Follower;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 회원용 팔로잉 조회
+export const getFollowing = async (homeUserId: number) => {
+  try {
+    const Following = await customAxios.get(
+      `/api/members/${homeUserId}/following?page=0&size=10`,
+    );
+    return Following;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 비회원용 팔로워 조회
+export const getFollowerN = async (homeUserId: number) => {
   try {
     const Follower = await axios.get(
       `/api/members/${homeUserId}/follower?page=0&size=10`,
@@ -114,8 +138,8 @@ export const getFollower = async (homeUserId: number) => {
   }
 };
 
-// 팔로잉 조회
-export const getFollowing = async (homeUserId: number) => {
+// 비회원용 팔로잉 조회
+export const getFollowingN = async (homeUserId: number) => {
   try {
     const Following = await axios.get(
       `/api/members/${homeUserId}/following?page=0&size=10`,

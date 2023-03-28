@@ -2,6 +2,7 @@ package com.hobbyt.global.security.service;
 
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -75,18 +76,23 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 
 		Member member = findMemberByEmailAndNotWithdrawal(email);
 
-		if (!member.getProvider().equals(Provider.valueOf(registrationId))) {
-			throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
-				member.getProvider() + " account. Please use your " + member.getProvider() +
-				" account to login.");
-		}
+		checkMemberProvider(registrationId, member.getProvider());
 
 		return MemberDetails.of(member.getEmail(), member.getAuthority().toString(), oAuth2User.getAttributes());
 	}
 
-	private Member findMemberByEmailAndNotWithdrawal(String email) {
-		// memberRepository.findByEmail(email).orElseThrow(MemberNotExistException::new);
+	private void checkMemberProvider(String currentProvider, Provider provider) {
+		if (Objects.isNull(provider) || !isSameProvider(currentProvider, provider)) {
+			throw new OAuth2AuthenticationProcessingException(
+				"current provider is " + currentProvider + ". your provider is " + provider);
+		}
+	}
 
+	private boolean isSameProvider(String currentProvider, Provider provider) {
+		return provider.equals(Provider.valueOf(currentProvider));
+	}
+
+	private Member findMemberByEmailAndNotWithdrawal(String email) {
 		return memberRepository.findByEmailAndStatusNot(email, MemberStatus.WITHDRAWAL)
 			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
 	}
@@ -101,7 +107,6 @@ public class OAuth2DetailsService implements OAuth2UserService<OAuth2UserRequest
 
 		Member member = Member.builder().email(email)
 			.nickname(nickname)
-			// .password(UUID.randomUUID().toString())
 			.provider(provider)
 			.providerId(providerId)
 			.profileImage(profileImage)

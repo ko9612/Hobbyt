@@ -4,20 +4,13 @@ import static com.hobbyt.domain.member.entity.MemberStatus.*;
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
-import java.util.List;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.file.service.FileService;
-import com.hobbyt.domain.follow.repository.FollowRepository;
-import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
-import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.Recipient;
 import com.hobbyt.domain.member.repository.MemberRepository;
@@ -25,31 +18,24 @@ import com.hobbyt.global.entity.Account;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
-import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisService redisService;
-	private final FollowRepository followRepository;
-	private final FileService fileService;
-	private final String path = "/api/images/";
-	private final String defaultProfileImage = "a30a68de-0bab-45c0-93ec-1802de8c62ed.jpg";
-	private final String defaultHeaderImage = "e048f178-9a96-4f59-a6e9-8991abb700d7.jpg";
 
-	@Transactional
-	public Long createUser(SignupRequest signupRequest) {
+	public Long createMember(SignupRequest signupRequest) {
 		checkEmailDuplicated(signupRequest.getEmail());
 		checkNicknameDuplicated(signupRequest.getNickname());
 
-		String profileImage = path + defaultProfileImage;    // 기본 프로필 이미지
-		String headerImage = path + defaultHeaderImage;    // 기본 헤더 이미지
+		String profileImage = DefaultImage.profile.getValue();    // 기본 프로필 이미지
+		String headerImage = DefaultImage.header.getValue();    // 기본 헤더 이미지
 		createOrRejoin(signupRequest, profileImage, headerImage);
 
 		return findMemberByEmail(signupRequest.getEmail()).getId();
@@ -79,7 +65,6 @@ public class MemberService {
 		}
 	}
 
-	@Transactional
 	public void withdraw(final String accessToken, final String email) {
 		Long expiration = jwtTokenProvider.calculateExpiration(accessToken);
 
@@ -93,16 +78,6 @@ public class MemberService {
 		member.withdraw();
 	}
 
-	public Member findMemberByEmail(final String email) {
-		return memberRepository.findByEmail(email)
-			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
-	}
-
-	public Long findMemberIdByEmail(String email) {
-		return findMemberByEmail(email).getId();
-	}
-
-	@Transactional
 	public void updateMyInfo(final String email, final UpdateMyInfoRequest updateMyInfoRequest) {
 		Member member = findMemberByEmail(email);
 
@@ -112,7 +87,6 @@ public class MemberService {
 		member.updateMemberInfo(updateMyInfoRequest.getPhoneNumber(), recipient, account);
 	}
 
-	@Transactional
 	public void updatePassword(final String email, final UpdatePassword updatePassword) {
 		Member member = findMemberByEmail(email);
 
@@ -141,47 +115,13 @@ public class MemberService {
 		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}
 
-	// TODO 단순히 Member -> DTO 로 변환해주는 메소드인데 굳이 Service 내부에서 할필요가?
-	public MyInfoResponse getMyInfo(final String email) {
-		Member member = findMemberByEmail(email);
-
-		return MyInfoResponse.of(member);
-	}
-
-	public ProfileResponse getProfile(final Long targetMemberId, MemberDetails loginMember) {
-		Member targetMember = findMemberById(targetMemberId);
-		ProfileResponse profileResponse = ProfileResponse.of(targetMember);
-
-		if (loginMember != null) {
-			String email = loginMember.getEmail();
-			Member myInfo = findMemberByEmail(email);
-			profileResponse.setIsFollowing(isFollowing(targetMemberId, myInfo));
-		}
-
-		return profileResponse;
-	}
-
-	private Boolean isFollowing(Long targetMemberId, Member myInfo) {
-		if (targetMemberId != myInfo.getId()) {
-			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
-			return myFollowingId.contains(targetMemberId);
-		}
-
-		return null;
+	public Member findMemberByEmail(final String email) {
+		return memberRepository.findByEmail(email)
+			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
 	}
 
 	public Member findMemberById(Long id) {
 		return memberRepository.findById(id)
 			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
-	}
-
-	@Transactional
-	public void updateProfile(final String email, final ProfileRequest profileRequest) {
-
-		Member member = findMemberByEmail(email);
-
-		Member updateProfile = profileRequest.toEntity();
-
-		member.updateProfile(updateProfile);
 	}
 }

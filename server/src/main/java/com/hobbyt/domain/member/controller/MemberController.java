@@ -4,7 +4,6 @@ import static com.hobbyt.global.security.constants.AuthConstants.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.Min;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +12,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.dto.request.ProfileRequest;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
 import com.hobbyt.domain.member.dto.response.MyInfoResponse;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
+import com.hobbyt.domain.member.service.MemberQueryService;
 import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -36,10 +33,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
 	private final MemberService memberService;
+	private final MemberQueryService memberQueryService;
 
 	@PostMapping("/signup")
 	public ResponseEntity signup(@Validated @RequestBody SignupRequest signupRequest) {
-		Long id = memberService.createUser(signupRequest);
+		Long id = memberService.createMember(signupRequest);
 
 		return new ResponseEntity(id, HttpStatus.CREATED);
 	}
@@ -75,27 +73,8 @@ public class MemberController {
 
 	@GetMapping("/myPage/info")
 	public ResponseEntity myInfoDetails(@AuthenticationPrincipal MemberDetails memberDetails) {
-		// MyInfoResponse myInfoResponse = MyInfoResponse.of(loginMember);
-		MyInfoResponse myInfoResponse = memberService.getMyInfo(memberDetails.getEmail());
+		MyInfoResponse myInfoResponse = memberQueryService.getMyInfo(memberDetails.getEmail());
 
 		return ResponseEntity.ok(myInfoResponse);
-	}
-
-	@GetMapping("/{memberId}/profile")
-	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long memberId,
-		@AuthenticationPrincipal MemberDetails loginMember) {
-
-		ProfileResponse profileResponse = memberService.getProfile(memberId, loginMember);
-
-		return ResponseEntity.ok(profileResponse);
-	}
-
-	@PatchMapping("/profile")
-	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody ProfileRequest profileRequest) {
-
-		memberService.updateProfile(memberDetails.getEmail(), profileRequest);
-
-		return ResponseEntity.ok().build();
 	}
 }

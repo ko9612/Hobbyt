@@ -49,7 +49,7 @@ public class SseService {
 
 	public SseEmitter connect(String email) {
 		SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
-		Long memberId = memberService.findMemberIdByEmail(email);
+		Long memberId = memberService.findMemberByEmail(email).getId();
 		emitterRepository.save(memberId, emitter);
 
 		emitter.onCompletion(() -> close(memberId));

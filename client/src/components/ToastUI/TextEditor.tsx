@@ -22,9 +22,14 @@ export default function TextEditor() {
   const [contentCount, setContentCount] = useState("");
   const onChangeContent = () => {
     const contentValue = editorRef.current?.getInstance().getHTML();
-    if (contentValue !== undefined) {
-      setContentCount(contentValue);
+    // HTML 태그의 형식 감지 정규식
+    const newText = contentValue?.replace(/<[^>]*>?/g, "");
+    if (newText) {
+      setContentCount(newText);
       setContent(contentValue);
+    } else if (newText === "") {
+      setContentCount("");
+      setContent("");
     }
   };
 

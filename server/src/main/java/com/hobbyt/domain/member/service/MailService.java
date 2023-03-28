@@ -1,48 +1,49 @@
 package com.hobbyt.domain.member.service;
 
-import static com.hobbyt.global.error.exception.ExceptionCode.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hobbyt.global.error.exception.BusinessLogicException;
-
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MailService {
-	private static final String ENCODING = "UTF-8";
+	private static final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
+	private static final String CODE_KEY = "code";
+	private static final String AUTH_CODE_TEMPLATE = "authCodeMail";
 
-	private final JavaMailSender mailSender;
+	private final MailerSender mailerSender;
+	private final HtmlTemplate htmlTemplate;
+	private final CodeGenerator codeGenerator;
 
-	@Async
-	public void sendMail(final NotificationEmail notificationEmail) {
-		MimeMessagePreparator messagePreparator = toMimeMessagePreparator(notificationEmail);
-
-		try {
-			log.info("MailService Thread: " + Thread.currentThread().getName());
-			mailSender.send(messagePreparator);
-		} catch (MailException e) {
-			throw new BusinessLogicException(MAIL_SEND_FAILED);
-		}
+	@Autowired
+	public MailService(MailerSender mailerSender, HtmlTemplate htmlTemplate) {
+		this(mailerSender, htmlTemplate, new AuthenticationCodeGenerator());
 	}
 
-	private MimeMessagePreparator toMimeMessagePreparator(NotificationEmail notificationEmail) {
-		MimeMessagePreparator messagePreparator = mimeMessage -> {
-			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, ENCODING);
+	public MailService(MailerSender mailerSender, HtmlTemplate htmlTemplate, CodeGenerator codeGenerator) {
+		this.mailerSender = mailerSender;
+		this.htmlTemplate = htmlTemplate;
+		this.codeGenerator = codeGenerator;
+	}
 
-			messageHelper.setTo(notificationEmail.getReceiver());
-			messageHelper.setSubject(notificationEmail.getSubject());
-			messageHelper.setText(notificationEmail.getContent(), true);
-		};
+	public String sendAuthenticationCodeEmail(final String email) {
+		String code = codeGenerator.generate();
+		Map<String, Object> contents = fillAuthCodeMailContents(code);
+		String message = htmlTemplate.build(AUTH_CODE_TEMPLATE, contents);
+		Email authCodeEmail = Email.of(email, AUTH_CODE_MAIL_TITLE, message);
 
-		return messagePreparator;
+		mailerSender.sendMail(authCodeEmail);
+
+		return code;
+	}
+
+	private Map<String, Object> fillAuthCodeMailContents(final String code) {
+		Map<String, Object> contents = new HashMap<>();
+		contents.put(CODE_KEY, code);
+		return contents;
 	}
 }

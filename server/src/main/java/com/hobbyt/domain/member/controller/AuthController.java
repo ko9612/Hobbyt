@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.LoginDto;
-import com.hobbyt.domain.member.dto.request.EmailRequest;
 import com.hobbyt.domain.member.dto.response.LoginInfo;
 import com.hobbyt.domain.member.dto.response.LoginResponse;
 import com.hobbyt.domain.member.service.AuthService;
-import com.hobbyt.domain.member.service.MailContentBuilder;
-import com.hobbyt.domain.member.service.MailService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -32,24 +29,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
-	private final MailContentBuilder mailContentBuilder;
-	private final MailService mailService;
 
 	@GetMapping("/loginInfo")
 	public ResponseEntity getLoginInfo(@AuthenticationPrincipal MemberDetails loginMember) {
 		LoginInfo response = authService.getLoginInfo(loginMember.getEmail());
 
 		return ResponseEntity.ok(response);
-	}
-
-	@PostMapping("/code")
-	public ResponseEntity mailConfirm(@Validated @RequestBody EmailRequest emailRequest) {
-		String code = authService.sendAuthenticationCodeEmail(emailRequest);
-		// String code = AuthenticationCode.createCode().getCode();
-		// NotificationEmail notificationEmail = mailContentBuilder.createAuthCodeMail(code, emailRequest.getEmail());
-		// mailService.sendMail(notificationEmail);
-
-		return new ResponseEntity(code, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/login")

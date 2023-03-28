@@ -1,7 +1,6 @@
 // 블로그 게시글 상세 페이지 댓글 리스트
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-// import UserProfileImage from "../../Page/UserHome/DefaultProfileImg";
 import { IBlogDetailData } from "../../../type/blogType";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 
@@ -15,8 +14,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  // console.log(`코멘트리스트`, detail?.comments[0].id);
-  console.log(`코멘트리스트`, comments);
+  // console.log(`코멘트리스트`, comments);
   // 댓글 순서 거꾸로
   const newComment = comments?.reverse();
 
@@ -30,6 +28,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
               width={50}
               height={50}
               alt="댓글 작성자 프로필 이미지"
+              className="object-cover rounded-full"
             />
             <Content>
               <User>

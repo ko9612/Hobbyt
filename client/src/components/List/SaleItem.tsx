@@ -40,8 +40,9 @@ export default function SaleItem({ list }: ListProps) {
   return (
     <SLContent>
       <SLImage>
-        {(writerId === userId && router.pathname !== "/") ||
-        router.pathname.includes("/blog") ? (
+        {/* {(writerId === userId && router.pathname !== "/") ||
+        router.pathname.includes("/blog") ? ( */}
+        {writerId === userId && router.pathname.includes("/blog") ? (
           <SLImageC>
             <ThreeDotsBox item={list}>작품</ThreeDotsBox>
           </SLImageC>
@@ -55,7 +56,7 @@ export default function SaleItem({ list }: ListProps) {
           alt="img"
           width={250}
           height={250}
-          className="rounded-t-3xl object-cover w-full"
+          className="object-cover rounded-t-3xl w-[15rem] h-[15rem]"
         />
       </SLImage>
       <SLProductInfo>
@@ -73,13 +74,15 @@ export default function SaleItem({ list }: ListProps) {
             href={`/blog/${writerId}`}
             className="flex items-center float-left py-2"
           >
-            <div className="w-[1.75rem]">
+            <div className="w-[2rem] mr-2">
               <DefaultProfileImage
                 profileImg={profileImage}
                 width={20}
                 height={20}
                 borderW={1}
-              />
+              >
+                sale
+              </DefaultProfileImage>
             </div>
             <div>{nickname}</div>
           </Link>

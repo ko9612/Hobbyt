@@ -42,10 +42,9 @@ public class SaleController {
 	private final SaleTagService saleTagService;
 
 	@GetMapping("/{saleId}")
-	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId,
-		@AuthenticationPrincipal MemberDetails loginMember) {
+	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId) {
 
-		SaleResponse response = saleService.getSaleDetails(saleId, loginMember);
+		SaleResponse response = saleService.getSaleDetails(saleId);
 
 		return ResponseEntity.ok(response);
 	}

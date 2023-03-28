@@ -6,7 +6,9 @@ import ErrorHandler from "./errorHandler";
 // 프로필 조회 (비회원용)
 export const getBlogProfile = async (homeUserId: number) => {
   try {
-    const blogProfile = await axios.get(`/api/members/${homeUserId}/profile`);
+    const blogProfile = await axios.get(
+      `/api/members/${homeUserId}/private/profile`,
+    );
     return blogProfile;
   } catch (err: any) {
     return err.response;
@@ -17,7 +19,7 @@ export const getBlogProfile = async (homeUserId: number) => {
 export const getBlogLoginProfile = async (homeUserId: number) => {
   try {
     const blogProfile = await customAxios.get(
-      `/api/members/${homeUserId}/profile`,
+      `/api/members/${homeUserId}/private/profile`,
     );
     return blogProfile;
   } catch (err: any) {
@@ -26,9 +28,12 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
 };
 
 // 블로그 프로필 수정 api
-export const patchBlogProfile = async (data: any) => {
+export const patchBlogProfile = async (homeUserId: number, data: any) => {
   try {
-    const blogProfile = await customAxios.patch("/api/members/profile", data);
+    const blogProfile = await customAxios.patch(
+      `/api/members/${homeUserId}/private/profile`,
+      data,
+    );
     return blogProfile;
   } catch (err: unknown) {
     return ErrorHandler(err);

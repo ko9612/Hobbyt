@@ -1,5 +1,6 @@
 import React, { useState, useCallback, ChangeEvent } from "react";
 import tw from "tailwind-styled-components";
+import { useRouter } from "next/router";
 import ModalButton from "../Button/ModalButton";
 import MsgModal, {
   ModalContainer,
@@ -24,13 +25,12 @@ export default function EditModal({
   content: string;
   setEditModal(state: boolean): void;
 }) {
-
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
   const [newComment, setNewComment] = useState(content);
+  const router = useRouter();
 
-  console.log(`에딧모달`, id);
   // 모달 백그라운드 클릭시 닫히는 함수
   const handleClose = () => {
     setEditModal(false);
@@ -72,7 +72,7 @@ export default function EditModal({
           setErrMsg("서버에러. 관리자에게 문의해주세요.");
           setShowMsgModal(true);
         }
-        // router.replace("/");
+        router.reload();
       } catch (err: unknown) {
         return console.error(err);
       }
@@ -91,7 +91,7 @@ export default function EditModal({
       <ModalBackdrop onClick={handleClose}>
         <ModalView onClick={e => e.stopPropagation()}>
           <Content className="flex-col">
-            <p>댓글을 수정해 주세요</p>
+            <p className="mb-4">댓글을 수정해 주세요</p>
             <textarea
               rows={3}
               cols={40}

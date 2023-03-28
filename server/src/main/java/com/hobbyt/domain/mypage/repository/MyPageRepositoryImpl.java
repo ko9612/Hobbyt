@@ -69,6 +69,7 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 				member.email,
 				sale.writer.id,
 				sale.title,
+				sale.id,
 				sale.thumbnailImage,
 				sale.account,
 				sale.delivery.deliveryPrice).distinct()
@@ -85,6 +86,7 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 			.title(tuple.get(sale.title))
 			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.sellerId(tuple.get(sale.writer.id))
+			.saleId(tuple.get(sale.id))
 			.email(tuple.get(member.email))
 			.sellerAccount(tuple.get(sale.account))
 			.deliveryPrice(tuple.get(sale.delivery.deliveryPrice))

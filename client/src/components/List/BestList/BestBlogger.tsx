@@ -23,7 +23,7 @@ export default function BestBlogger() {
     const listRes = (res as any).data;
     setListData([listRes]);
   };
-  
+
   useEffect(() => {
     getBestBloggerData();
   }, []);
@@ -47,7 +47,9 @@ export default function BestBlogger() {
                       width={70}
                       height={70}
                       borderW={0}
-                    />
+                    >
+                      best blog
+                    </DefaultProfileImage>
                   </span>
                   <span className="text-xl">{item.nickname}</span>
                 </Link>
