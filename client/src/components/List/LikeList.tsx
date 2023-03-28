@@ -44,6 +44,12 @@ export default function LikeList() {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
+  // 텍스트에서 html 제거하는 정규식
+  const regText = (content: string) => {
+    const newText = content.replace(/<[^>]*>?/g, "");
+    return newText;
+  };
+
   return (
     <BLContainer>
       {listData?.cards &&
@@ -68,9 +74,7 @@ export default function LikeList() {
                 <div className="flex justify-between">
                   <h2 className="text-2xl font-semibold">{item.title}</h2>
                 </div>
-                <Text>
-                  <TextViewer initialValue={item.content} />
-                </Text>
+                <Text>{item.content && regText(item.content)}</Text>
               </Link>
               <div className="flex justify-end ">
                 <ViewCount>{item.viewCount}</ViewCount>

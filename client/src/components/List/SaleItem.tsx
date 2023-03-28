@@ -18,10 +18,11 @@ const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
 
 interface ListProps {
   list: SaleItemProps;
+  children: string;
 }
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
-export default function SaleItem({ list }: ListProps) {
+export default function SaleItem({ list, children }: ListProps) {
   const router = useRouter();
   const userId = useRecoilValue(UserIdState);
   const {
@@ -56,7 +57,9 @@ export default function SaleItem({ list }: ListProps) {
           alt="img"
           width={250}
           height={250}
-          className="object-cover rounded-t-3xl w-[15rem] h-[15rem]"
+          className={`object-cover rounded-t-3xl ${
+            children === "best" ? `w-[15rem] h-[15rem]` : `w-54 h-54`
+          }`}
         />
       </SLImage>
       <SLProductInfo>
