@@ -148,7 +148,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.thumbnailImage,
 				sale.viewCount,
 				sale.likeCount,
-				sale.createdAt
+				sale.createdAt,
+				sale.writer.profileImage
 			))
 			.from(saleLike)
 			.join(saleLike.sale, sale)

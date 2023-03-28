@@ -24,5 +24,6 @@ public class PrivateHomeSaleLikeResponse {
 		private long viewCount;
 		private long likeCount;
 		private LocalDateTime createdAt;
+		private String profileImage;
 	}
 }
