@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hobbyt.domain.member.dto.request.ProfileRequest;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
+import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.request.ProfileRequest;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleResponse;
+import com.hobbyt.domain.privatehome.dto.response.ProfileResponse;
 import com.hobbyt.domain.privatehome.service.PrivateHomeService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -44,7 +44,7 @@ public class PrivateHomeController {
 
 	@PatchMapping("/profile")
 	public ResponseEntity updateProfile(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody ProfileRequest profileRequest) {
+		@Validated @RequestBody ProfileRequest profileRequest) {
 
 		privateHomeService.updateProfile(memberDetails.getEmail(), profileRequest);
 

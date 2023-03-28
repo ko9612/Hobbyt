@@ -1,11 +1,11 @@
 package com.hobbyt.domain.member.repository;
 
-import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
+import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleResponse;
 
 public interface CustomMemberRepository {
 	PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params);

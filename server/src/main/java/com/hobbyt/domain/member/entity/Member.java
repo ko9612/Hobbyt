@@ -103,6 +103,13 @@ public class Member extends BaseEntity {
 		status = MemberStatus.MEMBER;
 	}
 
+	public void rejoinSocial(Provider provider, String providerId) {
+		this.provider = provider;
+		this.providerId = providerId;
+		status = MemberStatus.MEMBER;
+		this.password = null;
+	}
+
 	public void updateMemberInfo(String phoneNumber, Recipient recipient, Account account) {
 
 		this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;

@@ -1,4 +1,4 @@
-package com.hobbyt.domain.privatehome.dto;
+package com.hobbyt.domain.privatehome.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;

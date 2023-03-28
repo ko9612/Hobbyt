@@ -1,6 +1,8 @@
-package com.hobbyt.domain.privatehome.dto;
+package com.hobbyt.domain.privatehome.dto.response;
 
 import java.util.List;
+
+import com.hobbyt.domain.privatehome.dto.SaleCard;
 
 import lombok.Getter;
 
