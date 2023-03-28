@@ -55,15 +55,17 @@ export default function CommentInput() {
         setCommentMsg("댓글은 150자까지 작성 가능합니다 TT");
       }
 
-      try {
-        const res = await postBlogComment(data);
-        console.log(res);
-        router.reload();
-        setComment("");
-        setShowModal(false);
-        setCommentMsg("");
-      } catch (err: unknown) {
-        console.error(err);
+      if (comment.length !== 0 && comment.length < 150) {
+        try {
+          const res = await postBlogComment(data);
+          console.log(res);
+          router.reload();
+          setComment("");
+          setShowModal(false);
+          setCommentMsg("");
+        } catch (err: unknown) {
+          console.error(err);
+        }
       }
     } else {
       setShowModal(true);

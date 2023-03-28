@@ -46,7 +46,11 @@ export default function SaleList() {
       <BlogSaleInfo>판매</BlogSaleInfo>
       <SLComponent>
         {listData.sales &&
-          listData.sales.map(item => <SaleItem list={item} key={item.id} />)}
+          listData.sales.map(item => (
+            <SaleItem list={item} key={item.id}>
+              sale
+            </SaleItem>
+          ))}
       </SLComponent>
     </SLContainer>
   );
