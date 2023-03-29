@@ -1,15 +1,18 @@
-package com.hobbyt.domain.member.service;
+package com.hobbyt.domain.member.service.mail;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyt.domain.member.service.code.CodeGenerator;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MailService {
 	private static final String AUTH_CODE_MAIL_TITLE = "Hobbyt 인증 코드";
 	private static final String CODE_KEY = "code";
@@ -18,17 +21,6 @@ public class MailService {
 	private final MailerSender mailerSender;
 	private final HtmlTemplate htmlTemplate;
 	private final CodeGenerator codeGenerator;
-
-	@Autowired
-	public MailService(MailerSender mailerSender, HtmlTemplate htmlTemplate) {
-		this(mailerSender, htmlTemplate, new AuthenticationCodeGenerator());
-	}
-
-	public MailService(MailerSender mailerSender, HtmlTemplate htmlTemplate, CodeGenerator codeGenerator) {
-		this.mailerSender = mailerSender;
-		this.htmlTemplate = htmlTemplate;
-		this.codeGenerator = codeGenerator;
-	}
 
 	public String sendAuthenticationCodeEmail(final String email) {
 		String code = codeGenerator.generate();

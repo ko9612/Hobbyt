@@ -13,6 +13,8 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import com.hobbyt.domain.member.service.mail.Email;
+import com.hobbyt.domain.member.service.mail.MailerSender;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 
 @ExtendWith(MockitoExtension.class)
