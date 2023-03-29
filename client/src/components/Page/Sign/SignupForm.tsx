@@ -142,6 +142,7 @@ export default function SignupForm() {
               required: true,
               minLength: 2,
               maxLength: 6,
+              pattern: /^\S+$/,
             })}
           />
           {errors.nickname && errors.nickname.type === "required" && (
@@ -152,6 +153,9 @@ export default function SignupForm() {
               errors.nickname.type === "maxLength") && (
               <ErrMsg>닉네임은 2~6글자로 설정할 수 있습니다.</ErrMsg>
             )}
+          {errors.nickname && errors.nickname.type === "pattern" && (
+            <ErrMsg>공백은 입력할 수 없습니다.</ErrMsg>
+          )}
         </Input>
 
         <Input>
@@ -265,7 +269,9 @@ export default function SignupForm() {
               )}
           </Input>
         </div>
-        <SubmitButton id="signupSubmitBut">회원가입</SubmitButton>
+        <SubmitButton id="signupSubmitBut" onClick={handleSubmit(onSubmit)}>
+          회원가입
+        </SubmitButton>
       </form>
     </>
   );

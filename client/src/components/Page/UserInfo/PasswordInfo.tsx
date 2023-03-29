@@ -51,7 +51,6 @@ export default function PasswordInfo() {
       const passwordData = {
         oldPassword: data.oldPassword,
         newPassword: data.newPassword,
-        checkPassword: data.checkPassword,
       };
 
       const passwordSubmit = await patchPaswword(passwordData);

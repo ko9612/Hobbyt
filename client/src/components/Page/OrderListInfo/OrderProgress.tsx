@@ -189,7 +189,11 @@ export default function OrderProgress({ isData }: IDataProps) {
               <h2 className="px-6 text-2xl">
                 <button
                   className="hover:text-MainColor"
-                  onClick={() => router.push("/")}
+                  onClick={() =>
+                    router.push(
+                      `/blog/${isData.sellerId}/sale/${isData.saleId}`,
+                    )
+                  }
                 >
                   {isData.title}
                 </button>

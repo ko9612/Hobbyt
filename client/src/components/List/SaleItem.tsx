@@ -58,13 +58,15 @@ export default function SaleItem({ list, children }: ListProps) {
           width={250}
           height={250}
           className={`object-cover rounded-t-3xl ${
-            children === "best" ? `w-[15rem] h-[15rem]` : `w-54 h-54`
+            children === "best" || children === "search"
+              ? `w-[15rem] h-[15rem]`
+              : `w-54 h-54`
           }`}
         />
       </SLImage>
       <SLProductInfo>
         <Link href={`/blog/${writerId}/sale/${id}`}>
-          <p className="my-3">{title}</p>
+          <h2 className="my-3 text-ellipsis overflow-hidden">{title}</h2>
           <div className="flex items-center">
             <BsCalendar4 />
             <p className="pl-2 text-sm">

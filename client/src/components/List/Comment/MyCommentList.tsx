@@ -49,7 +49,7 @@ export default function MyCommentList(): React.ReactElement {
     if (router.isReady) {
       getData();
     }
-  }, [router.isReady]);
+  }, [router.isReady, homeId]);
 
   useEffect(() => {
     if (hasNext && inview) {

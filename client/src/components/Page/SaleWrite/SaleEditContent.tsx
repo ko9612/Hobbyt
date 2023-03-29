@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import TitleInput from "../../ToastUI/TitleInput";
 import ThumbnailInput from "../../ToastUI/ThumbnailInput";
 import DefalutTag from "../../Tag/DefalutTag";
-import { WideB } from "../../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 import { SaleWriteProps } from "../../../type/saleType";
 import {
   ContentState,
@@ -41,7 +41,22 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
 export default function SaleEditContent() {
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [errMsg, setErrMsg] = useState<string>("");
+
+  const modalMsg: string[] = [
+    "제목을 입력해주세요",
+    "제목은 50자를 넘을 수 없습니다",
+    "게시글은 300자 이상 작성해야 합니다",
+    "환불/교환 안내를 작성해주세요",
+    "주의사항을 작성해주세요",
+    "제품정보를 등록해주세요",
+    "입금계좌 정보를 올바르게 작성해주세요",
+    "배송정보를 올바르게 작성해주세요",
+    "태그를 1개 이상 입력해주세요",
+    "게시글이 저장되었습니다",
+    "서버에러. 관리자에게 문의해주세요",
+  ];
+
+  const [errMsg, setErrMsg] = useState(modalMsg[0]);
 
   const [userId] = useRecoilState(UserIdState);
   const saleId = Number(router.query.saleId);
@@ -152,9 +167,39 @@ export default function SaleEditContent() {
     };
 
     try {
-      const PatchSaleData = await patchSaleContent(saleData, saleId);
-      resetData();
-      router.replace(`/blog/${userId}/sale/${(PatchSaleData as any).data}`);
+      if (!titleData) {
+        setErrMsg(modalMsg[0]);
+      } else if (titleData.length > 50) {
+        setErrMsg(modalMsg[1]);
+      } else if (!contentData || (contentData && contentData.length < 300)) {
+        setErrMsg(modalMsg[2]);
+      } else if (!watch("refundExchangePolicy")) {
+        setErrMsg(modalMsg[3]);
+      } else if (!watch("caution")) {
+        setErrMsg(modalMsg[4]);
+      } else if (!productsData.length) {
+        setErrMsg(modalMsg[5]);
+      } else if (
+        !(watch("account.holder") && watch("account.bank") && isAccountNum)
+      ) {
+        setErrMsg(modalMsg[6]);
+      } else if (
+        !(watch("delivery.deliveryCompany") && watch("delivery.deliveryPrice"))
+      ) {
+        setErrMsg(modalMsg[7]);
+      } else if (!tagData?.length) {
+        setErrMsg(modalMsg[8]);
+      } else {
+        const PatchSaleData = await patchSaleContent(saleData, saleId);
+        if ((PatchSaleData as any).status === 200) {
+          resetData();
+          setErrMsg(modalMsg[9]);
+          router.replace(`/blog/${userId}/sale/${(PatchSaleData as any).data}`);
+        } else {
+          setErrMsg(modalMsg[10]);
+        }
+      }
+      setShowModal(true);
     } catch (err: unknown) {
       console.log(`err`, err);
     }
@@ -375,30 +420,9 @@ export default function SaleEditContent() {
         {/* 태그 */}
         <DefalutTag />
         <div className="flex justify-center px-5">
-          <WideB
-            id="salePostSubmit"
-            // togleData가 false일 때, period 유효성? 서버에서 주는 에러메세지 띄우기
-            disabled={
-              !(
-                productsData.length &&
-                titleData &&
-                contentData &&
-                contentData.length >= 300 &&
-                tagData?.length &&
-                watch("depositEffectiveTime") &&
-                watch("delivery.deliveryTime") &&
-                watch("delivery.deliveryCompany") &&
-                watch("delivery.deliveryPrice") &&
-                watch("refundExchangePolicy") &&
-                watch("caution") &&
-                watch("account.holder") &&
-                watch("account.bank") &&
-                isAccountNum
-              )
-            }
-          >
+          <SubmitButton id="salePostSubmit" onClick={handleSubmit(onSubmit)}>
             저장
-          </WideB>
+          </SubmitButton>
         </div>
       </form>
     </>

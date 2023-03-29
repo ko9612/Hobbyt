@@ -34,10 +34,10 @@ export default function ProfileEdit() {
   const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [description, setDescription] = useState("");
 
-  // 닉네임 띄어쓰기 불가 정규식
-  const reg = /\s/g;
-  // 닉네임에 띄어쓰기 있나 없나 유무
-  const [regCheck, setRegCheck] = useState(false);
+  // // 닉네임 띄어쓰기 불가 정규식
+  // const reg = /\s/g;
+  // // 닉네임에 띄어쓰기 있나 없나 유무
+  // const [regCheck, setRegCheck] = useState(false);
 
   // 개인홈 프로필 조회 api 요청 함수
   const request = async () => {
@@ -92,14 +92,14 @@ export default function ProfileEdit() {
 
   // 닉네임 변경 함수
   const hadleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const data = e.target.value;
-    // 띄어쓰기 검사
-    if (data.match(reg)) {
-      setRegCheck(true);
-    } else {
-      setRegCheck(false);
-    }
-    setNickname(data);
+    const { value } = e.target;
+    // // 띄어쓰기 검사
+    // if (data.match(reg)) {
+    //   setRegCheck(true);
+    // } else {
+    //   setRegCheck(false);
+    // }
+    setNickname(value.replace(/\s/gi, ""));
   };
 
   // 자기소개 변경 함수
@@ -161,11 +161,11 @@ export default function ProfileEdit() {
         <p className="text-gray-400">
           &#42; 닉네임은 최대 6글자까지 가능합니다.
         </p>
-        {regCheck ? (
+        {/* {regCheck ? (
           <p className="text-red-500">
             &#42; 닉네임엔 공백이 포함될 수 없습니다.
           </p>
-        ) : null}
+        ) : null} */}
         <input
           type="text"
           className="p-2 mt-2 bg-gray-200 rounded-lg w-80"

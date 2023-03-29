@@ -41,7 +41,7 @@ export default function BestBlog() {
   const slideRef = useRef<HTMLDivElement>(null);
 
   const nextClick = () => {
-    if (currentBlog >= 4) {
+    if (listData && currentBlog >= listData[0].hotPosts.length - 1) {
       setCurrentBlog(0);
     } else {
       setCurrentBlog(currentBlog + 1);
@@ -49,8 +49,8 @@ export default function BestBlog() {
   };
 
   const prevClick = () => {
-    if (currentBlog === 0) {
-      setCurrentBlog(4);
+    if (listData && currentBlog === 0) {
+      setCurrentBlog(listData[0].hotPosts.length - 1);
     } else {
       setCurrentBlog(currentBlog - 1);
     }
@@ -75,7 +75,7 @@ export default function BestBlog() {
       if (slideRef.current) {
         slideRef.current.style.transition = "all 0.5s ease-in-out";
         slideRef.current.style.transform = `translateX(-${currentBlog}00%)`;
-        if (currentBlog >= 4) {
+        if (listData && currentBlog >= listData[0].hotPosts.length - 1) {
           setTimeout(() => {
             if (slideRef.current) {
               slideRef.current.style.transition = `0s`;
@@ -109,9 +109,7 @@ export default function BestBlog() {
               listData[0] &&
               listData[0].hotPosts.map((item: BlogItemProps) => (
                 <div key={item && item.id}>
-                  {item && item.isPublic && (
-                    <BlogItem list={item} key={item.id} />
-                  )}
+                  <BlogItem list={item} key={item.id} />
                 </div>
               ))}
           </BestItem>
@@ -126,7 +124,9 @@ export default function BestBlog() {
       {listData && listData[0] && (
         <CarouselPaging>
           <span className="px-2">{currentBlog + 1}</span>/
-          <span className="px-2">5</span>
+          <span className="px-2">
+            {listData && listData[0].hotPosts.length}
+          </span>
         </CarouselPaging>
       )}
     </Section>

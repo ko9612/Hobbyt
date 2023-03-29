@@ -79,7 +79,7 @@ export default function Tab({ Menus }: TabProps) {
         getData();
       }
     }
-  }, [select, curIndex, router.isReady]);
+  }, [select, uid, curIndex, router.isReady]);
 
   // curIndex 바뀌면 select값 최신순으로 초기화
   useEffect(() => {

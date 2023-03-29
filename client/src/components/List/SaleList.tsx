@@ -74,7 +74,7 @@ export default function SaleList() {
     if (router.isReady) {
       getData();
     }
-  }, [router.isReady, select]);
+  }, [router.isReady, select, homeId]);
 
   useEffect(() => {
     if (hasNext && inview) {

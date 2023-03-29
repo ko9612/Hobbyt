@@ -109,6 +109,7 @@ export interface BlogItemProps {
   nickname: string;
   createdAt: string;
   profileImage: string | null;
+  writerProfileImage: string | null;
   thumbnailImage: string | null;
 }
 

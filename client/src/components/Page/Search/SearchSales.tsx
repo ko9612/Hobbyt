@@ -111,7 +111,9 @@ export default function SearchSales() {
             <Item>
               {item.sales &&
                 item.sales.map((el: SaleItemProps) => (
-                  <SaleItem list={el} key={el.id} />
+                  <SaleItem list={el} key={el.id}>
+                    search
+                  </SaleItem>
                 ))}
             </Item>
           </Content>
