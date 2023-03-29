@@ -118,7 +118,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				post.writer.profileImage,
 				post.title,
 				post.content,
-				Expressions.asString(prefix + post.thumbnailImage).as("thumbnailImage"),
+				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				post.viewCount,
 				post.likeCount,
 				post.createdAt
