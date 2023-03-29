@@ -75,7 +75,11 @@ export default function BestBlog() {
       if (slideRef.current) {
         slideRef.current.style.transition = "all 0.5s ease-in-out";
         slideRef.current.style.transform = `translateX(-${currentBlog}00%)`;
-        if (listData && currentBlog >= listData[0].hotPosts.length - 1) {
+        if (
+          listData &&
+          listData[0] &&
+          currentBlog >= listData[0].hotPosts.length - 1
+        ) {
           setTimeout(() => {
             if (slideRef.current) {
               slideRef.current.style.transition = `0s`;

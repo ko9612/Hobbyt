@@ -28,7 +28,6 @@ function Oauth() {
 
   const accessToken = String(router.query.AccessToken);
   const refreshToken = String(router.query.RefreshToken);
-  console.log(router.asPath); //
 
   const getUserInfo = async () => {
     const userInfo = await getOauthInfo();
@@ -47,12 +46,12 @@ function Oauth() {
 
   useEffect(() => {
     if (router.isReady) {
-      if (accessToken && refreshToken) {
+      if (router.asPath.includes("error")) {
+        setShowModal(true);
+      } else {
         localStorage.setItem("authorization", accessToken);
         localStorage.setItem("refresh", refreshToken);
         getUserInfo();
-      } else if (router.asPath.includes("error")) {
-        alert("로그인할 수 없는 계정입니다.");
       }
     }
   }, [router.isReady]);

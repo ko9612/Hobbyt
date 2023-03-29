@@ -5,9 +5,18 @@ import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
 // 블로그 게시글 상세 조회 api
-export const getBlogDetail = async (id: number | undefined) => {
+export const getBlogDetailAnons = async (id: number | undefined) => {
   try {
     const blogContent = await axios.get(`/api/posts/${id}`);
+    return blogContent;
+  } catch (err: any) {
+    return err.response;
+  }
+};
+
+export const getBlogDetail = async (id: number | undefined) => {
+  try {
+    const blogContent = await customAxios.get(`/api/posts/${id}`);
     return blogContent;
   } catch (err: any) {
     return err.response;

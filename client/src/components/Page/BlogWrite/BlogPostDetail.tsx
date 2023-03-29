@@ -9,12 +9,17 @@ import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
 import CommentList from "../../List/Comment/CommentList";
 import CommentInput from "../../List/Comment/CommentInput";
-import { getBlogDetail, postLikePlus } from "../../../api/blogApi";
+import {
+  getBlogDetail,
+  getBlogDetailAnons,
+  postLikePlus,
+} from "../../../api/blogApi";
 import { IBlogDetailData } from "../../../type/blogType";
 import { LoginState, UserIdState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
 import MsgModal from "../../Modal/MsgModal";
+import DelModal from "../../Modal/DelModal";
 
 const Detail = tw.div`mt-6 w-[43rem]`;
 export const Title = tw.h1`text-2xl font-bold my-4`;
@@ -33,26 +38,42 @@ export default function BlogPostDetail() {
   const [getNewData, setGetNewData] = useState<IBlogDetailData[]>();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showMsgModal, setShowMsgModal] = useState(false);
+
   const [errMsg, setErrMsg] = useState<string>("");
   // 로그인 여부
   const isLogin = useRecoilValue(LoginState);
   // 유저 아이디
   const userId = useRecoilValue(UserIdState);
-  // hover 여부
-  const [isHover, setIsHover] = useState(false);
 
   // post 디테일 데이터 불러오는 api
   const getData = async () => {
-    const blogDetail = await getBlogDetail(pid);
-    console.log("블로그 게시글 디테일", blogDetail.data);
-    if (blogDetail.status === 200) {
-      setGetNewData(blogDetail.data);
-    } else if (blogDetail.status === 404) {
-      setErrMsg("존재하지 않는 게시글입니다.");
-      setShowModal(true);
-    } else {
-      setErrMsg("Server Error");
-      setShowModal(true);
+    if (typeof window !== undefined) {
+      if (!isLogin) {
+        const blogDetail = await getBlogDetailAnons(pid);
+        console.log("블로그 게시글 디테일", blogDetail.data);
+        if (blogDetail.status === 200) {
+          setGetNewData(blogDetail.data);
+        } else if (blogDetail.status === 404) {
+          setErrMsg("존재하지 않는 게시글입니다.");
+          setShowModal(true);
+        } else {
+          setErrMsg("Server Error");
+          setShowModal(true);
+        }
+      } else {
+        const blogDetail = await getBlogDetail(pid);
+        console.log("블로그 게시글 디테일", blogDetail.data);
+        if (blogDetail.status === 200) {
+          setGetNewData(blogDetail.data);
+        } else if (blogDetail.status === 404) {
+          setErrMsg("존재하지 않는 게시글입니다.");
+          setShowModal(true);
+        } else {
+          setErrMsg("Server Error");
+          setShowModal(true);
+        }
+      }
     }
   };
 
@@ -77,7 +98,7 @@ export default function BlogPostDetail() {
   const onClickLike = () => {
     if (typeof window !== undefined) {
       if (isLogin === false) {
-        router.push("/signin");
+        setShowMsgModal(true);
       } else {
         LikeApi();
       }
@@ -95,11 +116,20 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
-  console.log("getNewData", getNewData);
-
   return (
     <>
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
+      {showMsgModal && (
+        <DelModal
+          setOpenModal={setShowMsgModal}
+          msg="로그인 후 이용 가능합니다."
+          subMsg={["로그인 페이지로 이동하시겠습니까?"]}
+          buttonString="페이지 이동"
+          afterClick={() => {
+            router.push("/signin");
+          }}
+        />
+      )}
       <Detail id="viewer">
         <Title>{getNewData?.title}</Title>
         <Info>
@@ -136,13 +166,8 @@ export default function BlogPostDetail() {
           </Content>
           <HR />
           <Like>
-            <button
-              onClick={onClickLike}
-              // onMouseEnter={() => setIsHover(true)}
-              // onMouseLeave={() => setIsHover(false)}
-            >
-              <LikeHover />
-              <LikeHandle />
+            <button onClick={onClickLike}>
+              {getNewData?.isLiked ? <LikeHandle /> : <LikeHover />}
             </button>
             <p>{getNewData?.likeCount}</p>
           </Like>
