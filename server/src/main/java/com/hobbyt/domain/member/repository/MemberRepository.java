@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
+import com.hobbyt.domain.member.entity.Provider;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, CustomMemberRepository {
 	Optional<Member> findByEmail(String email);
+
+	Optional<Member> findByEmailAndProvider(String email, Provider provider);
 
 	Optional<Member> findByEmailAndStatusNot(String email, MemberStatus status);
 
