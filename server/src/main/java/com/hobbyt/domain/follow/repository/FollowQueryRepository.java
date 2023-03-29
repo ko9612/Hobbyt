@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import com.hobbyt.domain.follow.dto.FollowDto;
 import com.hobbyt.domain.member.entity.Member;
 
-public interface CustomFollowRepository {
+public interface FollowQueryRepository {
 	List<FollowDto> findFollowings(Long targetMemberId, Pageable pageable);
 
 	List<FollowDto> findFollowers(Long targetMemberId, Pageable pageable);

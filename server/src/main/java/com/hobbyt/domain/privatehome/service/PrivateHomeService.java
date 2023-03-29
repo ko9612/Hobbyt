@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.follow.repository.FollowRepository;
+import com.hobbyt.domain.follow.repository.FollowQueryRepository;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.domain.member.service.MemberService;
@@ -31,7 +31,7 @@ public class PrivateHomeService {
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 	private final VisitRepository visitRepository;
-	private final FollowRepository followRepository;
+	private final FollowQueryRepository followQueryRepository;
 
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *")
@@ -84,7 +84,7 @@ public class PrivateHomeService {
 		Member myInfo = memberService.findMemberByEmail(email);
 
 		if (targetMemberId != myInfo.getId()) {
-			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
+			List<Long> myFollowingId = followQueryRepository.findFollowingIdByMember(myInfo);
 			return myFollowingId.contains(targetMemberId);
 		}
 

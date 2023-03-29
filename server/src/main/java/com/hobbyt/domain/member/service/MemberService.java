@@ -1,6 +1,7 @@
 package com.hobbyt.domain.member.service;
 
 import static com.hobbyt.domain.member.entity.MemberStatus.*;
+import static com.hobbyt.domain.member.service.DefaultImage.*;
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 import static com.hobbyt.global.security.constants.AuthConstants.*;
 
@@ -31,26 +32,16 @@ public class MemberService {
 	private final RedisService redisService;
 
 	public Long createMember(SignupRequest signupRequest) {
-		checkEmailDuplicated(signupRequest.getEmail());
-		checkNicknameDuplicated(signupRequest.getNickname());
+		checkInput(signupRequest);
 
-		String profileImage = DefaultImage.profile.getValue();    // 기본 프로필 이미지
-		String headerImage = DefaultImage.header.getValue();    // 기본 헤더 이미지
-		createOrRejoin(signupRequest, profileImage, headerImage);
+		createOrRejoin(signupRequest, profile.getValue(), header.getValue());
 
 		return findMemberByEmail(signupRequest.getEmail()).getId();
 	}
 
-	private void createOrRejoin(SignupRequest signupRequest, String profileImage, String headerImage) {
-		memberRepository.findByEmailAndStatus(signupRequest.getEmail(), WITHDRAWAL).ifPresentOrElse(
-			member -> {
-				member.rejoin(passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname());
-			},
-			() -> {
-				Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
-				memberRepository.save(member);
-			}
-		);
+	private void checkInput(SignupRequest signupRequest) {
+		checkEmailDuplicated(signupRequest.getEmail());
+		checkNicknameDuplicated(signupRequest.getNickname());
 	}
 
 	private void checkNicknameDuplicated(String nickname) {
@@ -63,6 +54,18 @@ public class MemberService {
 		if (memberRepository.existsByEmailAndStatus(email, MEMBER)) {
 			throw new BusinessLogicException(MEMBER_EMAIL_DUPLICATED);
 		}
+	}
+
+	private void createOrRejoin(SignupRequest signupRequest, String profileImage, String headerImage) {
+		memberRepository.findByEmailAndStatus(signupRequest.getEmail(), WITHDRAWAL).ifPresentOrElse(
+			member -> {
+				member.rejoin(passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getNickname());
+			},
+			() -> {
+				Member member = signupRequest.toEntity(passwordEncoder, profileImage, headerImage);
+				memberRepository.save(member);
+			}
+		);
 	}
 
 	public void withdraw(final String accessToken, final String email) {
