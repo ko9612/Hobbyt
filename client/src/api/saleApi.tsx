@@ -15,9 +15,18 @@ export const postSaleWrite = async (data: any) => {
 };
 
 // 판매 게시글 상세 조회
-export const getSaleDetail = async (id: number | undefined) => {
+export const getSaleDetailAnons = async (id: number | undefined) => {
   try {
     const SaleContent = await axios.get(`/api/sales/${id}`);
+    return SaleContent;
+  } catch (err: any) {
+    return err.response;
+  }
+};
+
+export const getSaleDetail = async (id: number | undefined) => {
+  try {
+    const SaleContent = await customAxios.get(`/api/sales/${id}`);
     return SaleContent;
   } catch (err: any) {
     return err.response;

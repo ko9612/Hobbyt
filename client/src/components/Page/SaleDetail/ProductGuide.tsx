@@ -31,14 +31,16 @@ interface IdProps {
 
 export default function ProductGuide({ id }: IdProps) {
   const router = useRouter();
+
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [showMsgModal, setShowMsgModal] = useState(false);
+
   const [errMsg, setErrMsg] = useState("");
 
   const [initalUserId] = useRecoilState(UserIdState);
   const [userId, setUserId] = useState(0);
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [isHover, setIsHover] = useState(false);
 
   // userId 가져오는 함수
   const getUserId = () => {
@@ -63,7 +65,7 @@ export default function ProductGuide({ id }: IdProps) {
   const onClickLike = () => {
     if (typeof window !== "undefined") {
       if (!localStorage.getItem("authorization")) {
-        router.push("/signin");
+        setShowMsgModal(true);
       } else {
         SaleLike();
       }
@@ -82,7 +84,7 @@ export default function ProductGuide({ id }: IdProps) {
         setErrMsg("Server Error");
       }
       setDeleteModal(false);
-      setShowMsgModal(true);
+      setShowModal(true);
     }
   };
 
@@ -97,7 +99,18 @@ export default function ProductGuide({ id }: IdProps) {
           buttonString="삭제"
         />
       )}
-      {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
+      {showMsgModal && (
+        <DelModal
+          setOpenModal={setShowMsgModal}
+          msg="로그인 후 이용 가능합니다."
+          subMsg={["로그인 페이지로 이동하시겠습니까?"]}
+          buttonString="페이지 이동"
+          afterClick={() => {
+            router.push("/signin");
+          }}
+        />
+      )}
+      {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
       <PdGuideSeaction>
         <PdContent>
           <ListTitle className="font-semibold">
@@ -106,13 +119,8 @@ export default function ProductGuide({ id }: IdProps) {
           </ListTitle>
           <div className="py-4">{SaleData.refundExchangePolicy}</div>
           <div className="flex flex-col items-center pt-4">
-            <button
-              onClick={onClickLike}
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-            >
-              <LikeHandle isHover={isHover} />
-              <LikeHover />
+            <button onClick={onClickLike}>
+              {SaleData.isLiked ? <LikeHandle /> : <LikeHover />}
             </button>
             {SaleData.likeCount}
           </div>

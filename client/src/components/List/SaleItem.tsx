@@ -66,7 +66,7 @@ export default function SaleItem({ list, children }: ListProps) {
       </SLImage>
       <SLProductInfo>
         <Link href={`/blog/${writerId}/sale/${id}`}>
-          <h2 className="my-3 text-ellipsis overflow-hidden">{title}</h2>
+          <h2 className="my-3 truncate">{title}</h2>
           <div className="flex items-center">
             <BsCalendar4 />
             <p className="pl-2 text-sm">

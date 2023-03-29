@@ -103,11 +103,7 @@ export default function BlogItem({ list }: any) {
               <ActInfo>
                 <div className="w-[2.5rem] ">
                   <DefaultProfileImage
-                    profileImg={
-                      router.pathname.startsWith("/search")
-                        ? writerProfileImage
-                        : profileImage
-                    }
+                    profileImg={profileImage}
                     width={25}
                     height={25}
                     borderW={0}

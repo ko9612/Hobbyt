@@ -51,6 +51,7 @@ export default function SaleWriteContent() {
     "주의사항을 작성해주세요",
     "제품정보를 등록해주세요",
     "입금계좌 정보를 올바르게 작성해주세요",
+    "계좌번호는 10~14자리로 입력해주세요",
     "배송정보를 올바르게 작성해주세요",
     "태그를 1개 이상 입력해주세요",
     "게시글이 등록되었습니다",
@@ -166,22 +167,24 @@ export default function SaleWriteContent() {
         !(watch("account.holder") && watch("account.bank") && isAccountNum)
       ) {
         setErrMsg(modalMsg[6]);
+      } else if (isAccountNum.length < 10 || isAccountNum.length > 14) {
+        setErrMsg(modalMsg[7]);
       } else if (
         !(watch("delivery.deliveryCompany") && watch("delivery.deliveryPrice"))
       ) {
-        setErrMsg(modalMsg[7]);
-      } else if (!tagData?.length) {
         setErrMsg(modalMsg[8]);
+      } else if (!tagData?.length) {
+        setErrMsg(modalMsg[9]);
       } else {
         const PostSaleWriteData = await postSaleWrite(saleData);
         if ((PostSaleWriteData as any).status === 201) {
           resetData();
-          setErrMsg(modalMsg[9]);
+          setErrMsg(modalMsg[10]);
           router.replace(
             `/blog/${userId}/sale/${(PostSaleWriteData as any).data}`,
           );
         } else {
-          setErrMsg(modalMsg[10]);
+          setErrMsg(modalMsg[11]);
         }
       }
       setShowMsgModal(true);

@@ -10,7 +10,7 @@ import Agreement from "./Agreement";
 import { BlogContent } from "../../../../pages/blog/[userId]";
 import SubmitButton from "../../Button/SubmitButton";
 import PaymentModal from "../../Modal/PaymentModal";
-import { getSaleDetail } from "../../../api/saleApi";
+import { getSaleDetail, getSaleDetailAnons } from "../../../api/saleApi";
 import { SaleDetailProps } from "../../../type/saleType";
 import { SelectPdList, OrderInputProps } from "../../../type/OrderType";
 import {
@@ -28,6 +28,7 @@ import {
   UserRecipientStreetState,
   UserRecipientZipCodeState,
   UserRecipientDetailState,
+  LoginState,
 } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 import { Input } from "../UserInfo/InfoStyle";
@@ -41,8 +42,9 @@ const PurInputDiv = tw.div`w-1/2`;
 
 export default function SaleDetailContent() {
   const router = useRouter();
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [errMsg, setErrMsg] = useState<string>("");
+
+  // 로그인 여부
+  const isLogin = useRecoilValue(LoginState);
 
   const pid = Number(router.query.id);
   const [SaleData, setSaleData] =
@@ -61,40 +63,66 @@ export default function SaleDetailContent() {
   const [isAccountNum, setIsAccountNum] = useState("");
   const { register, setValue, watch } = useForm<OrderInputProps>();
 
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
 
   const errMsgList = [
     "입금자명을 입력해주세요",
     "배송 정보를 올바르게 작성해주세요",
     "환불계좌 정보를 올바르게 작성해주세요",
     "연락처 형식이 올바르지 않습니다",
+    "계좌번호는 10~14자리로 입력해주세요",
     "주문하실 제품을 선택해주세요",
     "개인정보 수집 및 동의에 체크해주세요",
   ];
-  const [msg, setMsg] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
 
   // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
   const [, setOrderData] = useRecoilState(OrderState);
   // 판매 상세 데이터 get
   const getSaleData = async () => {
-    const saleDetail = await getSaleDetail(pid);
-    if ((saleDetail as any).status === 200) {
-      setSaleData((saleDetail as any).data);
+    if (typeof window !== undefined) {
+      if (!isLogin) {
+        const saleDetail = await getSaleDetailAnons(pid);
+        if ((saleDetail as any).status === 200) {
+          setSaleData((saleDetail as any).data);
+          // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
+          const copySelectItem = [...(saleDetail as any).data.products].map(
+            el => ({
+              ...el,
+              quantity: 0,
+            }),
+          );
+          setSelectItem(copySelectItem);
+        } else if ((saleDetail as any).status === 404) {
+          setErrMsg("존재하지 않는 게시글입니다.");
+          setShowModal(true);
+        } else {
+          setErrMsg("Server Error");
+          setShowModal(true);
+        }
+      } else {
+        const saleDetail = await getSaleDetail(pid);
+        if ((saleDetail as any).status === 200) {
+          setSaleData((saleDetail as any).data);
 
-      // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
-      const copySelectItem = [...(saleDetail as any).data.products].map(el => ({
-        ...el,
-        quantity: 0,
-      }));
-      setSelectItem(copySelectItem);
-    } else if ((saleDetail as any).status === 404) {
-      setErrMsg("존재하지 않는 게시글입니다.");
-      setShowModal(true);
-    } else {
-      setErrMsg("Server Error");
-      setShowModal(true);
+          // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
+          const copySelectItem = [...(saleDetail as any).data.products].map(
+            el => ({
+              ...el,
+              quantity: 0,
+            }),
+          );
+          setSelectItem(copySelectItem);
+        } else if ((saleDetail as any).status === 404) {
+          setErrMsg("존재하지 않는 게시글입니다.");
+          setShowModal(true);
+        } else {
+          setErrMsg("Server Error");
+          setShowModal(true);
+        }
+      }
     }
   };
 
@@ -161,8 +189,8 @@ export default function SaleDetailContent() {
       if (!localStorage.getItem("authorization")) {
         setShowMsgModal(!showMsgModal);
       } else if (!watch("holder")) {
-        setMsg(errMsgList[0]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[0]);
+        setShowModal(true);
       } else if (
         !(
           watch("recipient.name") &&
@@ -172,22 +200,25 @@ export default function SaleDetailContent() {
           isDetail
         )
       ) {
-        setMsg(errMsgList[1]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[1]);
+        setShowModal(true);
       } else if (
         !(watch("account.holder") && watch("account.bank") && isAccountNum)
       ) {
-        setMsg(errMsgList[2]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[2]);
+        setShowModal(true);
       } else if (isReceiverPhone.length < 11) {
-        setMsg(errMsgList[3]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[3]);
+        setShowModal(true);
+      } else if (isAccountNum.length < 10 || isAccountNum.length > 14) {
+        setErrMsg(errMsgList[4]);
+        setShowModal(true);
       } else if (!priceSum.total) {
-        setMsg(errMsgList[4]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[5]);
+        setShowModal(true);
       } else if (!isAgree) {
-        setMsg(errMsgList[5]);
-        setErrorModal(true);
+        setErrMsg(errMsgList[6]);
+        setShowModal(true);
       } else {
         // 주문 시, 보낼 selectData 특정 key값들 filter처리 및 변경 후, 전송
         const filterSelectItem = selectItem.map(el => ({
@@ -234,6 +265,17 @@ export default function SaleDetailContent() {
   return (
     <>
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
+      {showMsgModal && (
+        <DelModal
+          setOpenModal={setShowMsgModal}
+          msg="로그인 후 이용 가능합니다."
+          subMsg={["로그인 페이지로 이동하시겠습니까?"]}
+          buttonString="페이지 이동"
+          afterClick={() => {
+            router.push("/signin");
+          }}
+        />
+      )}
       <BlogContent className="px-5">
         <ProductTitle />
         <ProductThumbnail />
@@ -351,18 +393,6 @@ export default function SaleDetailContent() {
                 number={SaleData.account.number}
               />
             )}
-            {showMsgModal && (
-              <DelModal
-                setOpenModal={setShowMsgModal}
-                msg="로그인 후 이용 가능합니다."
-                subMsg={["로그인 페이지로 이동하시겠습니까?"]}
-                buttonString="페이지 이동"
-                afterClick={() => {
-                  router.push("/signin");
-                }}
-              />
-            )}
-            {errorModal && <MsgModal msg={msg} setOpenModal={setErrorModal} />}
             <SubmitButton id="orderSubmit" onClick={e => OrderButtonHandler(e)}>
               주문하기
             </SubmitButton>

@@ -72,7 +72,7 @@ function BlogList({ list }: SearchBlogDataProps) {
     if (router.isReady) {
       getData();
     }
-  }, [router.isReady, select]);
+  }, [router.isReady, select, uid]);
 
   useEffect(() => {
     if (hasNext && inview) {

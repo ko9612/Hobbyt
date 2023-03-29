@@ -39,6 +39,7 @@ export interface SaleDetailProps {
   refundExchangePolicy: string;
   productionProcessLink: string;
   caution: string;
+  isLiked: boolean;
   period: {
     startedAt: string | null;
     endAt: string | null;

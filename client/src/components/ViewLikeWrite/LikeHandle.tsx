@@ -1,19 +1,7 @@
-import {
-  // AioutlineHeart,
-  AiFillHeart,
-} from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 
-interface IHover {
-  isHover: boolean;
-}
-
-// export default function LikeHandle({ isHover }: IHover) {
 export default function LikeHandle() {
   return (
-    <AiFillHeart
-      color="red"
-      size={30}
-      className="absolute inline-flex opacity-75"
-    />
+    <AiFillHeart size={30} className="relative inline-flex text-MainColor" />
   );
 }
