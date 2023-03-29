@@ -19,6 +19,7 @@ import com.hobbyt.domain.main.dto.SaleRequest;
 import com.hobbyt.domain.main.dto.SaleResponse;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class MainRepositoryImpl implements MainRepository {
 	public List<HotPost> getHotPosts() {
 		final int postCount = 5;
 		final int amountDays = 7;
+		final String prefix = "/api/images/";
 
 		List<Tuple> tuples = queryFactory
 			.select(post.id, postLike.count())
@@ -57,7 +59,7 @@ public class MainRepositoryImpl implements MainRepository {
 				post.viewCount,
 				post.likeCount,
 				post.createdAt,
-				post.thumbnailImage,
+				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				member.id.as("writerId"),
 				member.profileImage,
 				member.nickname
