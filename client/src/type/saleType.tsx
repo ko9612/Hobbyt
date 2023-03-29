@@ -84,17 +84,17 @@ export interface SaleDetailProps {
 // 검색 - 판매글 리스트 데이터 타입 & 금주의 작품 데이터 타입
 export interface SaleItemProps {
   id: number;
-  thumbnailImage: string | null;
-  title: string;
+  isAlwaysOnSale: boolean;
+  likeCount: number;
   period: {
     startedAt: string;
     endAt: string;
   };
-  likeCount: number;
+  thumbnailImage: string | null;
+  title: string;
   writerId: number;
   profileImage: string | null;
   nickname: string;
-  isAlwaysOnSale: boolean;
 }
 
 export interface SearchSaleDataProps {

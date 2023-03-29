@@ -17,27 +17,37 @@ export interface IdataComment {
 }
 // 블로그 탭 리스트 데이터 타입1
 export interface IdataProps {
-  list: {
-    id: number;
-    title: string;
-    content: string;
-    viewCount: number;
-    likeCount: number;
-    createdAt: string;
-    writer: {
-      id: number;
-      nickName: string;
-      profileImage: null | string;
-      signedUpAt: string;
-      followings: number;
-      followers: number;
-    };
-    commentList: IdataComment[];
-    tag: string[];
-    public: boolean;
-  }[];
-  key: number;
+  id: number;
+  title: string;
+  content: string;
+  viewCount: number;
+  likeCount: number;
+  createdAt: string;
+  writerId: number;
+  public: boolean;
 }
+// export interface IdataProps {
+//   list: {
+//     id: number;
+//     title: string;
+//     content: string;
+//     viewCount: number;
+//     likeCount: number;
+//     createdAt: string;
+//     writer: {
+//       id: number;
+//       nickName: string;
+//       profileImage: null | string;
+//       signedUpAt: string;
+//       followings: number;
+//       followers: number;
+//     };
+//     commentList: IdataComment[];
+//     tag: string[];
+//     public: boolean;
+//   }[];
+//   key: number;
+// }
 
 export interface IBlogDetailData {
   detail: {
@@ -105,4 +115,9 @@ export interface BlogItemProps {
 export interface SearchBlogDataProps {
   hasNext: boolean;
   posts: BlogItemProps[];
+}
+
+export interface BlogTabProps {
+  hasNext: boolean;
+  posts: IdataProps[];
 }

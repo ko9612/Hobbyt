@@ -2,14 +2,14 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useRecoilValue } from "recoil";
 import { BsLockFill } from "react-icons/bs";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-import { BlogItemProps } from "../../type/blogType";
+// import { BlogItemProps } from "../../type/blogType";
 import DefalutImage from "../../image/pictureDefalut.svg";
 import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
@@ -22,15 +22,15 @@ export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
 export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 w-[31rem] h-[4rem] break-all`;
 const ActInfo = tw.div`flex items-center`;
 
-interface ListProps {
-  list: BlogItemProps;
-}
+// interface ListProps {
+//   list: BlogItemProps;
+// }
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
-export default function BlogItem({ list }: ListProps) {
-  const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
-    ssr: false,
-  });
+export default function BlogItem({ list }: any) {
+  // const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
+  //   ssr: false,
+  // });
 
   const router = useRouter();
   const userId = useRecoilValue(UserIdState);

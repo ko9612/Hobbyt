@@ -84,6 +84,8 @@ function SearchBlog() {
     }
   }, [inView]);
 
+  console.log("서치", listData);
+
   return (
     <SRContainer>
       <div className="py-10 text-lg">

@@ -45,3 +45,8 @@ export const BlogSelectState = atom<string>({
   key: "BlogSelectState",
   default: "최신순",
 });
+
+export const BlogLikeSelectState = atom<string>({
+  key: "BlogLikeSelectState",
+  default: "블로그",
+});
