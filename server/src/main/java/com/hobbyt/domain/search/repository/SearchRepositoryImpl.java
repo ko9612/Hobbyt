@@ -21,6 +21,7 @@ import com.hobbyt.domain.search.dto.response.SearchSaleResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -33,12 +34,14 @@ public class SearchRepositoryImpl implements SearchRepository {
 
 	@Override
 	public SearchPostResponse searchPostsByKeyword(SearchRequest params) {
+		final String prefix = "/api/images/";
+
 		List<SearchPostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(SearchPostResponse.PostCard.class,
 				post.id,
 				post.title,
 				post.content,
-				post.thumbnailImage,
+				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				post.viewCount,
 				post.likeCount,
 				post.isPublic,
