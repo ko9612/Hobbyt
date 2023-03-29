@@ -10,4 +10,6 @@ import com.hobbyt.domain.sale.entity.SaleLike;
 
 public interface SaleLikeRepository extends JpaRepository<SaleLike, Long> {
 	Optional<SaleLike> findByMemberAndSale(Member member, Sale sale);
+
+	boolean existsByMemberAndSale(Member member, Sale sale);
 }

@@ -14,8 +14,10 @@ import com.hobbyt.global.entity.Account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class SaleResponse {
 	private Long id;
@@ -34,6 +36,7 @@ public class SaleResponse {
 	private LocalDateTime createdAt;
 	private Boolean isAlwaysOnSale;
 	private Boolean isDeleted;
+	private Boolean isLiked = false;
 	private List<ProductDto> products;
 	private List<String> tags;
 	private WriterBox writer;

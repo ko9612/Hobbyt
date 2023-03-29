@@ -22,6 +22,7 @@ import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.dto.response.SaleResponse;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.domain.sale.service.ProductService;
+import com.hobbyt.domain.sale.service.SaleLikeService;
 import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.domain.sale.service.SaleTagService;
 import com.hobbyt.domain.tag.entity.Tag;
@@ -37,14 +38,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SaleController {
 	private final SaleService saleService;
+	private final SaleLikeService saleLikeService;
 	private final ProductService productService;
 	private final TagService tagService;
 	private final SaleTagService saleTagService;
 
 	@GetMapping("/{saleId}")
-	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId) {
+	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId,
+		@AuthenticationPrincipal MemberDetails loginMember) {
 
 		SaleResponse response = saleService.getSaleDetails(saleId);
+
+		if (loginMember != null) {
+			response.setIsLiked(saleLikeService.getIsLikedByEmail(loginMember.getEmail(), saleId));
+		}
 
 		return ResponseEntity.ok(response);
 	}
