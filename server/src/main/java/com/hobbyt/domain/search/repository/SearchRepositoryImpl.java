@@ -45,7 +45,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 				post.createdAt,
 				member.id.as("writerId"),
 				member.nickname,
-				member.profileImage.as("writerProfileImage")
+				member.profileImage
 			)).distinct()
 			.from(postTag)
 			.join(postTag.post, post)

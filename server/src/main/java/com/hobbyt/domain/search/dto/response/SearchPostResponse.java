@@ -28,7 +28,7 @@ public class SearchPostResponse {
 		private Boolean isPublic;
 		private Long writerId;
 		private String nickname;
-		private String writerProfileImage;
+		private String profileImage;
 		private LocalDateTime createdAt;
 	}
 }
