@@ -48,7 +48,7 @@ public class PostService {
 		Optional.ofNullable(post.getTitle()).ifPresent(found::updateTitle);
 		Optional.ofNullable(post.getContent()).ifPresent(found::updateContent);
 		Optional.ofNullable(post.getThumbnailImage()).ifPresent(found::updateThumbnailImage);
-		found.updateIsPublic(post.isPublic());
+		found.updateIsPublic(post.getIsPublic());
 
 		return found;
 	}

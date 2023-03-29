@@ -32,7 +32,7 @@ public class PostResponse {
 		this.thumbnailImage = post.getThumbnailImage();
 		this.viewCount = post.getViewCount();
 		this.likeCount = post.getLikeCount();
-		this.isPublic = post.isPublic();
+		this.isPublic = post.getIsPublic();
 		this.createdAt = post.getCreatedAt();
 		this.writer = new WriterBox(post.getWriter());
 		this.comments = comments;
