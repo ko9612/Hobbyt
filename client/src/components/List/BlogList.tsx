@@ -8,7 +8,7 @@ import BlogItem from "./BlogItem";
 import { SearchBlogDataProps } from "../../type/blogType";
 import ScrollRoader from "../Scroll/ScrollRoader";
 import { BlogSelectState } from "../../state/BlogPostState";
-import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
+import { getBlogContentList } from "../../api/tabApi";
 
 export const BLContainer = tw.div`w-[43rem] m-auto`;
 
@@ -35,13 +35,13 @@ function BlogList({ list }: SearchBlogDataProps) {
   // 처음 : 블로그 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getBlogContentList(uid, offset, limit);
+      const res = await getBlogContentList(uid, 0, limit, "POST_NEWEST");
       const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
     } else if (select === "인기순") {
-      const res = await getBlogContentListF(uid, offset, limit);
+      const res = await getBlogContentList(uid, 0, limit, "POST_MOSTLIKE");
       const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
@@ -52,31 +52,27 @@ function BlogList({ list }: SearchBlogDataProps) {
   // 처음 이후 : 블로그 게시글 리스트 api 요청
   const moreGetData = async () => {
     if (select === "최신순") {
-      if (hasNext) {
-        const res = await getBlogContentList(uid, offset, limit);
-        const moreListRes = (res as any).data;
-        setListData([...listData, moreListRes]);
-        setHasNext(moreListRes.hasNext);
-        setOffset(offset + limit);
-        setIsLoading(false);
-      }
-    } else if (select === "인기순") {
-      if (hasNext) {
-        const res = await getBlogContentListF(uid, offset, limit);
-        const moreListRes = (res as any).data;
-        setListData([...listData, moreListRes]);
-        setHasNext(moreListRes.hasNext);
-        setOffset(offset + limit);
-        setIsLoading(false);
-      }
+      const res = await getBlogContentList(uid, offset, limit, "POST_NEWEST");
+      const moreListRes = (res as any).data;
+      setListData([...listData, moreListRes]);
+      setHasNext(moreListRes.hasNext);
+      setOffset(offset + limit);
+      setIsLoading(false);
+    } else {
+      const res = await getBlogContentList(uid, offset, limit, "POST_MOSTLIKE");
+      const moreListRes = (res as any).data;
+      setListData([...listData, moreListRes]);
+      setHasNext(moreListRes.hasNext);
+      setOffset(offset + limit);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    // if (router.isReady) {
-    getData();
-    // }
-  }, [select, uid]);
+    if (router.isReady) {
+      getData();
+    }
+  }, [router.isReady, select]);
 
   useEffect(() => {
     if (hasNext && inview) {

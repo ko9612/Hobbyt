@@ -12,7 +12,7 @@ import PurchaseList from "../Page/MyList/PurchaseList";
 import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
-import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
+import { getBlogContentList } from "../../api/tabApi";
 import { BlogSelectState } from "../../state/BlogPostState";
 import FollowingList from "../List/FollowingList";
 import FollowerList from "../List/FollowerList";
@@ -56,13 +56,13 @@ export default function Tab({ Menus }: TabProps) {
   // 처음 : 블로그 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getBlogContentList(uid, offset, limit);
+      const res = await getBlogContentList(uid, offset, limit, "POST_NEWEST");
       const listRes = (res as any).data;
       setListData(listRes);
       setOffset(limit);
       setHasNext(listRes.hasNext);
     } else if (select === "인기순") {
-      const res = await getBlogContentListF(uid, offset, limit);
+      const res = await getBlogContentList(uid, offset, limit, "POST_MOSTLIKE");
       const listRes = (res as any).data;
       setListData(listRes);
       setOffset(limit);

@@ -1,8 +1,10 @@
 // 블로그 게시글 상세 페이지 댓글 리스트
 import tw from "tailwind-styled-components";
 import Image from "next/image";
+import { useRecoilValue } from "recoil";
 import { IBlogDetailData } from "../../../type/blogType";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
+import { UserIdState } from "../../../state/UserState";
 
 const Container = tw.div`flex my-5 w-full border-2`;
 const Content = tw.div`ml-3 w-5/6`;
@@ -10,6 +12,7 @@ const User = tw.div`flex`;
 
 export default function CommentList({ detail }: IBlogDetailData) {
   const { comments } = detail || [];
+  const userId = useRecoilValue(UserIdState);
 
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
@@ -37,7 +40,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
                   {item.createdAt && getParsedDate(item.createdAt)}
                 </p>
                 <div className="ml-auto">
-                  {detail.writer.id === item.writerId ? (
+                  {userId === item.writerId ? (
                     <ThreeDotsBox item={item}>댓글</ThreeDotsBox>
                   ) : null}
                 </div>

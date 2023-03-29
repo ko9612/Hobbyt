@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { BlogLikeSelectState } from "../../state/BlogPostState";
 
 export default function MyLikeFilterBut() {
-  const setLikeSelect = useSetRecoilState(BlogLikeSelectState);
+  const [likeSelect, setLikeSelect] = useRecoilState(BlogLikeSelectState);
 
   /** 클릭된 필터가 무엇인지 */
-  const [click, setClick] = useState("블로그");
+  const [click, setClick] = useState(likeSelect);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;

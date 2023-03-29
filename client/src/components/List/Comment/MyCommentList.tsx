@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import UserProfileImage from "../../Page/UserHome/UserProfileImage";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import { CommentType } from "../../../type/blogType";
-import { getBlogCommentList, getBlogCommentListL } from "../../../api/tabApi";
+import { getBlogCommentList } from "../../../api/tabApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
 const CommentContainer = tw.div`block border-2 m-auto mt-8`;
@@ -37,7 +37,7 @@ export default function MyCommentList(): React.ReactElement {
 
   // 처음 이후: 내가 쓴 댓글 리스트 api 요청
   const moreGetData = async () => {
-    const res = await getBlogCommentListL(homeId, offset, limit);
+    const res = await getBlogCommentList(homeId, offset, limit);
     const moreListRes = (res as any).data;
     setCommentList([...commentList, moreListRes]);
     setHasNext(moreListRes.hasNext);
@@ -60,7 +60,7 @@ export default function MyCommentList(): React.ReactElement {
     }
   }, [inview]);
 
-  console.log("내가 쓴 댓글 리스트", commentList);
+  // console.log("내가 쓴 댓글 리스트", commentList);
 
   return (
     <CommentContainer>
