@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hobbyt.domain.member.dto.request.EmailRequest;
-import com.hobbyt.domain.member.service.MailService;
+import com.hobbyt.domain.member.service.mail.MailService;
 
 import lombok.RequiredArgsConstructor;
 

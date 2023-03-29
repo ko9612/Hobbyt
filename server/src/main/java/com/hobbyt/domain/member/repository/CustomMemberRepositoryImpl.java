@@ -12,13 +12,13 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.SaleCard;
+import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -148,7 +148,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.thumbnailImage,
 				sale.viewCount,
 				sale.likeCount,
-				sale.createdAt
+				sale.createdAt,
+				sale.writer.profileImage
 			))
 			.from(saleLike)
 			.join(saleLike.sale, sale)

@@ -1,4 +1,4 @@
-package com.hobbyt.domain.privatehome.dto;
+package com.hobbyt.domain.privatehome.dto.request;
 
 import com.hobbyt.global.entity.OrderBy;
 import com.querydsl.core.types.OrderSpecifier;

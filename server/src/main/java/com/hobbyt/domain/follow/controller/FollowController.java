@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.follow.service.FollowQueryService;
 import com.hobbyt.domain.follow.service.FollowService;
 import com.hobbyt.global.dto.SliceResponse;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/members/{memberId}")
 public class FollowController {
 	private final FollowService followService;
+	private final FollowQueryService followQueryService;
 
 	@PostMapping("/follow")
 	public ResponseEntity follow(@AuthenticationPrincipal MemberDetails loginMember,
@@ -39,9 +41,7 @@ public class FollowController {
 	public ResponseEntity getFollowing(@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		log.info("loginMember: {}", loginMember);
-
-		SliceResponse response = followService.getFollowing(loginMember, memberId, pageable);
+		SliceResponse response = followQueryService.getFollowing(loginMember, memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}
@@ -51,9 +51,7 @@ public class FollowController {
 	public ResponseEntity getFollower(@AuthenticationPrincipal MemberDetails loginMember,
 		@Min(value = 1) @PathVariable Long memberId, Pageable pageable) {
 
-		log.info("loginMember: {}", loginMember);
-
-		SliceResponse response = followService.getFollower(loginMember, memberId, pageable);
+		SliceResponse response = followQueryService.getFollower(loginMember, memberId, pageable);
 
 		return ResponseEntity.ok(response);
 	}

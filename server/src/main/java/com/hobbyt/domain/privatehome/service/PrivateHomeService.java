@@ -6,18 +6,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.follow.repository.FollowRepository;
-import com.hobbyt.domain.member.dto.request.ProfileRequest;
-import com.hobbyt.domain.member.dto.response.ProfileResponse;
+import com.hobbyt.domain.follow.repository.FollowQueryRepository;
 import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.domain.member.service.MemberService;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeCommentResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomePostResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeRequest;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
-import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
+import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
+import com.hobbyt.domain.privatehome.dto.request.ProfileRequest;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleLikeResponse;
+import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleResponse;
+import com.hobbyt.domain.privatehome.dto.response.ProfileResponse;
 import com.hobbyt.domain.privatehome.entity.Visit;
 import com.hobbyt.domain.privatehome.repository.VisitRepository;
 import com.hobbyt.global.security.member.MemberDetails;
@@ -31,7 +31,7 @@ public class PrivateHomeService {
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 	private final VisitRepository visitRepository;
-	private final FollowRepository followRepository;
+	private final FollowQueryRepository followQueryRepository;
 
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *")
@@ -84,7 +84,7 @@ public class PrivateHomeService {
 		Member myInfo = memberService.findMemberByEmail(email);
 
 		if (targetMemberId != myInfo.getId()) {
-			List<Long> myFollowingId = followRepository.findFollowingIdByMember(myInfo);
+			List<Long> myFollowingId = followQueryRepository.findFollowingIdByMember(myInfo);
 			return myFollowingId.contains(targetMemberId);
 		}
 

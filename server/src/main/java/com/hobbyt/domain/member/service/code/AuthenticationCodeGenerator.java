@@ -1,7 +1,10 @@
-package com.hobbyt.domain.member.service;
+package com.hobbyt.domain.member.service.code;
 
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AuthenticationCodeGenerator implements CodeGenerator {
 	private static final int CODE_COUNT = 8;
 	private static final int NUMBER_OF_CASES = 3;
