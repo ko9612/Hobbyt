@@ -67,7 +67,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				postComment.createdAt,
 				post.id.as("postId"),
 				post.writer.id.as("postWriterId"),
-				post.thumbnailImage,
+				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				post.title.as("postTitle")
 			))
 			.from(postComment)
