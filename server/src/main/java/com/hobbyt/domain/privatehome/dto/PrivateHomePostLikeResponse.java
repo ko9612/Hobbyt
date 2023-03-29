@@ -20,6 +20,7 @@ public class PrivateHomePostLikeResponse {
 		private Long postId;
 		private Long postWriterId;
 		private String postWriterNickname;
+		private String profileImage;
 		private String title;
 		private String content;
 		private String thumbnailImage;

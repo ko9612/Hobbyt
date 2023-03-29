@@ -112,6 +112,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				post.id.as("postId"),
 				post.writer.id.as("postWriterId"),
 				post.writer.nickname.as("postWriterNickname"),
+				post.writer.profileImage,
 				post.title,
 				post.content,
 				post.thumbnailImage,
