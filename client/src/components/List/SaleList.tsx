@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
-import { getSaleList, getSaleListF } from "../../api/tabApi";
+import { getSaleList } from "../../api/tabApi";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import SaleItem from "./SaleItem";
 import { BlogSelectState } from "../../state/BlogPostState";
@@ -11,7 +11,7 @@ import { SearchSaleDataProps } from "../../type/saleType";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
 export const SLContainer = tw.div`m-auto`;
-const SLComponent = tw.div`grid grid-cols-3 mt-4 gap-3`;
+export const SLComponent = tw.div`grid grid-cols-3 mt-4 gap-3`;
 
 export default function SaleList() {
   // const userID = useRecoilValue(UserIdState);
@@ -33,13 +33,13 @@ export default function SaleList() {
   // 처음: 판매 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getSaleList(homeId, offset, limit);
+      const res = await getSaleList(homeId, 0, limit, "SALE_NEWEST");
       const listRes = res.data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
-    } else if (select === "인기순") {
-      const res = await getSaleListF(homeId, offset, limit);
+    } else {
+      const res = await getSaleList(homeId, 0, limit, "SALE_MOST_LIKE");
       const listRes = res.data;
       setListData([listRes]);
       setOffset(limit);
@@ -50,23 +50,19 @@ export default function SaleList() {
   // 처음 이후 : 판매 게시글 리스트 api 요청
   const moreGetData = async () => {
     if (select === "최신순") {
-      if (hasNext) {
-        const res = await getSaleList(homeId, offset, limit);
-        const moreListRes = (res as any).data;
-        setListData([...listData, moreListRes]);
-        setHasNext(moreListRes.hasNext);
-        setOffset(offset + limit);
-        setIsLoading(false);
-      }
-    } else if (select === "인기순") {
-      if (hasNext) {
-        const res = await getSaleListF(homeId, offset, limit);
-        const moreListRes = (res as any).data;
-        setListData([...listData, moreListRes]);
-        setHasNext(moreListRes.hasNext);
-        setOffset(offset + limit);
-        setIsLoading(false);
-      }
+      const res = await getSaleList(homeId, offset, limit, "SALE_NEWEST");
+      const moreListRes = (res as any).data;
+      setListData([...listData, moreListRes]);
+      setHasNext(moreListRes.hasNext);
+      setOffset(offset + limit);
+      setIsLoading(false);
+    } else {
+      const res = await getSaleList(homeId, offset, limit, "SALE_MOST_LIKE");
+      const moreListRes = (res as any).data;
+      setListData([...listData, moreListRes]);
+      setHasNext(moreListRes.hasNext);
+      setOffset(offset + limit);
+      setIsLoading(false);
     }
   };
 
