@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private final JPAQueryFactory queryFactory;
+	private final String prefix;
 
 	@Override
 	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params) {
@@ -39,7 +40,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				post.id,
 				post.title,
 				post.content,
-				post.thumbnailImage,
+				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				post.viewCount,
 				post.likeCount,
 				post.isPublic,
