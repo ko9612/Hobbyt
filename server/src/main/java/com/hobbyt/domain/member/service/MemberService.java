@@ -100,7 +100,6 @@ public class MemberService {
 
 	private void checkUpdatePassword(UpdatePassword updatePassword, String memberPassword) {
 		if (isOldPasswordEqualsNewPassword(updatePassword)
-			|| !isNewPasswordEqualsCheckPassword(updatePassword)
 			|| !isCorrectPassword(updatePassword.getOldPassword(), memberPassword)) {
 			throw new BusinessLogicException(AUTH_INVALID_PASSWORD);
 		}
@@ -112,10 +111,6 @@ public class MemberService {
 
 	private boolean isOldPasswordEqualsNewPassword(UpdatePassword updatePassword) {
 		return updatePassword.getOldPassword().equals(updatePassword.getNewPassword());
-	}
-
-	private boolean isNewPasswordEqualsCheckPassword(UpdatePassword updatePassword) {
-		return updatePassword.getNewPassword().equals(updatePassword.getCheckPassword());
 	}
 
 	public Member findMemberByEmail(final String email) {
