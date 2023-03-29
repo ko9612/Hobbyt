@@ -38,7 +38,8 @@ public class MainRepositoryImpl implements MainRepository {
 			.select(post.id, postLike.count())
 			.from(postLike)
 			.join(postLike.post, post)
-			.where(postLike.createdAt.after(LocalDateTime.now().minusDays(amountDays)))
+			.where(postLike.createdAt.after(LocalDateTime.now().minusDays(amountDays)),
+				post.isPublic.eq(true))
 			.groupBy(post.id)
 			.orderBy(postLike.count().desc())
 			.limit(postCount)
@@ -55,7 +56,6 @@ public class MainRepositoryImpl implements MainRepository {
 				post.content,
 				post.viewCount,
 				post.likeCount,
-				post.isPublic,
 				post.createdAt,
 				post.thumbnailImage,
 				member.id.as("writerId"),
