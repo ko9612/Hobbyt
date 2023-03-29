@@ -20,6 +20,7 @@ import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.PrivateHomeSaleResponse;
 import com.hobbyt.domain.privatehome.dto.SaleCard;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -106,6 +107,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 	@Override
 	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params) {
+		final String prefix = "/api/images/";
+
 		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
 				postLike.id.as("postLikeId"),
@@ -115,7 +118,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				post.writer.profileImage,
 				post.title,
 				post.content,
-				post.thumbnailImage,
+				Expressions.asString(prefix + post.thumbnailImage).as("thumbnailImage"),
 				post.viewCount,
 				post.likeCount,
 				post.createdAt
