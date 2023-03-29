@@ -131,7 +131,9 @@ export default function MyInfoList() {
           <AddressInfo />
           <RefundInfo />
           <div className="pt-20">
-            <SubmitButton id="myInfoSubmit">내 정보 저장하기</SubmitButton>
+            <SubmitButton id="myInfoSubmit" onClick={() => onSubmit()}>
+              내 정보 저장하기
+            </SubmitButton>
           </div>
         </form>
       </InfoContent>

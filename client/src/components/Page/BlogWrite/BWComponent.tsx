@@ -14,7 +14,7 @@ import {
 import { postBlogContent } from "../../../api/blogApi";
 import { UserIdState } from "../../../state/UserState";
 import ThumbnailInput from "../../ToastUI/ThumbnailInput";
-import { WideB } from "../../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 import MsgModal from "../../Modal/MsgModal";
 
 const ToastEditor = dynamic(() => import("../../ToastUI/TextEditor"), {
@@ -131,23 +131,9 @@ export default function BlogWriteComponent() {
       <ThumbnailInput />
       <ToastEditor />
       <DefalutTag />
-      <WideB
-        id="postSubmitBut"
-        disabled={
-          !(
-            (
-              titleData &&
-              contentData &&
-              contentData?.length >= 300 &&
-              tagData?.length
-            )
-            // &&thumbnailData
-          )
-        }
-        onClick={() => onSubmitClick()}
-      >
+      <SubmitButton id="postSubmitBut" onClick={() => onSubmitClick()}>
         저장
-      </WideB>
+      </SubmitButton>
     </>
   );
 }

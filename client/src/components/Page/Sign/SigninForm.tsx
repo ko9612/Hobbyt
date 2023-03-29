@@ -221,7 +221,9 @@ export default function SigninForm() {
             <ErrMsg>{errors.password.message}</ErrMsg>
           )}
         </Input>
-        <SubmitButton id="loginSubmitBut">로그인</SubmitButton>
+        <SubmitButton id="loginSubmitBut" onClick={handleSubmit(onSubmit)}>
+          로그인
+        </SubmitButton>
       </form>
     </>
   );

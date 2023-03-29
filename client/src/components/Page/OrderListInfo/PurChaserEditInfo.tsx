@@ -14,7 +14,7 @@ import {
   UserRecipientStreetState,
   UserRecipientDetailState,
 } from "../../../state/UserState";
-import { WideB } from "../../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 import { patchOrderInfo } from "../../../api/OrderApi";
 import MsgModal from "../../Modal/MsgModal";
 import { IDataProps } from "./OrderProgress";
@@ -160,9 +160,11 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
           {isData.status === "ORDER" ||
           isData.status === "PAYMENT_VERIFICATION" ? (
             <div className="pt-10 text-right">
-              <WideB id="shippingInfoSubmit" onClick={InfoEditClick}>
-                배송{isData?.payMethod !== "CARD" && "/환불"} 정보 저장하기
-              </WideB>
+              <SubmitButton id="shippingInfoSubmit" onClick={InfoEditClick}>
+                {isData?.payMethod !== "CARD"
+                  ? "배송/환불 정보 저장하기"
+                  : "배송 정보 저장하기"}
+              </SubmitButton>
             </div>
           ) : null}
         </>

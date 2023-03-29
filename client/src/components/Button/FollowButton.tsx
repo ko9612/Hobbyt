@@ -1,8 +1,7 @@
 import tw from "tailwind-styled-components";
-// import { DefaultProps } from "./SubmitButton";
-import { ButtonProps } from "./DefalutButton";
+import { DefaultProps } from "./SubmitButton";
 
-interface FButtonProps extends ButtonProps {
+interface FButtonProps extends DefaultProps {
   value: number;
 }
 

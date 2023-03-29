@@ -16,11 +16,11 @@ import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500 justify-between`;
-export const BLImage = tw.div`w-1/5 h-[6.8rem]`;
+export const BLImage = tw.div`w-1/5 h-full`;
 export const BLContent = tw.div`ml-5 w-4/5 flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
 export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 w-[31rem] h-[4rem] break-all`;
-const ActInfo = tw.div`flex items-center`;
+export const ActInfo = tw.div`flex items-center`;
 
 // interface ListProps {
 //   list: BlogItemProps;
@@ -43,6 +43,7 @@ export default function BlogItem({ list }: any) {
     content,
     thumbnailImage,
     profileImage,
+    writerProfileImage,
     nickname,
     isPublic,
     writerId,
@@ -70,11 +71,7 @@ export default function BlogItem({ list }: any) {
               : DefalutImage
           }
           alt="img"
-          className={
-            thumbnailImage !== null
-              ? "rounded-xl object-cover w-[7.82rem] h-[7.82rem]"
-              : ""
-          }
+          className="rounded-xl object-cover h-[8rem] w-[8rem]"
           width={150}
           height={150}
         />
@@ -84,7 +81,9 @@ export default function BlogItem({ list }: any) {
           <Link href={`/blog/${writerId}/post/${id}`}>
             <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center">
               {title}
-              {!isPublic && <BsLockFill className="ml-3 text-gray-400" />}
+              {router.pathname.startsWith("/blog") && !isPublic && (
+                <BsLockFill className="ml-3 text-gray-400" />
+              )}
             </h2>
           </Link>
           {/* {(writerId === userId && router.pathname !== "/") ||
@@ -104,7 +103,11 @@ export default function BlogItem({ list }: any) {
               <ActInfo>
                 <div className="w-[2.5rem] ">
                   <DefaultProfileImage
-                    profileImg={profileImage}
+                    profileImg={
+                      router.pathname.startsWith("/search")
+                        ? writerProfileImage
+                        : profileImage
+                    }
                     width={25}
                     height={25}
                     borderW={0}

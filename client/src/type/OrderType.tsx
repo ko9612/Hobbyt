@@ -65,7 +65,8 @@ export interface OrderDetailProps {
   status: string;
   thumbnailImage: string | null;
   payMethod: string;
-  sellerId: 2;
+  sellerId: number;
+  saleId: number;
   depositor: string;
   sellerAccount: {
     holder: string;

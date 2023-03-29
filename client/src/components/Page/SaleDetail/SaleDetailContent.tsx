@@ -8,7 +8,7 @@ import ProductContent from "./ProductContent";
 import ProductGuide from "./ProductGuide";
 import Agreement from "./Agreement";
 import { BlogContent } from "../../../../pages/blog/[userId]";
-import { WideB } from "../../Button/SubmitButton";
+import SubmitButton from "../../Button/SubmitButton";
 import PaymentModal from "../../Modal/PaymentModal";
 import { getSaleDetail } from "../../../api/saleApi";
 import { SaleDetailProps } from "../../../type/saleType";
@@ -64,6 +64,15 @@ export default function SaleDetailContent() {
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
+
+  const errMsgList = [
+    "입금자명을 입력해주세요",
+    "배송 정보를 올바르게 작성해주세요",
+    "환불계좌 정보를 올바르게 작성해주세요",
+    "연락처 형식이 올바르지 않습니다",
+    "주문하실 제품을 선택해주세요",
+    "개인정보 수집 및 동의에 체크해주세요",
+  ];
   const [msg, setMsg] = useState<string>("");
 
   // 주문하기 클릭 시, 하나의 state에 주문자 관련 정보 담아서 보냄
@@ -151,11 +160,33 @@ export default function SaleDetailContent() {
     if (typeof window !== "undefined") {
       if (!localStorage.getItem("authorization")) {
         setShowMsgModal(!showMsgModal);
+      } else if (!watch("holder")) {
+        setMsg(errMsgList[0]);
+        setErrorModal(true);
+      } else if (
+        !(
+          watch("recipient.name") &&
+          isReceiverPhone &&
+          isZipcode &&
+          isStreet &&
+          isDetail
+        )
+      ) {
+        setMsg(errMsgList[1]);
+        setErrorModal(true);
+      } else if (
+        !(watch("account.holder") && watch("account.bank") && isAccountNum)
+      ) {
+        setMsg(errMsgList[2]);
+        setErrorModal(true);
       } else if (isReceiverPhone.length < 11) {
-        setMsg("연락처 형식이 올바르지 않습니다.");
+        setMsg(errMsgList[3]);
         setErrorModal(true);
       } else if (!priceSum.total) {
-        setMsg("주문하실 제품을 선택해주세요.");
+        setMsg(errMsgList[4]);
+        setErrorModal(true);
+      } else if (!isAgree) {
+        setMsg(errMsgList[5]);
         setErrorModal(true);
       } else {
         // 주문 시, 보낼 selectData 특정 key값들 filter처리 및 변경 후, 전송
@@ -332,26 +363,9 @@ export default function SaleDetailContent() {
               />
             )}
             {errorModal && <MsgModal msg={msg} setOpenModal={setErrorModal} />}
-            <WideB
-              onClick={e => OrderButtonHandler(e)}
-              disabled={
-                !(
-                  watch("holder") &&
-                  watch("recipient.name") &&
-                  watch("recipient.name") &&
-                  isReceiverPhone &&
-                  isZipcode &&
-                  isStreet &&
-                  isDetail &&
-                  watch("account.holder") &&
-                  watch("account.bank") &&
-                  isAccountNum &&
-                  isAgree
-                )
-              }
-            >
+            <SubmitButton id="orderSubmit" onClick={e => OrderButtonHandler(e)}>
               주문하기
-            </WideB>
+            </SubmitButton>
           </div>
         </PurForm>
       </BlogContent>

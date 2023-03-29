@@ -42,6 +42,8 @@ function SearchBlog() {
     }
   };
 
+  console.log(listData);
+
   // 첫 요청 이후, 블로그 게시글 리스트 api 요청(무한 스크롤)
   const moreSearchBlogData = async () => {
     if (select === "최신순") {

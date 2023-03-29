@@ -4,7 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { useInView } from "react-intersection-observer";
-import { BLContainer, BLComponent, BLImage, BLContent, Text } from "./BlogItem"; // 새로 추가
+import {
+  BLContainer,
+  BLComponent,
+  BLImage,
+  BLContent,
+  Text,
+  ActInfo,
+} from "./BlogItem"; // 새로 추가
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
@@ -14,6 +21,7 @@ import DefalutImage from "../../image/pictureDefalut.svg";
 import MyLikeFilterBut from "../Button/MyLikeFilterBut";
 import { BlogLikeSelectState } from "../../state/BlogPostState";
 import ScrollRoader from "../Scroll/ScrollRoader";
+import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 
 export default function LikeList() {
   // 블로그 주인 아이디
@@ -68,11 +76,13 @@ export default function LikeList() {
     }
   };
 
+  console.log(homeId);
+
   useEffect(() => {
     if (router.isReady) {
       getData();
     }
-  }, [router.isReady, likeSelect]);
+  }, [router.isReady, likeSelect, homeId]);
 
   useEffect(() => {
     if (hasNext && inview) {
@@ -122,61 +132,47 @@ export default function LikeList() {
                     />
                   </BLImage>
                   <BLContent>
-                    <Link href={`/blog/${el.writerId}/post/${el.postId}`}>
+                    <Link href={`/blog/${el.postWriterId}/post/${el.postId}`}>
                       <div className="flex justify-between">
                         <h2 className="text-2xl font-semibold">{el.title}</h2>
                       </div>
                       <Text>{el.content && regText(el.content)}</Text>
                     </Link>
-                    <div className="flex justify-end ">
-                      <ViewCount>{el.viewCount}</ViewCount>
-                      <LikeCount>{el.likeCount}</LikeCount>
-                      <WriteDate>
-                        {el.createdAt && getParsedDate(el.createdAt)}
-                      </WriteDate>
+                    <div className="flex justify-between">
+                      <Link href={`/blog/${el.postWriterId}`}>
+                        <ActInfo>
+                          <div className="w-[2.5rem] ">
+                            <DefaultProfileImage
+                              profileImg={el.profileImage || DefalutImage}
+                              width={25}
+                              height={25}
+                              borderW={0}
+                            >
+                              blog
+                            </DefaultProfileImage>
+                          </div>
+                          <div>{el.postWriterNickname}</div>
+                        </ActInfo>
+                      </Link>
+                      <ActInfo className="justify-end">
+                        <span className="mx-[0.25rem]">
+                          <ViewCount>{el.viewCount}</ViewCount>
+                        </span>
+                        <span className="mx-[0.25rem]">
+                          <LikeCount>{el.likeCount}</LikeCount>
+                        </span>
+                        <span className="mx-[0.25rem]">
+                          <WriteDate>
+                            {el.createdAt && getParsedDate(el.createdAt)}
+                          </WriteDate>
+                        </span>
+                      </ActInfo>
                     </div>
                   </BLContent>
                 </BLComponent>
               ))}
           </div>
         ))}
-      {/* {listData?.cards &&
-        listData?.cards.map((item: any, idx: number) => (
-          <BLComponent key={idx}>
-            <BLImage>
-              <Image
-                src={
-                  item.thumbnailImage !== null
-                    ? item.thumbnailImage
-                    : DefalutImage
-                }
-                alt="img"
-                width={150}
-                height={150}
-                className={
-                  item.thumbnailImage !== null
-                    ? "rounded-xl object-cover w-[7.82rem] h-[7.82rem]"
-                    : ""
-                }
-              />
-            </BLImage>
-            <BLContent>
-              <Link href={`/blog/${item.writerId}/post/${item.postId}`}>
-                <div className="flex justify-between">
-                  <h2 className="text-2xl font-semibold">{item.title}</h2>
-                </div>
-                <Text>{item.content && regText(item.content)}</Text>
-              </Link>
-              <div className="flex justify-end ">
-                <ViewCount>{item.viewCount}</ViewCount>
-                <LikeCount>{item.likeCount}</LikeCount>
-                <WriteDate>
-                  {item.createdAt && getParsedDate(item.createdAt)}
-                </WriteDate>
-              </div>
-            </BLContent>
-          </BLComponent>
-        ))} */}
       <div ref={ref} className="flex justify-center p-8 border-4 border-black">
         {isLoading && <ScrollRoader />}
       </div>
