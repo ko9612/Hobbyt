@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
-import { useRecoilValue, useRecoilState } from "recoil";
-import Link from "next/link";
+import { useRecoilState } from "recoil";
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -14,10 +13,10 @@ import SalesManagementList from "../Page/MyList/SalesManagementList";
 import SearchBlog from "../Page/Search/SearchBlog";
 import SearchSales from "../Page/Search/SearchSales";
 import { getBlogContentList, getBlogContentListF } from "../../api/tabApi";
-import { UserIdState } from "../../state/UserState";
 import { BlogSelectState } from "../../state/BlogPostState";
 import FollowingList from "../List/FollowingList";
 import FollowerList from "../List/FollowerList";
+import { BlogTabProps } from "../../type/blogType";
 
 interface TabProps {
   Menus: {
@@ -34,13 +33,16 @@ export default function Tab({ Menus }: TabProps) {
   const router = useRouter();
   // 어떤 Tab이 선택되어 있는지 확인하기 위한
   const [curIndex, setIndex] = useState(0);
-  // 로그인할 때 저장한 유저 아이디
-  const userId = useRecoilValue(UserIdState);
   // 최신순, 인기순 클릭 저장하고 있는 state
   //  기본적으로 최신순으로 되어 있음
   const [select, setSelect] = useRecoilState(BlogSelectState);
 
   const uid = Number(router.query.userId);
+
+  const [hasNext, setHasNext] = useState(false);
+  // const [ref, inview] = useInView({ threshold: 0 });
+  const limit = 7;
+  const [offset, setOffset] = useState(0);
 
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
@@ -49,19 +51,22 @@ export default function Tab({ Menus }: TabProps) {
   };
 
   // api 리스트 데이터 저장
-  const [listData, setListData] = useState([]);
+  const [listData, setListData] = useState<BlogTabProps[]>([]);
 
-  // 블로그 게시글 리스트 api 요청
+  // 처음 : 블로그 게시글 리스트 api 요청
   const getData = async () => {
     if (select === "최신순") {
-      const res = await getBlogContentList(uid, 0, 5);
-      const listRes = res.data;
+      const res = await getBlogContentList(uid, offset, limit);
+      const listRes = (res as any).data;
       setListData(listRes);
-      console.log(`listRes`, listRes);
+      setOffset(limit);
+      setHasNext(listRes.hasNext);
     } else if (select === "인기순") {
-      const res = await getBlogContentListF(uid, 0, 5);
-      const listRes = res.data;
+      const res = await getBlogContentListF(uid, offset, limit);
+      const listRes = (res as any).data;
       setListData(listRes);
+      setOffset(limit);
+      setHasNext(listRes.hasNext);
     }
   };
 
@@ -89,6 +94,9 @@ export default function Tab({ Menus }: TabProps) {
       setIndex(1);
     }
   }, []);
+
+  // console.log("탭 리스트", listData);
+  // console.log("ref1", typeof ref);
 
   return (
     <>

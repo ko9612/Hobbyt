@@ -24,9 +24,6 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
 
 export default function BlogEditComponent() {
   const router = useRouter();
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [errMsg, setErrMsg] = useState<string>("");
-
   const [titleData, setTitleData] = useRecoilState(TitleState);
   const [contentData, setContentData] = useRecoilState(ContentState);
   const [tagData, setTagData] = useRecoilState(TagState);
@@ -36,6 +33,21 @@ export default function BlogEditComponent() {
   const setEditData = useSetRecoilState(BlogEditState);
   const qid = Number(router.query.postId);
   const userId = useRecoilValue(UserIdState);
+
+  // 메세지 모달 보이는지, 안 보이는 지 여부
+  const [showModal, setShowModal] = useState(false);
+  const modalMsg: string[] = [
+    "제목을 입력해주세요",
+    "제목은 50자를 넘을 수 없습니다",
+    "게시글은 300자 이상 작성해야 합니다",
+    "태그를 1개 이상 입력해주세요",
+    "게시글 등록 완료 :)",
+    "게시글 등록 실패",
+    "존재하지 않는 게시글입니다",
+    "Server Error",
+  ];
+  // 모달 메세지 저장
+  const [errMsg, setErrMsg] = useState(modalMsg[0]);
 
   // eslint-disable-next-line consistent-return
   const GetData = async () => {
@@ -49,9 +61,9 @@ export default function BlogEditComponent() {
         setPublicData(get.data.isPublic);
       } else {
         if (get.status === 404) {
-          setErrMsg("존재하지 않는 게시글입니다.");
+          setErrMsg(modalMsg[6]);
         } else {
-          setErrMsg("Server Error");
+          setErrMsg(modalMsg[7]);
         }
         setShowModal(true);
       }
@@ -88,14 +100,50 @@ export default function BlogEditComponent() {
       thumbnailImage: thumbnailData,
     };
 
-    const EditSubmit = await patchBlogContent(data, qid);
-    switch (EditSubmit.status) {
-      case 200:
-        resetData();
-        router.push(`/blog/${userId}/post/${EditSubmit.data}`);
-        break;
-      default:
-        console.log("에러", EditSubmit.status);
+    // 타이틀 글자수가 0이거나 50자 이상이라면
+    if (titleData?.length === 0) {
+      setErrMsg(modalMsg[0]);
+      return setShowModal(true);
+    }
+    if (titleData?.length !== undefined && titleData?.length >= 50) {
+      setErrMsg(modalMsg[1]);
+      return setShowModal(true);
+    }
+
+    // 본문 글자수가 0이거나 300자 이하라면
+    if (contentData?.length === 0 || contentData?.length <= 300) {
+      setErrMsg(modalMsg[2]);
+      return setShowModal(true);
+    }
+
+    // 태그를 입력하지 않았을 경우
+    if (tagData?.length === 0) {
+      setErrMsg(modalMsg[3]);
+      return setShowModal(true);
+    }
+    // api 호출
+    if (
+      titleData?.length !== 0 &&
+      titleData?.length !== undefined &&
+      titleData?.length <= 50 &&
+      contentData?.length !== 0 &&
+      contentData?.length !== undefined &&
+      contentData?.length >= 300 &&
+      tagData?.length !== 0
+    ) {
+      try {
+        const EditSubmit = await patchBlogContent(data, qid);
+        switch (EditSubmit.status) {
+          case 200:
+            resetData();
+            router.push(`/blog/${userId}/post/${EditSubmit.data}`);
+            break;
+          default:
+            console.log("에러", EditSubmit.status);
+        }
+      } catch (err: unknown) {
+        console.error(err);
+      }
     }
   };
 

@@ -5,13 +5,13 @@ import ErrorHandler from "./errorHandler";
 
 // 블로그 게시글 리스트 조회 최신순 api
 export const getBlogContentList = async (
-  userId: number,
+  homeId: number,
   off: number,
   lim: number,
 ) => {
   try {
     const blogContent = await axios.get(
-      `/api/members/${userId}/private/posts?offset=${off}&limit=${lim}&orderBy=POST_NEWEST`,
+      `/api/members/${homeId}/private/posts?offset=${off}&limit=${lim}&orderBy=POST_NEWEST`,
     );
     return blogContent;
   } catch (err: unknown) {
@@ -21,13 +21,13 @@ export const getBlogContentList = async (
 
 // 블로그 게시글 리스트 조회 인기순 api
 export const getBlogContentListF = async (
-  userId: number,
+  homeId: number,
   off: number,
   lim: number,
 ) => {
   try {
     const blogContent = await axios.get(
-      `/api/members/${userId}/private/posts?offset=${off}&limit=${lim}&orderBy=POST_MOSTLIKE`,
+      `/api/members/${homeId}/private/posts?offset=${off}&limit=${lim}&orderBy=POST_MOSTLIKE`,
     );
     return blogContent;
   } catch (err: unknown) {
@@ -36,10 +36,10 @@ export const getBlogContentListF = async (
 };
 
 // 판매 게시글 리스트 조회 최신순 api
-export const getSaleList = async (userId: number, off: number, lim: number) => {
+export const getSaleList = async (homeId: number, off: number, lim: number) => {
   try {
     const saleList = await axios.get(
-      `/api/members/${userId}/private/sales?offset=${off}&limit=${lim}&orderBy=SALE_NEWEST`,
+      `/api/members/${homeId}/private/sales?offset=${off}&limit=${lim}&orderBy=SALE_NEWEST`,
     );
     return saleList;
   } catch (err: unknown) {
@@ -49,13 +49,13 @@ export const getSaleList = async (userId: number, off: number, lim: number) => {
 
 // 판매 게시글 리스트 조회 인기순 api
 export const getSaleListF = async (
-  userId: number,
+  homeId: number,
   off: number,
   lim: number,
 ) => {
   try {
     const saleList = await axios.get(
-      `/api/members/${userId}/private/sales?offset=${off}&limit=${lim}&orderBy=SALE_MOST_LIKE`,
+      `/api/members/${homeId}/private/sales?offset=${off}&limit=${lim}&orderBy=SALE_MOST_LIKE`,
     );
     return saleList;
   } catch (err: unknown) {
@@ -63,15 +63,15 @@ export const getSaleListF = async (
   }
 };
 
-// 내가 쓴 댓글 리스트 조회 api
+// 처음 : 내가 쓴 댓글 리스트 조회 api
 export const getBlogCommentList = async (
-  userId: number,
+  homeId: number,
   off: number,
   lim: number,
 ) => {
   try {
     const commentData = await axios.get(
-      `/api/members/${userId}/private/comments?offset=${off}&limit=${lim}`,
+      `/api/members/${homeId}/private/comments?offset=${off}&limit=${lim}`,
     );
     return commentData;
   } catch (err: unknown) {
@@ -79,11 +79,47 @@ export const getBlogCommentList = async (
   }
 };
 
-// 내가 누른 좋아요 리스트 조회 api
-export const getLikeList = async (userId: number, off: number, lim: number) => {
+// 마지막 : 내가 쓴 댓글 리스트 조회 api
+export const getBlogCommentListL = async (
+  homeId: number,
+  off: number,
+  lim: number,
+) => {
+  try {
+    const commentData = await axios.get(
+      `/api/members/${homeId}/private/comments?offset=${off}&limit=${lim}`,
+    );
+    return commentData;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 처음: 내가 누른 블로그 게시글 좋아요 리스트 조회 api
+export const getBlogLikeList = async (
+  homeId: number,
+  off: number,
+  lim: number,
+) => {
   try {
     const likeList = await axios.get(
-      `/api/members/${userId}/private/post-likes?offset=${off}&limit=${lim}`,
+      `/api/members/${homeId}/private/post-likes?offset=${off}&limit=${lim}`,
+    );
+    return likeList;
+  } catch (err: unknown) {
+    return ErrorHandler(err);
+  }
+};
+
+// 처음: 내가 누른 판매 게시글 좋아요 리스트 api
+export const getSaleLikeList = async (
+  homeId: number,
+  off: number,
+  lim: number,
+) => {
+  try {
+    const likeList = await axios.get(
+      `/api/members/${homeId}/private/sale-likes?offset=${off}&limit=${lim}`,
     );
     return likeList;
   } catch (err: unknown) {
@@ -93,9 +129,9 @@ export const getLikeList = async (userId: number, off: number, lim: number) => {
 
 // 팔로잉, 팔로워
 // 팔로우 요청, 취소 post
-export const postFollowing = async (homeUserId: number) => {
+export const postFollowing = async (homeId: number) => {
   try {
-    const Follow = await customAxios.post(`/api/members/${homeUserId}/follow`);
+    const Follow = await customAxios.post(`/api/members/${homeId}/follow`);
     return Follow;
   } catch (err: unknown) {
     return ErrorHandler(err);
@@ -103,10 +139,10 @@ export const postFollowing = async (homeUserId: number) => {
 };
 
 // 회원용 팔로워 조회
-export const getFollower = async (homeUserId: number) => {
+export const getFollower = async (homeId: number) => {
   try {
     const Follower = await customAxios.get(
-      `/api/members/${homeUserId}/follower?page=0&size=10`,
+      `/api/members/${homeId}/follower?page=0&size=10`,
     );
     return Follower;
   } catch (err: unknown) {
@@ -115,10 +151,10 @@ export const getFollower = async (homeUserId: number) => {
 };
 
 // 회원용 팔로잉 조회
-export const getFollowing = async (homeUserId: number) => {
+export const getFollowing = async (homeId: number) => {
   try {
     const Following = await customAxios.get(
-      `/api/members/${homeUserId}/following?page=0&size=10`,
+      `/api/members/${homeId}/following?page=0&size=10`,
     );
     return Following;
   } catch (err: unknown) {
@@ -127,10 +163,10 @@ export const getFollowing = async (homeUserId: number) => {
 };
 
 // 비회원용 팔로워 조회
-export const getFollowerN = async (homeUserId: number) => {
+export const getFollowerN = async (homeId: number) => {
   try {
     const Follower = await axios.get(
-      `/api/members/${homeUserId}/follower?page=0&size=10`,
+      `/api/members/${homeId}/follower?page=0&size=10`,
     );
     return Follower;
   } catch (err: unknown) {
@@ -139,10 +175,10 @@ export const getFollowerN = async (homeUserId: number) => {
 };
 
 // 비회원용 팔로잉 조회
-export const getFollowingN = async (homeUserId: number) => {
+export const getFollowingN = async (homeId: number) => {
   try {
     const Following = await axios.get(
-      `/api/members/${homeUserId}/following?page=0&size=10`,
+      `/api/members/${homeId}/following?page=0&size=10`,
     );
     return Following;
   } catch (err: unknown) {

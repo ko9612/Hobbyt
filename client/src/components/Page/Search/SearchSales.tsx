@@ -92,6 +92,8 @@ export default function SearchSales() {
     }
   }, [inView]);
 
+  console.log("서치", listData);
+
   return (
     <SLContainer>
       <div className="py-10 text-lg">

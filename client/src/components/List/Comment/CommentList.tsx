@@ -4,7 +4,7 @@ import Image from "next/image";
 import { IBlogDetailData } from "../../../type/blogType";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 
-const Container = tw.div`flex my-10 w-full border-2`;
+const Container = tw.div`flex my-5 w-full border-2`;
 const Content = tw.div`ml-3 w-5/6`;
 const User = tw.div`flex`;
 
@@ -19,7 +19,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
   const newComment = comments?.reverse();
 
   return (
-    <div className="border-black border-5">
+    <div className="mt-10 border-black border-5">
       {comments &&
         newComment.map((item: any) => (
           <Container key={item.id}>
@@ -28,7 +28,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
               width={50}
               height={50}
               alt="댓글 작성자 프로필 이미지"
-              className="object-cover rounded-full"
+              className="object-cover rounded-full w-[2.5rem] h-[2.5rem]"
             />
             <Content>
               <User>
@@ -42,7 +42,7 @@ export default function CommentList({ detail }: IBlogDetailData) {
                   ) : null}
                 </div>
               </User>
-              <p>{item.content}</p>
+              <p className="break-all">{item.content}</p>
             </Content>
           </Container>
         ))}

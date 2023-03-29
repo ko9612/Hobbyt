@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import Link from "next/link";
 import DefalutImage from "../../image/userDImage.svg";
 import { getFollowing, getFollowingN, postFollowing } from "../../api/tabApi";
 // import { DefalutButton } from "../Button/DefalutButton";
@@ -61,19 +62,21 @@ export default function FollowingList() {
       {data?.contents &&
         data?.contents.map(item => (
           <List key={item.id}>
-            <Image
-              src={item.profileImage || DefalutImage}
-              width={50}
-              height={50}
-              alt="유저 이미지"
-              className="w-[4rem] h-[4rem] rounded-full object-cover"
-            />
-            <Content className="ml-3">
-              <p className="text-xl font-semibold">{item.nickname}</p>
-              <p className="w-[32rem] truncate text-gray-400">
-                {item.description}
-              </p>
-            </Content>
+            <Link href={`/blog/${item.id}`} className="flex">
+              <Image
+                src={item.profileImage || DefalutImage}
+                width={50}
+                height={50}
+                alt="유저 이미지"
+                className="w-[4rem] h-[4rem] rounded-full object-cover"
+              />
+              <Content className="ml-3">
+                <p className="text-xl font-semibold">{item.nickname}</p>
+                <p className="w-[32rem] truncate text-gray-400">
+                  {item.description}
+                </p>
+              </Content>
+            </Link>
             {item.isFollowing === null ? null : (
               <FollowButton
                 id={item.isFollowing === true ? "팔로잉" : "팔로우"}

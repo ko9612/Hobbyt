@@ -69,7 +69,7 @@ export default function Header() {
     }
   }, [router.isReady]);
 
-  console.log("userData", userData);
+  // console.log("userData", userData);
   const newHeaderImage = `${headerImg}`;
 
   return (
