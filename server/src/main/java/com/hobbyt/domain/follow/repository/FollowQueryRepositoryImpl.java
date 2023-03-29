@@ -6,16 +6,19 @@ import static com.hobbyt.domain.member.entity.QMember.*;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.hobbyt.domain.follow.dto.FollowDto;
 import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.entity.QMember;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
+@Repository
 @RequiredArgsConstructor
-public class CustomFollowRepositoryImpl implements CustomFollowRepository {
+public class FollowQueryRepositoryImpl implements FollowQueryRepository {
 	private final JPAQueryFactory queryFactory;
 
 	@Override
@@ -52,11 +55,12 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 			.fetch();
 	}
 
-	public List<Long> findFollowingIdByMember(Member myInfo) {
-		return queryFactory.select(member.id)
+	// member가 팔로우한 회원 id 목록
+	public List<Long> findFollowingIdByMember(Member member) {
+		return queryFactory.select(QMember.member.id)
 			.from(follow)
-			.join(follow.following, member)
-			.where(follow.follower.eq(myInfo))
+			.join(follow.following, QMember.member)
+			.where(follow.follower.eq(member))
 			.fetch();
 	}
 }

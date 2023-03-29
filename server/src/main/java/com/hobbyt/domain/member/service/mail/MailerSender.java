@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.service;
+package com.hobbyt.domain.member.service.mail;
 
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 

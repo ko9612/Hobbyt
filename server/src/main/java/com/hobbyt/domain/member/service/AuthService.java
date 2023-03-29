@@ -28,7 +28,6 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRepository memberRepository;
 	private final RedisService redisService;
-	private final MemberService memberService;
 	private final PasswordEncoder passwordEncoder;
 
 	public String reissueAccessToken(final String refreshToken) {
@@ -87,7 +86,9 @@ public class AuthService {
 	}
 
 	public LoginInfo getLoginInfo(String email) {
-		Member member = memberService.findMemberByEmail(email);
+		Member member = memberRepository.findByEmail(email)
+			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
+		
 		return new LoginInfo(member.getId(), member.getNickname(), member.getEmail());
 	}
 }

@@ -25,7 +25,8 @@ public class PostService {
 	private final MemberService memberService;
 
 	public PostResponse getPostDetailById(Long id) {
-		Post post = findVerifiedOneById(id);
+		// Post post = findVerifiedOneById(id);
+		Post post = postRepository.findForUpdateById(id).orElseThrow(() -> new BusinessLogicException(POST_NOT_FOUND));
 
 		List<PostResponse.CommentBox> comments = postRepository.getPostCommentsByPostId(id);
 		List<String> tags = postRepository.getTagsByPostId(id);

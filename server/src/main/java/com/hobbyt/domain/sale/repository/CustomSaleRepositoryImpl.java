@@ -1,15 +1,10 @@
 package com.hobbyt.domain.sale.repository;
 
-import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.order.entity.QOrder.*;
 import static com.hobbyt.domain.order.entity.QOrderItem.*;
 import static com.hobbyt.domain.sale.entity.QProduct.*;
 import static com.hobbyt.domain.sale.entity.QSale.*;
 
-import java.util.Optional;
-
-import com.hobbyt.domain.sale.entity.QSale;
-import com.hobbyt.domain.sale.entity.Sale;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +24,7 @@ public class CustomSaleRepositoryImpl implements CustomSaleRepository {
 			.fetchOne();
 	}
 
-	@Override
+	/*@Override
 	public Optional<Sale> findSaleAndProductsBySaleId(Long saleId) {
 
 		Sale sale = queryFactory.select(QSale.sale).distinct()
@@ -37,8 +32,9 @@ public class CustomSaleRepositoryImpl implements CustomSaleRepository {
 			.join(QSale.sale.writer, member).fetchJoin()
 			.join(QSale.sale.products, product).fetchJoin()
 			.where(QSale.sale.id.eq(saleId), product.isDeleted.eq(false))
+			.setLockMode(LockModeType.PESSIMISTIC_WRITE)
 			.fetchOne();
 
 		return Optional.ofNullable(sale);
-	}
+	}*/
 }

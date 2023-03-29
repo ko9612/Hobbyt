@@ -1,4 +1,4 @@
-package com.hobbyt.domain.privatehome.dto;
+package com.hobbyt.domain.privatehome.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,23 +9,19 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public class PrivateHomePostLikeResponse {
+public class PrivateHomeCommentResponse {
 	private Boolean hasNext;
-	private List<PostCard> cards;
+	private List<CommentCard> comments;
 
 	@Getter
 	@NoArgsConstructor
-	public static class PostCard {
-		private Long postLikeId;
+	public static class CommentCard {
+		private Long id;
+		private String content;
 		private Long postId;
 		private Long postWriterId;
-		private String postWriterNickname;
-		private String profileImage;
-		private String title;
-		private String content;
+		private String postTitle;
 		private String thumbnailImage;
-		private long viewCount;
-		private long likeCount;
 		private LocalDateTime createdAt;
 	}
 }

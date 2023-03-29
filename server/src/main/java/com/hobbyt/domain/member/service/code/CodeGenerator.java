@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.service;
+package com.hobbyt.domain.member.service.code;
 
 @FunctionalInterface
 public interface CodeGenerator {

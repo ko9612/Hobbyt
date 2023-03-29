@@ -37,4 +37,12 @@ public class SaleLikeService {
 			}
 		);
 	}
+
+	@Transactional(readOnly = true)
+	public boolean getIsLikedByEmail(String email, Long saleId) {
+		Member member = memberService.findMemberByEmail(email);
+		Sale sale = saleService.findSaleById(saleId);
+
+		return saleLikeRepository.existsByMemberAndSale(member, sale);
+	}
 }

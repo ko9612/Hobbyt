@@ -59,21 +59,24 @@ public class SaleService {
 	@Transactional
 	public SaleResponse getSaleDetails(Long saleId) {
 
-		Sale sale = findSaleWithWriterAndProduct(saleId);
+		// Sale sale = findSaleWithWriterAndProduct(saleId);
+		Sale sale = saleRepository.findSaleForUpdateById(saleId)
+			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 
 		List<Product> products = sale.getProducts();
+		Member writer = sale.getWriter();
 
 		List<String> tags = tagRepository.getTagsBySaleId(saleId);
 
 		sale.increaseViewCount();
 
-		return SaleResponse.of(sale, products, tags);
+		return SaleResponse.of(sale, products, writer, tags);
 	}
 
-	private Sale findSaleWithWriterAndProduct(Long saleId) {
+	/*private Sale findSaleWithWriterAndProduct(Long saleId) {
 		return saleRepository.findSaleAndProductsBySaleId(saleId)
 			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
-	}
+	}*/
 
 	public Sale findSaleWithProduct(Long id) {
 		return saleRepository.findSaleFetchJoinProductBySaleId(id)

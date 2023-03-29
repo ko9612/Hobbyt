@@ -36,9 +36,8 @@ public class CustomVisitRepositoryImpl implements CustomVisitRepository {
 		LocalDate todayDate = LocalDate.now();
 		LocalDateTime today = todayDate.atStartOfDay();
 
-		queryFactory.delete(visit)
+		return queryFactory.delete(visit)
 			.where(visit.modifiedAt.before(today))
 			.execute();
-		return null;
 	}
 }

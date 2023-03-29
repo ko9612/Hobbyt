@@ -2,6 +2,7 @@ package com.hobbyt.domain.member.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupRequest {
+	@Pattern(regexp = "\\S{1,6}", message = "공백없이 6글자까지 입력 가능합니다.")
 	@NotBlank(message = "활동을 위한 닉네임을 설정해주세요.")
 	private String nickname;
 

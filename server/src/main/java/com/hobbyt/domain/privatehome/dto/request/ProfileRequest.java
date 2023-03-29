@@ -1,4 +1,6 @@
-package com.hobbyt.domain.member.dto.request;
+package com.hobbyt.domain.privatehome.dto.request;
+
+import javax.validation.constraints.Pattern;
 
 import com.hobbyt.domain.member.entity.Member;
 
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileRequest {
+	@Pattern(regexp = "\\S{1,6}", message = "공백없이 6글자까지 입력 가능합니다.")
 	private String nickname;
 	private String description;
 	private String profileImage;
