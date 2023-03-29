@@ -37,4 +37,13 @@ public class PostLikeService {
 			}
 		);
 	}
+
+	public boolean getIsLikedByEmail(String email, Long postId) {
+		Member member = memberService.findMemberByEmail(email);
+		Post post = postService.findVerifiedOneById(postId);
+
+		return postLikeRepository
+			.findByMemberAndPost(member, post)
+			.isPresent();
+	}
 }

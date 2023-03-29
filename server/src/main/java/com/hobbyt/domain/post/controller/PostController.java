@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hobbyt.domain.post.dto.PostRequest;
 import com.hobbyt.domain.post.dto.PostResponse;
 import com.hobbyt.domain.post.entity.Post;
+import com.hobbyt.domain.post.service.PostLikeService;
 import com.hobbyt.domain.post.service.PostService;
 import com.hobbyt.domain.post.service.PostTagService;
 import com.hobbyt.domain.tag.entity.Tag;
@@ -28,19 +29,28 @@ import com.hobbyt.domain.tag.service.TagService;
 import com.hobbyt.global.security.member.MemberDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class PostController {
 	private final PostService postService;
 	private final PostTagService postTagService;
 	private final TagService tagService;
+	private final PostLikeService postLikeService;
 
 	@GetMapping("{id}")
-	public ResponseEntity<PostResponse> getPost(@Min(value = 0) @PathVariable Long id) {
+	public ResponseEntity<PostResponse> getPost(
+		@AuthenticationPrincipal MemberDetails memberDetails, @Min(value = 0) @PathVariable Long id) {
 		PostResponse response = postService.getPostDetailById(id);
+
+		if (memberDetails != null) {
+			response.setIsLiked(
+				postLikeService.getIsLikedByEmail(memberDetails.getEmail(), id));
+		}
 
 		return ResponseEntity.ok(response);
 	}

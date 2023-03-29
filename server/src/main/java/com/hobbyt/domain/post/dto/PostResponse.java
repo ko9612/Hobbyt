@@ -20,6 +20,7 @@ public class PostResponse {
 	private long viewCount;
 	private long likeCount;
 	private Boolean isPublic;
+	private Boolean isLiked = false;
 	private LocalDateTime createdAt;
 	private WriterBox writer;
 	private List<CommentBox> comments;
