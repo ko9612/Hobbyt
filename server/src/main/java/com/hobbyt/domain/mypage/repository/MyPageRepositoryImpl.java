@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class MyPageRepositoryImpl implements MyPageRepository {
-	private static final String prefix = "/api/images/";
 	private final JPAQueryFactory queryFactory;
 
 	@Override
@@ -71,7 +70,6 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 				sale.writer.id,
 				sale.title,
 				sale.id,
-				// Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.thumbnailImage,
 				sale.account,
 				sale.delivery.deliveryPrice).distinct()
@@ -86,7 +84,7 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 		return OrderDetails.builder()
 			.order(foundOrder)
 			.title(tuple.get(sale.title))
-			.thumbnailImage(prefix.concat(tuple.get(sale.thumbnailImage)))
+			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.sellerId(tuple.get(sale.writer.id))
 			.saleId(tuple.get(sale.id))
 			.email(tuple.get(member.email))

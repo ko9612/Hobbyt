@@ -17,14 +17,15 @@ public class PrivateHomeSaleLikeResponse {
 	@Getter
 	@NoArgsConstructor
 	public static class SaleCard {
-		private Long saleLikeId;
-		private Long saleId;
+		private Long id;
+		private Long writerId;
+		private String nickname;
+		private String profileImage;
 		private String title;
 		private String content;
 		private String thumbnailImage;
 		private long viewCount;
 		private long likeCount;
 		private Period period;
-		private String profileImage;
 	}
 }

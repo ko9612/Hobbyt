@@ -16,7 +16,6 @@ public class PrivateHomePostLikeResponse {
 	@Getter
 	@NoArgsConstructor
 	public static class PostCard {
-		private Long postLikeId;
 		private Long id;
 		private Long writerId;
 		private String nickname;
