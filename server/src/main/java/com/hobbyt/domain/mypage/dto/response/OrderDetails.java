@@ -17,12 +17,12 @@ import com.hobbyt.global.entity.Account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
-@ToString
 public class OrderDetails {
+	private static final String prefix = "/api/images/";
+
 	private String orderNumber;
 	private String title;
 	private OrderStatus status;    // 주문상태
@@ -68,7 +68,7 @@ public class OrderDetails {
 		this.orderNumber = order.getOrderNumber();
 		this.title = title;
 		this.status = order.getStatus();
-		this.thumbnailImage = thumbnailImage;
+		this.thumbnailImage = thumbnailImage == null ? null : prefix.concat(thumbnailImage);
 
 		this.payMethod = order.getPayMethod();
 		this.sellerId = sellerId;

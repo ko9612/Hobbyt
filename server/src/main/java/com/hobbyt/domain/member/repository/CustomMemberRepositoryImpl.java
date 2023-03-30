@@ -110,7 +110,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params) {
 		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
-				postLike.id.as("postLikeId"),
 				post.id,
 				post.writer.id.as("writerId"),
 				post.writer.nickname.as("nickname"),
@@ -141,15 +140,16 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	public PrivateHomeSaleLikeResponse getSaleLikeByMemberId(Long memberId, PrivateHomeRequest params) {
 		List<PrivateHomeSaleLikeResponse.SaleCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomeSaleLikeResponse.SaleCard.class,
-				saleLike.id.as("saleLikeId"),
-				sale.id.as("saleId"),
+				sale.id,
+				sale.writer.id.as("writerId"),
+				sale.writer.nickname.as("nickname"),
+				sale.writer.profileImage,
 				sale.title,
 				sale.content,
 				Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.viewCount,
 				sale.likeCount,
-				sale.period,
-				sale.writer.profileImage
+				sale.period
 			))
 			.from(saleLike)
 			.join(saleLike.sale, sale)
