@@ -10,6 +10,10 @@
     "vercel-deploy": "next build && next export"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.11.15",
     "@next/font": "13.1.1",
     "@stomp/stompjs": "^6.1.2",
     "@toast-ui/editor": "^3.2.1",
