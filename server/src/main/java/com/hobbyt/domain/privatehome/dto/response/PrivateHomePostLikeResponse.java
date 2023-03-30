@@ -17,15 +17,16 @@ public class PrivateHomePostLikeResponse {
 	@NoArgsConstructor
 	public static class PostCard {
 		private Long postLikeId;
-		private Long postId;
-		private Long postWriterId;
-		private String postWriterNickname;
+		private Long id;
+		private Long writerId;
+		private String nickname;
 		private String profileImage;
 		private String title;
 		private String content;
 		private String thumbnailImage;
 		private long viewCount;
 		private long likeCount;
+		private Boolean isPublic;
 		private LocalDateTime createdAt;
 	}
 }

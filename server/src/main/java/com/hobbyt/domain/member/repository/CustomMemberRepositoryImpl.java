@@ -112,15 +112,16 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
 				postLike.id.as("postLikeId"),
-				post.id.as("postId"),
-				post.writer.id.as("postWriterId"),
-				post.writer.nickname.as("postWriterNickname"),
+				post.id,
+				post.writer.id.as("writerId"),
+				post.writer.nickname.as("nickname"),
 				post.writer.profileImage,
 				post.title,
 				post.content,
 				Expressions.asString(prefix).append(post.thumbnailImage).as("thumbnailImage"),
 				post.viewCount,
 				post.likeCount,
+				post.isPublic,
 				post.createdAt
 			))
 			.from(postLike)
