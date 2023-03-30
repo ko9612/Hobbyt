@@ -28,13 +28,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MainRepositoryImpl implements MainRepository {
+	private static final String prefix = "/api/images/";
 	private final JPAQueryFactory queryFactory;
 
 	@Override
 	public List<HotPost> getHotPosts() {
 		final int postCount = 5;
 		final int amountDays = 7;
-		final String prefix = "/api/images/";
 
 		List<Tuple> tuples = queryFactory
 			.select(post.id, postLike.count())
@@ -107,7 +107,7 @@ public class MainRepositoryImpl implements MainRepository {
 			.select(Projections.fields(SaleResponse.Card.class,
 				sale.id,
 				sale.title,
-				sale.thumbnailImage,
+				Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.period,
 				sale.likeCount,
 				sale.isAlwaysOnSale,

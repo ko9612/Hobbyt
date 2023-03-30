@@ -30,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 	private static final String prefix = "/api/images/";
-
 	private final JPAQueryFactory queryFactory;
 
 	@Override
@@ -89,7 +88,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 		List<SaleCard> cards = queryFactory.select(Projections.fields(SaleCard.class,
 				sale.id,
 				sale.writer.id.as("writerId"),
-				sale.thumbnailImage,
+				Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.title,
 				sale.period,
 				sale.likeCount,
@@ -146,7 +145,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.id.as("saleId"),
 				sale.title,
 				sale.content,
-				sale.thumbnailImage,
+				Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.viewCount,
 				sale.likeCount,
 				sale.period,

@@ -30,12 +30,11 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SearchRepositoryImpl implements SearchRepository {
+	private final static String prefix = "/api/images/";
 	private final JPAQueryFactory queryFactory;
 
 	@Override
 	public SearchPostResponse searchPostsByKeyword(SearchRequest params) {
-		final String prefix = "/api/images/";
-
 		List<SearchPostResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(SearchPostResponse.PostCard.class,
 				post.id,
@@ -82,7 +81,7 @@ public class SearchRepositoryImpl implements SearchRepository {
 	public SearchSaleResponse searchSalesByKeyword(SearchRequest params) {
 		List<SaleCard> cards = queryFactory.select(Projections.fields(SaleCard.class,
 				sale.id,
-				sale.thumbnailImage,
+				Expressions.asString(prefix).append(sale.thumbnailImage).as("thumbnailImage"),
 				sale.title,
 				sale.period,
 				sale.likeCount,
