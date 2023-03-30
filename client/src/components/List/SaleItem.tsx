@@ -70,7 +70,7 @@ export default function SaleItem({ list, children }: ListProps) {
           <div className="flex items-center">
             <BsCalendar4 />
             <p className="pl-2 text-sm">
-              {!isAlwaysOnSale ? `${startedAt}~${endAt}` : "상시 판매"}
+              {period !== null ? `${startedAt}~${endAt}` : "상시판매"}
             </p>
           </div>
         </Link>

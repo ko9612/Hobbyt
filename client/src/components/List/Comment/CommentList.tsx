@@ -10,8 +10,8 @@ const Container = tw.div`flex my-5 w-full border-2`;
 const Content = tw.div`ml-3 w-5/6`;
 const User = tw.div`flex`;
 
-export default function CommentList({ detail }: IBlogDetailData) {
-  const { comments } = detail || [];
+export default function CommentList({ comments }: IBlogDetailData) {
+  // const { comments } = detail || [];
   const userId = useRecoilValue(UserIdState);
 
   const getParsedDate = (date: string) =>

@@ -50,7 +50,7 @@ export interface IdataProps {
 // }
 
 export interface IBlogDetailData {
-  detail: {
+  comments: {
     id: number;
     title: string;
     content: string;

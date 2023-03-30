@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
@@ -47,6 +47,23 @@ export default function BlogPostDetail() {
   const userId = useRecoilValue(UserIdState);
 
   // post 디테일 데이터 불러오는 api
+
+  //  useCallback(()=> {},[])
+
+  // const getData = useCallback(async () => {
+  //   const blogDetail = await getBlogDetail(pid);
+  //   console.log("블로그 게시글 디테일", blogDetail.data);
+  //   if (blogDetail.status === 200) {
+  //     setGetNewData(blogDetail.data);
+  //   } else if (blogDetail.status === 404) {
+  //     setErrMsg("존재하지 않는 게시글입니다.");
+  //     setShowModal(true);
+  //   } else {
+  //     setErrMsg(`${blogDetail.status}`);
+  //     setShowModal(true);
+  //   }
+  // }, [getNewData]);
+
   const getData = async () => {
     if (typeof window !== undefined) {
       if (!isLogin) {
@@ -116,6 +133,11 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
+<<<<<<< Updated upstream
+=======
+  console.log("블로그 디테일", getNewData);
+
+>>>>>>> Stashed changes
   return (
     <>
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
@@ -193,7 +215,7 @@ export default function BlogPostDetail() {
         </Main>
         <Comment>
           <CommentInput />
-          <CommentList detail={getNewData} />
+          <CommentList comments={getNewData?.comments} />
         </Comment>
       </Detail>
     </>
