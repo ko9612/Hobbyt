@@ -133,11 +133,6 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
-<<<<<<< Updated upstream
-=======
-  console.log("블로그 디테일", getNewData);
-
->>>>>>> Stashed changes
   return (
     <>
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
