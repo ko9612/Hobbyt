@@ -5,6 +5,7 @@ import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { SaleDetailProps } from "../../../type/saleType";
 import { SaleDetailState } from "../../../state/SaleState";
 import { Info, Tag, TagList, Title, VWInfo } from "../BlogWrite/BlogPostDetail";
+import BackButton from "../../Button/BackButton";
 
 const PdTitle = tw.div`
 block py-5 border-b-4 border-MainColor/50
@@ -15,7 +16,10 @@ export default function ProductTitle() {
 
   return (
     <PdTitle>
-      <Title className="w-full ">{SaleData.title}</Title>
+      <Title className="w-full ">
+        <BackButton />
+        <div>{SaleData.title}</div>
+      </Title>
       <div className="">
         <Info>
           <TagList>
