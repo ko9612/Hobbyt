@@ -1,7 +1,8 @@
 package com.hobbyt.domain.privatehome.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.List;
+
+import com.hobbyt.domain.sale.entity.Period;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class PrivateHomeSaleLikeResponse {
 		private String thumbnailImage;
 		private long viewCount;
 		private long likeCount;
-		private LocalDateTime createdAt;
+		private Period period;
 		private String profileImage;
 	}
 }

@@ -29,8 +29,9 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
+	private static final String prefix = "/api/images/";
+
 	private final JPAQueryFactory queryFactory;
-	private final String prefix;
 
 	@Override
 	public PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params) {
@@ -108,8 +109,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 	@Override
 	public PrivateHomePostLikeResponse getPostLikeListByMemberId(Long memberId, PrivateHomeRequest params) {
-		final String prefix = "/api/images/";
-
 		List<PrivateHomePostLikeResponse.PostCard> cards = queryFactory
 			.select(Projections.fields(PrivateHomePostLikeResponse.PostCard.class,
 				postLike.id.as("postLikeId"),
@@ -149,7 +148,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 				sale.thumbnailImage,
 				sale.viewCount,
 				sale.likeCount,
-				sale.createdAt,
+				sale.period,
 				sale.writer.profileImage
 			))
 			.from(saleLike)
