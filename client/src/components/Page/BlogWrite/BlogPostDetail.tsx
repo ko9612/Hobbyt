@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
+import { BsArrowLeft } from "react-icons/bs";
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
@@ -20,9 +21,10 @@ import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
 import MsgModal from "../../Modal/MsgModal";
 import DelModal from "../../Modal/DelModal";
+import BackButton from "../../Button/BackButton";
 
 const Detail = tw.div`mt-6 w-[43rem]`;
-export const Title = tw.h1`text-2xl font-bold my-4`;
+export const Title = tw.div`text-2xl font-bold my-4 inline-flex`;
 export const Info = tw.div`flex justify-between items-center`;
 export const TagList = tw.div`text-sm flex mr-1`;
 export const Tag = tw.div`bg-gray-200 rounded-sm py-1 px-2`;
@@ -148,7 +150,10 @@ export default function BlogPostDetail() {
         />
       )}
       <Detail id="viewer">
-        <Title>{getNewData?.title}</Title>
+        <Title>
+          <BackButton />
+          <div>{getNewData?.title}</div>
+        </Title>
         <Info>
           <TagList>
             {getNewData?.tags?.map((tag: any, idx: number) => (
