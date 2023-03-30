@@ -30,11 +30,7 @@ public class SaleService {
 		Member member = memberService.findMemberByEmail(email);
 		sale.setWriter(member);
 
-		if (thumbnailImage == null) {
-			sale.updateThumbnailImage("기본 이미지");
-		} else {
-			sale.updateThumbnailImage(thumbnailImage);
-		}
+		sale.updateThumbnailImage(thumbnailImage);
 
 		return saleRepository.save(sale);
 	}
