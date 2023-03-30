@@ -97,10 +97,10 @@ export const postFollowing = async (homeId: number) => {
 };
 
 // 회원용 팔로워 조회
-export const getFollower = async (homeId: number) => {
+export const getFollower = async (homeId: number, page: number) => {
   try {
     const Follower = await customAxios.get(
-      `/api/members/${homeId}/follower?page=0&size=10`,
+      `/api/members/${homeId}/follower?page=${page}&size=10`,
     );
     return Follower;
   } catch (err: unknown) {
@@ -109,10 +109,10 @@ export const getFollower = async (homeId: number) => {
 };
 
 // 회원용 팔로잉 조회
-export const getFollowing = async (homeId: number) => {
+export const getFollowing = async (homeId: number, page: number) => {
   try {
     const Following = await customAxios.get(
-      `/api/members/${homeId}/following?page=0&size=10`,
+      `/api/members/${homeId}/following?page=${page}&size=10`,
     );
     return Following;
   } catch (err: unknown) {
@@ -121,10 +121,10 @@ export const getFollowing = async (homeId: number) => {
 };
 
 // 비회원용 팔로워 조회
-export const getFollowerN = async (homeId: number) => {
+export const getFollowerN = async (homeId: number, page: number) => {
   try {
     const Follower = await axios.get(
-      `/api/members/${homeId}/follower?page=0&size=10`,
+      `/api/members/${homeId}/follower?page=${page}&size=10`,
     );
     return Follower;
   } catch (err: unknown) {
@@ -133,10 +133,10 @@ export const getFollowerN = async (homeId: number) => {
 };
 
 // 비회원용 팔로잉 조회
-export const getFollowingN = async (homeId: number) => {
+export const getFollowingN = async (homeId: number, page: number) => {
   try {
     const Following = await axios.get(
-      `/api/members/${homeId}/following?page=0&size=10`,
+      `/api/members/${homeId}/following?page=${page}&size=10`,
     );
     return Following;
   } catch (err: unknown) {
@@ -157,10 +157,10 @@ export const getProductsList = async (page: number) => {
 };
 
 // 구매작품 조회
-export const getOrderList = async () => {
+export const getOrderList = async (page: number) => {
   try {
     const list = await customAxios.get(
-      `/api/members/myPage/orders?page=0&size=10`,
+      `/api/members/myPage/orders?page=${page}&size=10`,
     );
     return list;
   } catch (err: unknown) {
@@ -169,10 +169,10 @@ export const getOrderList = async () => {
 };
 
 // 판매관리 조회
-export const getManagementList = async () => {
+export const getManagementList = async (page: number) => {
   try {
     const list = await customAxios.get(
-      `/api/members/myPage/products/management?page=0&size=10`,
+      `/api/members/myPage/products/management?page=${page}&size=10`,
     );
     return list;
   } catch (err: unknown) {

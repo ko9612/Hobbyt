@@ -15,7 +15,7 @@ export default function MyPageCategory({ Menus }: ICategory) {
         <li
           role="presentation"
           key={index}
-          className="px-16 text-lg font-semibold list-none"
+          className="justify-between px-16 text-lg font-semibold list-none"
         >
           {category.title}
         </li>

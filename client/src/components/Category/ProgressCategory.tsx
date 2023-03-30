@@ -1,7 +1,6 @@
 // import tw from "tailwind-styled-components";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
-// import { useSetRecoilState } from "recoil";
 import { ProgressArr, RefundArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
 import { orderErrorHandler } from "../../util/ErrorHandler";
@@ -89,33 +88,6 @@ export default function ProgressCategory({
     patchData();
   };
 
-  // useEffect(() => {
-  //   // 진행사항 변경시 patch 요청
-  //   const data = {
-  //     // status: value,
-  //     status: clcikName,
-  //   };
-
-  //   const patchData = async () => {
-  //     const res = await patchOrderState(data, orderId);
-  //     console.log("진행사항 변경", res);
-  //     // setNewStatus(clcikName);
-  //   };
-  //   patchData();
-  // }, [clcikName]);
-
-  // const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   const { value } = e.currentTarget;
-  //   // console.log(`e.currentTarget`, e.currentTarget);
-  //   // if (e.currentTarget.value) {
-  //   // setNewStatus(value);
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   setClickName(value);
-  //   setCategorySpread(!categorySpread);
-  //   console.log("밸류", value);
-  //   // console.log("핸들클릭안에", clcikName);
-  //   // }
-  // };
   console.log(`프로그래스 카테고리`, orderStatus);
   return (
     <>
@@ -147,3 +119,31 @@ export default function ProgressCategory({
     </>
   );
 }
+
+// useEffect(() => {
+//   // 진행사항 변경시 patch 요청
+//   const data = {
+//     // status: value,
+//     status: clcikName,
+//   };
+
+//   const patchData = async () => {
+//     const res = await patchOrderState(data, orderId);
+//     console.log("진행사항 변경", res);
+//     // setNewStatus(clcikName);
+//   };
+//   patchData();
+// }, [clcikName]);
+
+// const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+//   const { value } = e.currentTarget;
+//   // console.log(`e.currentTarget`, e.currentTarget);
+//   // if (e.currentTarget.value) {
+//   // setNewStatus(value);
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   setClickName(value);
+//   setCategorySpread(!categorySpread);
+//   console.log("밸류", value);
+//   // console.log("핸들클릭안에", clcikName);
+//   // }
+// };
