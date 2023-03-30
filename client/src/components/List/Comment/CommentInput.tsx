@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { postBlogComment } from "../../../api/blogApi";
@@ -16,7 +16,7 @@ export default function CommentInput() {
   const [comment, setComment] = useState("");
   // 포스트 ID
   const router = useRouter();
-  const { id } = router.query;
+  const { userId, id } = router.query;
 
   const isLogin = useRecoilValue(LoginState);
 
@@ -29,9 +29,12 @@ export default function CommentInput() {
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const commentData = e.target.value;
       setComment(commentData);
+      console.log("댓글 작성되고 있음?", commentData);
     },
     [setComment],
   );
+
+  console.log("comment 길이", comment.length);
 
   // 댓글 전송 api 함수
   const submitHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,7 +62,10 @@ export default function CommentInput() {
         try {
           const res = await postBlogComment(data);
           console.log(res);
+          // router.push(`/blog/${userId}/post/${id}`);
+          // router.replace(`/blog/${userId}/post/${id}`);
           router.reload();
+          // router.events
           setComment("");
           setShowModal(false);
           setCommentMsg("");
@@ -72,6 +78,8 @@ export default function CommentInput() {
       setCommentMsg("댓글 작성은 로그인 시 이용 가능합니다.");
     }
   };
+
+  // useEffect(() => {}, [submitHandler]);
 
   return (
     <>

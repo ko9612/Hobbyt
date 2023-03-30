@@ -28,7 +28,7 @@ export default function MyCommentList(): React.ReactElement {
 
   // 처음: 내가 쓴 댓글 리스트 api 요청
   const getData = async () => {
-    const res = await getBlogCommentList(homeId, offset, limit);
+    const res = await getBlogCommentList(homeId, 0, limit);
     const listRes = res.data;
     setCommentList([listRes]);
     setOffset(limit);
@@ -60,7 +60,7 @@ export default function MyCommentList(): React.ReactElement {
     }
   }, [inview]);
 
-  // console.log("내가 쓴 댓글 리스트", commentList);
+  console.log("내가 쓴 댓글 리스트", commentList);
 
   return (
     <CommentContainer>

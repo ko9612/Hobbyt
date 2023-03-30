@@ -28,7 +28,7 @@ export default function MsgModal({ setOpenModal, msg }: ModalProps) {
   const handleClose = () => {
     if (
       msg.startsWith("존재하지 않는") ||
-      msg.startsWith("Server Error") ||
+      msg.startsWith(`${msg} Error`) ||
       msg.startsWith("로그인할 수 없는")
     ) {
       router.back();

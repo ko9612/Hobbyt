@@ -65,11 +65,7 @@ export default function BlogItem({ list }: any) {
     >
       <BLImage>
         <Image
-          src={
-            thumbnailImage !== null
-              ? `/api/images/${thumbnailImage}`
-              : DefalutImage
-          }
+          src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
           alt="img"
           className="rounded-xl object-cover h-[8rem] w-[8rem]"
           width={150}
