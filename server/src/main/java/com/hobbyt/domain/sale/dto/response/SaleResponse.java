@@ -20,6 +20,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SaleResponse {
+	private static final String prefix = "/api/images/";
+
 	private Long id;
 	private String title;
 	private String content;
@@ -110,7 +112,7 @@ public class SaleResponse {
 		this.id = sale.getId();
 		this.title = sale.getTitle();
 		this.content = sale.getContent();
-		this.thumbnailImage = sale.getThumbnailImage();
+		this.thumbnailImage = sale.getThumbnailImage() == null ? null : prefix.concat(sale.getThumbnailImage());
 		this.refundExchangePolicy = sale.getRefundExchangePolicy();
 		this.productionProcessLink = sale.getProductionProcessLink();
 		this.caution = sale.getCaution();
