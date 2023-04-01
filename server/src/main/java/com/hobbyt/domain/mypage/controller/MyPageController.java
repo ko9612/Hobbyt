@@ -17,6 +17,7 @@ import com.hobbyt.domain.mypage.dto.request.UpdateOrderDetailsRequest;
 import com.hobbyt.domain.mypage.dto.request.UpdateOrderStatusRequest;
 import com.hobbyt.domain.mypage.dto.response.OrderDetails;
 import com.hobbyt.domain.mypage.dto.response.PageResponse;
+import com.hobbyt.domain.mypage.service.MyPageQueryService;
 import com.hobbyt.domain.mypage.service.MyPageService;
 import com.hobbyt.global.security.member.MemberDetails;
 
@@ -26,13 +27,14 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/members/myPage")
 @RequiredArgsConstructor
 public class MyPageController {
+	private final MyPageQueryService myPageQueryService;
 	private final MyPageService myPageService;
 
 	// 판매작품
 	@GetMapping("/products")
 	public ResponseEntity getOrderedProducts(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
-		PageResponse response = myPageService.getOrderedProducts(loginMember.getEmail(), pageable);
+		PageResponse response = myPageQueryService.getOrderedProducts(loginMember.getEmail(), pageable);
 
 		return ResponseEntity.ok(response);
 	}
@@ -41,7 +43,7 @@ public class MyPageController {
 	@GetMapping("/products/management")
 	public ResponseEntity getOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
-		PageResponse response = myPageService.getOrders(loginMember.getEmail(), pageable);
+		PageResponse response = myPageQueryService.getOrders(loginMember.getEmail(), pageable);
 
 		return ResponseEntity.ok(response);
 	}
@@ -50,7 +52,7 @@ public class MyPageController {
 	@GetMapping("/orders")
 	public ResponseEntity getMyOrders(@AuthenticationPrincipal MemberDetails loginMember, Pageable pageable) {
 
-		PageResponse response = myPageService.getMyOrders(loginMember.getEmail(), pageable);
+		PageResponse response = myPageQueryService.getMyOrders(loginMember.getEmail(), pageable);
 
 		return ResponseEntity.ok(response);
 	}
@@ -58,7 +60,7 @@ public class MyPageController {
 	// 주문 상세조회
 	@GetMapping("/orders/{orderId}")
 	public ResponseEntity getOrderDetails(@Min(value = 1) @PathVariable Long orderId) {
-		OrderDetails response = myPageService.getOrderDetails(orderId);
+		OrderDetails response = myPageQueryService.getOrderDetails(orderId);
 		return ResponseEntity.ok(response);
 	}
 
