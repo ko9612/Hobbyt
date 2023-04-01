@@ -84,7 +84,7 @@ public class Sale extends Article {
 		this.isAlwaysOnSale = isAlwaysOnSale;
 	}
 
-	public static Sale of(String title, String content, String refundExchangePolicy,
+	/*public static Sale of(String title, String content, String refundExchangePolicy,
 		Period period, Account account, String productionProcessLink, String caution, Delivery delivery,
 		int depositEffectiveTime, boolean isAlwaysOnSale) {
 
@@ -103,7 +103,7 @@ public class Sale extends Article {
 		sale.updateContent(content);
 
 		return sale;
-	}
+	}*/
 
 	public static Sale of(String title, String thumbnailImage, String content, String refundExchangePolicy,
 		Period period, Account account, String productionProcessLink, String caution, Delivery delivery,

@@ -25,6 +25,7 @@ import com.hobbyt.domain.sale.service.ProductService;
 import com.hobbyt.domain.sale.service.SaleLikeService;
 import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.domain.sale.service.SaleTagService;
+import com.hobbyt.domain.sale.service.WriteSaleService;
 import com.hobbyt.domain.tag.entity.Tag;
 import com.hobbyt.domain.tag.service.TagService;
 import com.hobbyt.global.error.exception.BusinessLogicException;
@@ -42,6 +43,7 @@ public class SaleController {
 	private final ProductService productService;
 	private final TagService tagService;
 	private final SaleTagService saleTagService;
+	private final WriteSaleService writeSaleService;
 
 	@GetMapping("/{saleId}")
 	public ResponseEntity getSaleDetails(@Min(value = 1) @PathVariable Long saleId,
@@ -62,12 +64,10 @@ public class SaleController {
 
 		checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull());
 
-		Sale sale = saleService.post(loginMember.getEmail(), request.toSale(), request.getThumbnailImage());
-		productService.addProducts(sale.getId(), request.getProducts());
-		List<Tag> tags = tagService.addTags(request.getTags());
-		saleTagService.addTagsToSale(sale, tags);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(sale.getId());
+		Long saleId = writeSaleService.post(loginMember.getEmail(), request.toSale(), request.getProducts(),
+			request.getTags());
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(saleId);
 	}
 
 	private void checkSalePeriod(boolean isAlwaysOnSale, boolean isPeriodNull) {

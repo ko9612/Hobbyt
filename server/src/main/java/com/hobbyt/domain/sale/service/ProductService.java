@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hobbyt.domain.sale.dto.request.ProductDto;
 import com.hobbyt.domain.sale.dto.request.UpdateSaleRequest;
 import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
@@ -27,15 +26,10 @@ public class ProductService {
 	private final SaleService saleService;
 	private final ProductRepository productRepository;
 
-	public void addProducts(Long saleId, List<ProductDto> productDtos) {
+	public void addProducts(Long saleId, List<Product> products) {
 		Sale sale = saleService.findSaleById(saleId);
-		List<Product> products = new ArrayList<>();
-		for (ProductDto productDto : productDtos) {
-			// String imageUrl = path + fileService.saveImage(productDto.getImage());
-			Product product = productDto.toEntity();
-			sale.addProduct(product);
-			products.add(product);
-		}
+
+		products.forEach(product -> sale.addProduct(product));
 
 		productRepository.saveAll(products);
 	}

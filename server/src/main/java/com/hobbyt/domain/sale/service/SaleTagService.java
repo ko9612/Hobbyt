@@ -14,7 +14,7 @@ import com.hobbyt.domain.tag.entity.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class SaleTagService {
 	private final SaleTagRepository saleTagRepository;

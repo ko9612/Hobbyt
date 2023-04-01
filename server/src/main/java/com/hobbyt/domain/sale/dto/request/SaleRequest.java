@@ -1,12 +1,14 @@
 package com.hobbyt.domain.sale.dto.request;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.hobbyt.domain.sale.entity.Delivery;
 import com.hobbyt.domain.sale.entity.Period;
+import com.hobbyt.domain.sale.entity.Product;
 import com.hobbyt.domain.sale.entity.Sale;
 import com.hobbyt.global.entity.Account;
 
@@ -40,9 +42,13 @@ public class SaleRequest {
 	@NotNull
 	private List<ProductDto> products;
 
+	public List<Product> getProducts() {
+		return this.products.stream().map(productDto -> productDto.toEntity()).collect(Collectors.toUnmodifiableList());
+	}
+
 	public Sale toSale() {
-		return Sale.of(title, content, refundExchangePolicy, period, account, productionProcessLink,
-			caution, delivery, depositEffectiveTime, isAlwaysOnSale);
+		return Sale.of(title, thumbnailImage, content, refundExchangePolicy, period, account,
+			productionProcessLink, caution, delivery, depositEffectiveTime, isAlwaysOnSale);
 	}
 
 	public boolean isPeriodNull() {

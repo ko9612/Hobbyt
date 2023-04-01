@@ -26,13 +26,11 @@ public class SaleService {
 	private final SaleRepository saleRepository;
 	private final TagRepository tagRepository;
 
-	public Sale post(final String email, Sale sale, String thumbnailImage) {
+	public Long post(final String email, Sale sale) {
 		Member member = memberService.findMemberByEmail(email);
 		sale.setWriter(member);
 
-		sale.updateThumbnailImage(thumbnailImage);
-
-		return saleRepository.save(sale);
+		return saleRepository.save(sale).getId();
 	}
 
 	public Sale updateSale(Long id, Sale updateSale) {
