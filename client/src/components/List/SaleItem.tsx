@@ -38,22 +38,19 @@ export default function SaleItem({ list, children }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
+  console.log("세일 아이템 닉네임", list);
+  console.log("세일 아이템", profileImage);
+
   return (
     <SLContent>
       <SLImage>
-        {/* {(writerId === userId && router.pathname !== "/") ||
-        router.pathname.includes("/blog") ? ( */}
         {writerId === userId && router.pathname.includes("/blog") ? (
           <SLImageC>
             <ThreeDotsBox item={list}>작품</ThreeDotsBox>
           </SLImageC>
         ) : null}
         <Image
-          src={
-            thumbnailImage !== "기본 이미지"
-              ? `/api/images/${thumbnailImage}`
-              : saleDImage
-          }
+          src={thumbnailImage !== null ? thumbnailImage : saleDImage}
           alt="img"
           width={250}
           height={250}
@@ -74,7 +71,7 @@ export default function SaleItem({ list, children }: ListProps) {
             </p>
           </div>
         </Link>
-        {!router.pathname.includes("/blog") && (
+        {profileImage !== undefined && (
           <Link
             href={`/blog/${writerId}`}
             className="flex items-center float-left py-2"

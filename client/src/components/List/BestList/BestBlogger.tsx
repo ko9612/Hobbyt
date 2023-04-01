@@ -51,7 +51,9 @@ export default function BestBlogger() {
                       best blog
                     </DefaultProfileImage>
                   </span>
-                  <span className="text-xl">{item.nickname}</span>
+                  <span className="text-xl truncate w-[8rem]">
+                    {item.nickname}
+                  </span>
                 </Link>
               </BloggerInfo>
             ))}

@@ -45,7 +45,7 @@ export default function SalesManagementList() {
     <>
       <MyPageCategory Menus={SaleManagementMenus} />
       <PContent>
-        <div className="h-[60rem]">
+        <div className="h-[45rem]">
           {data?.data &&
             data?.data.map((product: any) => (
               <>
@@ -56,14 +56,14 @@ export default function SalesManagementList() {
                   <Link
                     href={`/mypage/${userId}/orderdetail/${product.sellerId}/ordermanagement/${product.orderId}`}
                   >
-                    <li className="w-[8rem] mr-[3.5rem] text-center truncate border">
+                    <li className="w-[8rem] mr-[3.5rem] text-center truncate">
                       {product.title}
                     </li>
                   </Link>
-                  <li className="w-[8rem] mr-[4rem] truncate text-center border">
+                  <li className="w-[8rem] mr-[4rem] truncate text-center">
                     {product.nickname}
                   </li>
-                  <li className="w-[8rem] mr-[4rem] text-center border">
+                  <li className="w-[8rem] mr-[4rem] text-center">
                     {product.createdAt && getParsedDate(product.createdAt)}
                   </li>
                   <div className="w-[8rem]">

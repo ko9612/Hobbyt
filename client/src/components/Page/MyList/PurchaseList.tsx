@@ -77,7 +77,7 @@ export default function PurchaseList() {
     <>
       <MyPageCategory Menus={PurchaseMenus} />
       <PContent>
-        <div className="h-[60rem]">
+        <div className="h-[45rem]">
           {data?.data &&
             data?.data.map((product, idx) => (
               <div key={idx}>

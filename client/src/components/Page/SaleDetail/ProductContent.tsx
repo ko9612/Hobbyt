@@ -17,7 +17,7 @@ export default function ProductContent() {
 
   return (
     <PdContent>
-      <div className="w-full h-[30rem]">
+      <div className="w-full">
         <TextViewer initialValue={SaleData?.content} />
       </div>
     </PdContent>
