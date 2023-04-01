@@ -44,7 +44,7 @@ public class Product extends BaseEntity {
 	// 누적 판매량
 	private int salesVolume = 0;
 
-	private boolean isDeleted = false;
+	private Boolean isDeleted = false;
 
 	@Builder
 	private Product(Long id, String name, int price, int stockQuantity, String imageUrl) {
@@ -55,12 +55,13 @@ public class Product extends BaseEntity {
 		this.imageUrl = imageUrl;
 	}
 
-	public static Product of(Long id, String name, int price, int stockQuantity) {
+	public static Product of(Long id, String name, int price, int stockQuantity, String imageUrl) {
 		return Product.builder()
 			.id(id)
 			.name(name)
 			.price(price)
 			.stockQuantity(stockQuantity)
+			.imageUrl(imageUrl)
 			.build();
 	}
 
@@ -75,6 +76,10 @@ public class Product extends BaseEntity {
 
 	public void updateImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public boolean isDeleted() {
+		return this.isDeleted;
 	}
 
 	public void setSale(Sale sale) {

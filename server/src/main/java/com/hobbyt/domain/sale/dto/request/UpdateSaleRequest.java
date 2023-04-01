@@ -1,6 +1,7 @@
 package com.hobbyt.domain.sale.dto.request;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.hobbyt.domain.sale.entity.Delivery;
 import com.hobbyt.domain.sale.entity.Period;
@@ -41,8 +42,12 @@ public class UpdateSaleRequest {
 		private String image;
 
 		public Product toEntity() {
-			return Product.of(name, price, stockQuantity, image);
+			return Product.of(id, name, price, stockQuantity, image);
 		}
+	}
+
+	public List<Product> getProducts() {
+		return this.products.stream().map(product -> product.toEntity()).collect(Collectors.toList());
 	}
 
 	public Sale toSale() {

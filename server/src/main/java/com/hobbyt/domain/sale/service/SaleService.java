@@ -3,6 +3,7 @@ package com.hobbyt.domain.sale.service;
 import static com.hobbyt.global.error.exception.ExceptionCode.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,22 +18,22 @@ import com.hobbyt.domain.tag.repository.TagRepository;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class SaleService {
 	private final MemberService memberService;
 	private final SaleRepository saleRepository;
 	private final TagRepository tagRepository;
 
-	public Sale post(final String email, Sale sale, String thumbnailImage) {
+	public Long post(final String email, Sale sale) {
 		Member member = memberService.findMemberByEmail(email);
 		sale.setWriter(member);
 
-		sale.updateThumbnailImage(thumbnailImage);
-
-		return saleRepository.save(sale);
+		return saleRepository.save(sale).getId();
 	}
 
 	public Sale updateSale(Long id, Sale updateSale) {
@@ -54,12 +55,14 @@ public class SaleService {
 
 	@Transactional
 	public SaleResponse getSaleDetails(Long saleId) {
-
-		// Sale sale = findSaleWithWriterAndProduct(saleId);
-		Sale sale = saleRepository.findSaleForUpdateById(saleId)
+		Sale sale = saleRepository.findSaleFetchJoinForUpdateById(saleId)
 			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 
-		List<Product> products = sale.getProducts();
+		List<Product> products = sale.getProducts()
+			.stream()
+			.filter(product -> !product.isDeleted())
+			.collect(Collectors.toList());
+
 		Member writer = sale.getWriter();
 
 		List<String> tags = tagRepository.getTagsBySaleId(saleId);
@@ -68,11 +71,6 @@ public class SaleService {
 
 		return SaleResponse.of(sale, products, writer, tags);
 	}
-
-	/*private Sale findSaleWithWriterAndProduct(Long saleId) {
-		return saleRepository.findSaleAndProductsBySaleId(saleId)
-			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
-	}*/
 
 	public Sale findSaleWithProduct(Long id) {
 		return saleRepository.findSaleFetchJoinProductBySaleId(id)

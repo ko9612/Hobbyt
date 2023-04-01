@@ -16,5 +16,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long>, CustomSaleRep
 	Optional<Sale> findSaleFetchJoinProductBySaleId(@Param("id") Long id);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	Optional<Sale> findSaleForUpdateById(Long id);
+	@Query("select s from Sale s join fetch s.products where s.id = :id")
+	Optional<Sale> findSaleFetchJoinForUpdateById(@Param("id") Long id);
 }

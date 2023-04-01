@@ -34,6 +34,7 @@ public class OrderDetails {
 
 	private String depositor;    // 입금자 이름
 	private Account sellerAccount;    // 판매자 계좌
+	private Long comsumerId;
 	private String name;    // 주문자 닉네임
 	private String phoneNumber;    // 주문자 연락처
 	private String email;    // 주문자 이메일
@@ -62,9 +63,11 @@ public class OrderDetails {
 	}
 
 	@Builder
-	public OrderDetails(Order order, String title, String thumbnailImage, Long sellerId, Long saleId, String email,
+	public OrderDetails(Long comsumerId, Order order, String title, String thumbnailImage, Long sellerId, Long saleId,
+		String email,
 		Account sellerAccount, int deliveryPrice) {
 
+		this.comsumerId = comsumerId;
 		this.orderNumber = order.getOrderNumber();
 		this.title = title;
 		this.status = order.getStatus();
