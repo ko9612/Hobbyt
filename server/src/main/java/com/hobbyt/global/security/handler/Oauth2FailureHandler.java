@@ -29,8 +29,7 @@ public class Oauth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
 	}
 
 	private String createFailureUri(AuthenticationException exception) {
-		// String targetUrl = "https://hobbyt-git-dev-ko9612.vercel.app/oauth";
-		String targetUrl = "http://localhost:3000/oauth";
+		String targetUrl = "https://hobbyt.vercel.app/oauth";
 
 		return UriComponentsBuilder.fromUriString(targetUrl)
 			.queryParam("error", exception.getLocalizedMessage())
