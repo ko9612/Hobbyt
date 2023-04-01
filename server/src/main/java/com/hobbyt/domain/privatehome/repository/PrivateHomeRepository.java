@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.repository;
+package com.hobbyt.domain.privatehome.repository;
 
 import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
@@ -7,7 +7,7 @@ import com.hobbyt.domain.privatehome.dto.response.PrivateHomePostResponse;
 import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleLikeResponse;
 import com.hobbyt.domain.privatehome.dto.response.PrivateHomeSaleResponse;
 
-public interface CustomMemberRepository {
+public interface PrivateHomeRepository {
 	PrivateHomePostResponse getBlogListByWriterId(Long writerId, PrivateHomeRequest params);
 
 	PrivateHomeSaleResponse getSalesByWriterId(Long writerId, PrivateHomeRequest params);

@@ -1,4 +1,4 @@
-package com.hobbyt.domain.member.repository;
+package com.hobbyt.domain.privatehome.repository;
 
 import static com.hobbyt.domain.member.entity.QMember.*;
 import static com.hobbyt.domain.post.entity.QPost.*;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CustomMemberRepositoryImpl implements CustomMemberRepository {
+public class PrivateHomeRepositoryImpl implements PrivateHomeRepository {
 	private static final String prefix = "/api/images/";
 	private final JPAQueryFactory queryFactory;
 

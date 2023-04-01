@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.member.entity.Member;
+import com.hobbyt.domain.member.service.MemberService;
 import com.hobbyt.domain.privatehome.dto.request.PrivateHomeRequest;
 import com.hobbyt.domain.privatehome.dto.request.ProfileRequest;
 import com.hobbyt.domain.privatehome.dto.response.PrivateHomeCommentResponse;
@@ -32,13 +34,18 @@ import lombok.RequiredArgsConstructor;
 @Validated
 public class PrivateHomeController {
 	private final PrivateHomeService privateHomeService;
+	private final MemberService memberService;
 
 	@GetMapping("/profile")
 	public ResponseEntity getProfile(@Min(value = 1) @PathVariable Long memberId,
 		@AuthenticationPrincipal MemberDetails loginMember) {
 
-		ProfileResponse profileResponse = privateHomeService.getProfile(memberId, loginMember);
+		if (loginMember == null) {
+			Member member = memberService.findMemberById(memberId);
+			return ResponseEntity.ok(ProfileResponse.of(member));
+		}
 
+		ProfileResponse profileResponse = privateHomeService.getProfile(memberId, loginMember.getEmail());
 		return ResponseEntity.ok(profileResponse);
 	}
 
