@@ -66,6 +66,7 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 			.fetchOne();
 
 		Tuple tuple = queryFactory.select(
+				member.id,
 				member.email,
 				sale.writer.id,
 				sale.title,
@@ -83,6 +84,7 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 
 		return OrderDetails.builder()
 			.order(foundOrder)
+			.comsumerId(tuple.get(member.id))
 			.title(tuple.get(sale.title))
 			.thumbnailImage(tuple.get(sale.thumbnailImage))
 			.sellerId(tuple.get(sale.writer.id))
