@@ -26,10 +26,6 @@ export const ActInfo = tw.div`flex items-center`;
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
 export default function BlogItem({ list }: any) {
-  // const TextViewer = dynamic(() => import("../ToastUI/TextViewer"), {
-  //   ssr: false,
-  // });
-
   const router = useRouter();
   const userId = useRecoilValue(UserIdState);
   const {

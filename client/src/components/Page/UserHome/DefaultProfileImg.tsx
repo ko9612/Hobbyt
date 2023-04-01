@@ -20,7 +20,7 @@ export default function DefaultProfileImage({
   return (
     <Image
       src={profileImg}
-      alt="유저 프로필 사진"
+      alt="디폴트 프로필 사진"
       width={width}
       height={height}
       className={`overflow-hide rounded-full object-cover border-${borderW} ${

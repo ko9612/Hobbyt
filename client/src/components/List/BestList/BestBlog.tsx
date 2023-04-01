@@ -9,15 +9,10 @@ import { getBestBlogList } from "../../../api/MainApi";
 export const Section = tw.section`
 w-[52rem] mx-auto py-10
 `;
-// pt 얼마나 해야할까..
-// J: lg:w-[62rem] mx-auto mb-20 pt-32
-// H: lg:w-[62rem] mx-auto mb-20
 
 export const Title = tw.p`
 text-2xl py-2 max-w-[56rem] mx-auto
 `;
-// J: text-2xl py-2 max-w-[56rem] mx-auto
-// H: text-2xl py-2 w-[62rem] m-auto
 
 export const BestContent = tw.article`
 `;
@@ -102,12 +97,12 @@ export default function BestBlog() {
       <Title>금주의 인기 블로그</Title>
       <BestContent className="flex items-center">
         <BsChevronLeft
-          className="text-MainColor rounded-full hover:bg-MainColor/20 hover:p-2"
+          className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
           size="2.5rem"
           role="button"
           onClick={prevClick}
         />
-        <div className="overflow-hidden mx-4">
+        <div className="mx-4 overflow-hidden">
           <BestItem ref={slideRef} className="w-[45rem] flex">
             {listData &&
               listData[0] &&
@@ -119,7 +114,7 @@ export default function BestBlog() {
           </BestItem>
         </div>
         <BsChevronRight
-          className="text-MainColor rounded-full hover:bg-MainColor/20 hover:p-2"
+          className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
           size="2.5rem"
           role="button"
           onClick={nextClick}

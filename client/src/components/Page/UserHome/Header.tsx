@@ -26,50 +26,49 @@ export default function Header() {
   // 프로필 정보
   const [userData, setUserData] = useRecoilState(UserProfileDataState);
 
-  // 개인홈 프로필 조회 api 요청 함수
-  const request = async () => {
-    console.log("로그인 여부", isLogin);
-    if (isLogin === true) {
-      // 로그인한 유저용 프로필 조회
-      // 블로그 주인 userID api 함수로 보내줘야함
-      const res = await getBlogLoginProfile(homeUserId);
-      if ((res as any).status === 200) {
-        setHeaderImg((res as any).data.headerImage);
-        setProfileImg((res as any).data.profileImage);
-        setUserData((res as any).data);
-      } else {
-        if ((res as any).status === 404) {
-          setErrMsg("존재하지 않는 페이지입니다.");
-        } else {
-          setErrMsg("Server Error");
-        }
-        setShowModal(true);
-      }
-    } else {
-      // 비회원용 프로필 조회
-      const res = await getBlogProfile(homeUserId);
-      if ((res as any).status === 200) {
-        setHeaderImg((res as any).data.headerImage);
-        setProfileImg((res as any).data.profileImage);
-        setUserData((res as any).data);
-      } else {
-        if ((res as any).status === 404) {
-          setErrMsg("존재하지 않는 페이지입니다.");
-        } else {
-          setErrMsg("Server Error");
-        }
-        setShowModal(true);
-      }
-    }
-  };
-
   useEffect(() => {
     if (router.isReady) {
+      // 개인홈 프로필 조회 api 요청 함수
+      const request = async () => {
+        console.log("로그인 여부", isLogin);
+        if (isLogin === true) {
+          // 로그인한 유저용 프로필 조회
+          // 블로그 주인 userID api 함수로 보내줘야함
+          const res = await getBlogLoginProfile(homeUserId);
+          if ((res as any).status === 200) {
+            setHeaderImg((res as any).data.headerImage);
+            setProfileImg((res as any).data.profileImage);
+            setUserData((res as any).data);
+          } else {
+            if ((res as any).status === 404) {
+              setErrMsg("존재하지 않는 페이지입니다.");
+            } else {
+              setErrMsg("Server Error");
+            }
+            setShowModal(true);
+          }
+        } else {
+          // 비회원용 프로필 조회
+          const res = await getBlogProfile(homeUserId);
+          if ((res as any).status === 200) {
+            setHeaderImg((res as any).data.headerImage);
+            setProfileImg((res as any).data.profileImage);
+            setUserData((res as any).data);
+          } else {
+            if ((res as any).status === 404) {
+              setErrMsg("존재하지 않는 페이지입니다.");
+            } else {
+              setErrMsg("Server Error");
+            }
+            setShowModal(true);
+          }
+        }
+      };
       request();
     }
   }, [router.isReady, homeUserId]);
 
-  // console.log("userData", userData);
+  console.log("userData", userData);
   const newHeaderImage = `${headerImg}`;
 
   return (

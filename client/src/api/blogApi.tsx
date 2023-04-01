@@ -64,7 +64,7 @@ export const postBlogComment = async (data: any) => {
 };
 
 // 블로그 댓글 수정 api
-export const patchBlogComment = async (data: any, id: any) => {
+export const patchBlogComment = async (data: object, id: number) => {
   try {
     const blogComment = await customAxios.patch(
       `/api/post-comments/${id}`,
@@ -77,7 +77,7 @@ export const patchBlogComment = async (data: any, id: any) => {
 };
 
 // 블로그 댓글 삭제 api
-export const deleteBlogComment = async (id: any) => {
+export const deleteBlogComment = async (id: number) => {
   try {
     const blogComment = await customAxios.delete(`/api/post-comments/${id}`);
     return blogComment;
@@ -99,7 +99,7 @@ export const postLikePlus = async (postId: number) => {
 };
 
 // 이미지 업로드
-export const postImageUpload = async (data: any) => {
+export const postImageUpload = async (data: object) => {
   try {
     const Image = await customAxios.post("/api/images", data);
     return Image;
@@ -109,7 +109,7 @@ export const postImageUpload = async (data: any) => {
 };
 
 // 썸네일 업로드
-export const postThumbnailUpload = async (data: any) => {
+export const postThumbnailUpload = async (data: object) => {
   try {
     const Image = await customAxios.post("/api/images/thumbnails", data);
     return Image;

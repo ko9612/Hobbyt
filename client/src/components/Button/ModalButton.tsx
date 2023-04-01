@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import { ButtonProps } from "./DefalutButton";
+import { ButtonProps } from "./InfoEditButton";
 
 const ModalB = tw.button`
 w-full px-4 py-3 text-white duration-100 bg-MainColor hover:bg-SubColor

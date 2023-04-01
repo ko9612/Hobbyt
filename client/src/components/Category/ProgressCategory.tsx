@@ -1,11 +1,9 @@
-// import tw from "tailwind-styled-components";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { ProgressArr, RefundArr } from "./CategoryArr";
 import { patchOrderState } from "../../api/OrderApi";
 import { orderErrorHandler } from "../../util/ErrorHandler";
 import MsgModal from "../Modal/MsgModal";
-// import { OrderStatus } from "../../state/OrderState";
 
 interface Istatus {
   orderStatus: string;

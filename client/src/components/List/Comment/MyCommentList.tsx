@@ -13,7 +13,6 @@ import ScrollRoader from "../../Scroll/ScrollRoader";
 const CommentContainer = tw.div`block border-2 m-auto mt-8`;
 
 export default function MyCommentList(): React.ReactElement {
-  // const userId = useRecoilValue(UserIdState);
   const router = useRouter();
   const homeId = Number(router.query.userId);
 
@@ -25,15 +24,6 @@ export default function MyCommentList(): React.ReactElement {
   const limit = 10;
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
-  // 처음: 내가 쓴 댓글 리스트 api 요청
-  const getData = async () => {
-    const res = await getBlogCommentList(homeId, 0, limit);
-    const listRes = res.data;
-    setCommentList([listRes]);
-    setOffset(limit);
-    setHasNext(listRes.hasNext);
-  };
 
   // 처음 이후: 내가 쓴 댓글 리스트 api 요청
   const moreGetData = async () => {
@@ -47,6 +37,14 @@ export default function MyCommentList(): React.ReactElement {
 
   useEffect(() => {
     if (router.isReady) {
+      // 처음: 내가 쓴 댓글 리스트 api 요청
+      const getData = async () => {
+        const res = await getBlogCommentList(homeId, 0, limit);
+        const listRes = (res as any).data;
+        setCommentList([listRes]);
+        setOffset(limit);
+        setHasNext(listRes.hasNext);
+      };
       getData();
     }
   }, [router.isReady, homeId]);
@@ -65,10 +63,10 @@ export default function MyCommentList(): React.ReactElement {
   return (
     <CommentContainer>
       {commentList[0] &&
-        commentList.map((item: any, index: number) => (
-          <div key={index}>
+        commentList.map((item: any, idx: number) => (
+          <div key={idx}>
             {item.comments &&
-              item.comments.map((el: any) => (
+              item.comments.map((el: CommentType) => (
                 <div key={el.id}>
                   <div className="flex justify-between">
                     <div className="flex">

@@ -1,17 +1,17 @@
 import tw from "tailwind-styled-components";
 import { GrGallery } from "react-icons/gr";
 // import { BsSend } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
-import * as StompJS from "@stomp/stompjs";
-import SockJS from "sockjs-client";
+// import * as StompJS from "@stomp/stompjs";
+// import SockJS from "sockjs-client";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-import { CompatClient } from "@stomp/stompjs";
-import { getChatRoomMessage } from "../../api/chatApi";
+// import { useRecoilValue } from "recoil";
+// import { CompatClient } from "@stomp/stompjs";
+// import { getChatRoomMessage } from "../../api/chatApi";
 // import { Client } from "../../../pages";
-import { LoginState, UserIdState } from "../../state/UserState";
+// import { LoginState, UserIdState } from "../../state/UserState";
 
 const UserInfo = tw.div`flex border-2 border-blue-500 text-2xl font-black items-center`;
 const ChatView = tw.div`border-2 border-red-500 h-[28rem] my-6`;
@@ -32,8 +32,8 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
   // props로 받은 chatRoomList와 현재 클릭한 chatRoomList가 같은지 확인
   const router = useRouter();
   const checkRoomId = Number(router.query.ChatRoomId);
-  const userId = useRecoilValue(UserIdState);
-  const isLogin = useRecoilValue(LoginState);
+  // const userId = useRecoilValue(UserIdState);
+  // const isLogin = useRecoilValue(LoginState);
 
   console.log("라우터", router);
 
@@ -42,13 +42,13 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
   // const [oldMsg, setOldMsg] = useState([]);
 
   // 사용자 이름, 보낸 사람 이름, 연결 여부,
-  const [userData, setUserData] = useState({
-    username: "",
-    recievername: "",
-    connected: true,
-    message: "",
-  });
-  const [publicChats, setPublicChats] = useState();
+  // const [userData, setUserData] = useState({
+  //   username: "",
+  //   recievername: "",
+  //   connected: true,
+  //   message: "",
+  // });
+  // const [publicChats, setPublicChats] = useState();
 
   // 아래 이미지 올리는 함수 수정해야함 작동안함
   const handleChangeImage = (e: any) => {
@@ -174,7 +174,7 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
   // }
 
   // // 메세지 보내는 함수
-  // const sendValue = () => {
+  const sendValue = () => {};
   //   // if (stompClient) {
   //   //   const chatMessage = {
   //   //     senderName: userData.username,
@@ -213,13 +213,13 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
               src={oldMsg.profileImage}
               width={45}
               height={45}
-              alt="유저 프로필 사진"
+              alt="채팅방 유저 프로필 사진"
             />
             <p className="ml-2">{oldMsg.partnerNickname}</p>
           </UserInfo>
           <ChatView>
             {oldMsg.messages &&
-              oldMsg.messages.map((item, idx) => (
+              oldMsg.messages.map((item: any, idx: number) => (
                 <div key={idx}>
                   <p>{item.senderId}</p>
                   <span>{item.content}</span>
@@ -228,7 +228,12 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
               ))}
             <div id="chatVeiw" />
             {checkImage && newImage === undefined ? (
-              <Image src={newImage} />
+              <Image
+                src={newImage}
+                width={150}
+                height={150}
+                alt="채팅이미지?"
+              />
             ) : null}
           </ChatView>
           <Textarea>
@@ -240,7 +245,7 @@ export default function ChatRoom({ chatRoomList, oldMsg }: any) {
                 accept="image/jpeg, image/png, image/jpg"
                 onChange={handleChangeImage}
               />
-              <label role="button" htmlFor="GalleryImage">
+              <label role="presentation" htmlFor="GalleryImage">
                 <GrGallery size={40} />
               </label>
             </Gallery>

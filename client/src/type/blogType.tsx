@@ -24,7 +24,7 @@ export interface IdataProps {
   likeCount: number;
   createdAt: string;
   writerId: number;
-  public: boolean;
+  isPublic: boolean;
 }
 // export interface IdataProps {
 //   list: {
@@ -122,3 +122,13 @@ export interface BlogTabProps {
   hasNext: boolean;
   posts: IdataProps[];
 }
+
+export interface MyCommentType {
+  hasNext: boolean;
+  comments: CommentType[];
+}
+
+// export interface BlogListType {
+//   hasNext: boolean;
+//   posts: IdataProps[];
+// }

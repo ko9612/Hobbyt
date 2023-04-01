@@ -34,13 +34,13 @@ export default function SaleList() {
   const getData = async () => {
     if (select === "최신순") {
       const res = await getSaleList(homeId, 0, limit, "SALE_NEWEST");
-      const listRes = res.data;
+      const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
     } else {
       const res = await getSaleList(homeId, 0, limit, "SALE_MOST_LIKE");
-      const listRes = res.data;
+      const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
@@ -93,7 +93,7 @@ export default function SaleList() {
               item.sales.map((el: any) => (
                 <div key={el.id}>
                   <SaleItem list={el} key={el.id}>
-                    sale
+                    14
                   </SaleItem>
                 </div>
               ))}

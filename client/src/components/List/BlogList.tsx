@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import BlogItem from "./BlogItem";
-import { SearchBlogDataProps } from "../../type/blogType";
+// import { SearchBlogDataProps } from "../../type/blogType";
 import ScrollRoader from "../Scroll/ScrollRoader";
 import { BlogSelectState } from "../../state/BlogPostState";
 import { getBlogContentList } from "../../api/tabApi";
+import { BlogTabProps } from "../../type/blogType";
 
 export const BLContainer = tw.div`w-[43rem] m-auto`;
 
@@ -16,7 +17,7 @@ export const BLContainer = tw.div`w-[43rem] m-auto`;
 //   list: BlogItemProps[];
 // }
 
-function BlogList({ list }: SearchBlogDataProps) {
+function BlogList({ posts }: BlogTabProps) {
   const router = useRouter();
   const uid = Number(router.query.userId);
   // 최신순, 인기순 클릭 저장하고 있는 state
@@ -24,7 +25,7 @@ function BlogList({ list }: SearchBlogDataProps) {
   const select = useRecoilValue(BlogSelectState);
 
   // api 리스트 데이터 저장
-  const [listData, setListData] = useState([list]);
+  const [listData, setListData] = useState([posts]);
   // 무한 스크롤
   const [hasNext, setHasNext] = useState(false);
   const [ref, inview] = useInView({ threshold: 0 });

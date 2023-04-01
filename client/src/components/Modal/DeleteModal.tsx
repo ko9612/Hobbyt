@@ -40,9 +40,7 @@ export default function DeleteModal({
           <Content>
             <span>{msg}</span>
           </Content>
-          <ModalButton id="" onClick={handleSubmit}>
-            확인
-          </ModalButton>
+          <ModalButton onClick={handleSubmit}>확인</ModalButton>
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>

@@ -7,11 +7,11 @@ import Navbar from "../../src/components/Nav/NavBar";
 import { BlogMenus } from "../../src/components/Tab/TabArr";
 import Footer from "../../src/components/Footer/Footer";
 
-export const Content = tw.main`flex`;
-export const UserInfo = tw.div``;
+export const Content = tw.main`flex sm:justify-center sm:`;
+export const UserInfo = tw.div`sm:hidden lg:block`;
 export const BlogContent = tw.main`
   border-2 border-green-500
-  w-[48rem] sm:ml-[18rem]
+  w-[48rem] lg:ml-[18rem] sm:border-red-500 sm:
 `;
 export const UserContent = tw.aside`
  w-[16rem] h-full

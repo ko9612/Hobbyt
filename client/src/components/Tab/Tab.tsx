@@ -117,7 +117,7 @@ export default function Tab({ Menus }: TabProps) {
       <TabContent>
         {Menus[curIndex].name === "블로그" &&
         router.pathname.includes("/blog") ? (
-          <BlogList list={listData} />
+          <BlogList posts={listData} />
         ) : null}
         {Menus[curIndex].name === "판매" &&
         router.pathname.includes("/blog") ? (

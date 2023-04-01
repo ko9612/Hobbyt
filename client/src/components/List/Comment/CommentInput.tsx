@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { postBlogComment } from "../../../api/blogApi";
@@ -16,7 +16,7 @@ export default function CommentInput() {
   const [comment, setComment] = useState("");
   // 포스트 ID
   const router = useRouter();
-  const { userId, id } = router.query;
+  const { id } = router.query;
 
   const isLogin = useRecoilValue(LoginState);
 
