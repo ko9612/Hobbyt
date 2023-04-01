@@ -55,7 +55,7 @@ public class SaleService {
 
 	@Transactional
 	public SaleResponse getSaleDetails(Long saleId) {
-		Sale sale = saleRepository.findSaleForUpdateById(saleId)
+		Sale sale = saleRepository.findSaleFetchJoinForUpdateById(saleId)
 			.orElseThrow(() -> new BusinessLogicException(SALE_NOT_FOUND));
 
 		List<Product> products = sale.getProducts()
