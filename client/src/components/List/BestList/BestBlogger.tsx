@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Section, Title, BestContent, BestItem } from "./BestBlog";
 // import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
 import { BestBloggerProps } from "../../../type/userTypes";
-import { getBestBloggerList } from "../../../api/MainApi";
+import { getBestBloggerList } from "../../../api/mainApi";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
 const BloggerInfo = tw.div`bg-slate-100 rounded-2xl p-4`;

@@ -1,4 +1,4 @@
-import { postPayment } from "../api/OrderApi";
+import { postPayment } from "../api/orderApi";
 import ScrollRoader from "../components/Scroll/ScrollRoader";
 import { OrderDataProps } from "../type/OrderType";
 import CreateOrderNum from "./OrederNumber";

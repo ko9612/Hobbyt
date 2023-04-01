@@ -5,7 +5,7 @@ import SaleItem from "../SaleItem";
 import FilterButton from "../../Button/FilterButton";
 import { SaleItemProps } from "../../../type/saleType";
 import { BlogSelectState } from "../../../state/BlogPostState";
-import { getBestSaleList } from "../../../api/MainApi";
+import { getBestSaleList } from "../../../api/mainApi";
 
 interface MainSaleItemProps {
   cards: SaleItemProps[];

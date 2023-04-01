@@ -8,7 +8,7 @@ import { SLContainer } from "../../List/SaleList";
 import { SearchSaleDataProps, SaleItemProps } from "../../../type/saleType";
 import { BlogSelectState } from "../../../state/BlogPostState";
 import SaleItem from "../../List/SaleItem";
-import { getSearchSaleList } from "../../../api/SearchApi";
+import { getSearchSaleList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
 export const Content = tw.article`

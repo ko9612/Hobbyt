@@ -15,7 +15,7 @@ import {
   UserRecipientDetailState,
 } from "../../../state/UserState";
 import SubmitButton from "../../Button/SubmitButton";
-import { patchOrderInfo } from "../../../api/OrderApi";
+import { patchOrderInfo } from "../../../api/orderApi";
 import MsgModal from "../../Modal/MsgModal";
 import { IDataProps } from "./OrderProgress";
 

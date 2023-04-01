@@ -7,7 +7,7 @@ import Head from "next/head";
 import { ModalContainer, ModalBackdrop, ModalView } from "./MsgModal";
 import CreateOrderNum from "../../util/OrederNumber";
 import { OrderState } from "../../state/OrderState";
-import { postOrder } from "../../api/OrderApi";
+import { postOrder } from "../../api/orderApi";
 import ScrollRoader from "../Scroll/ScrollRoader";
 import {
   EmailState,
