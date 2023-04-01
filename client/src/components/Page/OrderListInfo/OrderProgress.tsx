@@ -13,7 +13,7 @@ import example from "src/image/pictureDefalut.svg";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { DButton } from "../../Button/DefalutButton";
-import { deleteOrder, patchOrderState } from "../../../api/OrderApi";
+import { deleteOrder, patchOrderState } from "../../../api/orderApi";
 import DelModal from "../../Modal/DelModal";
 import ProgressCategory from "../../Category/ProgressCategory";
 import { OrderStatus } from "../../../state/OrderState";

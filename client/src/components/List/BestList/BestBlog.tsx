@@ -4,7 +4,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import BlogItem from "../BlogItem";
 import { BlogItemProps } from "../../../type/blogType";
-import { getBestBlogList } from "../../../api/MainApi";
+import { getBestBlogList } from "../../../api/mainApi";
 
 export const Section = tw.section`
 w-[52rem] mx-auto py-10

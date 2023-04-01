@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { getOrderDetail } from "../../../api/OrderApi";
+import { getOrderDetail } from "../../../api/orderApi";
 import { OrderStatus } from "../../../state/OrderState";
 import {
   UserRecipientZipCodeState,

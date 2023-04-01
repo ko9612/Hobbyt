@@ -7,7 +7,7 @@ import BlogItem from "../../List/BlogItem";
 import FilterButton from "../../Button/FilterButton";
 import { SearchBlogDataProps, BlogItemProps } from "../../../type/blogType";
 import { BlogSelectState } from "../../../state/BlogPostState";
-import { getSearchBlogList } from "../../../api/SearchApi";
+import { getSearchBlogList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
 const SRContainer = tw.div`m-auto`;
