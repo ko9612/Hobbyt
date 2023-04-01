@@ -31,7 +31,10 @@ export default function BlogEditComponent() {
   const [thumbnailData, setThumbnail] = useRecoilState(ThumbnailState);
   // 블로그 게시글 수정할 데이터 저장 상태
   const setEditData = useSetRecoilState(BlogEditState);
+
   const qid = Number(router.query.postId);
+  const uid = Number(router.query.userId);
+
   const userId = useRecoilValue(UserIdState);
 
   // 메세지 모달 보이는지, 안 보이는 지 여부
@@ -54,11 +57,16 @@ export default function BlogEditComponent() {
     try {
       const get = await getBlogDetail(qid);
       if ((get as any).status === 200) {
-        setEditData(get.data);
-        setTitleData(get.data.title);
-        setContentData(get.data.content);
-        setTagData(get.data.tags);
-        setPublicData(get.data.isPublic);
+        if ((get as any).data.writer.id !== uid && userId !== uid) {
+          setErrMsg("접근할 수 없는 게시글입니다.");
+          setShowModal(true);
+        } else {
+          setEditData(get.data);
+          setTitleData(get.data.title);
+          setContentData(get.data.content);
+          setTagData(get.data.tags);
+          setPublicData(get.data.isPublic);
+        }
       } else {
         if (get.status === 404) {
           setErrMsg(modalMsg[6]);

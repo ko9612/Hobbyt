@@ -47,6 +47,8 @@ export default function SaleDetailContent() {
   const isLogin = useRecoilValue(LoginState);
 
   const pid = Number(router.query.id);
+  const uid = Number(router.query.userId);
+
   const [SaleData, setSaleData] =
     useRecoilState<SaleDetailProps>(SaleDetailState);
   const priceSum = useRecoilValue(totalState);
@@ -86,15 +88,20 @@ export default function SaleDetailContent() {
       if (!isLogin) {
         const saleDetail = await getSaleDetailAnons(pid);
         if ((saleDetail as any).status === 200) {
-          setSaleData((saleDetail as any).data);
-          // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
-          const copySelectItem = [...(saleDetail as any).data.products].map(
-            el => ({
-              ...el,
-              quantity: 0,
-            }),
-          );
-          setSelectItem(copySelectItem);
+          if ((saleDetail as any).data.writer.id !== uid) {
+            setErrMsg("존재하지 않는 게시글입니다.");
+            setShowModal(true);
+          } else {
+            setSaleData((saleDetail as any).data);
+            // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
+            const copySelectItem = [...(saleDetail as any).data.products].map(
+              el => ({
+                ...el,
+                quantity: 0,
+              }),
+            );
+            setSelectItem(copySelectItem);
+          }
         } else if ((saleDetail as any).status === 404) {
           setErrMsg("존재하지 않는 게시글입니다.");
           setShowModal(true);
@@ -105,16 +112,21 @@ export default function SaleDetailContent() {
       } else {
         const saleDetail = await getSaleDetail(pid);
         if ((saleDetail as any).status === 200) {
-          setSaleData((saleDetail as any).data);
+          if ((saleDetail as any).data.writer.id !== uid) {
+            setErrMsg("존재하지 않는 게시글입니다.");
+            setShowModal(true);
+          } else {
+            setSaleData((saleDetail as any).data);
 
-          // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
-          const copySelectItem = [...(saleDetail as any).data.products].map(
-            el => ({
-              ...el,
-              quantity: 0,
-            }),
-          );
-          setSelectItem(copySelectItem);
+            // 제품 list 복사 후, 제품 item Object에 새 key 추가 + 필요없는 key 삭제
+            const copySelectItem = [...(saleDetail as any).data.products].map(
+              el => ({
+                ...el,
+                quantity: 0,
+              }),
+            );
+            setSelectItem(copySelectItem);
+          }
         } else if ((saleDetail as any).status === 404) {
           setErrMsg("존재하지 않는 게시글입니다.");
           setShowModal(true);

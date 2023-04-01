@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { getOrderDetail } from "../../../api/OrderApi";
 import { OrderStatus } from "../../../state/OrderState";
 import {
@@ -10,6 +10,7 @@ import {
   UserRefundHolderState,
   UserRefundBankState,
   UserRefundNumState,
+  UserIdState,
 } from "../../../state/UserState";
 import { OrderDetailProps } from "../../../type/OrderType";
 import MsgModal from "../../Modal/MsgModal";
@@ -27,6 +28,8 @@ export default function OrderDetailContent() {
   const [errMsg, setErrMsg] = useState("");
 
   const pid = Number(router.query.id);
+  const userId = useRecoilValue(UserIdState);
+
   const [isData, setData] = useState<OrderDetailProps>();
   const setIsZipcode = useSetRecoilState(UserRecipientZipCodeState);
   const setIsStatus = useSetRecoilState(OrderStatus);
@@ -40,16 +43,24 @@ export default function OrderDetailContent() {
     const detailData = await getOrderDetail(pid);
     const { data } = detailData as any;
     if ((detailData as any).status === 200) {
-      setData(data);
-      setIsStatus(data.status);
-      setIsZipcode(data.recipient.address.zipcode);
-      setIsStreet(data.recipient.address.street);
-      setIsDetail(data.recipient.address.detail);
-      setIsRefundHolder(data.refundAccount.holder);
-      setIsRefundBank(data.refundAccount.bank);
-      setIsRefundNumber(data.refundAccount.number);
+      if (
+        router.pathname.includes("/ordermanagement") &&
+        data.sellerId !== userId
+      ) {
+        setErrMsg("접근할 수 없는 페이지입니다");
+        setShowMsgModal(true);
+      } else {
+        setData(data);
+        setIsStatus(data.status);
+        setIsZipcode(data.recipient.address.zipcode);
+        setIsStreet(data.recipient.address.street);
+        setIsDetail(data.recipient.address.detail);
+        setIsRefundHolder(data.refundAccount.holder);
+        setIsRefundBank(data.refundAccount.bank);
+        setIsRefundNumber(data.refundAccount.number);
+      }
     } else if ((detailData as any).status === 404) {
-      setErrMsg("주문정보를 찾을 수 없습니다.");
+      setErrMsg("주문정보를 찾을 수 없습니다");
       setShowMsgModal(true);
     } else {
       setErrMsg("Server Error");

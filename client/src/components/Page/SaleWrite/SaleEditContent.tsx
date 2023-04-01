@@ -61,6 +61,8 @@ export default function SaleEditContent() {
 
   const [userId] = useRecoilState(UserIdState);
   const saleId = Number(router.query.saleId);
+  const uid = Number(router.query.userId);
+
   const [titleData, setTitleData] = useRecoilState(TitleState);
   const [togleData, setTogleData] = useRecoilState(PublicState);
   const [contentData, setContentData] = useRecoilState(ContentState);
@@ -84,26 +86,31 @@ export default function SaleEditContent() {
     const detailData = await getSaleDetail(saleId);
     if ((detailData as any).status === 200) {
       const { data } = detailData as any;
-      setTitleData(data.title);
-      setThumbnail(data.thumbnailImage);
-      setTogleData(data.isAlwaysOnSale);
-      setContentData(data.content);
-      setValue("refundExchangePolicy", data.refundExchangePolicy);
-      setValue("productionProcessLink", data.productionProcessLink);
-      if (!data.isAlwaysOnSale) {
-        setValue("period.startedAt", data.period.startedAt);
-        setValue("period.endAt", data.period.endAt);
+      if (data.writer.id !== uid && userId !== uid) {
+        setErrMsg("접근할 수 없는 게시글입니다.");
+        setShowModal(true);
+      } else {
+        setTitleData(data.title);
+        setThumbnail(data.thumbnailImage);
+        setTogleData(data.isAlwaysOnSale);
+        setContentData(data.content);
+        setValue("refundExchangePolicy", data.refundExchangePolicy);
+        setValue("productionProcessLink", data.productionProcessLink);
+        if (!data.isAlwaysOnSale) {
+          setValue("period.startedAt", data.period.startedAt);
+          setValue("period.endAt", data.period.endAt);
+        }
+        setValue("caution", data.caution);
+        setProductData(data.products);
+        setValue("account.holder", data.account.holder);
+        setValue("account.bank", data.account.bank);
+        setIsAccountNum(data.account.number);
+        setValue("delivery.deliveryTime", data.delivery.deliveryTime);
+        setValue("delivery.deliveryCompany", data.delivery.deliveryCompany);
+        setValue("delivery.deliveryPrice", data.delivery.deliveryPrice);
+        setValue("depositEffectiveTime", data.depositEffectiveTime);
+        setTagData(data.tags);
       }
-      setValue("caution", data.caution);
-      setProductData(data.products);
-      setValue("account.holder", data.account.holder);
-      setValue("account.bank", data.account.bank);
-      setIsAccountNum(data.account.number);
-      setValue("delivery.deliveryTime", data.delivery.deliveryTime);
-      setValue("delivery.deliveryCompany", data.delivery.deliveryCompany);
-      setValue("delivery.deliveryPrice", data.delivery.deliveryPrice);
-      setValue("depositEffectiveTime", data.depositEffectiveTime);
-      setTagData(data.tags);
     } else if ((detailData as any).status === 404) {
       setErrMsg("존재하지 않는 게시글입니다.");
       setShowModal(true);
