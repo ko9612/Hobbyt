@@ -37,8 +37,8 @@ export default function SaleItem({ list, children }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
-  console.log("세일 아이템 닉네임", list);
-  console.log("세일 아이템", profileImage);
+  // console.log("세일 아이템 닉네임", list);
+  // console.log("세일 아이템", profileImage);
 
   return (
     <SLContent>
@@ -53,11 +53,11 @@ export default function SaleItem({ list, children }: ListProps) {
           alt="img"
           width={250}
           height={250}
-          className={`object-cover rounded-t-3xl ${
-            children === "best" || children === "search"
-              ? `w-[15rem] h-[15rem]`
-              : `w-54 h-54`
-          }`}
+          className={
+            thumbnailImage !== null
+              ? `object-cover rounded-t-3xl w-[${children}rem] h-[${children}rem]`
+              : ``
+          }
         />
       </SLImage>
       <SLProductInfo>

@@ -1,9 +1,9 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import Link from "next/link";
 // import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import Pagination from "react-js-pagination";
+// import Stack from "@mui/material/Stack";
+// import Pagination from "react-js-pagination";
 import MyPageCategory from "../../Category/MyPageCategory";
 import { ProductMenus } from "../../Category/CategoryArr";
 import { getProductsList } from "../../../api/tabApi";

@@ -7,9 +7,7 @@ import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/MainApi";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
-const BloggerInfo = tw.div`
-bg-slate-100 rounded-2xl p-4
-`;
+const BloggerInfo = tw.div`bg-slate-100 rounded-2xl p-4`;
 
 interface BloggerProps {
   hotBloggers: BestBloggerProps[];

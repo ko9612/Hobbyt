@@ -3,7 +3,15 @@ import { useState } from "react";
 import { BsChatLeftDots } from "react-icons/bs";
 import { postChatRoomId } from "../../api/chatApi";
 
-export default function DMButton({ children }) {
+interface DMPropsType {
+  children: string;
+}
+
+interface ResDataType {
+  data: string;
+}
+
+export default function DMButton({ children }: DMPropsType) {
   const router = useRouter();
   const [roomId, setRoomId] = useState(0);
   const homeId = Number(router.query.userId);
@@ -13,12 +21,9 @@ export default function DMButton({ children }) {
     const data = {
       partnerId: homeId,
     };
-
-    console.log("데이타", data);
     const res = await postChatRoomId(data);
-    const resID = Number(res.data);
+    const resID = Number((res as ResDataType).data);
     setRoomId(resID);
-    console.log("왜안됨", res);
   };
 
   const handleClick = () => {
@@ -28,10 +33,9 @@ export default function DMButton({ children }) {
       router.replace(`/message/${roomId}`);
     }
   };
-  console.log("roomid", roomId);
 
-  // eslint-disable-next-line react/no-unstable-nested-components, react/function-component-definition
-  const HandleChildren = () => {
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function HandleChildren() {
     if (children === "문의하기") {
       return "문의하기";
     }
@@ -41,7 +45,7 @@ export default function DMButton({ children }) {
     if (children === "블로그") {
       return <BsChatLeftDots className="m-auto w-[1.2rem] h-[1.2rem]" />;
     }
-  };
+  }
 
   return (
     <button

@@ -5,26 +5,27 @@ import {
   BsFillFileEarmarkFill,
   BsFillTrashFill,
 } from "react-icons/bs";
-// import { useRouter } from "next/router";
 import { useRouter } from "next/router";
-// import { useRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
-import { CommentType } from "../../type/blogType";
 import EditModal from "../Modal/EditModal";
 import DelModal from "../Modal/DelModal";
 import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
 import { deleteSaleContent } from "../../api/saleApi";
 import { UserIdState } from "../../state/UserState";
-// import { BlogEditState } from "../../state/BlogPostState";
 
 const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap`;
+
+interface ThreeDotsBoxType {
+  id: number;
+  content: string;
+}
 
 export default function ThreeDotsBox({
   children,
   item,
 }: {
   children: React.ReactNode;
-  item: CommentType;
+  item: ThreeDotsBoxType;
 }) {
   const router = useRouter();
   const [onClick, setOnClick] = useState(false);
@@ -32,10 +33,9 @@ export default function ThreeDotsBox({
   const [deleteModal, setDeleteModal] = useState(false);
   const [commentData, setCommentData] = useState("");
   const popRef = useRef<HTMLButtonElement>(null);
-  // const [, setBlogEdit] = useRecoilState(BlogEditState);
+
   // 포스트의 id 이거나 아니면 댓글 id 이거나
   const { id } = item || {};
-  // const router = useRouter();
   const userId = useRecoilValue(UserIdState);
 
   // 도트 3개 클릭 시 div 보임
@@ -88,6 +88,7 @@ export default function ThreeDotsBox({
   };
 
   // 삭제하는 api
+  // eslint-disable-next-line consistent-return
   const deleteApi = async () => {
     if (children === "블로그") {
       try {
@@ -116,11 +117,8 @@ export default function ThreeDotsBox({
     }
   };
 
-  // console.log(`수정 아이디`, id);
-  // console.log(`수정 컨텐츠`, commentData);
-
   return (
-    <div className="">
+    <div>
       {editModal === false ? null : (
         <EditModal content={commentData} id={id} setEditModal={setEditModal}>
           {children}
@@ -131,7 +129,6 @@ export default function ThreeDotsBox({
           setOpenModal={setDeleteModal}
           msg="정말 삭제하실 건가요? T.T"
           subMsg={["삭제 후엔 복원이 불가능합니다."]}
-          // id={id}
           afterClick={deleteApi}
           buttonString="삭제"
         />

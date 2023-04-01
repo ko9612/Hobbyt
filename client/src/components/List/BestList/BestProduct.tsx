@@ -43,7 +43,7 @@ export default function BestBlogger() {
             listData[0] &&
             listData[0].cards.map((item: SaleItemProps) => (
               <SaleItem list={item} key={item.id}>
-                best
+                15
               </SaleItem>
             ))}
         </BestItem>

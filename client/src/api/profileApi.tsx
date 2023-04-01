@@ -28,7 +28,7 @@ export const getBlogLoginProfile = async (homeUserId: number) => {
 };
 
 // 블로그 프로필 수정 api
-export const patchBlogProfile = async (homeUserId: number, data: any) => {
+export const patchBlogProfile = async (homeUserId: number, data: object) => {
   try {
     const blogProfile = await customAxios.patch(
       `/api/members/${homeUserId}/private/profile`,

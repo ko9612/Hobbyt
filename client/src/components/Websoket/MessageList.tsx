@@ -32,7 +32,7 @@ export default function MessageList({ chatRoomList }: any) {
   const getMessage = async (roomId: number) => {
     console.log("채팅내역조회 checkRoomId", roomId);
     const res = await getChatRoomMessage(roomId);
-    const listRes = res.data;
+    const listRes = (res as any).data;
     console.log("가져온 메세지 내역", listRes);
     setOldMsg(listRes);
   };
@@ -57,7 +57,7 @@ export default function MessageList({ chatRoomList }: any) {
     <MContainer>
       <MList>
         {chatRoomList.length !== 0 ? (
-          chatRoomList.map((user, idx: number) => (
+          chatRoomList.map((user: any, idx: number) => (
             <List
               key={idx}
               onClick={() => onClickHandler(idx, user.chatRoomId)}
@@ -71,7 +71,7 @@ export default function MessageList({ chatRoomList }: any) {
                     src={user.profileImage}
                     width={45}
                     height={45}
-                    alt="유저 프로필 사진"
+                    alt="메세지 리스트 유저 프로필 사진"
                     className="object-cover w-[3rem] h-[3rem] rounded-full"
                   />
                   <Info>

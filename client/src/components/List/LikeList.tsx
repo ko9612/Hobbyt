@@ -32,13 +32,13 @@ export default function LikeList() {
   const getData = async () => {
     if (likeSelect === "블로그") {
       const res = await getBlogLikeList(homeId, 0, limit);
-      const listRes = res.data;
+      const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
     } else if (likeSelect === "판매") {
       const res = await getSaleLikeList(homeId, 0, limit);
-      const listRes = res.data;
+      const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
@@ -100,7 +100,7 @@ export default function LikeList() {
                 {item.cards &&
                   item.cards.map((el: any) => (
                     <div key={el.id}>
-                      <SaleItem list={el}>sale</SaleItem>
+                      <SaleItem list={el}>14</SaleItem>
                     </div>
                   ))}
               </SLComponent>

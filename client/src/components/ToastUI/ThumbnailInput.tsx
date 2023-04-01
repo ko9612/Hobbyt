@@ -2,7 +2,6 @@ import tw from "tailwind-styled-components";
 import { useSetRecoilState } from "recoil";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
-import imageCompression from "browser-image-compression";
 import { ThumbnailState } from "../../state/BlogPostState";
 import { postThumbnailUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
@@ -17,25 +16,12 @@ export default function ThumbnailInput() {
 
   const setThumbnail = useSetRecoilState(ThumbnailState);
 
-  // 이미지 압축 로직
-  // const compressImage = async (image: File) => {
-  //   const options = {
-  //     maxSizeMb: 2,
-  //     maxWidthOrHeight: 500,
-  //   };
-  //   const compressedFile = await imageCompression(image, options);
-  //   console.log(image, compressedFile);
-  //   return compressedFile;
-  // };
-
   const onChangeImage = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const originalImage = e.target.files[0];
-      // const thumbnailData = await compressImage(originalImage);
 
       const formData = new FormData();
       const size = { width: 500, height: 500 };
-      // formData.append("image", thumbnailData);
 
       formData.append("image", originalImage);
       formData.append(

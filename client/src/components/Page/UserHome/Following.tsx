@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { postFollowing } from "../../../api/tabApi";
 import { LoginState, UserIdState } from "../../../state/UserState";
@@ -8,7 +7,11 @@ import DMButton from "../../Button/DMButton";
 import FollowButton from "../../Button/FollowButton";
 import ProfileButton from "../../Button/ProfileButton";
 
-export default function Followig({ isFollowing }: any) {
+interface FollowingType {
+  isFollowing: null | boolean;
+}
+
+export default function Followig({ isFollowing }: FollowingType) {
   const router = useRouter();
   // 개인홈 주인 id
   const homeId = Number(router.query.userId);
@@ -16,6 +19,8 @@ export default function Followig({ isFollowing }: any) {
   const userId = useRecoilValue(UserIdState);
   // 로그인 여부
   const isLogin = useRecoilValue(LoginState);
+
+  console.log("isFollowing", isFollowing);
 
   // 팔로우 요청 post api
   const handleClick = async () => {
@@ -27,10 +32,6 @@ export default function Followig({ isFollowing }: any) {
       console.error(err);
     }
   };
-
-  // useEffect(() => {
-  //   router.reload();
-  // }, [isFollowing]);
 
   return (
     <div className="w-full">

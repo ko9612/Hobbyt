@@ -1,3 +1,5 @@
+// 사용 안 하고 있는 듯 함 -지은
+
 import { ModalContainer, ModalBackdrop, ModalView, Content } from "./MsgModal";
 import { SubMsg, ButtonDiv } from "./DelModal";
 import ModalButton from "../Button/ModalButton";
@@ -28,12 +30,8 @@ export default function FollowModal({ setOpenModal }: FollowModalProps) {
             </SubMsg>
           </Content>
           <ButtonDiv>
-            <ModalButton id="" onClick={handleClose}>
-              아니오
-            </ModalButton>
-            <ModalButton id="" onClick={() => {}}>
-              예
-            </ModalButton>
+            <ModalButton onClick={handleClose}>아니오</ModalButton>
+            <ModalButton onClick={() => {}}>예</ModalButton>
           </ButtonDiv>
         </ModalView>
       </ModalBackdrop>

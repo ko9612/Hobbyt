@@ -3,7 +3,8 @@ export interface ProductList {
   name: string;
   price: number | undefined | string;
   stockQuantity: number | undefined | string;
-  image: string | undefined | StaticImport;
+  // image: string | undefined | StaticImport;
+  image: string | undefined;
 }
 
 // 판매글 작성 데이터 타입
@@ -96,9 +97,24 @@ export interface SaleItemProps {
   writerId: number;
   profileImage: string | null;
   nickname: string;
+  content: string;
 }
 
 export interface SearchSaleDataProps {
   hasNext: boolean;
   sales: SaleItemProps[];
 }
+
+// // 판매글 리스트 타입
+// export interface SaleItemsListProps {
+//   id: number;
+//   isAlwaysOnSale: boolean;
+//   likeCount: number;
+//   period: {
+//     startedAt: string;
+//     endAt: string;
+//   };
+//   thumbnailImage: string;
+//   title: string;
+//   writerId: number;
+// }

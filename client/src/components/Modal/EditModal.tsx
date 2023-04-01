@@ -52,16 +52,6 @@ export default function EditModal({
       content: newComment,
     };
 
-    // if (children === "블로그") {
-    //   try {
-    //     const res = await patchBlogComment(data, id);
-    //     console.log(`블로그 수정 요청`, res);
-    //     // 보고 있던 게시글로 보내게끔 해야하는데,,, 리로드 되면 데이터 다 날라가는 것부터 해결하고 해야할 듯
-    //     // router.replace("/");
-    //   } catch (err: unknown) {
-    //     return console.error(err);
-    //   }
-    // } else
     if (children === "댓글") {
       try {
         const res = await patchBlogComment(data, id);
@@ -77,12 +67,6 @@ export default function EditModal({
         return console.error(err);
       }
     }
-
-    // if (children === "판매") {
-    //   const data = {
-    //     content: commentData,
-    //   };
-    // }
   };
 
   return (
@@ -101,11 +85,8 @@ export default function EditModal({
             />
           </Content>
           <ButtonDiv>
-            <ModalButton id="" onClick={handleClose}>
-              취소
-            </ModalButton>
+            <ModalButton onClick={handleClose}>취소</ModalButton>
             <ModalButton
-              id=""
               onClick={() => {
                 submitEditHandler();
               }}
