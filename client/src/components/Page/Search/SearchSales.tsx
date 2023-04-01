@@ -29,19 +29,19 @@ export default function SearchSales() {
   const [ref, inView] = useInView({ threshold: 0 }); // hook, ref=관찰할 대상에 설정, inView=타겟이 보이지 않으면 false, 보이면 true
   // 검색 키워드
   const keyword = router.query.keywords;
-  const limit = 9;
+  const limit = 12;
   const [offset, setOffset] = useState(0);
 
   // 검색: 검색 후, 첫 판매 게시글 리스트 api 요청
   const getSearchSaleData = async () => {
     if (select === "최신순") {
-      const res = await getSearchSaleList(keyword, 0, 9, "SALE_NEWEST");
+      const res = await getSearchSaleList(keyword, 0, limit, "SALE_NEWEST");
       const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);
       setHasNext(listRes.hasNext);
     } else {
-      const res = await getSearchSaleList(keyword, 0, 9, "SALE_MOST_LIKE");
+      const res = await getSearchSaleList(keyword, 0, limit, "SALE_MOST_LIKE");
       const listRes = (res as any).data;
       setListData([listRes]);
       setOffset(limit);

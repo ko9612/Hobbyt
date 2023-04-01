@@ -67,7 +67,7 @@ export default function LikeList() {
     if (router.isReady) {
       getData();
     }
-  }, [router.isReady, likeSelect]);
+  }, [router.isReady, likeSelect, homeId]);
 
   useEffect(() => {
     if (hasNext && inview) {

@@ -32,7 +32,6 @@ export default function SaleItem({ list, children }: ListProps) {
     period,
     likeCount,
     nickname,
-    isAlwaysOnSale,
     writerId,
     profileImage,
   } = list || {};

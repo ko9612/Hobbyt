@@ -22,7 +22,7 @@ function SearchBlog() {
   const [ref, inView] = useInView({ threshold: 0 }); // hook, ref=관찰할 대상에 설정, inView=타겟이 보이지 않으면 false, 보이면 true
   // 검색 키워드
   const keyword = router.query.keywords;
-  const limit = 5;
+  const limit = 7;
   const [offset, setOffset] = useState(0);
 
   // 검색: 검색 후, 첫 블로그 게시글 리스트 api 요청

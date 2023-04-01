@@ -176,8 +176,8 @@ export default function OrderProgress({ isData }: IDataProps) {
               <span className="w-20 h-20 overflow-hidden rounded-md ring-4 ring-gray-300">
                 <Image
                   src={
-                    isData.thumbnailImage !== "기본 이미지"
-                      ? `/api/images/${isData.thumbnailImage}`
+                    isData.thumbnailImage !== null
+                      ? isData.thumbnailImage
                       : example
                   }
                   width={150}

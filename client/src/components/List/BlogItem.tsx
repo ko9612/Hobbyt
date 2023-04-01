@@ -41,7 +41,6 @@ export default function BlogItem({ list }: any) {
     content,
     thumbnailImage,
     profileImage,
-    writerProfileImage,
     nickname,
     isPublic,
     writerId,
