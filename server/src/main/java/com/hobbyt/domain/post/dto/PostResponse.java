@@ -30,7 +30,7 @@ public class PostResponse {
 		this.id = post.getId();
 		this.title = post.getTitle();
 		this.content = post.getContent();
-		this.thumbnailImage = post.getThumbnailImage();
+		this.thumbnailImage = "/api/images/" + post.getThumbnailImage();
 		this.viewCount = post.getViewCount();
 		this.likeCount = post.getLikeCount();
 		this.isPublic = post.getIsPublic();
