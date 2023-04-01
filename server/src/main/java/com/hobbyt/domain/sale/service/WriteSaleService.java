@@ -29,4 +29,13 @@ public class WriteSaleService {
 
 		return saleId;
 	}
+
+	public Long update(Long saleId, Sale updateSale, List<Product> products, List<String> tagContents) {
+		Sale updatedSale = saleService.updateSale(saleId, updateSale);
+		productService.updateProducts(updatedSale.getId(), products);
+		List<Tag> tags = tagService.addTags(tagContents);
+		saleTagService.updateTagsToSale(updatedSale, tags);
+
+		return updatedSale.getId();
+	}
 }

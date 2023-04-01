@@ -1,7 +1,5 @@
 package com.hobbyt.domain.sale.controller;
 
-import java.util.List;
-
 import javax.validation.constraints.Min;
 
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,6 @@ import com.hobbyt.domain.sale.service.SaleLikeService;
 import com.hobbyt.domain.sale.service.SaleService;
 import com.hobbyt.domain.sale.service.SaleTagService;
 import com.hobbyt.domain.sale.service.WriteSaleService;
-import com.hobbyt.domain.tag.entity.Tag;
 import com.hobbyt.domain.tag.service.TagService;
 import com.hobbyt.global.error.exception.BusinessLogicException;
 import com.hobbyt.global.error.exception.ExceptionCode;
@@ -66,7 +63,7 @@ public class SaleController {
 
 		Long saleId = writeSaleService.post(loginMember.getEmail(), request.toSale(), request.getProducts(),
 			request.getTags());
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(saleId);
 	}
 
@@ -82,11 +79,9 @@ public class SaleController {
 
 		checkSalePeriod(request.getIsAlwaysOnSale(), request.isPeriodNull());
 
-		Sale updatedSale = saleService.updateSale(saleId, request.toSale());
-		productService.updateProducts(updatedSale.getId(), request.getProducts());
-		List<Tag> tags = tagService.addTags(request.getTags());
-		saleTagService.updateTagsToSale(updatedSale, tags);
-		return ResponseEntity.ok(updatedSale.getId());
+		Long resultSaleId = writeSaleService.update(saleId, request.toSale(), request.getProducts(), request.getTags());
+
+		return ResponseEntity.ok(resultSaleId);
 	}
 
 	@DeleteMapping("/{id}")
