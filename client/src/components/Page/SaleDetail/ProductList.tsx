@@ -5,7 +5,7 @@ import { PdContent } from "./ProductContent";
 
 import { SelectPdList } from "../../../type/OrderType";
 import { SelectdPdList } from "../../../state/SaleState";
-import exampleImg from "../../../image/header_ex.jpg";
+import exampleImg from "../../../image/pictureDefalut.svg";
 
 const ProductItem = tw.div`w-full h-[5rem] bg-gray-100 rounded-lg flex items-center justify-between px-2`;
 
@@ -26,6 +26,8 @@ export default function ProductList() {
     newValue,
     ...arr.slice(index + 1),
   ];
+
+  console.log(selectItem);
 
   // 제품 선택 - 수량 핸들러
   const quantityMinusHandler = (

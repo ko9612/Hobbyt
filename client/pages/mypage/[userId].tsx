@@ -1,14 +1,15 @@
 // 내 정보 관리
 import tw from "tailwind-styled-components";
-import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useState } from "react";
 import Navbar from "../../src/components/Nav/NavBar";
 import Tab from "../../src/components/Tab/Tab";
 import { SaleMenus } from "../../src/components/Tab/TabArr";
 import Footer from "../../src/components/Footer/Footer";
 import { Main } from "../index";
-import { LoginState, UserIdState } from "../../src/state/UserState";
+import { UserIdState } from "../../src/state/UserState";
+import UrlAccessControl from "../../src/util/UrlAccessControl";
 
 const MypageContent = tw.div`
 border-2 border-green-400 w-[52rem] m-auto
@@ -20,26 +21,11 @@ mt-20 mb-2
 
 export default function Mypage() {
   const router = useRouter();
-  const [isLogin, setLogin] = useRecoilState(LoginState);
+  const [isLogin, setIsLogin] = useState(false);
   const uid = Number(router.query.userId);
-  const [userId] = useRecoilState(UserIdState);
-  useEffect(() => {
-    if (router.isReady) {
-      if (typeof window !== "undefined") {
-        if (localStorage.getItem("authorization")) {
-          setLogin(true);
-          if (uid !== userId) {
-            alert("유효한 접근이 아닙니다.");
-            router.replace("/");
-          }
-        } else {
-          setLogin(false);
-          alert("로그인이 필요한 페이지입니다");
-          router.push("/signin");
-        }
-      }
-    }
-  }, [router.isReady]);
+  const userId = useRecoilValue(UserIdState);
+
+  UrlAccessControl({ router, setIsLogin, uid, userId });
 
   return (
     <div>

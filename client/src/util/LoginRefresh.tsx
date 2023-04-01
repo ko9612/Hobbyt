@@ -13,10 +13,11 @@ export const getAccessToken = () => {
 export const refreshAccessToken = async () => {
   try {
     const res = await postReToken();
-    const newAccessToken = (res as any).headers.authorization;
-    const newRefreshToken = (res as any).headers.refreshToken;
-    localStorage.setItem("authorization", newAccessToken);
-    localStorage.setItem("refresh", newRefreshToken);
+    const accessToken = (res as any).headers.authorization;
+    const refreshToken = (res as any).headers.refreshtoken;
+    localStorage.setItem("authorization", accessToken);
+    localStorage.setItem("refresh", refreshToken);
+    return `Bearer ${accessToken}`;
   } catch (err: any) {
     if (
       err.response &&

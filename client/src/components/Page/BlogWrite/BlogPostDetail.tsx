@@ -37,6 +37,8 @@ const Comment = tw.div``;
 export default function BlogPostDetail() {
   const router = useRouter();
   const pid = Number(router.query.id);
+  const uid = Number(router.query.userId);
+
   const [getNewData, setGetNewData] = useState<IBlogDetailData[]>();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -71,8 +73,14 @@ export default function BlogPostDetail() {
       if (!isLogin) {
         const blogDetail = await getBlogDetailAnons(pid);
         console.log("블로그 게시글 디테일", blogDetail.data);
+
         if (blogDetail.status === 200) {
-          setGetNewData(blogDetail.data);
+          if (blogDetail.data.writer.id !== uid) {
+            setErrMsg("존재하지 않는 게시글입니다.");
+            setShowModal(true);
+          } else {
+            setGetNewData(blogDetail.data);
+          }
         } else if (blogDetail.status === 404) {
           setErrMsg("존재하지 않는 게시글입니다.");
           setShowModal(true);
@@ -84,7 +92,12 @@ export default function BlogPostDetail() {
         const blogDetail = await getBlogDetail(pid);
         console.log("블로그 게시글 디테일", blogDetail.data);
         if (blogDetail.status === 200) {
-          setGetNewData(blogDetail.data);
+          if (blogDetail.data.writer.id !== uid) {
+            setErrMsg("존재하지 않는 게시글입니다.");
+            setShowModal(true);
+          } else {
+            setGetNewData(blogDetail.data);
+          }
         } else if (blogDetail.status === 404) {
           setErrMsg("존재하지 않는 게시글입니다.");
           setShowModal(true);
@@ -95,6 +108,8 @@ export default function BlogPostDetail() {
       }
     }
   };
+
+  console.log(getNewData?.writer.id, uid);
 
   const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
     ssr: false,

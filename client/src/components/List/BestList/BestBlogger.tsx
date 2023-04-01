@@ -34,8 +34,7 @@ export default function BestBlogger() {
       <BestContent className="pt-5">
         <BestItem className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           {listData &&
-            listData[0] &&
-            listData[0].hotBloggers.map(item => (
+            listData[0]?.hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>
                 <Link
                   href={`/blog/${item.bloggerId}`}

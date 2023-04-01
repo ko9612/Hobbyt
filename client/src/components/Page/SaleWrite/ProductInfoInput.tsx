@@ -247,9 +247,9 @@ export default function ProductInfoInput() {
                   onChange={e => editImgHandler(index, e)}
                 />
               </label>
-              {products[index] ? (
+              {products[index]?.image ? (
                 <Image
-                  src={products[index].image && products[index].image.slice(26)}
+                  src={products[index].image.slice(26)}
                   alt="Thumb"
                   className="object-cover w-[8rem] h-[6.5rem] rounded-md"
                   width={130}

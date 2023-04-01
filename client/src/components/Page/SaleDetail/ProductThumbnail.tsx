@@ -13,10 +13,10 @@ export default function ProductThumbnail() {
   console.log(SaleData.thumbnailImage);
   return (
     <PdThumbnail>
-      {SaleData && SaleData.thumbnailImage !== "기본 이미지" ? (
+      {SaleData && SaleData.thumbnailImage !== null ? (
         <Image
           src={`/api/images/${SaleData.thumbnailImage}`}
-          alt="유저 프로필 사진"
+          alt="썸네일사진"
           width={500}
           height={500}
           priority
