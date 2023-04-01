@@ -2,14 +2,12 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-// import dynamic from "next/dynamic";
 import { useRecoilValue } from "recoil";
 import { BsLockFill } from "react-icons/bs";
 import ViewCount from "../ViewLikeWrite/ViewCount";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import WriteDate from "../ViewLikeWrite/WriteDate";
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-// import { BlogItemProps } from "../../type/blogType";
 import DefalutImage from "../../image/pictureDefalut.svg";
 import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
@@ -56,9 +54,9 @@ export default function BlogItem({ list }: any) {
   // 텍스트에서 html 제거하는 정규식
   const regText = content.replace(/<[^>]*>?/g, "");
 
-  // console.log(`아이디?`, router);
   // console.log(`리스트?`, list);
-  // console.log(`유저아이디`, userId);
+  // console.log("프로필 이미지", profileImage);
+
   return (
     <BLComponent
       className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
@@ -75,26 +73,22 @@ export default function BlogItem({ list }: any) {
       <BLContent>
         <BLTitle>
           <Link href={`/blog/${writerId}/post/${id}`}>
-            <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center">
+            <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center mt-1">
               {title}
               {router.pathname.startsWith("/blog") && !isPublic && (
                 <BsLockFill className="ml-3 text-gray-400" />
               )}
             </h2>
           </Link>
-          {/* {(writerId === userId && router.pathname !== "/") ||
-          router.pathname.includes("/blog") ? ( */}
           {writerId === userId && router.pathname.includes("/blog") ? (
             <ThreeDotsBox item={list}>블로그</ThreeDotsBox>
           ) : null}
         </BLTitle>
         <Text>{regText}</Text>
         <div
-          className={`${
-            !router.pathname.includes("/blog") && "flex justify-between"
-          }`}
+          className={`${profileImage !== undefined && "flex justify-between"}`}
         >
-          {!router.pathname.includes("/blog") && (
+          {profileImage !== undefined && (
             <Link href={`/blog/${writerId}`}>
               <ActInfo>
                 <div className="w-[2.5rem] ">
@@ -113,10 +107,7 @@ export default function BlogItem({ list }: any) {
           )}
           <ActInfo
             className={`${
-              !router.pathname.includes("/blog") &&
-              !router.pathname.includes("/blog")
-                ? "justify-end"
-                : "float-right"
+              profileImage === undefined ? "justify-end" : "float-right"
             }`}
           >
             <span className="mx-[0.25rem]">

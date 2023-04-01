@@ -16,7 +16,6 @@ export default function LikeList() {
   const router = useRouter();
   const homeId = Number(router.query.userId);
 
-  // console.log("홈아이디", homeId);
   // 블로그, 판매 필터 클릭 저장하는 state // 기본적으로 블로그
   const likeSelect = useRecoilValue(BlogLikeSelectState);
 
@@ -79,16 +78,6 @@ export default function LikeList() {
     }
   }, [inview]);
 
-  // // 날짜 바꿔주는 함수
-  // const getParsedDate = (date: string) =>
-  //   new Date(date).toLocaleDateString("ko-KR");
-
-  // // 텍스트에서 html 제거하는 정규식
-  // const regText = (content: string) => {
-  //   const newText = content.replace(/<[^>]*>?/g, "");
-  //   return newText;
-  // };
-
   console.log("내 좋아요 리스트", listData);
 
   return (
@@ -96,7 +85,7 @@ export default function LikeList() {
       <MyLikeFilterBut />
       {listData[0] &&
         listData.map((item: any) => (
-          <div key={item}>
+          <div key={item.id}>
             {likeSelect === "블로그" ? (
               <div>
                 {item.cards &&
