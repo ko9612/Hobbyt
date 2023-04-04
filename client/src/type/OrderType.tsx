@@ -60,6 +60,7 @@ export interface OrderDataProps {
 }
 
 export interface OrderDetailProps {
+  comsumerId: number;
   orderNumber: string;
   title: string;
   status: string;

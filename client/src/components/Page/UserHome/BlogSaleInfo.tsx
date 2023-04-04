@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { useRecoilValue } from "recoil";
 import FilterButton from "../../Button/FilterButton";
 import { DefalutButton } from "../../Button/DefalutButton";
+import { UserIdState } from "../../../state/UserState";
 
 interface IProps {
   children: string;
@@ -10,6 +12,7 @@ interface IProps {
 export default function BlogSaleInfo({ children }: IProps) {
   const router = useRouter();
   const homeUserId = Number(router.query.userId);
+  const userId = useRecoilValue(UserIdState);
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -21,16 +24,18 @@ export default function BlogSaleInfo({ children }: IProps) {
   };
 
   return (
-    <div className="flex items-center justify-between mt-2">
+    <div className="flex items-center justify-between mt-5">
       <FilterButton />
-      <DefalutButton
-        id=""
-        onClick={e => {
-          onClickHandler(e);
-        }}
-      >
-        글쓰기
-      </DefalutButton>
+      {userId === homeUserId && (
+        <DefalutButton
+          id=""
+          onClick={e => {
+            onClickHandler(e);
+          }}
+        >
+          글쓰기
+        </DefalutButton>
+      )}
     </div>
   );
 }

@@ -110,10 +110,8 @@ export default function SaleWriteContent() {
 
   useEffect(() => {
     getUserData();
+    router.events.on("routeChangeStart", resetData);
     router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
   }, []);
 
   // 엔터키 submit 방지

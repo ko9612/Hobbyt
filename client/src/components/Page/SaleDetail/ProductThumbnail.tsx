@@ -12,7 +12,7 @@ export default function ProductThumbnail() {
     <PdThumbnail>
       {SaleData && SaleData.thumbnailImage !== null ? (
         <Image
-          src={`/api/images/${SaleData.thumbnailImage}`}
+          src={SaleData.thumbnailImage}
           alt="썸네일사진"
           width={500}
           height={500}

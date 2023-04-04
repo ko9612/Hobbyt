@@ -134,10 +134,8 @@ export default function SaleEditContent() {
     if (router.isReady) {
       getData();
     }
+    router.events.on("routeChangeStart", resetData);
     router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
   }, [router.isReady]);
 
   // 엔터키 submit 방지

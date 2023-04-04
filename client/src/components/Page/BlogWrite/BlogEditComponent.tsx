@@ -29,6 +29,7 @@ export default function BlogEditComponent() {
   const [tagData, setTagData] = useRecoilState(TagState);
   const [publicData, setPublicData] = useRecoilState(PublicState);
   const [thumbnailData, setThumbnail] = useRecoilState(ThumbnailState);
+
   // 블로그 게시글 수정할 데이터 저장 상태
   const setEditData = useSetRecoilState(BlogEditState);
 
@@ -93,10 +94,8 @@ export default function BlogEditComponent() {
     if (router.isReady) {
       GetData();
     }
+    router.events.on("routeChangeStart", resetData);
     router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
   }, [router.isReady]);
 
   const EditHandler = async () => {
@@ -160,7 +159,7 @@ export default function BlogEditComponent() {
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
       <TitleInput />
       <ThumbnailInput />
-      <ToastEditor />
+      {contentData && <ToastEditor />}
       <DefalutTag />
       <SubmitButton id="postSubmitBut" onClick={() => EditHandler()}>
         저장

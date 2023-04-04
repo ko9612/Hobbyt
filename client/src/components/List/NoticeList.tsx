@@ -116,7 +116,7 @@ export default function NoticeList() {
                 key={notice.notificationId}
                 onClick={() => noticeClick(notice)}
               >
-                <div className="flex items-center p-8 mb-5 rounded-lg bg-slate-100">
+                <div className="flex items-center p-8 mb-5 rounded-lg bg-gray-100">
                   {/* <p className="mr-5">{notice.userprofile}</p> */}
                   <p className="pr-2 font-semibold text-MainColor">
                     {notice.sender}
