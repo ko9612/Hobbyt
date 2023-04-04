@@ -31,10 +31,8 @@ export default function AddressApi() {
   };
 
   useEffect(() => {
+    router.events.on("routeChangeStart", resetData);
     router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
   }, []);
 
   // 우편번호 찾기
