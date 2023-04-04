@@ -100,7 +100,7 @@ export default function LikeList() {
                 {item.cards &&
                   item.cards.map((el: any) => (
                     <div key={el.id}>
-                      <SaleItem list={el}>14</SaleItem>
+                      <SaleItem list={el} />
                     </div>
                   ))}
               </SLComponent>

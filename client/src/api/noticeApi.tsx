@@ -12,10 +12,10 @@ export const getSSE = async () => {
 };
 
 // 알림 목록 조회
-export const getNotice = async () => {
+export const getNotice = async (off: number, lim: number) => {
   try {
     const noticeList = await customAxios.get(
-      "/api/notifications?offset=0&limit=10",
+      `/api/notifications?offset=${off}&limit=${lim}`,
     );
     return noticeList;
   } catch (err: unknown) {

@@ -92,9 +92,7 @@ export default function SaleList() {
             {item.sales &&
               item.sales.map((el: any) => (
                 <div key={el.id}>
-                  <SaleItem list={el} key={el.id}>
-                    14
-                  </SaleItem>
+                  <SaleItem list={el} key={el.id} />
                 </div>
               ))}
           </SLComponent>

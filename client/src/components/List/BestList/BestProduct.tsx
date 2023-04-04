@@ -42,9 +42,7 @@ export default function BestBlogger() {
           {listData &&
             listData[0] &&
             listData[0].cards.map((item: SaleItemProps) => (
-              <SaleItem list={item} key={item.id}>
-                15
-              </SaleItem>
+              <SaleItem list={item} key={item.id} />
             ))}
         </BestItem>
       </BestContent>
