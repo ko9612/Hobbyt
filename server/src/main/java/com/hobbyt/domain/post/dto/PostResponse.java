@@ -27,10 +27,12 @@ public class PostResponse {
 	private List<String> tags;
 
 	public PostResponse(Post post, List<CommentBox> comments, List<String> tags) {
+		final String path = "/api/images/";
+
 		this.id = post.getId();
 		this.title = post.getTitle();
 		this.content = post.getContent();
-		this.thumbnailImage = "/api/images/" + post.getThumbnailImage();
+		this.thumbnailImage = post.getThumbnailImage() == null ? null : path.concat(post.getThumbnailImage());
 		this.viewCount = post.getViewCount();
 		this.likeCount = post.getLikeCount();
 		this.isPublic = post.getIsPublic();
