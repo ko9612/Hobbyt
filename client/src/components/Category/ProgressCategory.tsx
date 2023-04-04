@@ -1,7 +1,7 @@
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { ProgressArr, RefundArr } from "./CategoryArr";
-import { patchOrderState } from "../../api/orderApi";
+import { deleteOrder, patchOrderState } from "../../api/orderApi";
 import { orderErrorHandler } from "../../util/ErrorHandler";
 import MsgModal from "../Modal/MsgModal";
 
@@ -17,6 +17,7 @@ export default function ProgressCategory({
   isCanceled,
 }: Istatus) {
   const [showMsgModal, setShowMsgModal] = useState(false);
+
   const [errMsg, setErrMsg] = useState("");
 
   const [categorySpread, setCategorySpread] = useState(false);
@@ -62,7 +63,6 @@ export default function ProgressCategory({
 
   // 클릭한 이름
   const [clcikName, setClickName] = useState(orderStatus);
-
   useEffect(() => {}, [clcikName]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +76,7 @@ export default function ProgressCategory({
       status: value,
       // status: clcikName,
     };
+
     const patchData = async () => {
       const res = await patchOrderState(data, orderId);
       if ((res as any).status !== 200) {
@@ -83,7 +84,19 @@ export default function ProgressCategory({
       }
       return res;
     };
-    patchData();
+
+    const DeleteOrder = async () => {
+      const delOrderData = await deleteOrder(orderId);
+      if ((delOrderData as any).status !== 200) {
+        orderErrorHandler({ data: delOrderData, setErrMsg, setShowMsgModal });
+      }
+    };
+
+    if (value === "CANCEL") {
+      DeleteOrder();
+    } else {
+      patchData();
+    }
   };
 
   console.log(`프로그래스 카테고리`, orderStatus);
@@ -93,13 +106,13 @@ export default function ProgressCategory({
       <div className="relative flex flex-col border-2 mr-[1rem] p-1 w-[7rem]">
         <button
           onClick={spreadOnClickHandler}
-          className="flex justify-between p-[0.5rem] w-[6rem] text-sm"
+          className="flex justify-evenly p-1 pr-2 w-[7rem] text-sm"
         >
           {clcikName && getStatus(clcikName)}
           {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </button>
         {categorySpread && (
-          <div className="absolute z-10 w-[7rem] p-1 overflow-hidden text-sm bg-gray-100 border-2 top-11 left-0">
+          <div className="absolute z-10 w-[7rem] p-1 overflow-hidden text-sm bg-gray-100 border-2 top-9 left-0">
             {(isCanceled ? RefundArr : progressArr).map((progress, idx) => (
               <button
                 className="flex py-1 m-auto "

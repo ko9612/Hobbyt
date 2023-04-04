@@ -8,6 +8,8 @@ export const PdThumbnail = tw.article`py-5`;
 
 export default function ProductThumbnail() {
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
+
+  console.log(SaleData.thumbnailImage);
   return (
     <PdThumbnail>
       {SaleData && SaleData.thumbnailImage !== null ? (

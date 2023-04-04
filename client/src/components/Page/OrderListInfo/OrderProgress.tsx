@@ -163,9 +163,8 @@ export default function OrderProgress({ isData }: IDataProps) {
     } else if (isStatus === "CANCEL") {
       setShowDropBox(false);
     }
-  }, [isStatus]);
+  }, [isData.status]);
 
-  console.log(isData);
   return (
     <PgSection>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}

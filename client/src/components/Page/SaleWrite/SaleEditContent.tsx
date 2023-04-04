@@ -91,7 +91,6 @@ export default function SaleEditContent() {
         setShowModal(true);
       } else {
         setTitleData(data.title);
-        setThumbnail(data.thumbnailImage);
         setTogleData(data.isAlwaysOnSale);
         setContentData(data.content);
         setValue("refundExchangePolicy", data.refundExchangePolicy);
@@ -227,7 +226,7 @@ export default function SaleEditContent() {
         {/* 썸네일 */}
         <ThumbnailInput />
         {/* 본문 */}
-        <ToastEditor />
+        {contentData && <ToastEditor />}
         {/* 환불, 교환 안내 */}
         <PostWriteContent className="pt-[2rem]">
           <PostWriteList>
