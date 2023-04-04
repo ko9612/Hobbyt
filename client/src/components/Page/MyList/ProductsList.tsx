@@ -8,7 +8,7 @@ import MyPageCategory from "../../Category/MyPageCategory";
 import { ProductMenus } from "../../Category/CategoryArr";
 import { getProductsList } from "../../../api/tabApi";
 
-export const PContent = tw.div`w-[50rem] block justify-center items-center m-auto border-2 border-black h-[60rem]`;
+export const PContent = tw.div`w-[50rem] block justify-center items-center m-auto h-[60rem]`;
 
 export default function ProductstList() {
   const [data, setData] = useState([]);

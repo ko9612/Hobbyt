@@ -66,7 +66,7 @@ export default function SalesManagementList() {
                   <li className="w-[8rem] mr-[4rem] text-center">
                     {product.createdAt && getParsedDate(product.createdAt)}
                   </li>
-                  <div className="w-[8rem]">
+                  <div>
                     <ProgressCategory
                       isCanceled={product.isCanceled}
                       orderStatus={product.status}

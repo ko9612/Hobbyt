@@ -87,18 +87,18 @@ export default function PurchaseList() {
                   >
                     <li
                       role="presentation"
-                      className="w-[8rem] mr-[5rem] text-center truncate cursor-pointer"
+                      className="w-[8rem] mr-[5rem] text-center truncate cursor-pointer "
                     >
                       {product.title}
                     </li>
                   </Link>
-                  <li className="w-[8rem] mr-[5rem] text-center">
+                  <li className="w-36 mr-[5rem] text-center ">
                     {product.nickname}
                   </li>
-                  <li className="w-[8rem] mr-[7rem] text-center">
+                  <li className="w-36 mr-[6rem] text-center ">
                     {product.createdAt && getParsedDate(product.createdAt)}
                   </li>
-                  <li className="w-[5rem] mr-[2rem] text-center">
+                  <li className="w-32 mr-[1rem] text-center ">
                     {product.status && getStatus(product.status)}
                   </li>
                 </ul>

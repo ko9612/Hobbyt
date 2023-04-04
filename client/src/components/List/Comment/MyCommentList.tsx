@@ -84,8 +84,7 @@ export default function MyCommentList(): React.ReactElement {
                         </button>
                       </Link>
                     </div>
-                    {el.postWriterId === userId &&
-                    router.pathname.includes("/blog") ? (
+                    {homeId === userId ? (
                       <ThreeDotsBox item={el}>댓글</ThreeDotsBox>
                     ) : null}
                   </div>
