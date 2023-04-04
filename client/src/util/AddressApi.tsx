@@ -30,12 +30,8 @@ export default function AddressApi() {
     setIsDetail("");
   };
 
-  useEffect(() => {
-    router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
-  }, []);
+  router.events.on("routeChangeStart", resetData);
+  router.events.on("routeChangeComplete", resetData);
 
   // 우편번호 찾기
   const handlePostCode = (data: any) => {

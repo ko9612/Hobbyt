@@ -31,7 +31,7 @@ export const Input = tw.div`
 `;
 
 export const LoginInput = tw.input`
-w-full px-4 py-2 text-gray-700 placeholder-gray-400
+w-full px-4 py-2 text-gray-700 placeholder-gray-400 input
 bg-white border border-slate-300 rounded-lg focus:border-MainColor focus:outline-none focus:ring focus:ring-MainColor/40 duration-200
 `;
 

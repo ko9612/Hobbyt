@@ -17,7 +17,6 @@ export default function TextEditor() {
 
   // atom에 에디터 내용 저장
   const [editContent, setContent] = useRecoilState(ContentState);
-
   // 글자 수 세기
   const [contentCount, setContentCount] = useState(editContent);
   const onChangeContent = () => {

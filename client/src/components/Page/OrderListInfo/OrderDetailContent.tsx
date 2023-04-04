@@ -49,6 +49,12 @@ export default function OrderDetailContent() {
       ) {
         setErrMsg("접근할 수 없는 페이지입니다");
         setShowMsgModal(true);
+      } else if (
+        !router.pathname.includes("/ordermanagement") &&
+        data.comsumerId !== userId
+      ) {
+        setErrMsg("접근할 수 없는 페이지입니다");
+        setShowMsgModal(true);
       } else {
         setData(data);
         setIsStatus(data.status);

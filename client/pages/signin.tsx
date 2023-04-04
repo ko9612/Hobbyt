@@ -6,7 +6,7 @@ import SocialLogin from "../src/components/Page/Sign/SocialForm";
 import SigninForm from "../src/components/Page/Sign/SigninForm";
 
 export const Main = tw.main`
-flex items-center justify-center h-screen bg-slate-200
+flex items-center justify-center h-screen bg-gray-200
 `;
 
 export const Content = tw.section`

@@ -53,4 +53,11 @@
   .alarm-list {
     @apply border-2 border-blue-500 bg-MainColor p-2 rounded-xl text-center mb-2 z-50;
   }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    outline: rgb(179, 125, 209, 0.4) auto thin;
+    -webkit-box-shadow: 0 0 0px 1000px rgb(243 244 246) inset;
+  }
 }

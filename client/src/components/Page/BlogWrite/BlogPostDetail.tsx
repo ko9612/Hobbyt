@@ -188,7 +188,7 @@ export default function BlogPostDetail() {
           {getNewData && getNewData?.thumbnailImage === null ? null : (
             <div className="flex justify-center my-8">
               <Image
-                src={`/api/images/${getNewData?.thumbnailImage}`}
+                src={getNewData?.thumbnailImage}
                 width={500}
                 height={500}
                 alt="썸네일 이미지"

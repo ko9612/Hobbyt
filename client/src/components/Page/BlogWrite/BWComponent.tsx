@@ -29,9 +29,6 @@ export default function BlogWriteComponent() {
   const [publicData, setPublicData] = useRecoilState(PublicState);
   const userId = useRecoilValue(UserIdState);
   const [thumbnailData, setThumnail] = useRecoilState(ThumbnailState);
-  // console.log(router);
-  // console.log(`router`, router.query.id);
-  // console.log(`editData`, editData);
 
   // 페이지 벗어날 시, 데이터 reset
   const resetData = () => {
@@ -42,12 +39,8 @@ export default function BlogWriteComponent() {
     setPublicData(true);
   };
 
-  useEffect(() => {
-    router.events.on("routeChangeComplete", resetData);
-    return () => {
-      router.events.off("routeChangeComplete", resetData);
-    };
-  }, []);
+  router.events.on("routeChangeStart", resetData);
+  router.events.on("routeChangeComplete", resetData);
 
   // 메세지 모달 보이는지, 안 보이는 지 여부
   const [showModal, setShowModal] = useState(false);

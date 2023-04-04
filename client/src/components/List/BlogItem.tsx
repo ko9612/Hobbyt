@@ -53,9 +53,7 @@ export default function BlogItem({ list }: any) {
   // console.log("프로필 이미지", profileImage);
 
   return (
-    <BLComponent
-      className={`${router.pathname === "/" && "bg-MainColor/40 w-[45rem]"}`}
-    >
+    <BLComponent className={`${router.pathname === "/" && "w-[45rem]"}`}>
       <BLImage>
         <Image
           src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
