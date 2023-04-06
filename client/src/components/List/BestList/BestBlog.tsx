@@ -7,11 +7,11 @@ import { BlogItemProps } from "../../../type/blogType";
 import { getBestBlogList } from "../../../api/mainApi";
 
 export const Section = tw.section`
-w-[52rem] mx-auto py-10
+max-w-[52rem] mx-6 md:mx-0 py-10
 `;
 
 export const Title = tw.p`
-text-2xl py-2 max-w-[56rem] mx-auto
+text-2xl lg:py-2 max-w-[52rem]
 `;
 
 export const BestContent = tw.article`
@@ -95,7 +95,7 @@ export default function BestBlog() {
   return (
     <Section>
       <Title>금주의 인기 블로그</Title>
-      <BestContent className="flex items-center">
+      <BestContent className="flex items-center justify-center">
         <BsChevronLeft
           className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
           size="2.5rem"
@@ -103,7 +103,7 @@ export default function BestBlog() {
           onClick={prevClick}
         />
         <div className="mx-4 overflow-hidden">
-          <BestItem ref={slideRef} className="w-[45rem] flex">
+          <BestItem ref={slideRef} className="max-w-[45rem] flex">
             {listData &&
               listData[0] &&
               listData[0].hotPosts.map((item: BlogItemProps) => (

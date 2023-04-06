@@ -54,8 +54,8 @@ export default function SaleItem({ list }: ListProps) {
           height={250}
           className={
             thumbnailImage !== null
-              ? `object-cover rounded-t-3xl w-72 h-56`
-              : ``
+              ? `object-cover rounded-t-3xl w-full h-56`
+              : `w-full max-h-56 object-cover`
           }
         />
       </SLImage>
@@ -64,7 +64,7 @@ export default function SaleItem({ list }: ListProps) {
           <h2 className="my-3 truncate">{title}</h2>
           <div className="flex items-center">
             <BsCalendar4 />
-            <p className="pl-2 text-sm">
+            <p className="pl-2 text-sm truncate">
               {period !== null ? `${startedAt}~${endAt}` : "상시판매"}
             </p>
           </div>

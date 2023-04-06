@@ -31,7 +31,7 @@ export default function DefaultProfileImage({
       ${children === "nav" ? `w-[2.2rem] h-[2.2rem]` : ""}
       ${children === "blog" ? `w-[1.8rem] h-[1.8rem]` : ""}
       ${children === "sale" ? `w-[1.5rem] h-[1.5rem]` : ""}
-      ${children === "best blog" ? `w-[4rem] h-[4rem]` : ""}
+      ${children === "best blog" ? `max-w-[4rem] max-h-[4rem]` : ""}
       `}
     />
   );

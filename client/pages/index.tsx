@@ -10,9 +10,10 @@ import BestProduct from "../src/components/List/BestList/BestProduct";
 import Navbar from "../src/components/Nav/NavBar";
 import { LoginState, UserIdState } from "../src/state/UserState";
 
-export const Main = tw.main`w-[62rem] border-2 ml-auto border-red-400`;
+export const Main = tw.main``;
+export const MainSection = tw.section`max-w-[62rem] ml-auto`;
 
-export const MainContent = tw.div`w-[50rem] m-auto`;
+export const MainContent = tw.div`max-w-[50rem] m-auto`;
 // J: w-[80rem] border ml-auto
 // H: lg:ml-[18rem] py-10 px-3
 
@@ -89,21 +90,21 @@ export default function Home() {
   //   client.activate();
   // }
   return (
-    <>
+    <Main>
       <Navbar />
-      <Main>
+      <MainSection>
         <div
           id="alarm"
-          className="p-2 list-none w-[24rem] absolute ml-[38rem] cursor-pointer"
+          className="p-2 list-none max-w-[24rem] absolute lg:ml-[38rem] cursor-pointer"
         />
         <MainContent>
           <BestBlog />
           <BestBlogger />
           <BestProduct />
         </MainContent>
-      </Main>
+      </MainSection>
       <Footer />
-    </>
+    </Main>
   );
 }
 

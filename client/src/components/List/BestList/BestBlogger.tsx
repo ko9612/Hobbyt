@@ -36,9 +36,9 @@ export default function BestBlogger() {
               <BloggerInfo key={item.bloggerId}>
                 <Link
                   href={`/blog/${item.bloggerId}`}
-                  className="flex items-center"
+                  className="flex items-center max-sm:flex-col"
                 >
-                  <span className="w-16 mr-4">
+                  <span className="w-16 h-16 sm:mr-4">
                     <DefaultProfileImage
                       profileImg={item.profileImage}
                       width={70}
@@ -48,7 +48,7 @@ export default function BestBlogger() {
                       best blog
                     </DefaultProfileImage>
                   </span>
-                  <span className="text-xl truncate w-[8rem]">
+                  <span className="text-xl truncate max-w-[8rem] max-sm: mt-2">
                     {item.nickname}
                   </span>
                 </Link>

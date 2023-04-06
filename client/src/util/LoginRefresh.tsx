@@ -11,24 +11,14 @@ export const getAccessToken = () => {
 };
 
 export const refreshAccessToken = async () => {
-  try {
-    const res = await postReToken();
-    const accessToken = (res as any).headers.authorization;
-    const refreshToken = (res as any).headers.refreshtoken;
+  const res = await postReToken();
+
+  if (res.status === 200) {
+    const accessToken = res.headers.authorization;
     localStorage.setItem("authorization", accessToken);
-    localStorage.setItem("refresh", refreshToken);
-    return `Bearer ${accessToken}`;
-  } catch (err: any) {
-    if (
-      err.response &&
-      err.response.status === 401 &&
-      err.response.data === "UNAUTHORIZED"
-    ) {
-      localStorage.clear();
-      window.location.href = "/signin";
-    } else {
-      return err;
-    }
+  } else {
+    localStorage.clear();
+    window.location.href = "/signin";
   }
 };
 

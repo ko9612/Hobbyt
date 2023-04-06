@@ -23,18 +23,6 @@ export default function AddressApi() {
   // 주소 검색 팝업창 상태 관리
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // 페이지 벗어날 시, 데이터 reset
-  const resetData = () => {
-    setIsZipcode("");
-    setIsStreet("");
-    setIsDetail("");
-  };
-
-  useEffect(() => {
-    router.events.on("routeChangeStart", resetData);
-    router.events.on("routeChangeComplete", resetData);
-  }, []);
-
   // 우편번호 찾기
   const handlePostCode = (data: any) => {
     let fullAddress = data.address;
