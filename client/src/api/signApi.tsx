@@ -41,10 +41,9 @@ export const postReToken = async () => {
         refreshtoken: localStorage.getItem("refresh"),
       },
     });
-    console.log("토큰 갱신");
     return tokenData;
   } catch (err: any) {
-    return ErrorHandler(err);
+    return err.response;
   }
 };
 
