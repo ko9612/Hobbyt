@@ -1,29 +1,36 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import Link from "next/link";
-// import Pagination from "@mui/material/Pagination";
-// import Stack from "@mui/material/Stack";
-// import Pagination from "react-js-pagination";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import MyPageCategory from "../../Category/MyPageCategory";
 import { ProductMenus } from "../../Category/CategoryArr";
 import { getProductsList } from "../../../api/tabApi";
+import {
+  PageInfoType,
+  ProductListType,
+  ProductType,
+} from "../../../type/userTypes";
 
 export const PContent = tw.div`w-[50rem] block justify-center items-center m-auto h-[60rem]`;
 
 export default function ProductstList() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ProductListType[]>([]);
+
+  // 페이지네이션
   const [page, setPage] = useState(0);
-  const handlePageChange = page => {
-    setPage(page);
+  const [totalPages, setTotalPages] = useState<PageInfoType[]>([]);
+  const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
+    setPage(value - 1);
   };
 
   useEffect(() => {
     const getData = async () => {
       const res = await getProductsList(page);
-      setData(res.data);
-      // setPage(page + 1);
-      // setTotalPages(res.data.pageInfo);
-      // console.log("판매작품 리스트", res.data);
+      const listRes = (res as any).data;
+      const pageRes = listRes.pageInfo;
+      setData(listRes);
+      setTotalPages(pageRes);
     };
     getData();
   }, [page]);
@@ -40,13 +47,10 @@ export default function ProductstList() {
       <PContent>
         <div className="h-[45rem]">
           {data.data &&
-            data.data.map((product, idx) => (
-              <div key={product.id}>
+            data.data.map((product: ProductType, idx: number) => (
+              <div key={idx}>
                 <Link href={`/blog/${product.sellerId}/sale/${product.saleId}`}>
-                  <ul
-                    key={idx}
-                    className="flex items-center justify-between p-[1.5rem] text-center"
-                  >
+                  <ul className="flex items-center justify-between p-[1.5rem] text-center">
                     <li className="w-[8rem] text-center truncate">
                       {product.productName}
                     </li>
@@ -67,16 +71,7 @@ export default function ProductstList() {
               </div>
             ))}
         </div>
-        {/* <div className="flex justify-center mt-20">
-          <div className="inline-block border border-red-500 w-[300px] h-[30px] justify-center">
-            <Pagination
-              activePage={page} // 필수 활성화 페이지
-              itemsCountPerPage={10} // 페이지당 항목 수
-              totalItemsCount={300} // 필수 표시할 총 항목 수
-              pageRangeDisplayed={10} // 페이지네이터의 페이지 범위 (이전, 다음, 첫번째, 마지막)
-              onChange={handlePageChange}
-            />
-          </div>
+        <div className="flex justify-center mt-20">
           {totalPages && (
             <Stack spacing={2}>
               <Pagination
@@ -84,13 +79,13 @@ export default function ProductstList() {
                 defaultPage={1}
                 shape="rounded"
                 size="large"
-                onChange={e => handlePageChange(e)}
+                onChange={(e, value) => handlePageChange(e, value)}
                 defaultValue={1}
                 boundaryCount={2}
               />
             </Stack>
           )}
-        </div> */}
+        </div>
       </PContent>
     </>
   );

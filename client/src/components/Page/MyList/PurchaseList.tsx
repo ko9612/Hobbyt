@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -9,31 +8,29 @@ import { PurchaseMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
 import { getOrderList } from "../../../api/tabApi";
 import { UserIdState } from "../../../state/UserState";
+import {
+  PageInfoType,
+  PurchaseListType,
+  PurchaseType,
+} from "../../../type/userTypes";
 
 export default function PurchaseList() {
-  const router = useRouter();
-
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<PurchaseListType[]>([]);
   const userId = useRecoilValue(UserIdState);
   // 페이지네이션
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState([]);
-  const handlePageChange = (e: ChangeEvent) => {
-    const select = e.target.childNodes;
-    const pageNum = Number(e.target.outerText);
-
-    if (select.length === 2) {
-      setPage(pageNum - 1);
-    } else if (select.length === 1) {
-      setPage(pageNum + 1);
-    }
+  const [totalPages, setTotalPages] = useState<PageInfoType[]>([]);
+  const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
+    setPage(value - 1);
   };
 
   useEffect(() => {
     const getData = async () => {
       const res = await getOrderList(page);
-      setData(res.data);
-      console.log("구매 작품 리스트", res.data);
+      const listRes = (res as any).data;
+      const pageRes = listRes.pageInfo;
+      setData(listRes);
+      setTotalPages(pageRes);
     };
     getData();
   }, [page]);
@@ -73,13 +70,15 @@ export default function PurchaseList() {
     }
   };
 
+  console.log("구매작품", data);
+
   return (
     <>
       <MyPageCategory Menus={PurchaseMenus} />
       <PContent>
         <div className="h-[45rem]">
           {data?.data &&
-            data?.data.map((product, idx) => (
+            data?.data.map((product: PurchaseType, idx: number) => (
               <div key={idx}>
                 <ul className="flex items-center justify-between p-[1.5rem] text-center">
                   <Link
@@ -114,7 +113,7 @@ export default function PurchaseList() {
                 defaultPage={1}
                 shape="rounded"
                 size="large"
-                onChange={e => handlePageChange(e)}
+                onChange={(e, value) => handlePageChange(e, value)}
                 defaultValue={1}
                 boundaryCount={2}
               />

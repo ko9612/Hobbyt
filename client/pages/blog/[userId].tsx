@@ -7,20 +7,37 @@ import Navbar from "../../src/components/Nav/NavBar";
 import { BlogMenus } from "../../src/components/Tab/TabArr";
 import Footer from "../../src/components/Footer/Footer";
 
-export const Content = tw.main`flex sm:justify-center sm:`;
-export const UserInfo = tw.div`sm:hidden lg:block`;
+export const Content = tw.main`flex sm:justify-center justify-start`;
+export const UserInfo = tw.div`sm:hidden md:block lg:block`;
 export const BlogContent = tw.main`
-  border-2 border-green-500
-  w-[48rem] lg:ml-[18rem] sm:border-red-500 sm:
+  border-4 border-green-500
+  max-w-[48rem] lg:ml-[18rem] sm:border-red-500
+  sm:max-w-[41rem] lg:max-w-[48rem] md:ml-[2rem]
 `;
 export const UserContent = tw.aside`
- w-[16rem] h-full
+ min-w-[15rem] max-w-[15rem] h-full
  justify-center items-center
  ml-auto
  border border-blue-500
  relative -top-32
+ sm:hidden md:block lg:block
 `;
-export const BlogTab = tw.div`w-[43rem] m-auto`;
+
+// export const Content = tw.main`flex sm:justify-center`;
+// export const UserInfo = tw.div``;
+// export const BlogContent = tw.main`
+//   border-2 border-green-500
+//   w-[48rem] lg:ml-[18rem] sm:border-red-500
+// `;
+// export const UserContent = tw.aside`
+//  w-[16rem] h-full
+//  justify-center items-center
+//  ml-auto
+//  border border-blue-500
+//  relative -top-32
+//  sm:hidden md:block lg:block
+// `;
+export const BlogTab = tw.div`max-w-[41rem] sm:max-w-[41rem] m-auto`;
 
 function Blog() {
   return (
@@ -46,3 +63,17 @@ function Blog() {
 }
 
 export default Blog;
+
+// export const Content = tw.main`flex sm:justify-center sm:`;
+// export const UserInfo = tw.div`sm:hidden md:block lg:block`;
+// export const BlogContent = tw.main`
+//   border-2 border-green-500
+//   w-[48rem] lg:ml-[18rem] sm:border-red-500
+// `;
+// export const UserContent = tw.aside`
+//  w-[16rem] h-full
+//  justify-center items-center
+//  ml-auto
+//  border border-blue-500
+//  relative -top-32
+// `;

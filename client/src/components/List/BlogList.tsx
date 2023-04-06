@@ -11,7 +11,8 @@ import { BlogSelectState } from "../../state/BlogPostState";
 import { getBlogContentList } from "../../api/tabApi";
 import { BlogTabProps } from "../../type/blogType";
 
-export const BLContainer = tw.div`w-[43rem] m-auto`;
+export const BLContainer = tw.div`m-auto`;
+// export const BLContainer = tw.div`w-[43rem] m-auto`;
 
 // interface ListProps {
 //   list: BlogItemProps[];
@@ -100,7 +101,7 @@ function BlogList({ posts }: BlogTabProps) {
               ))}
           </div>
         ))}
-      <div ref={ref} className="flex justify-center p-8 border-4 border-black">
+      <div ref={ref} className="flex justify-center p-8">
         {isLoading && <ScrollRoader />}
       </div>
     </BLContainer>

@@ -11,10 +11,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <div
         className={`${
-          !router.pathname.includes("/oauth") && "max-w-[80rem]"
-        } m-auto border-4 border-blue-500`}
+          !router.pathname.includes("/oauth") &&
+          "max-w-[80rem] md:w-full sm:w-full sm:border-purple-500 md:border-black h-screen"
+        } m-auto border-4`}
       >
-        {/* <NoticeModal /> */}
         <Component {...pageProps} />
       </div>
     </RecoilRoot>
