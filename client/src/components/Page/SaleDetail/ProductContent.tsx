@@ -8,12 +8,12 @@ export const PdContent = tw.article`
 py-5 border-b-4 border-MainColor/50
 `;
 
+const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
+  ssr: false,
+});
+
 export default function ProductContent() {
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
-
-  const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
-    ssr: false,
-  });
 
   return (
     <PdContent>

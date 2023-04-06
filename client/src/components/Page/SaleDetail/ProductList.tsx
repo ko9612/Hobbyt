@@ -27,8 +27,6 @@ export default function ProductList() {
     ...arr.slice(index + 1),
   ];
 
-  console.log(selectItem);
-
   // 제품 선택 - 수량 핸들러
   const quantityMinusHandler = (
     idx: number,
@@ -53,7 +51,8 @@ export default function ProductList() {
       alert(
         `선택하신 제품의 재고가 ${selectItem[idx].stockQuantity}개 남았습니다.`,
       );
-    } else {
+    }
+     else {
       const newList = replaceItemAtIndex(selectItem, idx, {
         ...selectItem[idx],
         quantity: selectItem[idx].quantity + value,
@@ -102,7 +101,6 @@ export default function ProductList() {
                   >
                     -
                   </PMButton>
-
                   <span>{item.quantity}</span>
                   <PMButton onClick={() => quantityPlusHandler(idx, 1)}>
                     +

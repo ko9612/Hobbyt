@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import ProductTitle from "./ProductTitle";
 import ProductContent from "./ProductContent";
@@ -51,6 +51,8 @@ export default function SaleDetailContent() {
 
   const [SaleData, setSaleData] =
     useRecoilState<SaleDetailProps>(SaleDetailState);
+  const resetSaleState = useResetRecoilState(SaleDetailState);
+
   const priceSum = useRecoilValue(totalState);
   const [isAgree] = useRecoilState(OrderAgreeState);
   // 선택 제품 list state
@@ -170,6 +172,10 @@ export default function SaleDetailContent() {
     }
   };
 
+  const resetData = () => {
+    resetSaleState();
+  };
+
   useEffect(() => {
     if (router.isReady) {
       getSaleData();
@@ -179,6 +185,8 @@ export default function SaleDetailContent() {
         }
       }
     }
+    router.events.on("routeChangeStart", resetData);
+    router.events.on("routeChangeComplete", resetData);
   }, [router.isReady]);
 
   // 계좌, 휴대폰 번호 하이픈 replace 때문에 useForm x
@@ -291,7 +299,7 @@ export default function SaleDetailContent() {
       <BlogContent className="px-5">
         <ProductTitle />
         <ProductThumbnail />
-        <ProductContent />
+        {SaleData.content && <ProductContent />}
         <ProductGuide id={pid} />
         {/* 제품 선택 */}
         <ProductList />

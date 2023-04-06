@@ -22,7 +22,7 @@ export const refreshAccessToken = async () => {
     if (
       err.response &&
       err.response.status === 401 &&
-      err.response.data === "EXPIRED_TOKEN"
+      err.response.data === "UNAUTHORIZED"
     ) {
       localStorage.clear();
       window.location.href = "/signin";
