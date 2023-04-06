@@ -23,7 +23,8 @@ import MsgModal from "../../Modal/MsgModal";
 import DelModal from "../../Modal/DelModal";
 import BackButton from "../../Button/BackButton";
 
-const Detail = tw.div`mt-6 w-[43rem]`;
+// const Detail = tw.div`mt-6 w-[43rem]`;
+const Detail = tw.div`mt-6`;
 export const Title = tw.div`text-2xl font-bold my-4 inline-flex`;
 export const Info = tw.div`flex justify-between items-center`;
 export const TagList = tw.div`text-sm flex mr-1`;

@@ -49,3 +49,65 @@ export interface BestBloggerProps {
   nickname: string;
   profileImage: string | null;
 }
+
+// 판매작품 리스트 데이터 타입
+export interface ProductListType {
+  data: ProductType[];
+  pageInfo: PageInfoType[];
+}
+// 판매작품 데이터 타입
+export interface ProductType {
+  saleId: number;
+  sellerId: number;
+  productName: string;
+  period: {
+    startedAt: string;
+    endAt: string;
+  };
+  isDeleted: boolean;
+  isAlwaysOnSale: boolean;
+  createdAt: string;
+  salesVolume: number;
+}
+
+// 페이지네이션 데이터 타입
+export interface PageInfoType {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+// 구매작품 리스트 데이터 타입
+export interface PurchaseListType {
+  data: PurchaseType[];
+  pageInfo: PageInfoType[];
+}
+
+// 구매작품 데이터 타입
+export interface PurchaseType {
+  createdAt: string;
+  nickname: string;
+  orderId: number;
+  sellerId: number;
+  status: string;
+  title: string;
+}
+
+// 판매관리 리스트 데이터 타입
+export interface SaleManagementListType {
+  data: SaleManagememtType[];
+  pageInfo: PageInfoType[];
+}
+
+// 판매관리 데이터 타입
+export interface SaleManagememtType {
+  createdAt: string;
+  isCanceled: boolean;
+  nickname: string;
+  orderId: number;
+  orderNumber: string;
+  sellerId: number;
+  status: string;
+  title: string;
+}

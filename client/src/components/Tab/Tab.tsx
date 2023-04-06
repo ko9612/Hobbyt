@@ -95,9 +95,6 @@ export default function Tab({ Menus }: TabProps) {
     }
   }, []);
 
-  // console.log("탭 리스트", listData);
-  // console.log("ref1", typeof ref);
-
   return (
     <>
       <TabMenu>

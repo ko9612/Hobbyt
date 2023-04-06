@@ -13,11 +13,11 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500 justify-between`;
+export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg border-2 border-red-500 sm:max-w-[38rem]`;
 export const BLImage = tw.div`w-1/5 h-full`;
 export const BLContent = tw.div`ml-5 w-4/5 flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between border-2 border-red-500`;
-export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 w-[31rem] h-[4rem] break-all`;
+export const Text = tw.div`text-sm truncate sm:text-base border-2 border-blue-500 h-[4rem] break-all`;
 export const ActInfo = tw.div`flex items-center`;
 
 // interface ListProps {
@@ -53,12 +53,12 @@ export default function BlogItem({ list }: any) {
   // console.log("프로필 이미지", profileImage);
 
   return (
-    <BLComponent className={`${router.pathname === "/" && "w-[45rem]"}`}>
+    <BLComponent className={`${router.pathname === "/" && "w-[41rem]"}`}>
       <BLImage>
         <Image
           src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
           alt="img"
-          className="rounded-xl object-cover h-[8rem] w-[8rem]"
+          className="rounded-xl object-cover h-[8rem] w-[8rem] sm:max-w-[8rem] sm:max-h-[8rem]"
           width={150}
           height={150}
         />
@@ -66,7 +66,8 @@ export default function BlogItem({ list }: any) {
       <BLContent>
         <BLTitle>
           <Link href={`/blog/${writerId}/post/${id}`}>
-            <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center mt-1">
+            {/* <h2 className="truncate text-2xl w-[28rem] font-semibold text-clip flex items-center mt-1"> */}
+            <h2 className="truncate text-2xl w-[17rem] md:w-[28rem] font-semibold text-clip flex items-center mt-1">
               {title}
               {router.pathname.startsWith("/blog") && !isPublic && (
                 <BsLockFill className="ml-3 text-gray-400" />

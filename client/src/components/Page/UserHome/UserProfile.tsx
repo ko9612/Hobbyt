@@ -15,11 +15,8 @@ export default function UserProfile() {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  // console.log("UserProfile", userData);
-
   return (
     <div className="items-center justify-center block m-auto text-center border-2 border-purple-600">
-      {/* <Image src={DefaultImage} width={250} height={250} /> */}
       <h1 className="mb-2 text-3xl font-bold">{userData.nickname}</h1>
       <div className="inline-flex mb-5">
         <BsCalendar4 className="mt-1" />

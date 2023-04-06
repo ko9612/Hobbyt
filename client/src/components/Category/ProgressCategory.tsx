@@ -1,7 +1,7 @@
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 import React, { useEffect, useRef, useState } from "react";
 import { ProgressArr, RefundArr } from "./CategoryArr";
-import { deleteOrder, patchOrderState } from "../../api/orderApi";
+import { deleteOrder, patchOrderState } from "../../api/OrderApi";
 import { orderErrorHandler } from "../../util/ErrorHandler";
 import MsgModal from "../Modal/MsgModal";
 
