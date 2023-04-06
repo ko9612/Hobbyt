@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.hobbyt.global.error.dto.FailValidationDto;
 import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.TokenException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionAdvice {
 	@ExceptionHandler(BusinessLogicException.class)
 	public ResponseEntity<String> handleBusinessLogicException(BusinessLogicException e) {
+		log.error("[ExceptionAdvice] ex", e);
+		return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+	}
+
+	@ExceptionHandler(TokenException.class)
+	public ResponseEntity handleTokenException(TokenException e) {
 		log.error("[ExceptionAdvice] ex", e);
 		return ResponseEntity.status(e.getStatus()).body(e.getMessage());
 	}

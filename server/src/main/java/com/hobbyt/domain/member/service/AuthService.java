@@ -13,6 +13,8 @@ import com.hobbyt.domain.member.entity.Member;
 import com.hobbyt.domain.member.entity.MemberStatus;
 import com.hobbyt.domain.member.repository.MemberRepository;
 import com.hobbyt.global.error.exception.BusinessLogicException;
+import com.hobbyt.global.error.exception.ExceptionCode;
+import com.hobbyt.global.error.exception.TokenException;
 import com.hobbyt.global.redis.RedisService;
 import com.hobbyt.global.security.dto.LoginRequest;
 import com.hobbyt.global.security.jwt.JwtTokenProvider;
@@ -31,10 +33,18 @@ public class AuthService {
 	private final PasswordEncoder passwordEncoder;
 
 	public String reissueAccessToken(final String refreshToken) {
+		validateToken(refreshToken);
+
 		String email = jwtTokenProvider.parseEmail(refreshToken);
 
 		Member member = findMemberByEmail(email);
 		return jwtTokenProvider.createAccessToken(member.getEmail(), member.getAuthority().toString());
+	}
+
+	private void validateToken(String refreshToken) {
+		if (!jwtTokenProvider.validate(refreshToken)) {
+			throw new TokenException(ExceptionCode.UNAUTHORIZED);
+		}
 	}
 
 	private Member findMemberByEmail(final String email) {
@@ -42,7 +52,7 @@ public class AuthService {
 			.orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 	}
 
-	public String reissueRefreshToken(final String refreshToken) {
+	/*public String reissueRefreshToken(final String refreshToken) {
 		String email = jwtTokenProvider.parseEmail(refreshToken);
 		String reissuedRefreshToken = jwtTokenProvider.createRefreshToken(email);
 
@@ -50,7 +60,7 @@ public class AuthService {
 			jwtTokenProvider.calculateExpiration(reissuedRefreshToken));
 
 		return reissuedRefreshToken;
-	}
+	}*/
 
 	public void logout(final String accessToken) {
 		String email = jwtTokenProvider.parseEmail(accessToken);
@@ -88,7 +98,7 @@ public class AuthService {
 	public LoginInfo getLoginInfo(String email) {
 		Member member = memberRepository.findByEmail(email)
 			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));
-		
+
 		return new LoginInfo(member.getId(), member.getNickname(), member.getEmail());
 	}
 }

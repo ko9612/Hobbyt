@@ -72,13 +72,7 @@ public class JwtTokenProvider {
 
 	// redis 데이터 유효시간 지정을 위해 사용
 	public Long calculateExpiration(String jws) {
-		Key key = getKeyFromBase64EncodedKey(secretKey);
-
-		Date expiration = Jwts.parserBuilder()
-			.setSigningKey(key)
-			.build()
-			.parseClaimsJws(jws)
-			.getBody().getExpiration();
+		Date expiration = getClaims(jws).getBody().getExpiration();
 
 		long now = new Date().getTime();
 
@@ -159,9 +153,9 @@ public class JwtTokenProvider {
 		return getClaims(jws).getBody().getSubject();
 	}
 
-	public boolean validate(String accessToken) {
+	public boolean validate(String jws) {
 		try {
-			getClaims(accessToken);
+			getClaims(jws);
 			return true;
 		} catch (SecurityException | MalformedJwtException e) {
 			log.error("잘못된 Jwt 서명입니다.");

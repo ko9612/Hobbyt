@@ -53,10 +53,8 @@ public class AuthController {
 		String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
 		String reissuedAccessToken = authService.reissueAccessToken(refreshToken);
-		String reissuedRefreshToken = authService.reissueRefreshToken(refreshToken);
 
 		response.setHeader(AUTH_HEADER, reissuedAccessToken);
-		response.setHeader(REFRESH_TOKEN_HEADER, reissuedRefreshToken);
 
 		return new ResponseEntity(HttpStatus.OK);
 	}
