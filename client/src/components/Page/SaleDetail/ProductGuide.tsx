@@ -19,7 +19,7 @@ import LikeHover from "../../ViewLikeWrite/LikeHover";
 import { UserIdState } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 
-const PdGuideSeaction = tw.section``;
+const PdGuideSeaction = tw.section`w-full`;
 
 const ListTitle = tw.div`flex items-center`;
 
@@ -117,7 +117,9 @@ export default function ProductGuide({ id }: IdProps) {
             <BsPencilSquare size="1.25rem" />
             <TitleText>환불/교환 안내</TitleText>
           </ListTitle>
-          <div className="py-4">{SaleData.refundExchangePolicy}</div>
+          <div className="py-4 break-words">
+            {SaleData.refundExchangePolicy}
+          </div>
           <div className="flex flex-col items-center pt-4">
             <button onClick={onClickLike}>
               {SaleData.isLiked ? <LikeHandle /> : <LikeHover />}

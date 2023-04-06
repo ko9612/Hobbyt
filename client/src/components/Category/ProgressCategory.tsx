@@ -1,5 +1,5 @@
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ProgressArr, RefundArr } from "./CategoryArr";
 import { deleteOrder, patchOrderState } from "../../api/orderApi";
 import { orderErrorHandler } from "../../util/ErrorHandler";
@@ -19,13 +19,26 @@ export default function ProgressCategory({
   const [showMsgModal, setShowMsgModal] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-
+  const popRef = useRef<HTMLButtonElement>(null);
   const [categorySpread, setCategorySpread] = useState(false);
   // const setOrderStatus = useSetRecoilState(OrderStatus);
   const spreadOnClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCategorySpread(!categorySpread);
   };
+
+  const closeHandler = ({ target }: any) => {
+    if (popRef.current && !popRef.current.contains(target)) {
+      setCategorySpread(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", closeHandler);
+    return () => {
+      window.removeEventListener("click", closeHandler);
+    };
+  }, []);
 
   const progressArr = ProgressArr;
 
@@ -99,14 +112,14 @@ export default function ProgressCategory({
     }
   };
 
-  console.log(`프로그래스 카테고리`, orderStatus);
   return (
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <div className="relative flex flex-col border-2 mr-[1rem] p-1 w-[7rem]">
         <button
+          ref={popRef}
           onClick={spreadOnClickHandler}
-          className="flex justify-evenly p-1 pr-2 w-[7rem] text-sm"
+          className="flex justify-evenly p-1 pr-2 w-[7rem] text-sm items-center"
         >
           {clcikName && getStatus(clcikName)}
           {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
