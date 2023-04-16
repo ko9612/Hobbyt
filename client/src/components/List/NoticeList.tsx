@@ -1,43 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
-import { getNotice, patchNotice } from "../../api/noticeApi";
+import { getNotice } from "../../api/noticeApi";
 import ScrollRoader from "../Scroll/ScrollRoader";
-// import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
-
-// function NoticeData() {
-//   const [noticeData, setNoticeData] = useState([]);
-
-//   const getData = async () => {
-//     const res = await getNotice();
-//     setNoticeData(res.data);
-//     return console.log(`알림리스트`, res.data);
-//   };
-
-//   useEffect(() => {
-//     getData();
-//   }, [noticeData]);
-
-//   console.log("NoticeList", noticeData);
-
-//   return (
-//     <div>
-//       {noticeData &&
-//         noticeData.alarms.map((notice, idx) => (
-//           <div
-//             key={idx}
-//             className="flex items-center p-8 mb-5 rounded-lg bg-slate-100"
-//           >
-//             {/* <p className="mr-5">{notice.userprofile}</p> */}
-//             <p className="font-semibold text-MainColor">{notice.sender}</p>
-//             {/* <p className="mr-2">{notice.and}</p> */}
-//             <p className="mr-2 font-semibold text-MainColor">{notice.title}</p>
-//             {/* <p>{notice.progress}</p> */}
-//           </div>
-//         ))}
-//     </div>
-//   );
-// }
 
 interface NoticeListType {
   hasNext: boolean;
@@ -54,25 +19,10 @@ interface NoticeType {
   type: string;
 }
 
-// export default function NoticeList(props) {
 export default function NoticeList() {
-  // NoticeData();
   const router = useRouter();
-
-  // const { noticeData } = props || {};
   const [noticeData, setNoticeData] = useState<NoticeListType[]>([]);
   const [isLoding, setIsLoding] = useState(false);
-  // const getData = async () => {
-  //   const res = await getNotice();
-  //   setNoticeData(res.data);
-  //   return console.log(`알림리스트`, res.data);
-  // };
-
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     getData();
-  //   }
-  // }, [router.isReady]);
 
   // 무한 스크롤
   const [hasNext, setHasNext] = useState(false);
@@ -116,18 +66,11 @@ export default function NoticeList() {
     }
   }, [inview]);
 
-  // 알림 리스트 클릭시 호출하는 알림 체크 api
-  // const handleClick = async() => {
-  //  const res = await patchNotice(1);
-
-  // }
-
-  const noticeClick = (notice: any) => {
+  const noticeClick = (notice: NoticeType) => {
     if (notice.type === "POST_COMMENT") {
       router.replace(`/blog/${notice.receiverId}/post/${notice.redirectId}`);
     }
     if (notice.type === "SALE_ORDER") {
-      // router.replace(`/blog/${notice.receiverId}/sale/${notice.redirectId}`);
       router.replace(
         `/mypage/${notice.receiverId}/orderdetail/${notice.receiverId}/ordermanagement/${notice.redirectId}`,
       );
@@ -139,8 +82,6 @@ export default function NoticeList() {
     }
   };
 
-  console.log("알림", noticeData);
-
   return (
     <div>
       {isLoding ? (
@@ -148,8 +89,8 @@ export default function NoticeList() {
       ) : (
         <div>
           {noticeData[0] &&
-            noticeData.map((item: any) => (
-              <div key={item.id}>
+            noticeData.map((item: NoticeListType, idx: number) => (
+              <div key={idx}>
                 {item.alarms &&
                   item.alarms.map((notice: NoticeType) => (
                     <div key={notice.notificationId}>
@@ -158,23 +99,29 @@ export default function NoticeList() {
                         aria-label="버튼"
                         className="w-full"
                       >
-                        <div className="flex items-center p-8 mb-5 bg-gray-100 rounded-lg">
-                          <p className="pr-2 font-semibold text-MainColor">
+                        <div className="flex items-center justify-center w-full px-4 py-6 mb-5 text-xs bg-gray-100 rounded-lg sm:text-sm sm:p-8 sm:inline-flex md:text-base">
+                          <p className="flex mr-1 font-semibold text-MainColor">
                             {notice.sender}
                           </p>
-                          <p className="pr-2">님이</p>
-                          <p className="mr-2 font-semibold text-MainColor">
+                          <p className="mr-2">님이</p>
+                          <span
+                            className={`mr-1 font-semibold text-left text-MainColor  ${
+                              notice.title.length > 8
+                                ? "w-24 truncate sm:w-28 md:w-auto"
+                                : ""
+                            }`}
+                          >
                             {notice.title}
-                          </p>
-                          <p>
+                          </span>
+                          <p className="">
                             {notice.type === "POST_COMMENT"
-                              ? "블로그에 댓글을 남겼습니다"
+                              ? "에 댓글을 남겼습니다."
                               : null}
                             {notice.type === "SALE_ORDER"
-                              ? "상품에 주문이 들어왔습니다"
+                              ? "상품을 주문하였습니다."
                               : null}
                             {notice.type === "ORDER_CANCEL"
-                              ? "상품에 주문이 취소되었습니다"
+                              ? "상품에 주문을 취소하였습니다."
                               : null}
                           </p>
                         </div>
@@ -185,28 +132,9 @@ export default function NoticeList() {
             ))}
         </div>
       )}
-      <div ref={ref} className="flex justify-center p-8 border-4 border-black">
+      <div ref={ref} className="flex justify-center p-8 ">
         {isLoading && <ScrollRoader />}
       </div>
     </div>
   );
 }
-
-// <Link
-//   href={
-//     notice.type === "POST_COMMENT"
-//       ? `/blog/${notice.receiverId}/post/${notice.redirectId}`
-//       : `/blog/${notice.receiverId}/sale/${notice.redirectId}`
-//   }
-//   key={notice.notificationId}
-// >
-
-// export async function getServerSideProps() {
-//   const res = await getNotice();
-//   console.log("불러와짐?", res);
-//   return {
-//     props: {
-//       noticeData: res.data.alarms,
-//     },
-//   };
-// }
