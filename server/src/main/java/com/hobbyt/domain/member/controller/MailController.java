@@ -22,8 +22,15 @@ public class MailController {
 	@PostMapping("/auth/code")
 	public ResponseEntity mailConfirm(@Validated @RequestBody EmailRequest emailRequest) {
 
-		String code = mailService.sendAuthenticationCodeEmail(emailRequest.getEmail());
+		String code = mailService.sendCodeEmail(emailRequest.getEmail());
 
 		return new ResponseEntity(code, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/password")
+	public ResponseEntity passwordMail(@Validated @RequestBody EmailRequest emailRequest) {
+		mailService.sendPasswordEmail(emailRequest.getEmail());
+
+		return ResponseEntity.ok().build();
 	}
 }

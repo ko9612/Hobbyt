@@ -113,6 +113,12 @@ public class MemberService {
 		return updatePassword.getOldPassword().equals(updatePassword.getNewPassword());
 	}
 
+	public Long saveNewPassword(final String email, final String password) {
+		Member member = findMemberByEmail(email);
+		member.updatePassword(passwordEncoder.encode(password));
+		return member.getId();
+	}
+
 	public Member findMemberByEmail(final String email) {
 		return memberRepository.findByEmail(email)
 			.orElseThrow(() -> new BusinessLogicException((MEMBER_NOT_FOUND)));

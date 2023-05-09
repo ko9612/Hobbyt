@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hobbyt.domain.member.dto.request.NewPassword;
 import com.hobbyt.domain.member.dto.request.SignupRequest;
 import com.hobbyt.domain.member.dto.request.UpdateMyInfoRequest;
 import com.hobbyt.domain.member.dto.request.UpdatePassword;
@@ -76,5 +77,14 @@ public class MemberController {
 		MyInfoResponse myInfoResponse = memberQueryService.getMyInfo(memberDetails.getEmail());
 
 		return ResponseEntity.ok(myInfoResponse);
+	}
+
+	@PatchMapping("/password")
+	public ResponseEntity setNewPasswordByEmail(@AuthenticationPrincipal MemberDetails loginMember,
+		@Validated @RequestBody NewPassword newPassword) {
+
+		memberService.saveNewPassword(loginMember.getEmail(), newPassword.getPassword());
+
+		return ResponseEntity.ok().build();
 	}
 }
