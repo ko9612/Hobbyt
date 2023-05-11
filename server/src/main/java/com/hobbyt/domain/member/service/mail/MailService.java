@@ -43,8 +43,8 @@ public class MailService {
 	public void sendPasswordEmail(final String email) {
 		Member member = memberService.findMemberByEmail(email);
 		String accessToken = jwtTokenProvider.createAccessToken(email, member.getAuthority().toString());
-		String targetUrl = "link";
-		String link = targetUrl + "?token=" + accessToken;
+		String targetUrl = "https://hobbyt.vercel.app/repassword?token=";
+		String link = targetUrl + accessToken;
 
 		Map<String, Object> contents = new HashMap<>();
 		contents.put("link", link);
