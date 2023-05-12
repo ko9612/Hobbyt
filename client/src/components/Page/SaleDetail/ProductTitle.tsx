@@ -27,7 +27,7 @@ export default function ProductTitle() {
               <Tag className="mr-2" key={idx}>{`#${tag}`}</Tag>
             ))}
           </TagList>
-          <VWInfo>
+          <VWInfo className="text-sm py-2">
             <ViewCount>{SaleData.viewCount}</ViewCount>
             <WriteDate>{SaleData.createdAt.slice(0, 10)}</WriteDate>
           </VWInfo>

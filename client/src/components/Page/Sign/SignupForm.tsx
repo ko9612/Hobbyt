@@ -34,7 +34,7 @@ export default function SignupForm() {
   const [isEmailBut, setIsEmailBut] = useState<boolean>(false);
   const [emailComplete, setEmailComplete] = useState<boolean>(false);
 
-  // // 이메일 인증코드
+  // 이메일 인증코드
   const [certificationCode, setCertificationCode] = useState<string>("");
 
   const [showModal, setShowModal] = useState<boolean>(false);

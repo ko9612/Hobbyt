@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
-import * as StompJS from "@stomp/stompjs";
-import { useRecoilValue } from "recoil";
+// import * as StompJS from "@stomp/stompjs";
+// import { useRecoilValue } from "recoil";
 // import { useRouter } from "next/router";
 // import { useRef } from "react";
 import Footer from "../src/components/Footer/Footer";
@@ -8,7 +8,7 @@ import BestBlog from "../src/components/List/BestList/BestBlog";
 import BestBlogger from "../src/components/List/BestList/BestBlogger";
 import BestProduct from "../src/components/List/BestList/BestProduct";
 import Navbar from "../src/components/Nav/NavBar";
-import { LoginState, UserIdState } from "../src/state/UserState";
+// import { LoginState, UserIdState } from "../src/state/UserState";
 
 export const Main = tw.main`lg:ml-[18rem] px-6`;
 export const MainSection = tw.section`max-w-[62rem]`;

@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
-// import { useRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import {
   InfoSection,
@@ -38,13 +37,7 @@ export default function PasswordInfo() {
 
   // 비밀번호 변경 핸들러
   const passwordEditSubmit = async (data: PasswordProps) => {
-    // 현재 비밀번호는 서버에서 관리, 에러 처리 후 modal 띄우기
-
-    // if (data.oldPassword !== isPassword) {
-    //   setMsg("현재 비밀번호가 일치하지 않습니다.");
-    //   setShowModal(true);
-    // } else
-
+    
     if (data.oldPassword === data.newPassword) {
       setMsg("현재 비밀번호와 다른 비밀번호를 입력해주세요.");
     } else {

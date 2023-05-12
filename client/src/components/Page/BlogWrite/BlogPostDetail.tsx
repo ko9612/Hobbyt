@@ -25,8 +25,8 @@ import BackButton from "../../Button/BackButton";
 
 // const Detail = tw.div`mt-6 w-[43rem]`;
 const Detail = tw.div`mt-6`;
-export const Title = tw.div`text-2xl font-bold my-4 inline-flex`;
-export const Info = tw.div`flex justify-between items-center`;
+export const Title = tw.div`text-lg sm:text-xl md:text-2xl font-bold my-4 inline-flex`;
+export const Info = tw.div`flex justify-between items-center flex-wrap`;
 export const TagList = tw.div`text-sm flex mr-1`;
 export const Tag = tw.div`bg-gray-200 rounded-sm py-1 px-2`;
 export const VWInfo = tw.div`flex`;

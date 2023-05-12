@@ -71,7 +71,6 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
 
     const EditSubmit = await patchOrderInfo(EditData, oid);
 
-    // 에러처리 나중에
     if ((EditSubmit as any).status === 200) {
       setErrMsg("저장되었습니다.");
     } else if ((EditSubmit as any).status === 404) {

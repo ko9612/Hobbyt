@@ -86,8 +86,6 @@ export const deleteBlogComment = async (id: number) => {
   }
 };
 
-/// ///////////////////////////////
-
 // 블로그 좋아요 api
 export const postLikePlus = async (postId: number) => {
   try {

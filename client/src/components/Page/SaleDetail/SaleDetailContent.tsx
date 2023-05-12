@@ -36,7 +36,7 @@ import AddressApi from "../../../util/AddressApi";
 import ProductThumbnail from "./ProductThumbnail";
 
 const PurForm = tw.section``;
-const PurContent = tw.div`py-2`;
+const PurContent = tw.div`py-2 text-sm sm:text-base`;
 const PurContentInput = tw.div`py-2 flex items-center flex-wrap`;
 const PurInputDiv = tw.div`w-1/2`;
 
@@ -146,7 +146,6 @@ export default function SaleDetailContent() {
     const userInfo = await getUserInfo();
 
     if ((userInfo as any).status === 200) {
-      // setUserInfoData((userInfo as any).data);
       const { data } = userInfo as any;
 
       // 입금자 정보
@@ -374,7 +373,7 @@ export default function SaleDetailContent() {
           <PurContent>
             <div className="font-semibold">환불계좌 정보</div>
             <PurContentInput>
-              <PurInputDiv className="w-1/5">
+              <PurInputDiv>
                 <Input
                   type="text"
                   id="holderName"
@@ -383,7 +382,7 @@ export default function SaleDetailContent() {
                   {...register("account.holder")}
                 />
               </PurInputDiv>
-              <PurInputDiv className="w-1/5 px-4">
+              <PurInputDiv className="pl-4">
                 <Input
                   type="text"
                   id="bankName"
@@ -392,7 +391,7 @@ export default function SaleDetailContent() {
                   {...register("account.bank")}
                 />
               </PurInputDiv>
-              <PurInputDiv className="w-3/5">
+              <div className="py-2 w-full">
                 <Input
                   type="text"
                   id="accountNumber"
@@ -401,7 +400,7 @@ export default function SaleDetailContent() {
                   minLength={10}
                   onChange={e => AccountNumlHandler(e)}
                 />
-              </PurInputDiv>
+              </div>
             </PurContentInput>
           </PurContent>
           <Agreement />
