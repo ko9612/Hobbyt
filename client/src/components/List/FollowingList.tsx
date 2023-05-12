@@ -13,8 +13,8 @@ import { LoginState } from "../../state/UserState";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
 export const Container = tw.ul`mt-6`;
-export const List = tw.li`flex mb-3 border-2 border-red-500`;
-export const Content = tw.div`border-2 border-blue-400 w-[32rem]`;
+export const List = tw.li`flex mb-3`;
+export const Content = tw.div`w-[32rem]`;
 
 export default function FollowingList() {
   // 불러온 데이터 저장
@@ -147,7 +147,7 @@ export default function FollowingList() {
         ))}
       <div
         ref={ref}
-        className="flex justify-center p-8 border-4 border-black mt-52"
+        className="flex justify-center p-8 mt-52"
       >
         {isLoading && <ScrollRoader />}
       </div>

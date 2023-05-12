@@ -80,7 +80,7 @@ export default function Header() {
           alt="개인홈 이미지 헤더"
           width={1200}
           height={300}
-          className="overflow-hidden border border-red-700 h-80 w-[62rem] ml-auto"
+          className="overflow-hidden h-80 w-[62rem] ml-auto"
         />
       </header>
     </>

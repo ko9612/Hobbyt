@@ -132,7 +132,7 @@ export default function NoticeList() {
             ))}
         </div>
       )}
-      <div ref={ref} className="flex justify-center p-8 ">
+      <div ref={ref} className="flex justify-center p-8">
         {isLoading && <ScrollRoader />}
       </div>
     </div>

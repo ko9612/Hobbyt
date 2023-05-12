@@ -82,7 +82,7 @@ export default function OrderDetailContent() {
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       {isData?.status && <OrderProgress isData={isData} />}
-      <SellerInfo isData={isData} />
+      {/* <SellerInfo isData={isData} />
       {router.pathname.includes("/ordermanagement") ? (
         <PurchaserInfo isData={isData} />
       ) : (
@@ -90,7 +90,7 @@ export default function OrderDetailContent() {
       )}
       {isData?.payMethod !== "CARD" && <DepositInfo isData={isData} />}
 
-      <OrderInfo isData={isData} />
+      <OrderInfo isData={isData} /> */}
     </>
   );
 }

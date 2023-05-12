@@ -6,7 +6,7 @@ import logoText from "../../image/logoText.png";
 import NavContent from "./NavContent";
 
 const Header = tw.div`
-flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-10 sticky h-16
+flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-10 sticky top-0 h-16 bg-white
 `;
 const Button = tw.span`
 rounded-full p-2 flex hover:bg-MainColor/10 absolute left-2
@@ -19,7 +19,7 @@ absolute top-0 bottom-0 left-0
 `;
 
 export const Nav = tw.div`
-bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar w-[18rem] top-0 
+bg-MainColor h-full p-5 fixed z-10 overflow-y-auto scrollbar w-[18rem] max-[340px]:w-[12rem] top-0 
 `;
 
 export default function MobileNav() {

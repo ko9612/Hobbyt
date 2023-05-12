@@ -130,7 +130,7 @@ export default function MyInfoList() {
           <AccountInfo />
           <AddressInfo />
           <RefundInfo />
-          <div className="pt-20">
+          <div className="pt-8 sm:pt-20">
             <SubmitButton id="myInfoSubmit" onClick={() => onSubmit()}>
               내 정보 저장하기
             </SubmitButton>

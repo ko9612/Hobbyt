@@ -30,7 +30,7 @@ inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[
 `;
 
 export const NavList = tw.ul`
-px-2 pt-6
+min-[340px]:px-2 pt-6
 `;
 
 export const List = tw.li`
@@ -166,8 +166,6 @@ export default function NavContent() {
                       width={35}
                       height={35}
                       borderW={2}
-                      w={0}
-                      h={0}
                     >
                       nav
                     </DefaultProfileImg>
@@ -183,10 +181,10 @@ export default function NavContent() {
                   onClick={() => setShowModal(true)}
                   className="cursor-pointer"
                 >
-                  <span className="block float-left text-2xl">
+                  <span className="block float-left">
                     <AiOutlineLogout size="35px" />
                   </span>
-                  <span className="p-5 text-base font-medium">로그아웃</span>
+                  <span className="p-5 text-base font-medium]">로그아웃</span>
                 </span>
               </List>
             </>

@@ -16,7 +16,7 @@ export default function UserProfile() {
     new Date(date).toLocaleDateString("ko-KR");
 
   return (
-    <div className="items-center justify-center block m-auto text-center border-2 border-purple-600">
+    <div className="items-center justify-center block m-auto text-center">
       <h1 className="mb-2 text-3xl font-bold">{userData.nickname}</h1>
       <div className="inline-flex mb-5">
         <BsCalendar4 className="mt-1" />
