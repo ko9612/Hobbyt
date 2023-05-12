@@ -23,7 +23,7 @@ export default function DefaultProfileImage({
       alt="디폴트 프로필 사진"
       width={width}
       height={height}
-      className={`overflow-hide rounded-full object-cover border-${borderW} ${
+      className={`overflow-hidden relative rounded-full object-cover border-${borderW} ${
         router.pathname.startsWith("/mypage")
           ? "border-yellow-200"
           : "border-white"

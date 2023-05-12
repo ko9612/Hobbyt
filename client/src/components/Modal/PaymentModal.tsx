@@ -20,11 +20,11 @@ import Payment from "../../util/Payment";
 import { SaleDetailState, totalState } from "../../state/SaleState";
 
 const ModalContent = tw.section`
-p-14
+p-8 sm:p-14
 `;
 
 const ModalTitle = tw.div`
-flex flex-col items-center text-center
+flex flex-col items-center text-center my-2
 `;
 
 const PayContent = tw.div`
@@ -40,11 +40,11 @@ flex justify-center mt-8
 `;
 
 const PayButton = tw.button`
-bg-gray-200 w-[15rem] h-16 mx-auto rounded-full hover:bg-gray-300 focus:bg-gray-300
+bg-gray-200 w-[15rem] h-16 px-2 mx-2 sm:mx-auto rounded-full hover:bg-gray-300 focus:bg-gray-300 text-sm sm:text-base
 `;
 
 const BankTFInfo = tw.ul`
-pt-5
+pt-5 text-sm sm:text-base
 `;
 
 const InfoList = tw.li`
@@ -167,8 +167,10 @@ export default function PaymentModal({
             )}
             <ModalContent>
               <ModalTitle>
-                <h2 className="text-2xl font-semibold">결제를 진행해주세요</h2>
-                <p className="w-[25rem] py-2 text-sm">
+                <h2 className="text-lg sm:text-2xl font-semibold">
+                  결제를 진행해주세요
+                </h2>
+                <p className="py-2 text-sm">
                   이 페이지를 벗어날 시 주문이 취소됩니다.
                 </p>
               </ModalTitle>
@@ -203,16 +205,16 @@ export default function PaymentModal({
                   <PayTitle>계좌이체</PayTitle>
                   <BankTFInfo>
                     <InfoList>
-                      <div className="w-[8rem]">판매자명</div>
-                      <div className="w-[16rem]">{seller}</div>
+                      <div className="w-1/3">판매자명</div>
+                      <div className="w-2/3 pl-2">{seller}</div>
                     </InfoList>
                     <InfoList>
-                      <div className="w-[8rem]">은행명</div>
-                      <div className="w-[16rem]">{bank}</div>
+                      <div className="w-1/3">은행명</div>
+                      <div className="w-2/3 pl-2">{bank}</div>
                     </InfoList>
                     <InfoList>
-                      <div className="w-[8rem]">계좌번호</div>
-                      <div className="w-[16rem]">{number}</div>
+                      <div className="w-1/3">계좌번호</div>
+                      <div className="w-2/3 pl-2">{number}</div>
                     </InfoList>
                   </BankTFInfo>
                   <PayButtonDiv>

@@ -13,10 +13,10 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg w-full`;
-export const BLImage = tw.div`py-2`;
+export const BLComponent = tw.div`flex m-auto mt-4 p-5 bg-gray-100 rounded-lg w-full relative`;
+export const BLImage = tw.div`py-2 overflow-hidden relative`;
 export const BLContent = tw.div`pl-3 sm:pl-5 w-4/5 flex flex-col justify-between`;
-export const BLTitle = tw.div`flex justify-between text-xl md:text-2xl`;
+export const BLTitle = tw.div`flex justify-between text-base sm:text-xl md:text-2xl`;
 export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
 export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
 

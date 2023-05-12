@@ -115,7 +115,7 @@ export default function ProgressCategory({
   return (
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
-      <div className="relative flex flex-col border-2 mr-[1rem] p-1 w-[7rem]">
+      <div className="relative flex flex-col border-2 p-1 w-[7rem]">
         <button
           ref={popRef}
           onClick={spreadOnClickHandler}

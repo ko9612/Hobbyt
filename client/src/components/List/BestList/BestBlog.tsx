@@ -27,11 +27,11 @@ flex justify-center items-center py-6
 `;
 
 const Arrow = tw.div`
-min-[340px]:w-1/6 hidden min-[340px]:block
+min-[500px]:w-1/6 hidden min-[500px]:block
 `;
 
 const SmArrow = tw.div`
-min-[340px]:hidden
+min-[500px]:hidden
 `;
 
 interface MainBlogItemProps {

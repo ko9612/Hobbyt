@@ -16,7 +16,7 @@ fixed inset-0 z-40 h-full w-full
 `;
 
 export const ModalView = tw.div`
-w-[30rem] rounded-md overflow-hidden z-50 text-xl bg-white mx-4 shadow-xl
+w-[30rem] rounded-md overflow-hidden z-50 sm:text-xl bg-white mx-4 shadow-xl
 `;
 
 export const Content = tw.div`
