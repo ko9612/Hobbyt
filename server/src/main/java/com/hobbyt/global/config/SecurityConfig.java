@@ -75,6 +75,7 @@ public class SecurityConfig {
 			.authorizeRequests()
 			.mvcMatchers("/websocket")
 			.permitAll()
+			.mvcMatchers(HttpMethod.POST, "/api/password").permitAll()
 			.mvcMatchers(HttpMethod.GET, "/api/images/**").permitAll()
 			.antMatchers("/api/members/{memberId:[0-9]+}/following", "/api/members/{memberId:[0-9]+}/follower")
 			.permitAll()
