@@ -36,7 +36,6 @@ const ToastEditor = dynamic(() => import("../../ToastUI/TextBlogEditor"), {
 });
 
 // error msg
-// 그냥 필수 입력값 + 제품 정보 1개 이상 없을 시 버튼 disable?
 
 export default function SaleEditContent() {
   const router = useRouter();
@@ -69,7 +68,6 @@ export default function SaleEditContent() {
   const [tagData, setTagData] = useRecoilState(TagState);
   const [productsData, setProductData] = useRecoilState(SaleProductList);
   const [thumbnail, setThumbnail] = useRecoilState(ThumbnailState);
-  // const [pdImgList] = useRecoilState(SalePdImgsList);
   const { register, handleSubmit, watch, setValue } = useForm<SaleWriteProps>();
 
   // 계좌번호: 동적 유효성 검사 위해 useForm 사용x
@@ -298,7 +296,7 @@ export default function SaleEditContent() {
               id="WarningInput"
               cols={50}
               rows={3}
-              maxLength={300}
+              maxLength={30}
               {...register("caution")}
             />
           </PostWriteList>
@@ -388,8 +386,6 @@ export default function SaleEditContent() {
                     type="number"
                     id="shippingFee"
                     placeholder="배송비"
-                    // value={isFee}
-                    // onChange={e => FeeHandler(e)}
                     min={0}
                     {...register("delivery.deliveryPrice")}
                   />

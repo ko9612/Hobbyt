@@ -135,8 +135,6 @@ export default function ProductInfoInput() {
     }
   };
 
-  // console.log(pdImgList);
-
   return (
     <PostWriteContent>
       <PostWriteList className="flex flex-col">
@@ -197,6 +195,7 @@ export default function ProductInfoInput() {
                 type="number"
                 id="price"
                 min="0"
+                max={999999}
                 placeholder="가격"
                 value={price}
                 onChange={e => setPrice(Number(e.target.value))}

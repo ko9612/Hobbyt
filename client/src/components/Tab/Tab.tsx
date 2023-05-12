@@ -26,7 +26,7 @@ interface TabProps {
   }[];
 }
 
-const TabMenu = tw.ul`flex items-center justify-center list-none bg-white sm:text-xl max-[370px]:text-sm max-[370px]:flex-wrap`;
+const TabMenu = tw.ul`flex list-none bg-white sm:text-xl max-sm:text-sm`;
 const TabContent = tw.div``;
 
 export default function Tab({ Menus }: TabProps) {

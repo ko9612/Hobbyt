@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useState } from "react";
 import { useRecoilState } from "recoil";
 import DaumPostcode from "react-daum-postcode";
 import { useRouter } from "next/router";
@@ -52,7 +52,10 @@ export default function AddressApi() {
     <>
       <InputDiv
         className={`pt-2 flex ${
-          router.pathname.includes("/mypage") ? null : "w-1/2"
+          router.pathname.includes("/mypage") ||
+          router.pathname.startsWith("/blog")
+            ? null
+            : "w-1/2"
         }`}
       >
         <Input

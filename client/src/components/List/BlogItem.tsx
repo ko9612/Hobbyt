@@ -20,10 +20,6 @@ export const BLTitle = tw.div`flex justify-between text-base sm:text-xl md:text-
 export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
 export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
 
-// interface ListProps {
-//   list: BlogItemProps;
-// }
-
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
 export default function BlogItem({ list }: any) {
   const router = useRouter();
@@ -48,9 +44,6 @@ export default function BlogItem({ list }: any) {
 
   // 텍스트에서 html 제거하는 정규식
   const regText = content.replace(/<[^>]*>?/g, "");
-
-  // console.log(`리스트?`, list);
-  // console.log("프로필 이미지", profileImage);
 
   return (
     <BLContainer>

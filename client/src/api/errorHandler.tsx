@@ -2,7 +2,6 @@ import { AxiosError } from "axios";
 
 export default function ErrorHandler(Error: any | AxiosError) {
   const status = Error.status as string;
-  // const status = Error.response.status as string;
   let message: string;
   switch (status) {
     case "404":

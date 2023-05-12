@@ -161,7 +161,7 @@ export default function ProductGuide({ id }: IdProps) {
             )}
           </ListTitle>
         </PdContent>
-        <PdContent className="border-none">
+        <PdContent className="border-none text-sm sm:text-base">
           <ListTitle>
             <BsCalendar4 size="1.25rem" />
             {!SaleData.isAlwaysOnSale ? (
@@ -174,7 +174,7 @@ export default function ProductGuide({ id }: IdProps) {
             )}
             <TitleText />
           </ListTitle>
-          <ListTitle className="py-1">
+          <ListTitle className="py-1 ">
             <BsExclamationTriangleFill size="1.25rem" />
             <TitleText>{SaleData.caution}</TitleText>
           </ListTitle>
