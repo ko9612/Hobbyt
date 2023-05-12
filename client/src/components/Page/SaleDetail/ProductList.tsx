@@ -7,7 +7,7 @@ import { SelectPdList } from "../../../type/OrderType";
 import { SelectdPdList } from "../../../state/SaleState";
 import exampleImg from "../../../image/pictureDefalut.svg";
 
-const ProductItem = tw.div`p-2 bg-gray-100 rounded-lg flex items-center relative`;
+const ProductItem = tw.div`p-3 bg-gray-100 rounded-lg flex items-center relative`;
 
 const PMButton = tw.button`px-2 text-gray-300 font-semibold`;
 
@@ -59,13 +59,13 @@ export default function ProductList() {
         {selectItem &&
           selectItem.map((item, idx) => (
             <ProductItem key={idx}>
-              <div className="w-[4rem] h-[4rem] aspect-square relative mr-2 rounded-lg">
+              <div className="w-[4rem] h-[4rem] aspect-square mr-3 rounded-lg">
                 <Image
                   src={item.image.slice(26) || exampleImg}
                   alt="제품이미지"
                   width={200}
                   height={200}
-                  className="absolute inset-0 rounded-lg border-2 border-white"
+                  className="object-fill w-full h-full rounded-lg border-2 border-white"
                 />
               </div>
               <div className="font-semibold max-[370px]:w-3/5">
