@@ -23,27 +23,24 @@ import MsgModal from "../../Modal/MsgModal";
 import DMButton from "../../Button/DMButton";
 
 const IconDiv = tw.span`
-bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center justify-center border-2 border-white
+bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center 
+justify-center border-2 border-white max-sm:h-[3rem] max-sm:w-[3rem] max-sm:p-3
 `;
 
 const PgSection = tw.section`
-py-10
+py-4 sm:py-10
 `;
 
 const PgTitle = tw.div`
-flex items-center justify-between
+flex items-center justify-between max-[500px]:flex-col
 `;
 
 const PgContent = tw.ul`
-flex justify-center items-center pt-[4rem]
+flex justify-evenly items-center pt-[4rem] max-[420px]:flex-wrap
 `;
 
 const PgStatus = tw.li`
-text-center
-`;
-
-const PgStatusLine = tw.div`
-w-14 h-[0.1rem] bg-slate-500
+flex flex-col items-center text-[12px] sm:text-base max-[420px]:w-1/3 pb-2
 `;
 
 const stateArr = [
@@ -163,7 +160,7 @@ export default function OrderProgress({ isData }: IDataProps) {
     } else if (isStatus === "CANCEL") {
       setShowDropBox(false);
     }
-  }, [isData.status]);
+  }, [isData?.status]);
 
   return (
     <PgSection>
@@ -171,8 +168,8 @@ export default function OrderProgress({ isData }: IDataProps) {
       {isData && (
         <>
           <PgTitle>
-            <div className="flex items-center">
-              <span className="w-[4rem] h-[4rem] aspect-square overflow-hidden rounded-md ring-4 ring-gray-300">
+            <div className="flex items-center mb-5">
+              <span className="relative overflow-hidden rounded-md ring-4 ring-gray-300">
                 <Image
                   src={
                     isData.thumbnailImage !== null
@@ -185,9 +182,9 @@ export default function OrderProgress({ isData }: IDataProps) {
                   className="w-full h-full object-cover"
                 />
               </span>
-              <h2 className="px-6 text-base sm:text-2xl flex flex-wrap items-center">
+              <h2 className="px-5 text-base sm:text-xl flex flex-wrap items-center overflow-hidden">
                 <button
-                  className="hover:text-MainColor"
+                  className="hover:text-MainColor px-3"
                   onClick={() =>
                     router.push(
                       `/blog/${isData.sellerId}/sale/${isData.saleId}`,
@@ -197,98 +194,88 @@ export default function OrderProgress({ isData }: IDataProps) {
                   {isData.title}
                 </button>
                 {isData.status === "CANCEL" && (
-                  <span className="px-6 font-semibold text-red-400">
+                  <span className="font-semibold text-red-400 px-3">
                     [미입금 주문 취소]
                   </span>
                 )}
               </h2>
             </div>
-            {showModalCancle && (
-              <DelModal
-                setOpenModal={setShowModalCancle}
-                msg="정말 주문을 취소하시겠습니까?"
-                subMsg={["취소 후, 철회가 불가능합니다."]}
-                afterClick={DeleteOrder}
-                buttonString="주문취소"
-              />
-            )}
-            {showModalFinish && (
-              <DelModal
-                setOpenModal={setShowModalFinish}
-                msg="정말 거래를 완료하시겠습니까?"
-                subMsg={["완료 후, 철회가 불가능합니다."]}
-                afterClick={CompleteOrder}
-                buttonString="거래완료"
-              />
-            )}
+            <div>
+              {showModalCancle && (
+                <DelModal
+                  setOpenModal={setShowModalCancle}
+                  msg="정말 주문을 취소하시겠습니까?"
+                  subMsg={["취소 후, 철회가 불가능합니다."]}
+                  afterClick={DeleteOrder}
+                  buttonString="주문취소"
+                />
+              )}
+              {showModalFinish && (
+                <DelModal
+                  setOpenModal={setShowModalFinish}
+                  msg="정말 거래를 완료하시겠습니까?"
+                  subMsg={["완료 후, 철회가 불가능합니다."]}
+                  afterClick={CompleteOrder}
+                  buttonString="거래완료"
+                />
+              )}
 
-            <div className="flex items-center">
-              {router.pathname.includes("ordermanagement") ? (
-                <DMButton>채팅하기</DMButton>
-              ) : (
-                <DMButton>문의하기</DMButton>
-              )}
-              {router.pathname.includes("ordermanagement") ? (
-                <div>
-                  {showDropbox && (
-                    <ProgressCategory
-                      isCanceled={isData.isCanceled}
-                      orderStatus={isData.status}
-                      orderId={pid}
-                    />
-                  )}
-                </div>
-              ) : (
-                <div>
-                  {isOrderCancleBut ? (
-                    <DButton
-                      onClick={() => setShowModalCancle(!showModalCancle)}
-                    >
-                      주문취소
-                    </DButton>
-                  ) : (
-                    !isData.isCanceled && (
+              <div className="flex items-center">
+                {router.pathname.includes("ordermanagement") ? (
+                  <DMButton>채팅하기</DMButton>
+                ) : (
+                  <DMButton>문의하기</DMButton>
+                )}
+                {router.pathname.includes("ordermanagement") ? (
+                  <div>
+                    {showDropbox && (
+                      <ProgressCategory
+                        isCanceled={isData.isCanceled}
+                        orderStatus={isData.status}
+                        orderId={pid}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {isOrderCancleBut ? (
                       <DButton
-                        disabled={isData.status === "FINISH"}
-                        onClick={() => setShowModalFinish(!showModalFinish)}
+                        onClick={() => setShowModalCancle(!showModalCancle)}
                       >
-                        거래종료
+                        주문취소
                       </DButton>
-                    )
-                  )}
-                </div>
-              )}
+                    ) : (
+                      !isData.isCanceled && (
+                        <DButton
+                          disabled={isData.status === "FINISH"}
+                          onClick={() => setShowModalFinish(!showModalFinish)}
+                        >
+                          거래종료
+                        </DButton>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </PgTitle>
-          {/* <PgContent>
+          <PgContent>
             {(isData.isCanceled && isData.status !== "CANCEL"
               ? refundStateArr
               : stateArr
-            ).map(state => (
-              <>
-                <PgStatus>
-                  <IconDiv
-                    className={`${
-                      orderState >= state.id && "bg-MainColor text-white"
-                    }`}
-                  >
-                    {state.icon}
-                  </IconDiv>
-                  {state.status}
-                </PgStatus>
-                {state.id !==
-                  (isData.isCanceled && isData.status !== "CANCEL"
-                    ? refundStateArr
-                    : stateArr
-                  ).length -
-                    1 && (
-                  <PgStatusLine
-                    className={`${orderState > state.id && "bg-MainColor/50"}`}
-                  />
-                )}
-              </>
+            ).map((state, idx) => (
+              <PgStatus key={idx}>
+                <IconDiv
+                  className={`${
+                    orderState >= state.id && "bg-MainColor text-white"
+                  }`}
+                >
+                  {state.icon}
+                </IconDiv>
+                <span>{state.status}</span>
+              </PgStatus>
             ))}
-          </PgContent> */}
+          </PgContent>
         </>
       )}
     </PgSection>

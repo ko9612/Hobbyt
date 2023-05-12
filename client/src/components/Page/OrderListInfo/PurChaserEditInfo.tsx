@@ -19,7 +19,7 @@ import { patchOrderInfo } from "../../../api/orderApi";
 import MsgModal from "../../Modal/MsgModal";
 import { IDataProps } from "./OrderProgress";
 
-const ItemLabelTitle = tw.label`w-[10rem]`;
+const ItemLabelTitle = tw.label`w-1/3 mr-3 pb-2`;
 
 export default function PurchaserEditInfo({ isData }: IDataProps) {
   const router = useRouter();
@@ -84,9 +84,11 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
 
   return (
     <OLISection>
-      <OLITitle className="flex items-center">
-        <div>배송{isData?.payMethod !== "CARD" && "/환불"} 정보</div>
-        <div className="px-10 text-sm font-medium text-red-400">
+      <OLITitle className="flex items-center flex-wrap">
+        <div className="pr-10">
+          배송{isData?.payMethod !== "CARD" && "/환불"} 정보
+        </div>
+        <div className="text-sm font-medium text-red-400">
           * 배송{isData?.payMethod !== "CARD" && "지 및 환불"}정보 변경은
           입금확인 단계까지만 가능합니다.
         </div>
@@ -95,17 +97,17 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
         <>
           <OLIItem>
             <ItemTitle>주문자명</ItemTitle>
-            <div>{isData.recipient.name}</div>
+            <div className="w-2/3">{isData.recipient.name}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주문자 연락처</ItemTitle>
-            <div>{isData.recipient.phoneNumber}</div>
+            <div className="w-2/3">{isData.recipient.phoneNumber}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>이메일</ItemTitle>
-            <div>{isData.email}</div>
+            <div className="w-2/3">{isData.email}</div>
           </OLIItem>
-          <OLIItem>
+          <OLIItem className="flex-wrap">
             <ItemTitle>주소</ItemTitle>
             <InputDiv>
               <AddressApi />
@@ -113,7 +115,7 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
           </OLIItem>
           {isData.payMethod !== "CARD" && (
             <>
-              <OLIItem>
+              <OLIItem className="flex-wrap">
                 <ItemLabelTitle htmlFor="BankName">환불은행</ItemLabelTitle>
                 <InputDiv>
                   <Input
@@ -125,7 +127,7 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
                   />
                 </InputDiv>
               </OLIItem>
-              <OLIItem>
+              <OLIItem className="flex-wrap">
                 <ItemLabelTitle htmlFor="accountNumber">
                   환불계좌
                 </ItemLabelTitle>
@@ -140,7 +142,7 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
                   />
                 </InputDiv>
               </OLIItem>
-              <OLIItem>
+              <OLIItem className="flex-wrap">
                 <ItemLabelTitle htmlFor="holderName">환불예금주</ItemLabelTitle>
                 <InputDiv>
                   <Input

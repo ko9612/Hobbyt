@@ -9,19 +9,19 @@ export default function PurchaserInfo({ isData }: IDataProps) {
         <>
           <OLIItem>
             <ItemTitle>주문자명</ItemTitle>
-            <div>{isData.recipient.name}</div>
+            <div className="w-2/3">{isData.recipient.name}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주문자 연락처</ItemTitle>
-            <div>{isData.recipient.phoneNumber}</div>
+            <div className="w-2/3">{isData.recipient.phoneNumber}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>이메일</ItemTitle>
-            <div>{isData.email}</div>
+            <div className="w-2/3">{isData.email}</div>
           </OLIItem>
           <OLIItem>
             <ItemTitle>주소</ItemTitle>
-            <div>
+            <div className="w-2/3">
               <div>{isData.recipient.address.zipcode}</div>
               <div>{isData.recipient.address.street}</div>
               <div>{isData.recipient.address.detail}</div>
@@ -31,15 +31,15 @@ export default function PurchaserInfo({ isData }: IDataProps) {
             <>
               <OLIItem>
                 <ItemTitle>환불은행</ItemTitle>
-                <div>{isData.refundAccount.bank}</div>
+                <div className="w-2/3">{isData.refundAccount.bank}</div>
               </OLIItem>
               <OLIItem>
                 <ItemTitle>환불계좌</ItemTitle>
-                <div>{isData.refundAccount.number}</div>
+                <div className="w-2/3">{isData.refundAccount.number}</div>
               </OLIItem>
               <OLIItem>
                 <ItemTitle>환불예금주</ItemTitle>
-                <div>{isData.refundAccount.holder}</div>
+                <div className="w-2/3">{isData.refundAccount.holder}</div>
               </OLIItem>
             </>
           )}

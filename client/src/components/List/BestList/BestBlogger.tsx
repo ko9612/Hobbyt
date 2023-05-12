@@ -30,7 +30,7 @@ export default function BestBlogger() {
     <Section>
       <Title>금주의 인기 블로거</Title>
       <BestContent className="pt-5">
-        <BestItem className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <BestItem className="grid grid-cols-2 gap-14 sm:grid-cols-3">
           {listData &&
             listData[0]?.hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>

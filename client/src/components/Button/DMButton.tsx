@@ -51,8 +51,8 @@ export default function DMButton({ children }: DMPropsType) {
     <button
       className={
         children === "문의하기" || children === "채팅하기"
-          ? "p-3 px-4 mr-3 bg-gray-400 rounded-lg cursor-pointer"
-          : "p-3 mr-3 bg-gray-400 rounded-lg cursor-pointer"
+          ? "p-2 px-4 mr-3 bg-gray-400 rounded-lg cursor-pointer"
+          : "p-2 mr-3 bg-gray-400 rounded-lg cursor-pointer"
       }
       onClick={handleClick}
     >
