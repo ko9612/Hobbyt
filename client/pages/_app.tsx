@@ -12,8 +12,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <div
         className={`${
           !router.pathname.includes("/oauth") &&
-          "max-w-[80rem] md:w-full sm:w-full sm:border-purple-500 md:border-black h-screen"
-        } m-auto border-4`}
+          "max-w-[80rem] md:w-full sm:w-full h-screen"
+        } m-auto`}
       >
         <Component {...pageProps} />
       </div>

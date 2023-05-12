@@ -34,11 +34,11 @@ export default function BestBlogger() {
   return (
     <Section>
       <Title>금주의 작품</Title>
-      <div className="flex justify-end">
+      <div className="flex justify-end py-4">
         <FilterButton />
       </div>
       <BestContent className="pt-5 mb-14">
-        <BestItem className="grid grid-cols-2 gap-6 md:gap-14 sm:grid-cols-3">
+        <BestItem className="grid grid-cols-1 min-[370px]:grid-cols-2 gap-6 md:gap-14 sm:grid-cols-3">
           {listData &&
             listData[0] &&
             listData[0].cards.map((item: SaleItemProps) => (

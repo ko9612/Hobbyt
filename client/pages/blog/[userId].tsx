@@ -10,17 +10,14 @@ import Footer from "../../src/components/Footer/Footer";
 export const Content = tw.main`flex sm:justify-center justify-start`;
 export const UserInfo = tw.div`sm:hidden md:block lg:block`;
 export const BlogContent = tw.main`
-  border-4 border-green-500
-  max-w-[48rem] lg:ml-[18rem] sm:border-red-500
+  max-w-[48rem] lg:ml-[18rem]
   sm:max-w-[41rem] lg:max-w-[48rem] md:ml-[2rem]
 `;
 export const UserContent = tw.aside`
  min-w-[15rem] max-w-[15rem] h-full
  justify-center items-center
- ml-auto
- border border-blue-500
- relative -top-32
- sm:hidden md:block lg:block
+ ml-auto relative -top-32
+ max-md:hidden
 `;
 
 // export const Content = tw.main`flex sm:justify-center`;

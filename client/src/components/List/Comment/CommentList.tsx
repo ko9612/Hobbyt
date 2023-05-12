@@ -28,7 +28,7 @@ export default function CommentList({ comments }: IBlogDetailData) {
   };
 
   return (
-    <div className="mt-10 border-black border-5">
+    <div className="mt-10">
       {comments &&
         newComment.map((item: any) => (
           <Container key={item.id}>

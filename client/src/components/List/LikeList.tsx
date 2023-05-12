@@ -107,7 +107,7 @@ export default function LikeList() {
             )}
           </div>
         ))}
-      <div ref={ref} className="flex justify-center p-8 border-4 border-black">
+      <div ref={ref} className="flex justify-center p-8">
         {isLoading && <ScrollRoader />}
       </div>
     </BLContainer>

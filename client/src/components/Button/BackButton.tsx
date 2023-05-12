@@ -10,7 +10,7 @@ export default function BackButton() {
   };
 
   return (
-    <button className="mr-4 border-2 border-red-500" onClick={backHandler}>
+    <button className="mr-4" onClick={backHandler}>
       <BsArrowLeft size={30} />
     </button>
   );

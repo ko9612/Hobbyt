@@ -15,7 +15,7 @@ py-3
 `;
 
 const Content = tw.div`
-inline-flex mx-3 
+inline-flex mx-3
 `;
 
 export default function Footer() {

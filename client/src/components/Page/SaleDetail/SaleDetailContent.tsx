@@ -55,6 +55,7 @@ export default function SaleDetailContent() {
 
   const priceSum = useRecoilValue(totalState);
   const [isAgree] = useRecoilState(OrderAgreeState);
+
   // 선택 제품 list state
   const [selectItem, setSelectItem] =
     useRecoilState<SelectPdList[]>(SelectdPdList);
@@ -236,7 +237,7 @@ export default function SaleDetailContent() {
       } else if (!priceSum.total) {
         setErrMsg(errMsgList[5]);
         setShowModal(true);
-      } else if (!isAgree) {
+      } else if (isAgree !== true) {
         setErrMsg(errMsgList[6]);
         setShowModal(true);
       } else {

@@ -172,7 +172,7 @@ export default function OrderProgress({ isData }: IDataProps) {
         <>
           <PgTitle>
             <div className="flex items-center">
-              <span className="w-20 h-20 overflow-hidden rounded-md ring-4 ring-gray-300">
+              <span className="w-[4rem] h-[4rem] aspect-square overflow-hidden rounded-md ring-4 ring-gray-300">
                 <Image
                   src={
                     isData.thumbnailImage !== null
@@ -182,10 +182,10 @@ export default function OrderProgress({ isData }: IDataProps) {
                   width={150}
                   height={150}
                   alt="작품 이미지"
-                  className="w-20 h-20"
+                  className="w-full h-full object-cover"
                 />
               </span>
-              <h2 className="px-6 text-2xl">
+              <h2 className="px-6 text-base sm:text-2xl flex flex-wrap items-center">
                 <button
                   className="hover:text-MainColor"
                   onClick={() =>
@@ -226,12 +226,6 @@ export default function OrderProgress({ isData }: IDataProps) {
               {router.pathname.includes("ordermanagement") ? (
                 <DMButton>채팅하기</DMButton>
               ) : (
-                // <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                //   채팅하기
-                // </DButton>
-                // <DButton className="mr-4 text-black bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 focus:ring-gray-300/50">
-                //   문의하기
-                // </DButton>
                 <DMButton>문의하기</DMButton>
               )}
               {router.pathname.includes("ordermanagement") ? (
@@ -266,7 +260,7 @@ export default function OrderProgress({ isData }: IDataProps) {
               )}
             </div>
           </PgTitle>
-          <PgContent>
+          {/* <PgContent>
             {(isData.isCanceled && isData.status !== "CANCEL"
               ? refundStateArr
               : stateArr
@@ -294,7 +288,7 @@ export default function OrderProgress({ isData }: IDataProps) {
                 )}
               </>
             ))}
-          </PgContent>
+          </PgContent> */}
         </>
       )}
     </PgSection>

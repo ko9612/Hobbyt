@@ -6,7 +6,7 @@ export const BlogMenus = [
 ];
 
 export const SaleMenus = [
-  { id: 4, name: "내 정보 관리", content: "Tab 내정보 관리" },
+  { id: 4, name: "내 정보", content: "Tab 내 정보" },
   { id: 5, name: "판매 작품", content: "Tab 판매 작품" },
   { id: 6, name: "구매 작품", content: "Tab 구매 작품" },
   { id: 7, name: "판매 관리", content: "Tab 판매 관리" },

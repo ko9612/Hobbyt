@@ -26,7 +26,7 @@ interface TabProps {
   }[];
 }
 
-const TabMenu = tw.ul`flex items-center flex-row m-auto list-none bg-white text-xl`;
+const TabMenu = tw.ul`flex items-center justify-center list-none bg-white sm:text-xl max-[370px]:text-sm max-[370px]:flex-wrap`;
 const TabContent = tw.div``;
 
 export default function Tab({ Menus }: TabProps) {
@@ -128,7 +128,7 @@ export default function Tab({ Menus }: TabProps) {
         ) : null}
         {Menus[curIndex].name === "댓글" ? <MyCommentList /> : null}
         {Menus[curIndex].name === "좋아요" ? <LikeList /> : null}
-        {Menus[curIndex].name === "내 정보 관리" ? <MyInfoList /> : null}
+        {Menus[curIndex].name === "내 정보" ? <MyInfoList /> : null}
         {Menus[curIndex].name === "판매 작품" ? <ProductstList /> : null}
         {Menus[curIndex].name === "구매 작품" ? <PurchaseList /> : null}
         {Menus[curIndex].name === "판매 관리" ? <SalesManagementList /> : null}

@@ -30,7 +30,10 @@ export default function Message() {
     if (typeof window !== "undefined") {
       if (localStorage.getItem("authorization")) {
         setIsLogin(true);
-        getData();
+        // 구현 완료 후, 삭제
+        alert("업데이트 중인 기능입니다.");
+        router.back();
+        // getData();
       } else {
         setIsLogin(false);
         alert("로그인이 필요한 페이지입니다");

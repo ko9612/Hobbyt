@@ -13,11 +13,11 @@ export default function search() {
     <>
       <Navbar />
       <Main>
-        <MainContent className=" flex flex-col items-center w-[50rem]">
-          <div className="w-4/5 mt-[5rem]">
+        <MainContent className=" flex flex-col items-center">
+          <div className="w-4/5 mt-8 sm:mt-[5rem]">
             <SearchBar />
           </div>
-          <BlogTab className="w-full mt-[5rem]">
+          <BlogTab className="w-full  mt-8 sm:mt-[5rem]">
             <Tab Menus={SearchMenus} />
           </BlogTab>
         </MainContent>

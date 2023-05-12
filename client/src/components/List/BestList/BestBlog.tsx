@@ -7,7 +7,7 @@ import { BlogItemProps } from "../../../type/blogType";
 import { getBestBlogList } from "../../../api/mainApi";
 
 export const Section = tw.section`
-max-w-[52rem] mx-6 md:mx-0 py-10
+max-w-[52rem] py-10
 `;
 
 export const Title = tw.p`
@@ -15,6 +15,7 @@ text-2xl lg:py-2 max-w-[52rem]
 `;
 
 export const BestContent = tw.article`
+flex items-center
 `;
 
 export const BestItem = tw.div`
@@ -22,7 +23,15 @@ export const BestItem = tw.div`
 `;
 
 const CarouselPaging = tw.div`
-flex justify-center py-6
+flex justify-center items-center py-6
+`;
+
+const Arrow = tw.div`
+min-[340px]:w-1/6 hidden min-[340px]:block
+`;
+
+const SmArrow = tw.div`
+min-[340px]:hidden
 `;
 
 interface MainBlogItemProps {
@@ -95,37 +104,58 @@ export default function BestBlog() {
   return (
     <Section>
       <Title>금주의 인기 블로그</Title>
-      <BestContent className="flex items-center justify-center">
-        <BsChevronLeft
-          className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
-          size="2.5rem"
-          role="button"
-          onClick={prevClick}
-        />
-        <div className="mx-4 overflow-hidden">
-          <BestItem ref={slideRef} className="max-w-[45rem] flex">
-            {listData &&
-              listData[0] &&
-              listData[0].hotPosts.map((item: BlogItemProps) => (
-                <div key={item && item.id}>
-                  <BlogItem list={item} key={item.id} />
-                </div>
-              ))}
-          </BestItem>
-        </div>
-        <BsChevronRight
-          className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
-          size="2.5rem"
-          role="button"
-          onClick={nextClick}
-        />
-      </BestContent>
+      {listData && listData[0] && (
+        <BestContent>
+          <Arrow>
+            <BsChevronLeft
+              className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
+              size="2.5rem"
+              role="button"
+              onClick={prevClick}
+            />
+          </Arrow>
+          <div className="mx-4 overflow-hidden">
+            <BestItem ref={slideRef}>
+              <div className="flex">
+                {listData[0].hotPosts.map((item: BlogItemProps) => (
+                  <div key={item && item.id} className="w-full">
+                    <BlogItem list={item} key={item.id} />
+                  </div>
+                ))}
+              </div>
+            </BestItem>
+          </div>
+          <Arrow>
+            <BsChevronRight
+              className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
+              size="2.5rem"
+              role="button"
+              onClick={nextClick}
+            />
+          </Arrow>
+        </BestContent>
+      )}
+
       {listData && listData[0] && (
         <CarouselPaging>
+          <SmArrow>
+            <BsChevronLeft
+              className="rounded-full text-MainColor hover:bg-MainColor/20"
+              role="button"
+              onClick={prevClick}
+            />
+          </SmArrow>
           <span className="px-2">{currentBlog + 1}</span>/
           <span className="px-2">
             {listData && listData[0].hotPosts.length}
           </span>
+          <SmArrow>
+            <BsChevronRight
+              className="rounded-full text-MainColor hover:bg-MainColor/20"
+              role="button"
+              onClick={nextClick}
+            />
+          </SmArrow>
         </CarouselPaging>
       )}
     </Section>

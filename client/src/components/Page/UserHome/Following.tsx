@@ -38,13 +38,13 @@ export default function Followig({ isFollowing }: FollowingType) {
       {isLogin === true ? (
         <div>
           {homeId === userId ? (
-            <div className="inline-flex items-center border-2 border-red-500">
+            <div className="inline-flex items-center">
               <Link href={`/blog/${userId}/profile`}>
                 <ProfileButton />
               </Link>
             </div>
           ) : (
-            <div className="inline-flex items-center justify-between border-2 border-blue-500">
+            <div className="inline-flex items-center justify-between">
               <div className="mr-4">
                 <DMButton>블로그</DMButton>
               </div>

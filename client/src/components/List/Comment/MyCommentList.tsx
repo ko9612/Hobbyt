@@ -12,7 +12,7 @@ import { getBlogCommentList } from "../../../api/tabApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 import { UserIdState } from "../../../state/UserState";
 
-const CommentContainer = tw.div`block border-2 m-auto mt-8`;
+const CommentContainer = tw.div`block m-auto mt-8`;
 
 export default function MyCommentList(): React.ReactElement {
   const router = useRouter();
@@ -104,7 +104,7 @@ export default function MyCommentList(): React.ReactElement {
               ))}
           </div>
         ))}
-      <div ref={ref} className="flex justify-center p-8 border-4 border-black">
+      <div ref={ref} className="flex justify-center p-8 ">
         {isLoading && <ScrollRoader />}
       </div>
     </CommentContainer>
