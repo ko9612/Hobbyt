@@ -24,7 +24,7 @@ export default function BlogSaleInfo({ children }: IProps) {
   };
 
   return (
-    <div className="flex items-center justify-between mt-5 sm:max-w-full">
+    <div className="flex items-center justify-between mt-5 mb-4 sm:max-w-full">
       <FilterButton />
       {userId === homeUserId && (
         <DefalutButton

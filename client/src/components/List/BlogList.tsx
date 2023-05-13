@@ -5,18 +5,12 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import BlogItem from "./BlogItem";
-// import { SearchBlogDataProps } from "../../type/blogType";
 import ScrollRoader from "../Scroll/ScrollRoader";
 import { BlogSelectState } from "../../state/BlogPostState";
 import { getBlogContentList } from "../../api/tabApi";
 import { BlogTabProps } from "../../type/blogType";
 
 export const BLContainer = tw.div`m-auto`;
-// export const BLContainer = tw.div`w-[43rem] m-auto`;
-
-// interface ListProps {
-//   list: BlogItemProps[];
-// }
 
 function BlogList({ posts }: BlogTabProps) {
   const router = useRouter();
@@ -30,7 +24,7 @@ function BlogList({ posts }: BlogTabProps) {
   // 무한 스크롤
   const [hasNext, setHasNext] = useState(false);
   const [ref, inview] = useInView({ threshold: 0 });
-  const limit = 7;
+  const limit = 8;
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -92,11 +86,11 @@ function BlogList({ posts }: BlogTabProps) {
       <BlogSaleInfo>블로그</BlogSaleInfo>
       {listData[0] &&
         listData.map((item: any, index: number) => (
-          <div key={index}>
+          <div key={index} className="grid grid-cols-2 gap-3 sm:grid-cols-none">
             {item.posts &&
               item.posts.map((el: any) => (
                 <div key={el.id}>
-                  <BlogItem list={el} />
+                  <BlogItem list={el}>블로그</BlogItem>
                 </div>
               ))}
           </div>

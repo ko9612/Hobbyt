@@ -11,7 +11,7 @@ import { SearchSaleDataProps } from "../../type/saleType";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
 export const SLContainer = tw.div`m-auto`;
-export const SLComponent = tw.div`grid grid-cols-3 mt-4 gap-3`;
+export const SLComponent = tw.div`grid grid-cols-2 sm:grid-cols-3 mt-4 gap-3`;
 
 export default function SaleList() {
   // const userID = useRecoilValue(UserIdState);
@@ -81,7 +81,7 @@ export default function SaleList() {
     }
   }, [inview]);
 
-  console.log("판매 게시글 리스트", listData);
+  // console.log("판매 게시글 리스트", listData);
 
   return (
     <SLContainer>

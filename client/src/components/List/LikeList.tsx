@@ -24,7 +24,7 @@ export default function LikeList() {
   // 무한 스크롤
   const [hasNext, setHasNext] = useState(false);
   const [ref, inview] = useInView({ threshold: 0 });
-  const limit = 9;
+  const limit = 12;
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -87,11 +87,11 @@ export default function LikeList() {
         listData.map((item: any) => (
           <div key={item.id}>
             {likeSelect === "블로그" ? (
-              <div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-none">
                 {item.cards &&
                   item.cards.map((el: any) => (
                     <div key={el.id}>
-                      <BlogItem list={el} />
+                      <BlogItem list={el}>메인</BlogItem>
                     </div>
                   ))}
               </div>
