@@ -69,7 +69,7 @@ export default function MobileNav() {
         <div
           role="presentation"
           onClick={onBurgerClicked}
-          className="fixed bottom-0 left-0 w-full h-full bg-black/30 backdrop-blur-sm"
+          className="fixed bottom-0 left-0 w-full h-screen bg-black/30 backdrop-blur-sm"
         />
       ) : null}
     </Header>

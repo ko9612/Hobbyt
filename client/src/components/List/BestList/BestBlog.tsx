@@ -15,7 +15,7 @@ text-2xl lg:py-2 max-w-[52rem] mb-4
 `;
 
 export const BestContent = tw.article`
-flex items-center
+
 `;
 
 export const BestItem = tw.div`
