@@ -36,7 +36,7 @@ import AddressApi from "../../../util/AddressApi";
 import ProductThumbnail from "./ProductThumbnail";
 
 const PurForm = tw.section``;
-const PurContent = tw.div`py-2 text-sm sm:text-base`;
+const PurContent = tw.div`py-2`;
 const PurContentInput = tw.div`py-2 flex items-center flex-wrap`;
 const PurInputDiv = tw.div`w-1/2`;
 

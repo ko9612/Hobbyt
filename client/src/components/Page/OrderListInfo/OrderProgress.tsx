@@ -169,7 +169,7 @@ export default function OrderProgress({ isData }: IDataProps) {
         <>
           <PgTitle>
             <div className="flex items-center mb-5">
-              <span className="relative overflow-hidden rounded-md ring-4 ring-gray-300">
+              <span className="w-[5rem] h-[5rem] aspect-square rounded-md ring-4 ring-gray-300">
                 <Image
                   src={
                     isData.thumbnailImage !== null
@@ -179,10 +179,10 @@ export default function OrderProgress({ isData }: IDataProps) {
                   width={150}
                   height={150}
                   alt="작품 이미지"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-fill rounded-md"
                 />
               </span>
-              <h2 className="px-5 text-base sm:text-xl flex flex-wrap items-center overflow-hidden">
+              <h2 className="px-5 text-lg font-bold sm:text-xl flex flex-wrap items-center overflow-hidden">
                 <button
                   className="hover:text-MainColor px-3"
                   onClick={() =>

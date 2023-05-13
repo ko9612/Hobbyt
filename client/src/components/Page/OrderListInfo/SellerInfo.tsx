@@ -10,7 +10,7 @@ font-semibold text-lg sm:text-xl
 `;
 
 export const OLIItem = tw.li`
-flex pt-4 max-w-[35rem] text-sm sm:text-base
+flex pt-4 max-w-[35rem] text-base
 `;
 
 export const ItemTitle = tw.div`
