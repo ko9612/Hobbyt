@@ -203,7 +203,7 @@ export default function SaleWriteContent() {
         {/* 썸네일 */}
         <ThumbnailInput />
         {/* 본문 */}
-        <ToastEditor />
+        {/* <ToastEditor /> */}
         {/* 환불, 교환 안내 */}
         <PostWriteContent className="pt-[2rem]">
           <PostWriteList>
@@ -288,8 +288,8 @@ export default function SaleWriteContent() {
             <PostWriteLabel htmlFor="accountBank">
               입금계좌 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center">
-              <div className="w-[8rem]">
+            <div className="flex items-center justify-between flex-wrap">
+              <div className="flex items-center">
                 <PostInput
                   type="text"
                   id="holder"
@@ -297,11 +297,9 @@ export default function SaleWriteContent() {
                   placeholder="예금주"
                   {...register("account.holder")}
                 />
-              </div>
-              <span className="px-3 text-xl text-MainColor font-extrabold">
-                |
-              </span>
-              <div className="w-[8rem]">
+                <span className="px-3 text-xl text-MainColor font-extrabold">
+                  |
+                </span>
                 <PostInput
                   type="text"
                   id="accountBank"
@@ -310,24 +308,19 @@ export default function SaleWriteContent() {
                   {...register("account.bank")}
                 />
               </div>
-              <span className="px-3 text-xl text-MainColor font-extrabold">
-                |
-              </span>
-              <div className="w-[24rem]">
-                <PostInput
-                  type="text"
-                  id="accountNum"
-                  placeholder="'-'를 제외한 계좌번호를 입력해주세요"
-                  value={isAccountNum}
-                  onChange={AccountNumHandler}
-                  minLength={10}
-                />
-              </div>
+              <PostInput
+                type="text"
+                id="accountNum"
+                placeholder="'-'를 제외한 계좌번호를 입력해주세요"
+                value={isAccountNum}
+                onChange={AccountNumHandler}
+                minLength={10}
+              />
             </div>
           </PostWriteList>
         </PostWriteContent>
         {/* 배송 정보 */}
-        <PostWriteContent>
+        {/* <PostWriteContent>
           <PostWriteList className="flex flex-col">
             <PostWriteLabel htmlFor="startDate" className="mb-2">
               배송정보 <Sign>&#42;</Sign>
@@ -349,7 +342,7 @@ export default function SaleWriteContent() {
                   &nbsp;일
                 </div>
               </div>
-              <div className="  flex items-center w-[30rem]">
+              <div className="flex items-center">
                 <Sign className="pr-2">&#42;</Sign>
                 <SubLabel className="pr-2">
                   <PostInput
@@ -372,9 +365,9 @@ export default function SaleWriteContent() {
               </div>
             </div>
           </PostWriteList>
-        </PostWriteContent>
+        </PostWriteContent> */}
         {/* 입금 시간 정보 */}
-        <PostWriteContent>
+        {/* <PostWriteContent>
           <PostWriteList className="flex flex-col">
             <PostWriteLabel htmlFor="depositTime" className="mb-2">
               입금시간 정보 <Sign>&#42;</Sign>
@@ -398,7 +391,7 @@ export default function SaleWriteContent() {
               </div>
             </div>
           </PostWriteList>
-        </PostWriteContent>
+        </PostWriteContent> */}
         {/* 태그 */}
         <DefalutTag />
         <div className="flex justify-center px-5">
