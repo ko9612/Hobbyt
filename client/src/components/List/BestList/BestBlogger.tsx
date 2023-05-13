@@ -29,8 +29,8 @@ export default function BestBlogger() {
   return (
     <Section>
       <Title>금주의 인기 블로거</Title>
-      <BestContent className="pt-5">
-        <BestItem className="grid grid-cols-2 gap-14 sm:grid-cols-3">
+      <article className="pt-5">
+        <BestItem className="mx-auto grid grid-cols-2 gap-8 sm:grid-cols-3">
           {listData &&
             listData[0]?.hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>
@@ -38,7 +38,7 @@ export default function BestBlogger() {
                   href={`/blog/${item.bloggerId}`}
                   className="flex items-center max-sm:flex-col"
                 >
-                  <span className="w-16 h-16 sm:mr-4">
+                  <span className="aspect-square w-16 h-16 sm:mr-4">
                     <DefaultProfileImage
                       profileImg={item.profileImage}
                       width={70}
@@ -48,14 +48,14 @@ export default function BestBlogger() {
                       best blog
                     </DefaultProfileImage>
                   </span>
-                  <span className="text-xl truncate max-w-[8rem] max-sm: mt-2">
+                  <span className="text-xl max-w-[8rem] max-sm: mt-2">
                     {item.nickname}
                   </span>
                 </Link>
               </BloggerInfo>
             ))}
         </BestItem>
-      </BestContent>
+      </article>
     </Section>
   );
 }
