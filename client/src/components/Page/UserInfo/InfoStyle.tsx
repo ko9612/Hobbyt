@@ -21,7 +21,7 @@ w-full min-[450px]:w-3/5
 `;
 
 export const InputLabel = tw.label`
-w-full min-[450px]:w-2/5 text-sm sm:text-base  my-1
+w-full min-[450px]:w-2/5 text-base my-1
 `;
 
 export const SubLabel = tw.label`
