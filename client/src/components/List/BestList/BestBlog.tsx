@@ -11,7 +11,7 @@ max-w-[52rem] py-10
 `;
 
 export const Title = tw.p`
-text-2xl lg:py-2 max-w-[52rem]
+text-2xl lg:py-2 max-w-[52rem] mb-4
 `;
 
 export const BestContent = tw.article`
@@ -114,12 +114,14 @@ export default function BestBlog() {
               onClick={prevClick}
             />
           </Arrow>
-          <div className="mx-4 overflow-hidden">
+          <div className="mx-24 overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5">
             <BestItem ref={slideRef}>
               <div className="flex">
                 {listData[0].hotPosts.map((item: BlogItemProps) => (
                   <div key={item && item.id} className="w-full">
-                    <BlogItem list={item} key={item.id} />
+                    <BlogItem list={item} key={item.id}>
+                      메인
+                    </BlogItem>
                   </div>
                 ))}
               </div>

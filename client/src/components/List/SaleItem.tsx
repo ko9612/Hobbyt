@@ -11,7 +11,8 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
-export const SLContent = tw.div`w-full inline-block bg-gray-100 rounded-3xl justify-center items-center`;
+export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
+w-[14.5rem] sm:w-[13rem]`;
 export const SLImage = tw.div`mb-2 relative h-auto overflow-hidden aspect-square rounded-t-3xl`;
 export const SLProductInfo = tw.div`mx-4 text-sm sm:text-base`;
 const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
@@ -36,6 +37,12 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
+  // console.log(
+  //   `writerId = ${writerId} // userId = ${userId} // router.pathname = ${router.pathname.includes(
+  //     "/blog",
+  //   )}`,
+  // );
+
   return (
     <SLContent>
       <SLImage>
@@ -58,14 +65,15 @@ export default function SaleItem({ list }: ListProps) {
       </SLImage>
       <SLProductInfo>
         <Link href={`/blog/${writerId}/sale/${id}`}>
-          <h2 className="my-3 truncate">{title}</h2>
-          <div className="flex items-center h-16">
+          <h2 className="my-3 text-lg font-semibold truncate">{title}</h2>
+          <div className="flex items-center">
             <BsCalendar4 className="w-[1.5rem]" />
-            <p className="pl-2 text-sm flex flex-wrap">
+            <p className="flex flex-wrap pl-2 text-sm">
               {period !== null ? (
                 <div>
-                  <span>{startedAt}</span>
-                  <span> ~{endAt}</span>
+                  <span>{startedAt?.substring(2)}</span>
+                  <span> ~ </span>
+                  <span>{endAt?.substring(2)}</span>
                 </div>
               ) : (
                 "상시판매"
@@ -73,7 +81,7 @@ export default function SaleItem({ list }: ListProps) {
             </p>
           </div>
         </Link>
-        <div className="flex justify-between items-center py-2">
+        <div className="flex items-center justify-between py-2">
           {profileImage !== undefined && (
             <Link href={`/blog/${writerId}`} className="flex items-center">
               <div className="w-[2rem] mr-[0.1rem] sm:mr-2">
@@ -89,7 +97,7 @@ export default function SaleItem({ list }: ListProps) {
               <div>{nickname}</div>
             </Link>
           )}
-          <div className="float-right py-2 flex items-center">
+          <div className="flex items-center pb-2 ml-auto">
             <LikeCount>{likeCount}</LikeCount>
           </div>
         </div>

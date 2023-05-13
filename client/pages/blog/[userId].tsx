@@ -7,34 +7,29 @@ import Navbar from "../../src/components/Nav/NavBar";
 import { BlogMenus } from "../../src/components/Tab/TabArr";
 import Footer from "../../src/components/Footer/Footer";
 
-export const Content = tw.main`flex sm:justify-center justify-start`;
-export const UserInfo = tw.div`sm:hidden md:block lg:block`;
+export const Content = tw.main`flex mr-auto
+border-2 border-blue-500`;
+// sm:justify-center justify-start  sm:pl-10 border-2 border-red-500
 export const BlogContent = tw.main`
-  max-w-[48rem] lg:ml-[18rem]
-  sm:max-w-[41rem] lg:max-w-[48rem] md:ml-[2rem]
+  w-[35rem]
+  m-auto
+  md:w-[42rem] lg:w-[48rem] lg:ml-[17.5rem]
+  max-w-[48rem]
+  px-4
+  md:px-6
 `;
+// sm:max-w-[41rem] lg:max-w-[48rem] lg:ml-[18rem] md:ml-[2rem]
+export const BlogTab = tw.div`max-w-[41rem] sm:max-w-[41rem] m-auto`;
+
 export const UserContent = tw.aside`
  min-w-[15rem] max-w-[15rem] h-full
  justify-center items-center
- ml-auto relative -top-32
+ relative -top-32
  max-md:hidden
+ border-2 border-green-500
 `;
-
-// export const Content = tw.main`flex sm:justify-center`;
-// export const UserInfo = tw.div``;
-// export const BlogContent = tw.main`
-//   border-2 border-green-500
-//   w-[48rem] lg:ml-[18rem] sm:border-red-500
-// `;
-// export const UserContent = tw.aside`
-//  w-[16rem] h-full
-//  justify-center items-center
-//  ml-auto
-//  border border-blue-500
-//  relative -top-32
-//  sm:hidden md:block lg:block
-// `;
-export const BlogTab = tw.div`max-w-[41rem] sm:max-w-[41rem] m-auto`;
+// ml-auto
+export const UserInfo = tw.div`sm:hidden md:block lg:block`;
 
 function Blog() {
   return (

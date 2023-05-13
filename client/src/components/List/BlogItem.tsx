@@ -13,15 +13,16 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto mt-4 bg-gray-100 p-3 rounded-lg w-full relative max-sm:flex-col items-center`;
-export const BLImage = tw.div`aspect-square w-[8rem] h-[8rem]`;
+export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl w-[14.5rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3`;
+
+export const BLImage = tw.div`aspect-square w-[14.5rem] h-[14.5rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
 export const BLContent = tw.div`sm:px-5 w-4/5 h-[8rem] flex flex-col justify-between`;
-export const BLTitle = tw.div`flex justify-between text-base sm:text-xl md:text-2xl`;
+export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
 export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
 export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
-export default function BlogItem({ list }: any) {
+export default function BlogItem({ list, children }: any) {
   const router = useRouter();
   const userId = useRecoilValue(UserIdState);
   const {
@@ -52,7 +53,7 @@ export default function BlogItem({ list }: any) {
           <Image
             src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
             alt="img"
-            className="rounded-xl object-cover w-full h-full"
+            className="object-cover w-full h-full rounded-t-3xl sm:rounded-xl"
             width={150}
             height={150}
           />
@@ -60,7 +61,7 @@ export default function BlogItem({ list }: any) {
         <BLContent>
           <BLTitle>
             <Link href={`/blog/${writerId}/post/${id}`} className="w-5/6">
-              <div className="font-semibold flex items-center mt-1">
+              <div className="flex items-center mt-1 font-semibold">
                 <h2 className="truncate">{title}</h2>
                 {router.pathname.startsWith("/blog") && !isPublic && (
                   <BsLockFill className="ml-3 text-gray-400" />
@@ -103,16 +104,13 @@ export default function BlogItem({ list }: any) {
               <span className="mx-[0.15rem]">
                 <LikeCount>{likeCount}</LikeCount>
               </span>
-              <span className="mx-[0.15rem]">
-                <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
-              </span>
+              {children === "메인" ? null : (
+                <span className="mx-[0.15rem]">
+                  <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
+                </span>
+              )}
             </ActInfo>
           </div>
-          {/* <div id="list">
-          {props.applicant.map(item => {
-            <li key={item.id}>{item.name}</li>;
-          })}
-        </div> */}
         </BLContent>
       </BLComponent>
     </BLContainer>
