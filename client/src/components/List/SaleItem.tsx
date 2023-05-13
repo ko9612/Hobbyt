@@ -11,8 +11,10 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
+// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
+// w-[14.5rem] sm:w-[13rem]`;
 export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
-w-[14.5rem] sm:w-[13rem]`;
+w-[10rem] sm:w-[13rem]`;
 export const SLImage = tw.div`mb-2 relative h-auto overflow-hidden aspect-square rounded-t-3xl`;
 export const SLProductInfo = tw.div`mx-4 text-sm sm:text-base`;
 const SLImageC = tw.div`absolute left-[11.5rem] top-1`;
@@ -66,7 +68,7 @@ export default function SaleItem({ list }: ListProps) {
       <SLProductInfo>
         <Link href={`/blog/${writerId}/sale/${id}`}>
           <h2 className="my-3 text-lg font-semibold truncate">{title}</h2>
-          <div className="flex items-center">
+          <div className="flex items-start">
             <BsCalendar4 className="w-[1.5rem]" />
             <p className="flex flex-wrap pl-2 text-sm">
               {period !== null ? (

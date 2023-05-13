@@ -4,26 +4,27 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { BsLockFill } from "react-icons/bs";
-import ViewCount from "../ViewLikeWrite/ViewCount";
-import LikeCount from "../ViewLikeWrite/LikeCount";
-import WriteDate from "../ViewLikeWrite/WriteDate";
-import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
-import DefalutImage from "../../image/pictureDefalut.svg";
-import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
-import { UserIdState } from "../../state/UserState";
+import ViewCount from "../../ViewLikeWrite/ViewCount";
+import LikeCount from "../../ViewLikeWrite/LikeCount";
+import WriteDate from "../../ViewLikeWrite/WriteDate";
+import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
+import DefalutImage from "../../../image/pictureDefalut.svg";
+import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
+import { UserIdState } from "../../../state/UserState";
 
-export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
-w-[10rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
+const BLContainer = tw.div`m-auto`;
+
+const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
+w-[17rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
 border border-red-500
 `;
 
-export const BLImage = tw.div`aspect-square w-[10rem] h-[10rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
-
-export const BLContent = tw.div`sm:px-5 w-4/5 h-[5rem] sm:h-[8rem] flex flex-col justify-between`;
-export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
-export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all hidden sm:block`;
-export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
+// export const BLImage = tw.div`aspect-square w-[14.5rem] h-[14.5rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
+const BLImage = tw.div`aspect-square w-[17rem] h-[17rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
+const BLContent = tw.div`sm:px-5 w-4/5 h-[8rem] flex flex-col justify-between`;
+const BLTitle = tw.div`flex justify-between text-2xl sm:text-2xl md:text-3xl pt-2`;
+const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
+const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
 export default function BlogItem({ list, children }: any) {
@@ -82,7 +83,7 @@ export default function BlogItem({ list, children }: any) {
               profileImage !== undefined && "flex justify-between items-center"
             }`}
           >
-            {/* {profileImage !== undefined && (
+            {profileImage !== undefined && (
               <Link href={`/blog/${writerId}`}>
                 <ActInfo className="my-1">
                   <DefaultProfileImage
@@ -93,21 +94,6 @@ export default function BlogItem({ list, children }: any) {
                   >
                     blog
                   </DefaultProfileImage>
-                  <div className="mx-1">{nickname}</div>
-                </ActInfo>
-              </Link>
-            )} */}
-            {children === "메인" && (
-              <Link href={`/blog/${writerId}`}>
-                <ActInfo className="my-1">
-                  {/* <DefaultProfileImage
-                    profileImg={profileImage}
-                    width={25}
-                    height={25}
-                    borderW={0}
-                  >
-                    blog
-                  </DefaultProfileImage> */}
                   <div className="mx-1">{nickname}</div>
                 </ActInfo>
               </Link>
@@ -124,7 +110,7 @@ export default function BlogItem({ list, children }: any) {
                 <LikeCount>{likeCount}</LikeCount>
               </span>
               {children === "메인" ? null : (
-                <span className="mx-[0.15rem] hidden sm:block">
+                <span className="mx-[0.15rem]">
                   <WriteDate>{createdAt && getParsedDate(createdAt)}</WriteDate>
                 </span>
               )}

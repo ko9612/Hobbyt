@@ -2,7 +2,7 @@
 import tw from "tailwind-styled-components";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
-import BlogItem from "../BlogItem";
+import BestBlogItem from "./BestBlogItem";
 import { BlogItemProps } from "../../../type/blogType";
 import { getBestBlogList } from "../../../api/mainApi";
 
@@ -114,14 +114,15 @@ export default function BestBlog() {
               onClick={prevClick}
             />
           </Arrow>
-          <div className="mx-24 overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5">
+          <div className="w-[17rem] m-auto overflow-hidden border-2 border-blue-500 rounded-3xl sm:rounded-xl sm:mx-5">
+            {/* <div className="mx-24 overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5"> */}
             <BestItem ref={slideRef}>
               <div className="flex">
                 {listData[0].hotPosts.map((item: BlogItemProps) => (
                   <div key={item && item.id} className="w-full">
-                    <BlogItem list={item} key={item.id}>
+                    <BestBlogItem list={item} key={item.id}>
                       메인
-                    </BlogItem>
+                    </BestBlogItem>
                   </div>
                 ))}
               </div>
