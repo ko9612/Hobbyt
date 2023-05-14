@@ -40,8 +40,6 @@ export default function SalesManagementList() {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  console.log("판매관리 리스트", data);
-
   return (
     <>
       <MyPageCategory Menus={SaleManagementMenus} />

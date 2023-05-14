@@ -40,12 +40,6 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
-  // console.log(
-  //   `writerId = ${writerId} // userId = ${userId} // router.pathname = ${router.pathname.includes(
-  //     "/blog",
-  //   )}`,
-  // );
-
   return (
     <SLContent>
       <SLImage>

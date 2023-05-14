@@ -81,8 +81,6 @@ export default function SaleList() {
     }
   }, [inview]);
 
-  // console.log("판매 게시글 리스트", listData);
-
   return (
     <SLContainer>
       <BlogSaleInfo>판매</BlogSaleInfo>

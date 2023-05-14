@@ -29,12 +29,9 @@ export default function CommentInput() {
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const commentData = e.target.value;
       setComment(commentData);
-      console.log("댓글 작성되고 있음?", commentData);
     },
     [setComment],
   );
-
-  console.log("comment 길이", comment.length);
 
   // 댓글 전송 api 함수
   const submitHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,9 +58,6 @@ export default function CommentInput() {
       if (comment.length !== 0 && comment.length < 150) {
         try {
           const res = await postBlogComment(data);
-          console.log(res);
-          // router.push(`/blog/${userId}/post/${id}`);
-          // router.replace(`/blog/${userId}/post/${id}`);
           router.reload();
           // router.events
           setComment("");
@@ -78,8 +72,6 @@ export default function CommentInput() {
       setCommentMsg("댓글 작성은 로그인 시 이용 가능합니다.");
     }
   };
-
-  // useEffect(() => {}, [submitHandler]);
 
   return (
     <>

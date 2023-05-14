@@ -43,8 +43,6 @@ function SearchBlog() {
     }
   };
 
-  console.log(listData);
-
   // 첫 요청 이후, 블로그 게시글 리스트 api 요청(무한 스크롤)
   const moreSearchBlogData = async () => {
     if (select === "최신순") {
@@ -87,8 +85,6 @@ function SearchBlog() {
     }
   }, [inView]);
 
-  console.log("서치", listData);
-
   return (
     <SRContainer>
       <div className="py-10 text-lg">
@@ -104,13 +100,13 @@ function SearchBlog() {
         listData.map((item, idx) => (
           <div key={idx}>
             <div className="mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-1 gap-6">
-            {item.posts &&
-              item.posts.map((el: BlogItemProps) => (
-                <div key={el.id}>
-                  {el.isPublic && <BlogItem list={el} key={el.id} />}
-                </div>
-              ))}
-              </div>
+              {item.posts &&
+                item.posts.map((el: BlogItemProps) => (
+                  <div key={el.id}>
+                    {el.isPublic && <BlogItem list={el} key={el.id} />}
+                  </div>
+                ))}
+            </div>
           </div>
         ))}
       <div ref={ref} className="flex justify-center p-8">

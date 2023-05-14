@@ -12,14 +12,12 @@ const Content = tw.div`ml-3 w-[38.5rem]`;
 const User = tw.div`flex`;
 
 export default function CommentList({ comments }: IBlogDetailData) {
-  // const { comments } = detail || [];
   const userId = useRecoilValue(UserIdState);
   const router = useRouter();
 
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  // console.log(`코멘트리스트`, comments);
   // 댓글 순서 거꾸로
   const newComment = comments?.reverse();
 

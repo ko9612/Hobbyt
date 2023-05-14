@@ -30,7 +30,6 @@ export default function Header() {
     if (router.isReady) {
       // 개인홈 프로필 조회 api 요청 함수
       const request = async () => {
-        console.log("로그인 여부", isLogin);
         if (isLogin === true) {
           // 로그인한 유저용 프로필 조회
           // 블로그 주인 userID api 함수로 보내줘야함

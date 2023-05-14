@@ -6,7 +6,7 @@ import NoticeList from "../src/components/List/NoticeList";
 import Footer from "../src/components/Footer/Footer";
 
 export const Container = tw.div``;
-export const Main = tw.main`sm:border-2 sm:border-blue-500 lg:ml-[17rem]`;
+export const Main = tw.main`lg:ml-[17rem]`;
 export const Title = tw.div`w-full m-auto md:max-w-[50rem] lg:max-w-full`;
 const Text = tw.div`m-auto mt-10 mb-4 ml-6 lg:mt-20 lg:ml-32 lg:mb-10`;
 export const Content = tw.div`max-w-[52rem] sm:max-w-[40rem] md:max-w-[45rem] m-auto mt-10 lg:mt-16`;

@@ -99,10 +99,6 @@ export default function BlogWriteComponent() {
     ) {
       try {
         const submit = await postBlogContent(data);
-        // console.log(`blogSubmit`, submit);
-        // router.replace(`/blog/${userId}/post/${submit.data}`);
-        // resetData();
-
         if ((submit as any).status === 201) {
           resetData();
           router.replace(`/blog/${userId}/post/${(submit as any).data}`);

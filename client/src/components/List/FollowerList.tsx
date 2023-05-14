@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import Link from "next/link";
+import { useInView } from "react-intersection-observer";
 import { Container, List, Content } from "./FollowingList";
 import DefalutImage from "../../image/userDImage.svg";
 import FollowButton from "../Button/FollowButton";
 import { getFollower, getFollowerN, postFollowing } from "../../api/tabApi";
 import { LoginState } from "../../state/UserState";
+import ScrollRoader from "../Scroll/ScrollRoader";
 
 export default function Following() {
   const router = useRouter();
@@ -27,16 +29,48 @@ export default function Following() {
     }
   };
 
-  // 회원용 팔로워 리스트 불러오는 api 호출 함수
+  // 무한 스크롤
+  const [hasNext, setHasNext] = useState(false);
+  const [ref, inview] = useInView({ threshold: 0 });
+  const [page, setPage] = useState(1);
+  // const limit = 7;
+  // const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 처음 : 회원용 팔로워 리스트 호출 api
   const getData = async () => {
-    const res = await getFollower(homeId);
-    setData(res.data);
+    const res = await getFollower(homeId, 0);
+    const listRes = (res as any).data;
+    setData([listRes]);
+    setHasNext(listRes.hasNext);
   };
 
-  // 비회원용 팔로워 리스트 불러오는 api 호출 함수
+  // 비회원용 팔로워 리스트 호출 api
   const getDataN = async () => {
-    const res = await getFollowerN(homeId);
-    setData(res.data);
+    const res = await getFollowerN(homeId, 0);
+    const listRes = (res as any).data;
+    setData([listRes]);
+    setHasNext(listRes.hasNext);
+  };
+
+  // 처음 이후: 회원용 팔로워 리스트 호출 api
+  const moreGetData = async () => {
+    const res = await getFollower(homeId, page);
+    const listRes = (res as any).data;
+    setData([...data, listRes]);
+    setHasNext(listRes.hasNext);
+    setPage(page + 1);
+    setIsLoading(false);
+  };
+
+  // 처음 이후: 비회원용 팔로워 리스트 호출 api
+  const moreGetDataN = async () => {
+    const res = await getFollowerN(homeId, page);
+    const listRes = (res as any).data;
+    setData([...data, listRes]);
+    setHasNext(listRes.hasNext);
+    setPage(page + 1);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -49,41 +83,61 @@ export default function Following() {
     }
   }, [router.isReady]);
 
-  // useEffect(() => {}, []);
-
-  console.log("팔로워 리스트 // 팔로잉 여부", data);
+  useEffect(() => {
+    if (hasNext && inview) {
+      if (isLogin) {
+        setIsLoading(true);
+        setTimeout(async () => {
+          moreGetData();
+        }, 1000);
+      } else {
+        setIsLoading(true);
+        setTimeout(async () => {
+          moreGetDataN();
+        }, 1000);
+      }
+    }
+  }, [router.isReady, inview]);
 
   return (
     <Container>
-      {data?.contents &&
-        data?.contents.map(item => (
-          <List key={item.id}>
-            <Link href={`/blog/${item.id}`} className="flex">
-              <Image
-                src={item.profileImage || DefalutImage}
-                width={50}
-                height={50}
-                alt="유저 이미지"
-                className="w-[4rem] h-[4rem] rounded-full object-cover"
-              />
-              <Content className="ml-3">
-                <p className="text-xl font-semibold">{item.nickname}</p>
-                <p className="w-[32rem] truncate text-gray-400">
-                  {item.description}
-                </p>
-              </Content>
-            </Link>
-            {item.isFollowing === null ? null : (
-              <FollowButton
-                id={item.isFollowing === true ? "팔로잉" : "팔로우"}
-                onClick={postData}
-                value={item.id}
-              >
-                {item.isFollowing === true ? "팔로잉" : "팔로우"}
-              </FollowButton>
-            )}
-          </List>
+      {data[0] &&
+        data.map((item: any) => (
+          <div key={item.id}>
+            {item.contents &&
+              item.contents.map((el: any) => (
+                <List key={el.id}>
+                  <Link href={`/blog/${el.id}`} className="flex">
+                    <Image
+                      src={el.profileImage || DefalutImage}
+                      width={50}
+                      height={50}
+                      alt="유저 이미지"
+                      className="w-[4rem] h-[4rem] rounded-full object-cover"
+                    />
+                    <Content className="ml-3">
+                      <p className="text-xl font-semibold">{el.nickname}</p>
+                      <p className="w-[32rem] truncate text-gray-400">
+                        {el.description}
+                      </p>
+                    </Content>
+                  </Link>
+                  {el.isFollowing === null ? null : (
+                    <FollowButton
+                      id={el.isFollowing === true ? "팔로잉" : "팔로우"}
+                      onClick={postData}
+                      value={el.id}
+                    >
+                      {el.isFollowing === true ? "팔로잉" : "팔로우"}
+                    </FollowButton>
+                  )}
+                </List>
+              ))}
+          </div>
         ))}
+      <div ref={ref} className="flex justify-center p-8 mt-52">
+        {isLoading && <ScrollRoader />}
+      </div>
     </Container>
   );
 }

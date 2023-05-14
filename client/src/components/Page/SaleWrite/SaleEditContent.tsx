@@ -206,7 +206,7 @@ export default function SaleEditContent() {
       }
       setShowModal(true);
     } catch (err: unknown) {
-      console.log(`err`, err);
+      console.error(err);
     }
   };
 
@@ -259,7 +259,7 @@ export default function SaleEditContent() {
               <PostWriteLabel htmlFor="startDate">
                 판매기간 <Sign>&#42;</Sign>
               </PostWriteLabel>
-              <div className="flex items-center flex-wrap">
+              <div className="flex flex-wrap items-center">
                 <div className="text-sm sm:text-base">
                   <PostInput
                     type="date"
@@ -272,7 +272,7 @@ export default function SaleEditContent() {
                     })}
                   />
                 </div>
-                <span className="px-3 text-xl text-MainColor font-extrabold">
+                <span className="px-3 text-xl font-extrabold text-MainColor">
                   ~
                 </span>
                 <SubLabel className="text-sm sm:text-base">
@@ -309,7 +309,7 @@ export default function SaleEditContent() {
             <PostWriteLabel htmlFor="accountBank">
               입금계좌 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center justify-between flex-wrap text-sm sm:text-base">
+            <div className="flex flex-wrap items-center justify-between text-sm sm:text-base">
               <div className="flex items-center">
                 <PostInput
                   type="text"
@@ -318,9 +318,9 @@ export default function SaleEditContent() {
                   placeholder="예금주"
                   {...register("account.holder")}
                 />
-              <span className="px-3 text-xl text-MainColor font-extrabold">
-                |
-              </span>
+                <span className="px-3 text-xl font-extrabold text-MainColor">
+                  |
+                </span>
                 <PostInput
                   type="text"
                   id="accountBank"
@@ -328,15 +328,15 @@ export default function SaleEditContent() {
                   maxLength={10}
                   {...register("account.bank")}
                 />
-                </div>
-                <PostInput
-                  type="text"
-                  id="accountNum"
-                  placeholder="'-'를 제외한 계좌번호를 입력해주세요"
-                  value={isAccountNum}
-                  onChange={AccountNumHandler}
-                  minLength={10}
-                />
+              </div>
+              <PostInput
+                type="text"
+                id="accountNum"
+                placeholder="'-'를 제외한 계좌번호를 입력해주세요"
+                value={isAccountNum}
+                onChange={AccountNumHandler}
+                minLength={10}
+              />
             </div>
           </PostWriteList>
         </PostWriteContent>
@@ -346,7 +346,7 @@ export default function SaleEditContent() {
             <PostWriteLabel htmlFor="startDate" className="mb-2">
               배송정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="mb-4 bg-slate-200 py-2 px-3 rounded-xl">
+            <div className="px-3 py-2 mb-4 bg-slate-200 rounded-xl">
               <div className="flex items-center text-sm sm:text-base">
                 <SubLabel htmlFor="shippingTime" className="mr-2">
                   배송 평균 소요시간

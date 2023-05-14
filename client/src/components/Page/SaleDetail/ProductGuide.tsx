@@ -59,7 +59,6 @@ export default function ProductGuide({ id }: IdProps) {
   const SaleLike = async () => {
     const LikeData = await postSaleLike(id);
     router.reload();
-    console.log(`LikeData`, LikeData);
   };
 
   const onClickLike = () => {
@@ -161,7 +160,7 @@ export default function ProductGuide({ id }: IdProps) {
             )}
           </ListTitle>
         </PdContent>
-        <PdContent className="border-none text-sm sm:text-base">
+        <PdContent className="text-sm border-none sm:text-base">
           <ListTitle>
             <BsCalendar4 size="1.25rem" />
             {!SaleData.isAlwaysOnSale ? (

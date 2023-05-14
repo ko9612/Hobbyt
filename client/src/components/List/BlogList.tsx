@@ -79,8 +79,6 @@ function BlogList({ posts }: BlogTabProps) {
     }
   }, [inview]);
 
-  console.log("블로그", listData);
-
   return (
     <BLContainer>
       <BlogSaleInfo>블로그</BlogSaleInfo>
