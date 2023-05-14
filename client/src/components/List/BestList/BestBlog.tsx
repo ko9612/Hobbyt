@@ -7,7 +7,7 @@ import { BlogItemProps } from "../../../type/blogType";
 import { getBestBlogList } from "../../../api/mainApi";
 
 export const Section = tw.section`
-max-w-[52rem] py-10
+max-w-[52rem] sm:py-10
 `;
 
 export const Title = tw.p`
@@ -114,7 +114,7 @@ export default function BestBlog() {
               onClick={prevClick}
             />
           </Arrow>
-            <div className="overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5">
+          <div className="w-[17rem] sm:w-auto m-auto overflow-hidden rounded-3xl sm:rounded-xl sm:mx-6 ">
             <BestItem ref={slideRef}>
               <div className="flex">
                 {listData[0].hotPosts.map((item: BlogItemProps) => (
