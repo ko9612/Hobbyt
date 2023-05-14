@@ -22,18 +22,13 @@ export default function MessageList({ chatRoomList }: any) {
   // 클릭한 리스트가 배열의 몇번째인지 저장
   const [curIndex, setIndex] = useState(0);
   const router = useRouter();
-  // const checkRoomId = Number(router.query.ChatRoomId);
   // 불러온 메세지 내역 저장
   const [oldMsg, setOldMsg] = useState();
 
-  console.log("chatRoomList", chatRoomList);
-
   // 채팅 내역 조회 api
   const getMessage = async (roomId: number) => {
-    console.log("채팅내역조회 checkRoomId", roomId);
     const res = await getChatRoomMessage(roomId);
     const listRes = (res as any).data;
-    console.log("가져온 메세지 내역", listRes);
     setOldMsg(listRes);
   };
 
@@ -47,11 +42,9 @@ export default function MessageList({ chatRoomList }: any) {
   // 클릭한 채팅방 chatRoomId 저장
   // const onClickChatRoom = (idx: number) => {
   //   setIndex(idx);
-  //   console.log("idx", idx);
   // };
 
   useEffect(() => {}, [router.isReady]);
-  console.log("curIndex", curIndex);
 
   return (
     <MContainer>

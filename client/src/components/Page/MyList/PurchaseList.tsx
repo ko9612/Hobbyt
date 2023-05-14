@@ -70,8 +70,6 @@ export default function PurchaseList() {
     }
   };
 
-  console.log("구매작품", data);
-
   return (
     <>
       <MyPageCategory Menus={PurchaseMenus} />

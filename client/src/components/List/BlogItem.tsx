@@ -15,10 +15,10 @@ import saleDImage from "../../image/saleDImage.svg";
 export const BLContainer = tw.div`m-auto`;
 
 export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
-w-[10rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
+sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
 `;
 
-export const BLImage = tw.div`aspect-square w-[10rem] h-[10rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
+export const BLImage = tw.div`aspect-square sm:w-[8rem] sm:h-[8rem] rounded-t-3xl sm:rounded-xl`;
 
 export const BLContent = tw.div`sm:px-5 w-4/5 h-[5rem] sm:h-[8rem] flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
@@ -57,7 +57,7 @@ export default function BlogItem({ list, children }: any) {
           <Image
             src={thumbnailImage !== null ? thumbnailImage : saleDImage}
             alt="img"
-            className="object-cover w-full h-full rounded-t-3xl"
+            className="object-cover w-full h-full rounded-t-3xl sm:rounded-xl"
             width={150}
             height={150}
           />
@@ -101,21 +101,6 @@ export default function BlogItem({ list, children }: any) {
                 </ActInfo>
               </Link>
             )}
-            {/* {children === "메인" && (
-              <Link href={`/blog/${writerId}`}>
-                <ActInfo className="my-1">
-                  <DefaultProfileImage
-                    profileImg={profileImage}
-                    width={25}
-                    height={25}
-                    borderW={0}
-                  >
-                    blog
-                  </DefaultProfileImage>
-                  <div className="mx-1">{nickname}</div>
-                </ActInfo>
-              </Link>
-            )} */}
             <ActInfo
               className={`${
                 profileImage === undefined ? "justify-end" : "float-right"

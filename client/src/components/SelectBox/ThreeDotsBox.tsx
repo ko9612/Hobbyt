@@ -13,7 +13,7 @@ import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
 import { deleteSaleContent } from "../../api/saleApi";
 import { UserIdState } from "../../state/UserState";
 
-const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap`;
+const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap text-base`;
 
 interface ThreeDotsBoxType {
   id: number;

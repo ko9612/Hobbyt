@@ -61,8 +61,6 @@ export default function MyCommentList(): React.ReactElement {
     }
   }, [inview]);
 
-  console.log("내가 쓴 댓글 리스트", commentList);
-
   return (
     <CommentContainer>
       {commentList[0] &&

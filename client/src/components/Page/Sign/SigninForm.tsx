@@ -64,7 +64,6 @@ export default function SigninForm() {
     };
 
     const signinSubmit = await postSignin(signinData);
-    console.log(`signinSubmit`, signinSubmit);
 
     if ((signinSubmit as any).status === 200) {
       const userData = (signinSubmit as any).data;
@@ -95,71 +94,6 @@ export default function SigninForm() {
       setShowModal(true);
     }
   };
-
-  // if (isLogin) {
-  //   const token = localStorage.getItem("authorization");
-  //   // 웹 소켓 연결
-  //   const webSocket = new WebSocket("ws://59.12.62.150:8080/websocket");
-  //   webSocket.onopen = function () {
-  //     console.log("웹소켓 연결 성공");
-  //   };
-
-  //   //
-  //   const client = new StompJs.Client({
-  //     brokerURL: "ws://59.12.62.150:8080/websocket",
-  //     beforeConnect: () => {
-  //       console.log("beforeConnect");
-  //     },
-  //     connectHeaders: {
-  //       Authorization: `${token}`,
-  //     },
-  //     debug(str) {
-  //       console.log(`str`, str);
-  //     },
-  //     reconnectDelay: 5000, // 자동 재연결
-  //     heartbeatIncoming: 4000,
-  //     heartbeatOutgoing: 4000,
-  //   });
-
-  //   // 연결됐을 때 실행할 함수, 에러 처리 담당 함수 구현
-  //   client.onConnect = function (frame) {
-  //     client.subscribe("/message", message => {
-  //       const datas = JSON.parse(message.body);
-  //       console.log("message", datas);
-  //       setNotice(datas);
-  //     });
-  //     client.subscribe(`/alarm/${userId}`, message => {
-  //       const datas = JSON.parse(message.body);
-  //       console.log("alarm", JSON.parse(message.body));
-  //       console.log("alarm2", datas);
-  //       setNotice(JSON.parse(message.body));
-  //       // alert(datas.title);
-  //       // console.log("notice", message);
-  //       // setNotice(JSON.parse(message.body));
-  //       // console.log("notice", notice);
-  //       const alarms = document.querySelector("#alarm");
-  //       const alarm = document.createElement("li");
-  //       alarm.innerText = message.body;
-  //       alarms?.appendChild(alarm);
-  //     });
-  //     // client.subscribe(`/chat/${chatRoomId}`, message => {
-  //     //   const datas = JSON.parse(message.body);
-  //     //   console.log("alarm", datas);
-  //     // });
-  //   };
-
-  //   client.onStompError = function (frame) {
-  //     console.log(`Broker reported error`, frame.headers.message);
-  //     console.log(`Additional details:${frame.body}`);
-  //   };
-
-  //   // 클라이언트 활성화
-  //   client.activate();
-  // }
-
-  // useEffect(() => {
-  //   console.log("노티스", notice);
-  // }, [notice]);
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement>,

@@ -23,7 +23,6 @@ export default function Message() {
     const res = await getChatRoomList();
     const listRes = res.data.chatrooms;
     setChatRoomList(listRes);
-    console.log("채팅방 리스트", listRes);
   };
 
   useEffect(() => {

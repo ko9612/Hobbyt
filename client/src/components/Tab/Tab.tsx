@@ -48,7 +48,6 @@ export default function Tab({ Menus }: TabProps) {
   // 탭 클릭 함수
   const onClickMenuHandler = (index: number) => {
     setIndex(index);
-    console.log("index", index);
   };
 
   // api 리스트 데이터 저장
@@ -90,7 +89,6 @@ export default function Tab({ Menus }: TabProps) {
   // router.path 에 /follower 가 있으면
   //  처음 랜더링될 때 setIndex가 1이 된다
   useEffect(() => {
-    console.log(router.asPath);
     if (router.pathname.includes("/follower")) {
       setIndex(1);
     }

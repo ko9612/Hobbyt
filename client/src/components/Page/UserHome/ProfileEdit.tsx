@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useRouter } from "next/router";
-import { DefalutButton } from "../../Button/DefalutButton";
+import SubmitButton from "../../Button/SubmitButton";
 import { getBlogLoginProfile, patchBlogProfile } from "../../../api/profileApi";
 import {
   ProfileImageState,
@@ -96,8 +96,14 @@ export default function ProfileEdit() {
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const data = e.target.value;
-    setDescription(data);
-    setCount(data);
+
+    if (data) {
+      setDescription(data);
+      setCount(data);
+    } else if (data === "") {
+      setDescription("");
+      setCount("");
+    }
   };
 
   // 수정 api 요청 함수
@@ -117,7 +123,7 @@ export default function ProfileEdit() {
         router.reload();
       }
     } catch (err: unknown) {
-      console.log(`err`, err);
+      console.error(err);
     }
   };
 
@@ -165,15 +171,15 @@ export default function ProfileEdit() {
         <textarea
           cols={50}
           rows={2}
-          className="p-2 mt-2 bg-gray-200 rounded-lg w-80"
+          className="w-full p-4 mt-2 bg-gray-200 rounded-lg"
           value={description}
           onChange={handleChangeDescription}
           maxLength={50}
         />
       </ProfileContent>
-      <DefalutButton id="d" onClick={() => onSubmitClick()}>
+      <SubmitButton id="d" onClick={() => onSubmitClick()}>
         저장
-      </DefalutButton>
+      </SubmitButton>
     </ProfileContainer>
   );
 }
