@@ -203,7 +203,7 @@ export default function SaleWriteContent() {
         {/* 썸네일 */}
         <ThumbnailInput />
         {/* 본문 */}
-        {/* <ToastEditor /> */}
+        <ToastEditor />
         {/* 환불, 교환 안내 */}
         <PostWriteContent className="pt-[2rem]">
           <PostWriteList>
@@ -320,7 +320,7 @@ export default function SaleWriteContent() {
           </PostWriteList>
         </PostWriteContent>
         {/* 배송 정보 */}
-        {/* <PostWriteContent>
+        <PostWriteContent>
           <PostWriteList className="flex flex-col">
             <PostWriteLabel htmlFor="startDate" className="mb-2">
               배송정보 <Sign>&#42;</Sign>
@@ -365,9 +365,9 @@ export default function SaleWriteContent() {
               </div>
             </div>
           </PostWriteList>
-        </PostWriteContent> */}
+        </PostWriteContent>
         {/* 입금 시간 정보 */}
-        {/* <PostWriteContent>
+        <PostWriteContent>
           <PostWriteList className="flex flex-col">
             <PostWriteLabel htmlFor="depositTime" className="mb-2">
               입금시간 정보 <Sign>&#42;</Sign>
@@ -391,7 +391,7 @@ export default function SaleWriteContent() {
               </div>
             </div>
           </PostWriteList>
-        </PostWriteContent> */}
+        </PostWriteContent>
         {/* 태그 */}
         <DefalutTag />
         <div className="flex justify-center px-5">
