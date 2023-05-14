@@ -20,6 +20,7 @@ import OrderProgress from "./OrderProgress";
 import PurchaserEditInfo from "./PurChaserEditInfo";
 import PurchaserInfo from "./PurChaserInfo";
 import SellerInfo from "./SellerInfo";
+import BackButton from "../../Button/BackButton";
 
 export default function OrderDetailContent() {
   const router = useRouter();
@@ -81,6 +82,7 @@ export default function OrderDetailContent() {
   return (
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
+      <BackButton/>
       {isData?.status && <OrderProgress isData={isData} />}
       <SellerInfo isData={isData} />
       {router.pathname.includes("/ordermanagement") ? (

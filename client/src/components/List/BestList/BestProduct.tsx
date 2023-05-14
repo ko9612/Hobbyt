@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { Section, BestContent, BestItem } from "./BestBlog";
+import { Section, BestContent, BestItem, Title } from "./BestBlog";
 import SaleItem from "../SaleItem";
 import FilterButton from "../../Button/FilterButton";
 import { SaleItemProps } from "../../../type/saleType";
@@ -11,10 +11,6 @@ import { getBestSaleList } from "../../../api/mainApi";
 interface MainSaleItemProps {
   cards: SaleItemProps[];
 }
-
-const Title = tw.p`
-text-2xl mt-12 lg:py-2 max-w-[52rem]
-`;
 
 export default function BestBlogger() {
   const [listData, setListData] = useState<MainSaleItemProps[]>();
@@ -38,7 +34,7 @@ export default function BestBlogger() {
 
   return (
     <Section>
-      <Title>금주의 작품</Title>
+      <Title className="mt-12">금주의 작품</Title>
       <div className="flex justify-end py-4">
         <FilterButton />
       </div>

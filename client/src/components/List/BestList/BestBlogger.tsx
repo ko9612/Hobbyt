@@ -1,15 +1,12 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Section, BestItem } from "./BestBlog";
+import { Section, BestItem, Title } from "./BestBlog";
 import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/mainApi";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 
 const BloggerInfo = tw.div`bg-gray-100 rounded-2xl p-4`;
-const Title = tw.p`
-text-2xl mt-8 lg:py-2 max-w-[52rem]
-`;
 
 interface BloggerProps {
   hotBloggers: BestBloggerProps[];
@@ -30,7 +27,7 @@ export default function BestBlogger() {
 
   return (
     <Section>
-      <Title>금주의 인기 블로거</Title>
+      <Title className="mt-8">금주의 인기 블로거</Title>
       <article className="pt-5">
         <BestItem className="grid grid-cols-2 gap-8 mx-auto sm:grid-cols-3">
           {listData &&
