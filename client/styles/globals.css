@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .tab-submenu {
+    @apply list-none cursor-pointer border-b-4 border-MainColor/60 py-6 w-[14rem] text-center;
+  }
+  .tab-focused {
+    @apply bg-MainColor/60 font-bold py-6 w-[14rem] text-center cursor-pointer border-b-4 border-SubColor text-SubColor;
+  }
+  .togle-container {
+    @apply w-12 h-6 rounded-3xl bg-slate-300 transition-all;
+  }
+  .togle-checked {
+    @apply bg-MainColor;
+  }
+  .togle-circle {
+    @apply absolute top-0.5 left-1 w-5 h-5 rounded-full bg-white transition-all;
+  }
+  .togle-circle-checked {
+    @apply left-6;
+  }
+  .tag {
+    @apply w-auto h-8 flex items-center justify-center px-2 list-none rounded-md mr-2 mb-2 bg-slate-300;
+  }
+  .tag-close-icon {
+    @apply block w-5 h-5 text-center ml-1 rounded-full cursor-pointer;
+  }
+  .tag-ul {
+    @apply flex flex-wrap py-3;
+  }
+  .tag-input {
+    @apply flex-1 border-none h-8 focus:outline-none text-sm sm:text-base;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    @apply w-3 bg-transparent;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-white/50;
+  }
+  .alarm-list {
+    @apply border-2 border-blue-500 bg-MainColor p-2 rounded-xl text-center mb-2 z-50;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    outline: rgb(179, 125, 209, 0.4) auto thin;
+    -webkit-box-shadow: 0 0 0px 1000px rgb(243 244 246) inset;
+  }
+}

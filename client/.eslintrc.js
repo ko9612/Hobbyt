@@ -38,5 +38,12 @@ module.exports = {
     "no-console": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "react/button-has-type": "off",
+    "react/no-array-index-key": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        labelAttributes: ["htmlFor"],
+      },
+    ],
   },
 };

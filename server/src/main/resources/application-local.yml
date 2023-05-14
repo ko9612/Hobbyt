@@ -1,0 +1,26 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        #        show_sql: true
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DB_HOST_NAME}/${DB_STORAGE_NAME}?characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_AUTH_ID}
+    password: ${DB_AUTH_PASSWORD}
+
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      org.hibernate.SQLQuery: debug
+
+hostname: http://localhost:8080/
