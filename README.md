@@ -44,7 +44,119 @@
 ## 📑 주요 기능 시현
 
 <br></br>
+<details>
+<summary>메인 페이지</summary>
+<div markdown="1">
+	
+</div>
+</details>
 
+<details>
+<summary>회원가입</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>로그인</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>비밀번호 찾기&재설정</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>알림</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>DM</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>블로그 게시글</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>판매 게시글</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>댓글</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>좋아요</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>프로필 수정</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>팔로잉</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>주문&결제</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>내 정보 조회&관리</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>검색</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<details>
+<summary>로그아웃&회원탈퇴</summary>
+<div markdown="1">
+	
+</div>
+</details>
+
+<br></br>
 
 ## 📎 DOCS
 [🔗노션](https://real-traffic-5cf.notion.site/Project-Hobbyt-935e7714ba294ed18603eb67ecb2e4bc)
