@@ -8,7 +8,7 @@ import { postImageUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
 import { imageErrorHandler } from "../../util/ErrorHandler";
 
-const Title = tw.div`flex justify-between`;
+const Title = tw.div`flex justify-between flex-wrap mb-5`;
 
 export default function TextEditor() {
   const editorRef = useRef<Editor>(null);
@@ -37,7 +37,7 @@ export default function TextEditor() {
     <div className="px-5">
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <Title>
-        <p className="mb-5 font-semibold">
+        <p className="font-semibold mb-1">
           본문 <span className="text-red-500">&#42;</span>
         </p>
         <p className="text-sm text-gray-400">

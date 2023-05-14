@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { TagState } from "../../state/BlogPostState";
 
 const TagInput = tw.div`
-mt-3 mb-10 flex border-2 rounded-lg px-3 ml-2
+mt-3 mb-10 flex border-2 rounded-lg px-3
 `;
 
 export default function DefalutTag() {
@@ -49,13 +49,14 @@ export default function DefalutTag() {
               </button>
             </li>
           ))}
-        </ul>
-        <input
+           <input
           className="tag-input"
           type="text"
           onKeyUp={event => (event.key === "Enter" ? addTags(event) : null)}
           placeholder="엔터로 태그를 추가하세요"
         />
+        </ul>
+       
       </TagInput>
     </div>
   );

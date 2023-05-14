@@ -259,8 +259,8 @@ export default function SaleEditContent() {
               <PostWriteLabel htmlFor="startDate">
                 판매기간 <Sign>&#42;</Sign>
               </PostWriteLabel>
-              <div className="flex items-center">
-                <div>
+              <div className="flex items-center flex-wrap">
+                <div className="text-sm sm:text-base">
                   <PostInput
                     type="date"
                     id="startDate"
@@ -275,7 +275,7 @@ export default function SaleEditContent() {
                 <span className="px-3 text-xl text-MainColor font-extrabold">
                   ~
                 </span>
-                <SubLabel>
+                <SubLabel className="text-sm sm:text-base">
                   <PostInput
                     type="date"
                     id="endDate"
@@ -309,8 +309,8 @@ export default function SaleEditContent() {
             <PostWriteLabel htmlFor="accountBank">
               입금계좌 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center">
-              <div className="w-[8rem]">
+            <div className="flex items-center justify-between flex-wrap text-sm sm:text-base">
+              <div className="flex items-center">
                 <PostInput
                   type="text"
                   id="holder"
@@ -318,11 +318,9 @@ export default function SaleEditContent() {
                   placeholder="예금주"
                   {...register("account.holder")}
                 />
-              </div>
               <span className="px-3 text-xl text-MainColor font-extrabold">
                 |
               </span>
-              <div className="w-[8rem]">
                 <PostInput
                   type="text"
                   id="accountBank"
@@ -330,11 +328,7 @@ export default function SaleEditContent() {
                   maxLength={10}
                   {...register("account.bank")}
                 />
-              </div>
-              <span className="px-3 text-xl text-MainColor font-extrabold">
-                |
-              </span>
-              <div className="w-[24rem]">
+                </div>
                 <PostInput
                   type="text"
                   id="accountNum"
@@ -343,7 +337,6 @@ export default function SaleEditContent() {
                   onChange={AccountNumHandler}
                   minLength={10}
                 />
-              </div>
             </div>
           </PostWriteList>
         </PostWriteContent>
@@ -354,11 +347,11 @@ export default function SaleEditContent() {
               배송정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
             <div className="mb-4 bg-slate-200 py-2 px-3 rounded-xl">
-              <div className="flex items-center w-[16rem]">
-                <SubLabel htmlFor="shippingTime" className="w-[10rem]">
+              <div className="flex items-center text-sm sm:text-base">
+                <SubLabel htmlFor="shippingTime" className="mr-2">
                   배송 평균 소요시간
                 </SubLabel>
-                <div className="w-[6rem] flex items-center">
+                <div className="flex items-center">
                   <PostInput
                     type="number"
                     id="shippingTime"
@@ -370,7 +363,7 @@ export default function SaleEditContent() {
                   &nbsp;일
                 </div>
               </div>
-              <div className="  flex items-center w-[30rem]">
+              <div className="flex items-center">
                 <Sign className="pr-2">&#42;</Sign>
                 <SubLabel className="pr-2">
                   <PostInput
@@ -400,12 +393,12 @@ export default function SaleEditContent() {
             <PostWriteLabel htmlFor="depositTime" className="mb-2">
               입금시간 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center w-[16rem]">
-              <SubLabel htmlFor="depositTime" className="w-[7rem]">
+            <div className="flex items-center text-sm sm:text-base">
+              <SubLabel htmlFor="depositTime" className="mr-2">
                 주문 완료 후
               </SubLabel>
-              <div className="  flex items-center w-[9rem]">
-                <div className="w-[4rem]">
+              <div className="flex items-center">
+                <div className="w-[3rem] sm:w-[4rem]">
                   <PostInput
                     type="number"
                     id="depositTime"

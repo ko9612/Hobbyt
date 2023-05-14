@@ -19,7 +19,7 @@ export default function DefalutTogle({ children }: DefaultProps) {
 
   return (
     <div className="flex ml-auto">
-      <p className="mr-3">{children}</p>
+      <p className="mr-2 sm:mr-3 text-sm sm:text-base">{children}</p>
       <TogleContainer onClick={toggleHandler}>
         <div className={`togle-container ${isOn ? "togle-checked" : ""}`} />
         <div className={`togle-circle ${isOn ? "togle-circle-checked" : ""}`} />

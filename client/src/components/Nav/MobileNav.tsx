@@ -6,7 +6,7 @@ import logoText from "../../image/logoText.png";
 import NavContent from "./NavContent";
 
 const Header = tw.div`
-flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-10 sticky top-0 h-16 bg-white
+flex items-center justify-center px-4 pt-4 pb-2 lg:hidden z-50 sticky top-0 h-16 bg-white
 `;
 const Button = tw.span`
 rounded-full p-2 flex hover:bg-MainColor/10 absolute left-2

@@ -4,7 +4,7 @@ export interface ProductList {
   price: number | undefined | string;
   stockQuantity: number | undefined | string;
   // image: string | undefined | StaticImport;
-  image: string | undefined;
+  image: any;
 }
 
 // 판매글 작성 데이터 타입
