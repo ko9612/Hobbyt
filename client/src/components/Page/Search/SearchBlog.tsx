@@ -9,6 +9,7 @@ import { SearchBlogDataProps, BlogItemProps } from "../../../type/blogType";
 import { BlogSelectState } from "../../../state/BlogPostState";
 import { getSearchBlogList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
+import { Content, Item } from "./SearchSales";
 
 const SRContainer = tw.div`m-auto`;
 
@@ -22,7 +23,7 @@ function SearchBlog() {
   const [ref, inView] = useInView({ threshold: 0 }); // hook, ref=관찰할 대상에 설정, inView=타겟이 보이지 않으면 false, 보이면 true
   // 검색 키워드
   const keyword = router.query.keywords;
-  const limit = 7;
+  const limit = 8;
   const [offset, setOffset] = useState(0);
 
   // 검색: 검색 후, 첫 블로그 게시글 리스트 api 요청
@@ -91,23 +92,25 @@ function SearchBlog() {
   return (
     <SRContainer>
       <div className="py-10 text-lg">
-        <span className="text-xl sm:text-3xl font-semibold text-MainColor">
+        <span className="text-3xl font-semibold text-MainColor">
           {keyword}{" "}
         </span>
-        <span className="text-base sm:text-lg"> 블로그 검색결과</span>
+        블로그 검색결과
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end pb-5">
         <FilterButton />
       </div>
       {listData &&
         listData.map((item, idx) => (
           <div key={idx}>
+            <div className="mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-1 gap-6">
             {item.posts &&
               item.posts.map((el: BlogItemProps) => (
                 <div key={el.id}>
                   {el.isPublic && <BlogItem list={el} key={el.id} />}
                 </div>
               ))}
+              </div>
           </div>
         ))}
       <div ref={ref} className="flex justify-center p-8">

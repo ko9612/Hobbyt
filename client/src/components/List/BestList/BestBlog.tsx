@@ -15,7 +15,7 @@ text-2xl lg:py-2 max-w-[52rem] mb-4
 `;
 
 export const BestContent = tw.article`
-
+flex items-center
 `;
 
 export const BestItem = tw.div`
@@ -27,11 +27,11 @@ flex justify-center items-center py-6
 `;
 
 const Arrow = tw.div`
-min-[500px]:w-1/6 hidden min-[500px]:block
+min-[550px]:w-1/6 hidden min-[550px]:block
 `;
 
 const SmArrow = tw.div`
-min-[500px]:hidden
+min-[550px]:hidden
 `;
 
 interface MainBlogItemProps {
@@ -105,7 +105,7 @@ export default function BestBlog() {
     <Section>
       <Title>금주의 인기 블로그</Title>
       {listData && listData[0] && (
-        <BestContent>
+        <BestContent className="mt-8">
           <Arrow>
             <BsChevronLeft
               className="rounded-full text-MainColor hover:bg-MainColor/20 hover:p-2"
@@ -114,8 +114,7 @@ export default function BestBlog() {
               onClick={prevClick}
             />
           </Arrow>
-          <div className="w-[17rem] m-auto overflow-hidden border-2 border-blue-500 rounded-3xl sm:rounded-xl sm:mx-5">
-            {/* <div className="mx-24 overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5"> */}
+            <div className="overflow-hidden border-2 border-gray-100 rounded-3xl sm:rounded-xl sm:mx-5">
             <BestItem ref={slideRef}>
               <div className="flex">
                 {listData[0].hotPosts.map((item: BlogItemProps) => (

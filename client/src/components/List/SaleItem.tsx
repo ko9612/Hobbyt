@@ -83,7 +83,7 @@ export default function SaleItem({ list }: ListProps) {
         <div className="flex items-center justify-between py-2 text-sm md:text-base h-[3rem]">
           {profileImage !== undefined && (
             <Link href={`/blog/${writerId}`} className="flex items-center w-[8rem]">
-              <div className="aspect-square w-6 h-6 mr-2">
+              <div className="aspect-square w-6 h-6 mr-[0.25rem] sm:mr-2">
                 <DefaultProfileImage
                   profileImg={profileImage}
                   width={20}

@@ -11,18 +11,30 @@ import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 import DefalutImage from "../../image/pictureDefalut.svg";
 import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../state/UserState";
+import { ActInfo, BLTitle, Text } from "./BestList/BestBlogItem";
 
 export const BLContainer = tw.div`m-auto`;
-export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
-w-[10rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
+
+const BLComponent = tw.div`p-5 bg-gray-100 rounded-lg w-full sm:flex
 `;
 
-export const BLImage = tw.div`aspect-square w-[10rem] h-[10rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
+const BLImage = tw.div`aspect-square
+sm:w-[7rem] sm:h-[7rem] md:w-[8rem] md:h-[8rem] rounded-t-3xl`;
 
-export const BLContent = tw.div`sm:px-5 w-4/5 h-[5rem] sm:h-[8rem] flex flex-col justify-between`;
-export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
-export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all hidden sm:block`;
-export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base`;
+const BLContent = tw.div`
+pt-5 sm:px-5 sm:pt-0 sm:w-4/5 
+sm:h-[7rem] md:h-[8rem] 
+flex flex-col justify-between`;
+// export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
+// w-[10rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
+// `;
+
+// export const BLImage = tw.div`aspect-square w-[10rem] h-[10rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
+
+// export const BLContent = tw.div`sm:px-5 w-4/5 h-[5rem] sm:h-[8rem] flex flex-col justify-between`;
+// export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
+// export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all hidden sm:block`;
+// export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base`;
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
 export default function BlogItem({ list, children }: any) {
@@ -56,7 +68,7 @@ export default function BlogItem({ list, children }: any) {
           <Image
             src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
             alt="img"
-            className="object-cover w-full h-full rounded-t-3xl sm:rounded-xl"
+            className="object-cover w-full h-full rounded-xl"
             width={150}
             height={150}
           />
@@ -81,7 +93,24 @@ export default function BlogItem({ list, children }: any) {
               profileImage !== undefined && "flex justify-between items-center"
             }`}
           >
-            {/* {profileImage !== undefined && (
+            {profileImage !== undefined && (
+              <Link href={`/blog/${writerId}`}>
+                <ActInfo>
+                <div className="mr-[0.25rem] sm:mr-2">
+                  <DefaultProfileImage
+                    profileImg={profileImage}
+                    width={25}
+                    height={25}
+                    borderW={0}
+                  >
+                    blog
+                  </DefaultProfileImage>
+                  </div>
+                  <div className="hidden max-[369px]:block min-[550px]:block">{nickname}</div>
+                </ActInfo>
+              </Link>
+            )}
+            {/* {children === "메인" && (
               <Link href={`/blog/${writerId}`}>
                 <ActInfo className="my-1">
                   <DefaultProfileImage
@@ -96,21 +125,6 @@ export default function BlogItem({ list, children }: any) {
                 </ActInfo>
               </Link>
             )} */}
-            {children === "메인" && (
-              <Link href={`/blog/${writerId}`}>
-                <ActInfo className="my-1">
-                  <DefaultProfileImage
-                    profileImg={profileImage}
-                    width={25}
-                    height={25}
-                    borderW={0}
-                  >
-                    blog
-                  </DefaultProfileImage>
-                  <div className="mx-1 hidden sm:block">{nickname}</div>
-                </ActInfo>
-              </Link>
-            )}
             <ActInfo
               className={`${
                 profileImage === undefined ? "justify-end" : "float-right"

@@ -12,22 +12,24 @@ import DefalutImage from "../../../image/pictureDefalut.svg";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
 import { UserIdState } from "../../../state/UserState";
 
-const BLContainer = tw.div`m-auto`;
-
-const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
-w-[17rem] sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3
-border border-red-500
+export const BLComponent = tw.div`p-5 bg-gray-100 rounded-lg w-full min-[550px]:flex
 `;
 
-// export const BLImage = tw.div`aspect-square w-[14.5rem] h-[14.5rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
-const BLImage = tw.div`aspect-square w-[17rem] h-[17rem] sm:w-[8rem] sm:h-[8rem] rounded-t-3xl`;
-const BLContent = tw.div`sm:px-5 w-4/5 h-[8rem] flex flex-col justify-between`;
-const BLTitle = tw.div`flex justify-between text-2xl sm:text-2xl md:text-3xl pt-2`;
-const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
-const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base flex-wrap`;
+export const BLImage = tw.div`aspect-square
+min-[550px]:w-[6rem] min-[550px]:h-[6rem]
+sm:w-[7rem] sm:h-[7rem] md:w-[8rem] md:h-[8rem] rounded-t-3xl`;
+
+export const BLContent = tw.div`
+pt-5 min-[550px]:pt-0 min-[550px]:px-5 min-[550px]:w-4/5 
+min-[550px]:h-[6rem] sm:h-[7rem] md:h-[8rem] 
+flex flex-col justify-between`;
+
+export const BLTitle = tw.div`flex justify-between text-xl sm:text-2xl md:text-3xl`;
+export const Text = tw.div`text-sm truncate sm:text-base h-[4rem] break-all`;
+export const ActInfo = tw.div`flex items-center justify-center text-sm sm:text-base`;
 
 // blog 페이지일 때를 제외하고 list에 작성자 프로필, 닉네임 출력
-export default function BlogItem({ list, children }: any) {
+export default function BestBlogItem({ list, children }: any) {
   const router = useRouter();
   const userId = useRecoilValue(UserIdState);
   const {
@@ -52,13 +54,12 @@ export default function BlogItem({ list, children }: any) {
   const regText = content.replace(/<[^>]*>?/g, "");
 
   return (
-    <BLContainer>
       <BLComponent>
         <BLImage>
           <Image
             src={thumbnailImage !== null ? thumbnailImage : DefalutImage}
             alt="img"
-            className="object-cover w-full h-full rounded-t-3xl sm:rounded-xl"
+            className="object-cover w-full h-full rounded-xl"
             width={150}
             height={150}
           />
@@ -118,6 +119,5 @@ export default function BlogItem({ list, children }: any) {
           </div>
         </BLContent>
       </BLComponent>
-    </BLContainer>
   );
 }
