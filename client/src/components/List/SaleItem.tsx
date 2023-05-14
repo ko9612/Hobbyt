@@ -91,7 +91,7 @@ export default function SaleItem({ list }: ListProps) {
                   sale
                 </DefaultProfileImage>
               </div>
-              <div className="w-16 truncate">{nickname}</div>
+              <div className="max-[369px]:w-full max-[450px]:w-16 truncate">{nickname}</div>
             </Link>
           )}
           <div className="flex items-center ml-auto">

@@ -14,7 +14,7 @@ import UrlAccessControl from "../../src/util/UrlAccessControl";
 const MypageContent = tw.div`max-w-[52rem] m-auto`;
 
 const MypageTitle = tw.div`
-mt-8 sm:mt-20 mb-2
+mt-5 sm:mt-20 mb-2
   `;
 
 export default function Mypage() {

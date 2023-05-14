@@ -28,7 +28,7 @@ justify-center border-2 border-white max-sm:h-[3rem] max-sm:w-[3rem] max-sm:p-3
 `;
 
 const PgSection = tw.section`
-py-4 sm:py-10
+my-8
 `;
 
 const PgTitle = tw.div`

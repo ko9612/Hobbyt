@@ -27,7 +27,7 @@ flex justify-center items-center py-6
 `;
 
 const Arrow = tw.div`
-min-[550px]:w-1/6 hidden min-[550px]:block
+hidden min-[550px]:block
 `;
 
 const SmArrow = tw.div`
@@ -114,15 +114,13 @@ export default function BestBlog() {
               onClick={prevClick}
             />
           </Arrow>
-          <div className="w-[17rem] sm:w-auto m-auto overflow-hidden rounded-3xl sm:rounded-xl sm:mx-6 ">
+          <div className="overflow-hidden rounded-xl sm:mx-6">
             <BestItem ref={slideRef}>
               <div className="flex">
                 {listData[0].hotPosts.map((item: BlogItemProps) => (
-                  <div key={item && item.id} className="w-full">
                     <BestBlogItem list={item} key={item.id}>
                       메인
                     </BestBlogItem>
-                  </div>
                 ))}
               </div>
             </BestItem>
