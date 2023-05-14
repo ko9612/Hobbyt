@@ -186,7 +186,7 @@ export default function SaleWriteContent() {
       }
       setShowMsgModal(true);
     } catch (err: unknown) {
-      console.log(`err`, err);
+      console.error(err);
     }
   };
 
@@ -238,7 +238,7 @@ export default function SaleWriteContent() {
               <PostWriteLabel htmlFor="startDate">
                 판매기간 <Sign>&#42;</Sign>
               </PostWriteLabel>
-              <div className="flex items-center flex-wrap">
+              <div className="flex flex-wrap items-center">
                 <div className="text-sm sm:text-base">
                   <PostInput
                     type="date"
@@ -251,7 +251,7 @@ export default function SaleWriteContent() {
                     })}
                   />
                 </div>
-                <span className="px-2 text-xl text-MainColor font-extrabold">
+                <span className="px-2 text-xl font-extrabold text-MainColor">
                   ~
                 </span>
                 <SubLabel className="text-sm sm:text-base">
@@ -288,7 +288,7 @@ export default function SaleWriteContent() {
             <PostWriteLabel htmlFor="accountBank">
               입금계좌 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center justify-between flex-wrap text-sm sm:text-base">
+            <div className="flex flex-wrap items-center justify-between text-sm sm:text-base">
               <div className="flex items-center">
                 <PostInput
                   type="text"
@@ -297,7 +297,7 @@ export default function SaleWriteContent() {
                   placeholder="예금주"
                   {...register("account.holder")}
                 />
-                <span className="px-3 text-xl text-MainColor font-extrabold">
+                <span className="px-3 text-xl font-extrabold text-MainColor">
                   |
                 </span>
                 <PostInput
@@ -325,7 +325,7 @@ export default function SaleWriteContent() {
             <PostWriteLabel htmlFor="startDate" className="mb-2">
               배송정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="mb-4 bg-slate-200 py-2 px-3 rounded-xl">
+            <div className="px-3 py-2 mb-4 bg-slate-200 rounded-xl">
               <div className="flex items-center text-sm sm:text-base">
                 <SubLabel htmlFor="shippingTime" className="mr-2">
                   배송 평균 소요시간

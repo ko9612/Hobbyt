@@ -79,8 +79,6 @@ function BlogList({ posts }: BlogTabProps) {
     }
   }, [inview]);
 
-  console.log("블로그", listData);
-
   return (
     <BLContainer>
       <BlogSaleInfo>블로그</BlogSaleInfo>
@@ -88,8 +86,7 @@ function BlogList({ posts }: BlogTabProps) {
         listData.map((item: any, index: number) => (
           <div
             key={index}
-            // className="grid grid-cols-2 gap-3 mb-2 sm:grid-cols-none"
-            className="mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-1 gap-6"
+            className="grid grid-cols-2 gap-3 mb-2 sm:grid-cols-none"
           >
             {item.posts &&
               item.posts.map((el: any) => (

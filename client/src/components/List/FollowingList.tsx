@@ -7,12 +7,11 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import DefalutImage from "../../image/userDImage.svg";
 import { getFollowing, getFollowingN, postFollowing } from "../../api/tabApi";
-// import { DefalutButton } from "../Button/DefalutButton";
 import FollowButton from "../Button/FollowButton";
 import { LoginState } from "../../state/UserState";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
-export const Container = tw.ul`mt-6`;
+export const Container = tw.ul`mt-6 h-screen`;
 export const List = tw.li`flex mb-3`;
 export const Content = tw.div`w-[32rem]`;
 
@@ -32,7 +31,6 @@ export default function FollowingList() {
     if ((res as any).status === 200) {
       router.reload();
     }
-    console.log("팔로우 버튼 클릭시", res.data);
   };
 
   // 무한 스크롤
@@ -49,7 +47,6 @@ export default function FollowingList() {
     const listRes = (res as any).data;
     setData([listRes]);
     setHasNext(listRes.hasNext);
-    console.log("회원 팔로잉리스트", res.data);
   };
 
   // 비회원용 팔로잉 리스트 호출 api
@@ -58,7 +55,6 @@ export default function FollowingList() {
     const listRes = (res as any).data;
     setData([listRes]);
     setHasNext(listRes.hasNext);
-    // console.log("비회원 팔로잉리스트", res);
   };
 
   // 처음 이후: 회원용 팔로잉 리스트 호출 api
@@ -73,7 +69,7 @@ export default function FollowingList() {
 
   // 처음 이후: 비회원용 팔로잉 리스트 호출 api
   const moreGetDataN = async () => {
-    const res = await getFollowing(homeId, page);
+    const res = await getFollowingN(homeId, page);
     const listRes = (res as any).data;
     setData([...data, listRes]);
     setHasNext(listRes.hasNext);
@@ -106,8 +102,6 @@ export default function FollowingList() {
       }
     }
   }, [router.isReady, inview]);
-
-  console.log("팔로잉리스트", data);
 
   return (
     <Container>
@@ -145,10 +139,7 @@ export default function FollowingList() {
               ))}
           </div>
         ))}
-      <div
-        ref={ref}
-        className="flex justify-center p-8 mt-52"
-      >
+      <div ref={ref} className="flex justify-center p-8 mt-52">
         {isLoading && <ScrollRoader />}
       </div>
     </Container>

@@ -1,10 +1,9 @@
 import tw from "tailwind-styled-components";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
-import { BsArrowLeft } from "react-icons/bs";
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
@@ -51,29 +50,10 @@ export default function BlogPostDetail() {
   // 유저 아이디
   const userId = useRecoilValue(UserIdState);
 
-  // post 디테일 데이터 불러오는 api
-
-  //  useCallback(()=> {},[])
-
-  // const getData = useCallback(async () => {
-  //   const blogDetail = await getBlogDetail(pid);
-  //   console.log("블로그 게시글 디테일", blogDetail.data);
-  //   if (blogDetail.status === 200) {
-  //     setGetNewData(blogDetail.data);
-  //   } else if (blogDetail.status === 404) {
-  //     setErrMsg("존재하지 않는 게시글입니다.");
-  //     setShowModal(true);
-  //   } else {
-  //     setErrMsg(`${blogDetail.status}`);
-  //     setShowModal(true);
-  //   }
-  // }, [getNewData]);
-
   const getData = async () => {
     if (typeof window !== undefined) {
       if (!isLogin) {
         const blogDetail = await getBlogDetailAnons(pid);
-        console.log("블로그 게시글 디테일", blogDetail.data);
 
         if (blogDetail.status === 200) {
           if (blogDetail.data.writer.id !== uid) {
@@ -91,7 +71,6 @@ export default function BlogPostDetail() {
         }
       } else {
         const blogDetail = await getBlogDetail(pid);
-        console.log("블로그 게시글 디테일", blogDetail.data);
         if (blogDetail.status === 200) {
           if (blogDetail.data.writer.id !== uid) {
             setErrMsg("존재하지 않는 게시글입니다.");
@@ -110,13 +89,9 @@ export default function BlogPostDetail() {
     }
   };
 
-  console.log(getNewData?.writer.id, uid);
-
   const TextViewer = dynamic(() => import("../../ToastUI/TextViewer"), {
     ssr: false,
   });
-
-  // console.log(`BlogPostDetail`, getNewData);
 
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
@@ -125,7 +100,6 @@ export default function BlogPostDetail() {
   const LikeApi = async () => {
     const plusLike = await postLikePlus(pid);
     router.reload();
-    console.log(`plusLike`, plusLike);
   };
 
   // 하트 클릭 함수
@@ -138,11 +112,6 @@ export default function BlogPostDetail() {
         LikeApi();
       }
     }
-    // if (isLogin === false) {
-    //   router.push("/signin");
-    // } else {
-    //   LikeApi();
-    // }
   };
 
   useEffect(() => {

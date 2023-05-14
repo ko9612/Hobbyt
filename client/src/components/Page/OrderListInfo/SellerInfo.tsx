@@ -18,7 +18,6 @@ w-1/3 mr-3
 `;
 
 export default function SellerInfo({ isData }: IDataProps) {
-  console.log(isData);
   return (
     <OLISection>
       <OLITitle>

@@ -1,6 +1,7 @@
+import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { Section, Title, BestContent, BestItem } from "./BestBlog";
+import { Section, BestContent, BestItem, Title } from "./BestBlog";
 import SaleItem from "../SaleItem";
 import FilterButton from "../../Button/FilterButton";
 import { SaleItemProps } from "../../../type/saleType";
@@ -33,7 +34,7 @@ export default function BestBlogger() {
 
   return (
     <Section>
-      <Title>금주의 작품</Title>
+      <Title className="mt-12">금주의 작품</Title>
       <div className="flex justify-end py-4">
         <FilterButton />
       </div>

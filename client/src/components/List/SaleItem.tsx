@@ -40,12 +40,6 @@ export default function SaleItem({ list }: ListProps) {
   } = list || {};
   const { startedAt, endAt } = period || {};
 
-  // console.log(
-  //   `writerId = ${writerId} // userId = ${userId} // router.pathname = ${router.pathname.includes(
-  //     "/blog",
-  //   )}`,
-  // );
-
   return (
     <SLContent>
       <SLImage>
@@ -59,8 +53,9 @@ export default function SaleItem({ list }: ListProps) {
           alt="img"
           width={250}
           height={250}
-          className={`object-cover w-full h-full ${ thumbnailImage !== null
-            && "rounded-t-3xl"}`}
+          className={`object-cover w-full h-full ${
+            thumbnailImage !== null && "rounded-t-3xl"
+          }`}
         />
       </SLImage>
       <SLProductInfo>
@@ -82,7 +77,10 @@ export default function SaleItem({ list }: ListProps) {
         </Link>
         <div className="flex items-center justify-between py-2 text-sm md:text-base h-[3rem]">
           {profileImage !== undefined && (
-            <Link href={`/blog/${writerId}`} className="flex items-center w-[8rem]">
+            <Link
+              href={`/blog/${writerId}`}
+              className="flex items-center w-[8rem]"
+            >
               <div className="aspect-square w-6 h-6 mr-[0.25rem] sm:mr-2">
                 <DefaultProfileImage
                   profileImg={profileImage}
@@ -93,7 +91,7 @@ export default function SaleItem({ list }: ListProps) {
                   sale
                 </DefaultProfileImage>
               </div>
-              <div>{nickname}</div>
+              <div className="max-[369px]:w-full max-[450px]:w-16 truncate">{nickname}</div>
             </Link>
           )}
           <div className="flex items-center ml-auto">

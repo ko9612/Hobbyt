@@ -32,6 +32,6 @@ relative flex flex-col items-center mb-4 bg-slate-200 py-2 px-3 rounded-xl min-[
 
 export const ImgBox = tw.div`
 bg-white rounded-md aspect-square 
-w-full h-full max-[400px]:my-1
-min-[400px]:w-[6.5rem] min-[400px]:h-[6.5rem] flex items-center justify-center relative
+max-[400px]:my-1
+w-[6.5rem] h-[6.5rem] flex items-center justify-center relative
 `;

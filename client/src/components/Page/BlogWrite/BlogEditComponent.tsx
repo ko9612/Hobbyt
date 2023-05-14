@@ -77,7 +77,7 @@ export default function BlogEditComponent() {
         setShowModal(true);
       }
     } catch {
-      return console.log("에러!");
+      return console.error("에러!");
     }
   };
 
@@ -146,7 +146,7 @@ export default function BlogEditComponent() {
             router.push(`/blog/${userId}/post/${EditSubmit.data}`);
             break;
           default:
-            console.log("에러", EditSubmit.status);
+            console.error("에러", EditSubmit.status);
         }
       } catch (err: unknown) {
         console.error(err);

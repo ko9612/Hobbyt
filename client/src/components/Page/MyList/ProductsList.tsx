@@ -39,8 +39,6 @@ export default function ProductstList() {
   const getParsedDate = (date: string) =>
     new Date(date).toLocaleDateString("ko-KR");
 
-  console.log("판매작품 리스트", data);
-
   return (
     <>
       <MyPageCategory Menus={ProductMenus} />
@@ -90,42 +88,3 @@ export default function ProductstList() {
     </>
   );
 }
-
-// // 페이지네이션
-// const [page, setPage] = useState(0);
-// const [totalPages, setTotalPages] = useState([]);
-// const [count, setCount] = useState(1);
-
-// const handlePageChange = (e: ChangeEvent) => {
-//   const select = e.target.childNodes;
-//   const pageNum = Number(e.target.outerText);
-
-//   // if (select.length === 2) {
-//   //   console.log("첫", pageNum);
-//   //   setPage(pageNum - 1);
-//   // } else if (select.length === 1) {
-//   //   console.log("두번째", pageNum);
-//   //   page;
-//   //   if (pageNum > 1) {
-//   //     console.log("세번째", pageNum);
-//   //     setPage(1);
-//   //   } else {
-//   //     console.log("마지막", pageNum);
-//   //     setPage(-1);
-//   //   }
-//   // }
-
-//   // if (e.target.tagName === "BUTTON") {
-//   //   setPage(pageNum + 1);
-//   // } else if (e.target.tagName === "svg") {
-//   //   setPage(pageNum - 1);
-//   //   // if (Number.isNaN(pageNum)) {
-//   //   //   setPage(1);
-//   //   // }
-//   // }
-//   console.log("끝", pageNum);
-//   // console.log("target", e.target);
-//   // console.log("zzzzzzz", e.target.children);
-//   console.log("zzzzzzz", e.target.childNodes);
-//   // console.log("target", e.target.tagName);
-// };

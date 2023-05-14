@@ -18,9 +18,7 @@ export default function DefalutTag() {
       setTags([...tags, event.currentTarget.value]);
       // eslint-disable-next-line no-param-reassign
       event.currentTarget.value = "";
-      console.log(`초기화 됐닝?`, event.currentTarget.value);
     }
-    console.log(event);
   };
 
   // 태그 지우는 함수
@@ -49,14 +47,13 @@ export default function DefalutTag() {
               </button>
             </li>
           ))}
-           <input
-          className="tag-input"
-          type="text"
-          onKeyUp={event => (event.key === "Enter" ? addTags(event) : null)}
-          placeholder="엔터로 태그를 추가하세요"
-        />
+          <input
+            className="tag-input"
+            type="text"
+            onKeyUp={event => (event.key === "Enter" ? addTags(event) : null)}
+            placeholder="엔터로 태그를 추가하세요"
+          />
         </ul>
-       
       </TagInput>
     </div>
   );

@@ -78,8 +78,6 @@ export default function LikeList() {
     }
   }, [inview]);
 
-  console.log("내 좋아요 리스트", listData);
-
   return (
     <BLContainer>
       <MyLikeFilterBut />

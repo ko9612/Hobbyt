@@ -1,8 +1,7 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Section, Title, BestContent, BestItem } from "./BestBlog";
-// import DefaultProfileImg from "../../Page/UserHome/DefaultProfileImg";
+import { Section, BestItem, Title } from "./BestBlog";
 import { BestBloggerProps } from "../../../type/userTypes";
 import { getBestBloggerList } from "../../../api/mainApi";
 import DefaultProfileImage from "../../Page/UserHome/DefaultProfileImg";
@@ -28,9 +27,9 @@ export default function BestBlogger() {
 
   return (
     <Section>
-      <Title>금주의 인기 블로거</Title>
+      <Title className="mt-8">금주의 인기 블로거</Title>
       <article className="pt-5">
-        <BestItem className="mx-auto grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <BestItem className="grid grid-cols-2 gap-8 mx-auto sm:grid-cols-3">
           {listData &&
             listData[0]?.hotBloggers.map(item => (
               <BloggerInfo key={item.bloggerId}>
@@ -38,7 +37,7 @@ export default function BestBlogger() {
                   href={`/blog/${item.bloggerId}`}
                   className="flex items-center max-sm:flex-col"
                 >
-                  <span className="aspect-square w-16 h-16 sm:mr-4">
+                  <span className="w-16 h-16 aspect-square sm:mr-4">
                     <DefaultProfileImage
                       profileImg={item.profileImage}
                       width={70}

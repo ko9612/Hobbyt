@@ -130,7 +130,7 @@ export default function PaymentModal({
         );
       }, 500);
     } catch (err: unknown) {
-      console.log(`err`, err);
+      console.error(`err`, err);
     }
   };
 
@@ -155,19 +155,19 @@ export default function PaymentModal({
             onClick={e => e.stopPropagation()}
           >
             <button
-              className="absolute top-3 right-3 inline-flex"
+              className="absolute inline-flex top-3 right-3"
               onClick={handleClose}
             >
               <VscChromeClose size="2rem" />
             </button>
             {isLoading && (
-              <div className="h-full w-full absolute z-50 flex justify-center items-center">
+              <div className="absolute z-50 flex items-center justify-center w-full h-full">
                 <ScrollRoader />
               </div>
             )}
             <ModalContent>
               <ModalTitle>
-                <h2 className="text-lg sm:text-2xl font-semibold">
+                <h2 className="text-lg font-semibold sm:text-2xl">
                   결제를 진행해주세요
                 </h2>
                 <p className="py-2 text-sm">
@@ -223,7 +223,7 @@ export default function PaymentModal({
                     </PayButton>
                     <PayButton
                       onClick={orderCompleteClick}
-                      className="bg-MainColor hover:bg-SubColor focus:bg-SubColor text-white"
+                      className="text-white bg-MainColor hover:bg-SubColor focus:bg-SubColor"
                     >
                       주문완료
                     </PayButton>
