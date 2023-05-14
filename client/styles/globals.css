@@ -38,10 +38,10 @@
     @apply block w-5 h-5 text-center ml-1 rounded-full cursor-pointer;
   }
   .tag-ul {
-    @apply flex flex-wrap p-0 mt-2;
+    @apply flex flex-wrap py-3;
   }
   .tag-input {
-    @apply flex-1 border-none h-11 pt-1 focus:outline-none;
+    @apply flex-1 border-none h-8 focus:outline-none text-sm sm:text-base;
   }
 
   .scrollbar::-webkit-scrollbar {

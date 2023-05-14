@@ -47,7 +47,7 @@ export default function ThumbnailInput() {
 
   return (
     <Title>
-      <div className="flex items-center ">
+      <div className="flex items-center flex-wrap">
         {showMsgModal && (
           <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
         )}
@@ -57,11 +57,11 @@ export default function ThumbnailInput() {
           id="thumbnailImg"
           accept="image/jpeg, image/png, image/jpg"
           onChange={onChangeImage}
-          className="w-full p-2 my-2 border-2 rounded-lg border-slate-200"
+          className="w-full p-2 my-2 border-2 rounded-lg border-slate-200 text-sm sm:text-base"
         />
       </div>
       {router.pathname.includes("edit") && (
-        <p className="text-sm ml-[8.5rem] text-gray-400">
+        <p className="text-sm text-gray-400">
           * 미선택시, 기존의 대표 이미지로 유지됩니다.
         </p>
       )}

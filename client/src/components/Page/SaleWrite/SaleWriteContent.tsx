@@ -238,8 +238,8 @@ export default function SaleWriteContent() {
               <PostWriteLabel htmlFor="startDate">
                 판매기간 <Sign>&#42;</Sign>
               </PostWriteLabel>
-              <div className="flex items-center">
-                <div>
+              <div className="flex items-center flex-wrap">
+                <div className="text-sm sm:text-base">
                   <PostInput
                     type="date"
                     id="startDate"
@@ -251,10 +251,10 @@ export default function SaleWriteContent() {
                     })}
                   />
                 </div>
-                <span className="px-3 text-xl text-MainColor font-extrabold">
+                <span className="px-2 text-xl text-MainColor font-extrabold">
                   ~
                 </span>
-                <SubLabel>
+                <SubLabel className="text-sm sm:text-base">
                   <PostInput
                     type="date"
                     id="endDate"
@@ -288,7 +288,7 @@ export default function SaleWriteContent() {
             <PostWriteLabel htmlFor="accountBank">
               입금계좌 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center justify-between flex-wrap">
+            <div className="flex items-center justify-between flex-wrap text-sm sm:text-base">
               <div className="flex items-center">
                 <PostInput
                   type="text"
@@ -326,11 +326,11 @@ export default function SaleWriteContent() {
               배송정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
             <div className="mb-4 bg-slate-200 py-2 px-3 rounded-xl">
-              <div className="flex items-center w-[16rem]">
-                <SubLabel htmlFor="shippingTime" className="w-[10rem]">
+              <div className="flex items-center text-sm sm:text-base">
+                <SubLabel htmlFor="shippingTime" className="mr-2">
                   배송 평균 소요시간
                 </SubLabel>
-                <div className="w-[6rem] flex items-center">
+                <div className="flex items-center">
                   <PostInput
                     type="number"
                     id="shippingTime"
@@ -372,12 +372,12 @@ export default function SaleWriteContent() {
             <PostWriteLabel htmlFor="depositTime" className="mb-2">
               입금시간 정보 <Sign>&#42;</Sign>
             </PostWriteLabel>
-            <div className="flex items-center w-[16rem]">
-              <SubLabel htmlFor="depositTime" className="w-[7rem]">
+            <div className="flex items-center text-sm sm:text-base">
+              <SubLabel htmlFor="depositTime" className="mr-2">
                 주문 완료 후
               </SubLabel>
-              <div className="  flex items-center w-[9rem]">
-                <div className="w-[4rem]">
+              <div className="flex items-center">
+                <div className="w-[3rem] sm:w-[4rem]">
                   <PostInput
                     type="number"
                     id="depositTime"

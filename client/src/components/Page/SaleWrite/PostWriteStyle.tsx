@@ -5,7 +5,7 @@ px-5
 `;
 
 export const PostWriteList = tw.div`
-mb-4
+mb-8
 `;
 
 export const PostWriteLabel = tw.label`
@@ -16,20 +16,22 @@ export const Sign = tw.span`
 text-red-500`;
 
 export const PostTextArea = tw.textarea`
-w-full p-2 my-2 border-2 rounded-lg border-slate-200
+w-full p-2 my-2 border-2 rounded-lg border-slate-200 text-sm sm:text-base
 `;
 
 export const PostInput = tw.input`
-w-full p-2 my-2 border-2 rounded-lg border-slate-200
+w-full p-2 my-2 border-2 rounded-lg border-slate-200 text-sm sm:text-base
 `;
 
 export const SubLabel = tw.label`
 `;
 
 export const InfoContent = tw.div`
-flex items-center mb-4 bg-slate-200 py-2 px-3 rounded-xl
+relative flex flex-col items-center mb-4 bg-slate-200 py-2 px-3 rounded-xl min-[400px]:flex-row
 `;
 
 export const ImgBox = tw.div`
-bg-white rounded-md w-[8rem] h-[6.5rem] flex items-center justify-center relative
+bg-white rounded-md aspect-square 
+w-full h-full max-[400px]:my-1
+min-[400px]:w-[6.5rem] min-[400px]:h-[6.5rem] flex items-center justify-center relative
 `;

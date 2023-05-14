@@ -146,10 +146,10 @@ export default function ProductInfoInput() {
             <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
           )}
           <ImgBox>
-            <label htmlFor="itemImg" className="cursor-pointer text-MainColor">
+            <label htmlFor="itemImg" className="cursor-pointer text-MainColor absolute">
               <RiImageAddFill
                 size="3rem"
-                className="hover:text-SubColor absolute top-1/4 left-[30%] bg-white/50 rounded-md"
+                className="hover:text-SubColor bg-white/50 rounded-md"
               />
               <input
                 type="file"
@@ -163,14 +163,14 @@ export default function ProductInfoInput() {
               <Image
                 src={image.slice(26)}
                 alt="Thumb"
-                className="object-cover w-[8rem] h-[6.5rem] rounded-md"
+                className="object-cover w-full h-full rounded-md"
                 width={130}
                 height={105}
               />
             )}
           </ImgBox>
-          <div className="flex flex-wrap ">
-            <SubLabel className="w-3/5 px-5">
+          <div className="px-3 sm:px-5">
+            <SubLabel>
               <PostInput
                 type="text"
                 id="name"
@@ -180,7 +180,8 @@ export default function ProductInfoInput() {
                 onChange={e => setName(e.target.value)}
               />
             </SubLabel>
-            <SubLabel className="w-1/5">
+            <div className="flex">
+            <SubLabel className="w-2/5 mr-2">
               <PostInput
                 type="number"
                 id="stockQuantity"
@@ -190,17 +191,18 @@ export default function ProductInfoInput() {
                 onChange={e => setStockQuantity(Number(e.target.value))}
               />
             </SubLabel>
-            <SubLabel className="px-5">
+            <SubLabel className="w-3/5">
               <PostInput
                 type="number"
                 id="price"
                 min="0"
-                max={999999}
+                max="9999999"
                 placeholder="가격"
                 value={price}
                 onChange={e => setPrice(Number(e.target.value))}
               />
             </SubLabel>
+            </div>
           </div>
         </InfoContent>
         {products.length <= 10 && (
@@ -232,11 +234,11 @@ export default function ProductInfoInput() {
             <ImgBox>
               <label
                 htmlFor={`ListitemImg${index}`}
-                className="cursor-pointer text-MainColor"
+                className="cursor-pointer text-MainColor absolute"
               >
                 <RiImageAddFill
                   size="3rem"
-                  className="hover:text-SubColor absolute top-1/4 left-[30%] bg-white/50 rounded-md"
+                  className="hover:text-SubColor bg-white/50 rounded-md"
                 />
                 <input
                   type="file"
@@ -248,9 +250,9 @@ export default function ProductInfoInput() {
               </label>
               {products[index]?.image ? (
                 <Image
-                  src={products[index].image.slice(26)}
+                  src={products[index].image?.slice(26)}
                   alt="Thumb"
-                  className="object-cover w-[8rem] h-[6.5rem] rounded-md"
+                  className="object-cover w-full h-full rounded-md"
                   width={130}
                   height={105}
                 />
@@ -258,14 +260,14 @@ export default function ProductInfoInput() {
                 <Image
                   src={exampleImg}
                   alt="Thumb"
-                  className="object-cover w-[8rem] h-[6.5rem] rounded-md"
+                  className="object-cover w-full h-full rounded-md"
                   width={130}
                   height={105}
                 />
               )}
             </ImgBox>
-            <div className="flex flex-wrap ">
-              <SubLabel className="w-3/5 px-5">
+            <div className="px-3 sm:px-5">
+              <SubLabel>
                 <PostInput
                   type="text"
                   id="name"
@@ -275,7 +277,8 @@ export default function ProductInfoInput() {
                   onChange={e => editItemHandler(index, e)}
                 />
               </SubLabel>
-              <SubLabel className="w-1/5">
+               <div className="flex">
+              <SubLabel className="w-2/5 mr-2">
                 <PostInput
                   type="number"
                   id="stockQuantity"
@@ -285,25 +288,25 @@ export default function ProductInfoInput() {
                   onChange={e => editItemHandler(index, e)}
                 />
               </SubLabel>
-              <SubLabel className="px-5">
+              <SubLabel className="w-3/5">
                 <PostInput
                   type="number"
                   id="price"
-                  maxLength={20}
+                  min="0"
+                  max="9999999"
                   placeholder="가격"
                   value={item.price}
                   onChange={e => editItemHandler(index, e)}
                 />
               </SubLabel>
+              </div>
             </div>
-            <span>
               <MdRemoveCircle
                 role="button"
                 onClick={() => handleProductRemove(index)}
                 size="2rem"
-                className="text-MainColor hover:text-SubColor focus:text-SubColor"
+                className="absolute top-3 right-3 text-MainColor hover:text-SubColor focus:text-SubColor"
               />
-            </span>
           </InfoContent>
         ))}
       </PostWriteList>
