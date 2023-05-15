@@ -92,7 +92,7 @@
 	<h4>블로그 리스트</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/bff564ab-6d0b-42cc-94b5-baf3c111e5d8" />
 	<h4>블로그 작성</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/f52e862d-5270-44e3-88fe-6a4c81edbc51" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/67ebbd31-ddfe-4e7c-98a3-5a12b306d18f" />
 	<h4>블로그 수정 & 삭제</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/9d28a6ca-a5b0-4dca-8d5d-0d9a3503d43c" />
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/39f751a0-b5d0-47a1-a6ce-198b7975031f" />
@@ -114,7 +114,7 @@
 	<h4>댓글 작성</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/cf79fc45-9327-418e-848b-bed82684f04b" />
 	<h4>댓글 수정&삭제</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/cf79fc45-9327-418e-848b-bed82684f04b" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/8ab50677-194e-4eb0-b8c4-b56e35a7d540" />
 </div>
 </details>
 
@@ -124,7 +124,7 @@
 	<h4>블로그 좋아요</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/ed81db0e-594f-44b5-b983-15bf91d7955f" />
 	<h4>판매 좋아요</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/a765c5bb-831d-4503-b5ed-c64eb2d549a9" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/78f6e675-17ca-469a-9666-5ca2f6374ae3" />
 </div>
 </details>
 
