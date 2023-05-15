@@ -10,8 +10,6 @@ import Footer from "../../src/components/Footer/Footer";
 export const Content = tw.main`flex mr-auto`;
 // sm:justify-center justify-start  sm:pl-10 border-2 border-red-500
 export const BlogContent = tw.main`
-  w-full
-  m-auto
   sm:w-[35rem] md:w-[42rem] lg:w-[48rem] lg:ml-[17.5rem]
   max-w-[48rem]
   px-4
