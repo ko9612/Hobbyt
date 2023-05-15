@@ -122,10 +122,11 @@
 	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/1d831aaa-bde2-4733-abe2-7500bd288146" />
 	<br></br>
 	<h4>판매 게시글 작성</h4>
-	<img src="" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/6c1907c7-36b0-4485-a68f-875d4edd15f6" />
 	<br></br>
 	<h4>판매 게시글 수정 & 삭제</h4>
-	<img src="" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/5148d22a-0480-4ba1-82d7-5bec944fdc8e" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/5742a86a-aa4a-4c8b-ba5e-1222c64329c3" />
 	<br></br>
 </div>
 </details>
