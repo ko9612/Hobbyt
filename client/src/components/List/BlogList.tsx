@@ -90,7 +90,7 @@ function BlogList({ posts }: BlogTabProps) {
           >
             {item.posts &&
               item.posts.map((el: any) => (
-                <div key={el.id}>
+                <div key={el.id} className="sm:w-[35rem] md:w-[42rem]">
                   <BlogItem list={el}>블로그</BlogItem>
                 </div>
               ))}
