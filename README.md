@@ -47,21 +47,33 @@
 <details>
 <summary>메인 페이지</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>메인 페이지 구성</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/ecdf258d-f84b-4ab6-96d2-7fac22df7ad1" />
+	<br></br>
+	<h4>반응형 웹 구현</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/ad86a3b0-4afa-4632-8c64-ba1e08b0a48e" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>회원가입</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>이메일 인증을 거친 회원가입</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/d4841c13-b782-4c86-bf5c-1fdbe7587b37" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>로그인</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>일반 로그인</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/a5abe9ef-3b93-4a41-8a63-69debd370516" />
+	<br></br>
+	<h4>소셜 로그인</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/5e4b8eee-325d-4d44-b719-d4efc20c47fb" />
+	<br></br>
 </div>
 </details>
 
@@ -76,6 +88,7 @@
 <summary>알림</summary>
 <div markdown="1">
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/fc088d3f-7a05-4c45-b043-cc470495d873" />
+	<br></br>
 </div>
 </details>
 
@@ -91,18 +104,29 @@
 <div markdown="1">
 	<h4>블로그 리스트</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/bff564ab-6d0b-42cc-94b5-baf3c111e5d8" />
+	<br></br>
 	<h4>블로그 작성</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/67ebbd31-ddfe-4e7c-98a3-5a12b306d18f" />
+	<br></br>
 	<h4>블로그 수정 & 삭제</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/9d28a6ca-a5b0-4dca-8d5d-0d9a3503d43c" />
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/39f751a0-b5d0-47a1-a6ce-198b7975031f" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>판매</summary>
 <div markdown="1">
+	<h4>판매 게시글 리스트</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/1d831aaa-bde2-4733-abe2-7500bd288146" />
+	<br></br>
+	<h4>판매 게시글 작성</h4>
 	<img src="" />
+	<br></br>
+	<h4>판매 게시글 수정 & 삭제</h4>
+	<img src="" />
+	<br></br>
 </div>
 </details>
 
@@ -111,10 +135,13 @@
 <div markdown="1">
 	<h4>작성한 댓글 리스트</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/2c3fbd95-ba1e-471f-bd56-470444b7ddf2" />
+	<br></br>
 	<h4>댓글 작성</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/cf79fc45-9327-418e-848b-bed82684f04b" />
+	<br></br>
 	<h4>댓글 수정&삭제</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/8ab50677-194e-4eb0-b8c4-b56e35a7d540" />
+	<br></br>
 </div>
 </details>
 
@@ -123,29 +150,81 @@
 <div markdown="1">
 	<h4>블로그 좋아요</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/ed81db0e-594f-44b5-b983-15bf91d7955f" />
+	<br></br>
 	<h4>판매 좋아요</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/78f6e675-17ca-469a-9666-5ca2f6374ae3" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>프로필 수정</summary>
 <div markdown="1">
+	<br></br>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/14eb5ef1-45a4-485e-9768-34961c093c68" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>팔로잉</summary>
 <div markdown="1">
+	<br></br>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/e3ee1f8b-3a7c-4101-b536-2a8aaf69c734" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>주문&결제</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>계좌이체 주문</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/52cb4b55-b0ed-4cd4-bd90-886445381106" />
+	<br></br>
+	<table>
+		<tr align="center" >
+			<td colspan="2">주문 상세 페이지(계좌이체)</td>
+		<tr/>
+		<tr align="center" >
+			<td>구매자 용</td>
+			<td>판매자 용</td>
+		</tr>
+		<tr>
+			<td ><img src="https://github.com/ko9612/Hobbyt/assets/75575781/0e7d9968-0013-42c8-8f6f-86c9db325e0c" width="300"/></td>
+			<td><img src="https://github.com/ko9612/Hobbyt/assets/75575781/5289b955-1cb5-435e-81c2-b40286a2b11c" width="300"/></td>
+		</tr>
+	</table>
+	<br></br>
+	<h4>카드 결제</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/a13bffc3-df11-43e3-8ee1-8996a831d802" />
+	<br></br>
+	<table>
+		<tr align="center" >
+			<td colspan="2">주문 상세 페이지(카드결제)</td>
+		<tr/>
+		<tr align="center" >
+			<td>구매자 용</td>
+			<td>판매자 용</td>
+		</tr>
+		<tr>
+			<td ><img src="https://github.com/ko9612/Hobbyt/assets/75575781/0a48baeb-14ed-4654-a512-ac1845f51b55" width="300"/></td>
+			<td><img src="https://github.com/ko9612/Hobbyt/assets/75575781/d8f806e9-9862-4b86-b19c-f6e898f5c8a7" width="300"/></td>
+		</tr>
+	</table>
+	<br></br>
+	<h4>주문 후, 배송지 & 환불계좌 정보 변경</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/4126b32f-75de-4ba2-b0bb-198d907299ea" />
+	<br></br>
+	<li>주문 상태가 배송준비 중으로 변경되면 변경 버튼이 사라져, 주문 정보를 변경할 수 없음 </li>
+	<li>주문취소 버튼이 거래종료 버튼으로 변경됨 </li>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/e2093d74-569c-497b-b290-24f8705af902" width="400"/>
+	<br></br>
+	<h4>주문 취소 & 환불</h4>
+	<h5>주문 취소 - 입금 확인 전 주문 취소<h5>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/2d217bf1-5d3f-49d4-91cd-be7a8f6afecc" />
+	<h5>환불 - 입금 확인 후 주문 취소<h5>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/181e3809-da15-45a6-b45c-e9ec6e9ac393" />
+	<br></br>
 </div>
 </details>
 
@@ -153,11 +232,17 @@
 <summary>내 정보 조회&관리</summary>
 <div markdown="1">
 	<h4>내 정보 수정</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/548d390f-e70d-4fed-8798-cbc3fb9e6559"/>
+	<h5>내 정보 수정 - 비밀번호 수정</h5>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/aabd4f96-48f6-4968-9ec5-189c5ea3cc57"/>
+	<h5>내 정보 수정 - 연락처, 배송지, 계좌정보 변경</h5>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/87fd1098-7eae-454f-9c6b-6e49f5edb0f0"/>
+	<br></br>
 	<h4>내 정보 판매작품</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/e94c43b1-05d8-427f-85d4-e9ff47f0d1cb"/>
+	<br></br>
 	<h4>내 정보 구매작품</h4>
 	<img src=https://github.com/ko9612/Hobbyt/assets/99064439/b5840a8e-b9a9-40af-b8ad-2b48fca2e055"/>
+	<br></br>
 	<h4>내정보 판매관리</h4>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/fac0b69f-4d38-4e03-bc50-039b7fb582a3"/>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/95550e4d-ac9c-40f4-a85a-6a67bdb22690"/>
@@ -167,14 +252,21 @@
 <details>
 <summary>검색</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>블로그 및 판매 게시글 검색</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/fc189c2b-4d10-4f09-9f17-12470505a246" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>로그아웃&회원탈퇴</summary>
 <div markdown="1">
-	<img src="" />
+	<h4>로그아웃</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/f513ab29-246a-4b62-a403-46250e26b9bb" />
+	<br></br>
+	<h4>회원탈퇴</h4>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/8d65da2b-d2d6-4a7b-8346-d78f391ae800" />
+	<br></br>
 </div>
 </details>
 
