@@ -8,7 +8,7 @@ export const InfoTitle = tw.p`
 text-lg sm:text-xl py-2
 `;
 
-export const InfoContent = tw.form`
+export const InfoContent = tw.section`
 pt-2 pb-5
 `;
 
