@@ -10,7 +10,7 @@ flex justify-center
 export default function Logo() {
   return (
     <LogoDiv>
-      <Link href="/" className="w-72">
+      <Link href="/" className="w-[12rem] min-[400px]:w-[15rem] sm:w-72">
         <Image src={mainLogo} alt="로고" />
       </Link>
     </LogoDiv>
