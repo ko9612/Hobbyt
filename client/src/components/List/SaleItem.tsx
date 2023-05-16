@@ -59,7 +59,7 @@ export default function SaleItem({ list }: ListProps) {
           <h2 className="my-3 text-lg font-semibold truncate">{title}</h2>
           <div className="flex items-center h-[2rem]">
             <BsCalendar4 className="w-[1.5rem]" />
-            <p className="pl-2 text-sm">
+            <div className="pl-2 text-sm">
               {period !== null ? (
                 <div className="flex flex-wrap">
                   <span>{startedAt?.substring(2)}</span>
@@ -68,7 +68,7 @@ export default function SaleItem({ list }: ListProps) {
               ) : (
                 "상시판매"
               )}
-            </p>
+            </div>
           </div>
         </Link>
         <div className="flex items-center justify-between py-2 text-sm md:text-base h-[3rem]">

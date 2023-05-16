@@ -12,7 +12,7 @@ interface MainSaleItemProps {
   cards: SaleItemProps[];
 }
 
-export default function BestBlogger() {
+export default function BestProduct() {
   const [listData, setListData] = useState<MainSaleItemProps[]>();
   const select = useRecoilValue(BlogSelectState);
 

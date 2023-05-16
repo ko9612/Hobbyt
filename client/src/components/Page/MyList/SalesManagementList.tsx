@@ -47,9 +47,8 @@ export default function SalesManagementList() {
         <div className="h-[45rem]">
           {data?.data &&
             data?.data.map((product: SaleManagememtType) => (
-              <>
+              <div         key={product.orderId}>
                 <ul
-                  key={product.orderId}
                   className="flex items-center justify-between p-[1rem] text-center"
                 >
                   <Link
@@ -74,7 +73,7 @@ export default function SalesManagementList() {
                   </div>
                 </ul>
                 <hr />
-              </>
+              </div>
             ))}
         </div>
         <div className="flex justify-center mt-20">
