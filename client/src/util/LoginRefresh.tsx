@@ -6,7 +6,6 @@ export const getAccessToken = () => {
   if (typeof window !== "undefined") {
     accessToken = `Bearer ${localStorage.getItem("authorization")}`;
   }
-
   return accessToken;
 };
 

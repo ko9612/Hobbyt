@@ -83,7 +83,7 @@ export default function LikeList() {
       <MyLikeFilterBut />
       {listData[0] &&
         listData.map((item: any) => (
-          <div key={item.id}>
+          <div key={`${item.id}b`}>
             {likeSelect === "블로그" ? (
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-none">
                 {item.cards &&
@@ -97,7 +97,7 @@ export default function LikeList() {
               <SLComponent>
                 {item.cards &&
                   item.cards.map((el: any) => (
-                    <div key={el.id}>
+                    <div key={`${item.id}s`}>
                       <SaleItem list={el} />
                     </div>
                   ))}

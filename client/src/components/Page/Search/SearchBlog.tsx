@@ -85,8 +85,6 @@ function SearchBlog() {
     }
   }, [inView]);
 
-  console.log(listData)
-
   return (
     <SRContainer>
       <div className="py-10 text-lg">

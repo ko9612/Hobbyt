@@ -63,7 +63,7 @@ export default function AddressApi() {
           id="zipCode"
           maxLength={5}
           placeholder="우편번호"
-          value={isZipcode}
+          defaultValue={isZipcode}
         />
         <div className="pl-2">
           <DButton
@@ -92,7 +92,7 @@ export default function AddressApi() {
           id="address1"
           maxLength={30}
           placeholder="주소"
-          value={isStreet}
+          defaultValue={isStreet}
         />
       </InputDiv>
       <InputDiv className="w-full">
