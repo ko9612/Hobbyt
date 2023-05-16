@@ -88,13 +88,13 @@ export const postRePwLinkBut = async (data: {email: string}) => {
 };
 
 // 비밀번호 재설정 api
-export const patchRePassword = async (data: {password:string}, token:string) => {
+export const patchRePassword = async (data: {password:string}, token:any) => {
   try {
-    const passwordData = await axios.post("/api/members/password", data,{ 
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+    const passwordData = await axios.patch("/api/members/password", data,{ 
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return passwordData;
   } catch (err: any) {
     return err.response;
