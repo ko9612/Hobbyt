@@ -14,11 +14,11 @@ flex w-[64rem] rounded-md bg-white shadow-sm
 `;
 
 export const LeftContent = tw.article`
-w-full mt-40 mb-5
+w-full py-10 sm:py-20
 `;
 
 export const InputDiv = tw.div`
-mt-8 px-16
+mt-8 px-10 sm:px-16
 `;
 
 export default function SignIn() {
@@ -35,6 +35,11 @@ export default function SignIn() {
               msg="아직 회원이 아니신가요?"
               sign="회원가입"
               href="/signup"
+            />
+                <SignGuide
+              msg="비밀번호가 생각나지 않나요?"
+              sign="비밀번호 재설정"
+              href="/forgotpw"
             />
           </InputDiv>
         </LeftContent>

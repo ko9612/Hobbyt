@@ -17,7 +17,7 @@ export default function search() {
           <div className="w-4/5 mt-8 sm:mt-[5rem]">
             <SearchBar />
           </div>
-          <BlogTab className="w-full  mt-8 sm:mt-[5rem]">
+          <BlogTab className="w-full mt-8 sm:mt-[5rem]">
             <Tab Menus={SearchMenus} />
           </BlogTab>
         </MainContent>

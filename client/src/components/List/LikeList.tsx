@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { useInView } from "react-intersection-observer";
-import BlogItem, { BLContainer } from "./BlogItem"; // 새로 추가
+import BlogItem from "./BlogItem"; // 새로 추가
 import { getBlogLikeList, getSaleLikeList } from "../../api/tabApi";
 import { ILikeList } from "../../type/blogType";
 import MyLikeFilterBut from "../Button/MyLikeFilterBut";
@@ -79,7 +79,7 @@ export default function LikeList() {
   }, [inview]);
 
   return (
-    <BLContainer>
+    <section>
       <MyLikeFilterBut />
       {listData[0] &&
         listData.map((item: any) => (
@@ -88,7 +88,7 @@ export default function LikeList() {
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-none">
                 {item.cards &&
                   item.cards.map((el: any) => (
-                    <div key={el.id}>
+                    <div key={el.id} className="sm:w-[35rem] md:w-[42rem]">
                       <BlogItem list={el}>메인</BlogItem>
                     </div>
                   ))}
@@ -108,6 +108,6 @@ export default function LikeList() {
       <div ref={ref} className="flex justify-center p-8">
         {isLoading && <ScrollRoader />}
       </div>
-    </BLContainer>
+    </section>
   );
 }

@@ -11,12 +11,8 @@ import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 
-// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
-// w-[14.5rem] sm:w-[13rem]`;
-// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
-// w-[10rem] sm:w-[13rem]`;
 export const SLContent = tw.div`bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`mb-2 relative h-auto overflow-hidden aspect-square rounded-t-3xl`;
+export const SLImage = tw.div`mb-2 relative h-auto overflow-hidden  aspect-square rounded-t-3xl`;
 export const SLProductInfo = tw.div`mx-4 `;
 const SLImageC = tw.div`absolute right-5 top-1`;
 

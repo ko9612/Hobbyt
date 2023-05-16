@@ -11,7 +11,7 @@ import { getSearchBlogList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 import { Content, Item } from "./SearchSales";
 
-const SRContainer = tw.div`m-auto`;
+const SRContainer = tw.div``;
 
 function SearchBlog() {
   const router = useRouter();
@@ -85,6 +85,8 @@ function SearchBlog() {
     }
   }, [inView]);
 
+  console.log(listData)
+
   return (
     <SRContainer>
       <div className="py-10 text-lg">
@@ -99,11 +101,11 @@ function SearchBlog() {
       {listData &&
         listData.map((item, idx) => (
           <div key={idx}>
-            <div className="mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-1 gap-6">
+            <div className="mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-1 gap-6 mb-5">
               {item.posts &&
-                item.posts.map((el: BlogItemProps) => (
+                item.posts.filter((el)=>el.isPublic !== false).map((el: BlogItemProps) => (
                   <div key={el.id}>
-                    {el.isPublic && <BlogItem list={el} key={el.id} />}
+                    {<BlogItem list={el} key={el.id}/>}
                   </div>
                 ))}
             </div>
