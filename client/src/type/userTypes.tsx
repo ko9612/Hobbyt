@@ -37,10 +37,14 @@ export interface MyInfoProps {
 }
 
 // 내 정보 관리 비밀번호 타입
-export interface PasswordProps {
-  oldPassword: string;
+
+export interface PatchPasswordProps {
   newPassword: string;
   checkPassword: string;
+}
+
+export interface PasswordProps extends PatchPasswordProps{
+  oldPassword: string;
 }
 
 // 금주의 블로거 데이터 타입

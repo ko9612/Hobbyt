@@ -1,9 +1,9 @@
-import { PasswordProps, MyInfoProps } from "../type/userTypes";
+import { MyInfoProps } from "../type/userTypes";
 import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
 // 비밀번호 변경
-export const patchPaswword = async (data: PasswordProps) => {
+export const patchPaswword = async (data: any) => {
   try {
     const editPassword = await customAxios.patch(
       "/api/members/myPage/password",
