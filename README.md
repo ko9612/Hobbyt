@@ -60,7 +60,7 @@
 <summary>회원가입</summary>
 <div markdown="1">
 	<h4>이메일 인증을 거친 회원가입</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/d4841c13-b782-4c86-bf5c-1fdbe7587b37" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/1c913034-e146-4c9b-85ee-f37b032953f9" />
 	<br></br>
 </div>
 </details>
@@ -69,24 +69,27 @@
 <summary>로그인</summary>
 <div markdown="1">
 	<h4>일반 로그인</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/a5abe9ef-3b93-4a41-8a63-69debd370516" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/b10c5add-b8f9-41c4-837c-845d6a8782a2" />
 	<br></br>
 	<h4>소셜 로그인</h4>
-	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/5e4b8eee-325d-4d44-b719-d4efc20c47fb" />
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/f4e95c01-7144-4873-864d-0b8a457400e5" />
 	<br></br>
 </div>
 </details>
 
 <details>
-<summary>비밀번호 찾기&재설정</summary>
+<summary>분실 비밀번호 재설정</summary>
 <div markdown="1">
-	<img src="" />
+	<br></br>
+	<img src="https://github.com/ko9612/Hobbyt/assets/75575781/ff2bca7c-476a-4cfc-9a03-789ebdc4c9f8" />
+	<br></br>
 </div>
 </details>
 
 <details>
 <summary>알림</summary>
 <div markdown="1">
+	<br></br>
 	<img src="https://github.com/ko9612/Hobbyt/assets/99064439/fc088d3f-7a05-4c45-b043-cc470495d873" />
 	<br></br>
 </div>
