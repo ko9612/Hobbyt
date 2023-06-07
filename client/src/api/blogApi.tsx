@@ -1,5 +1,3 @@
-// 블로그 api 모아두는 곳
-
 import axios from "axios";
 import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
