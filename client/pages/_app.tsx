@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
         className={`${
           !router.pathname.includes("/oauth") &&
           "max-w-[80rem] md:w-full sm:w-full h-screen"
-        } m-auto border-2 border-blue-500`}
+        } m-auto`}
       >
         <Component {...pageProps} />
       </div>
