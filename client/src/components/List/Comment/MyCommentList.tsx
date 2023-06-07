@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { useRecoilValue } from "recoil";
+
 import UserProfileImage from "../../Page/UserHome/UserProfileImage";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import { CommentType } from "../../../type/blogType";
@@ -73,11 +74,11 @@ export default function MyCommentList(): React.ReactElement {
                     <div className="flex">
                       <BsArrow90DegRight
                         size={26}
-                        className="mt-2 ml-10"
+                        className="mt-2 ml-6"
                         color="#d6d6d6"
                       />
                       <Link href={`/blog/${el.postWriterId}/post/${el.postId}`}>
-                        <button className="ml-3 text-gray-400 truncate w-[35rem] text-start">
+                        <button className="ml-3 text-sm text-gray-400 truncate text-start sm:text-base">
                           {el.postTitle}
                         </button>
                       </Link>
@@ -90,9 +91,9 @@ export default function MyCommentList(): React.ReactElement {
                     <div className="w-[5rem] border-none">
                       <UserProfileImage wid={200} hei={200} />
                     </div>
-                    <div className="w-[35rem] ml-3 mt-3">
+                    <div className="w-4/6 mt-3 ml-2">
                       <Link href={`/blog/${el.postWriterId}/post/${el.postId}`}>
-                        <button className="truncate w-[35rem] text-start">
+                        <button className="w-full text-start line-clamp-3">
                           {el.content}
                         </button>
                       </Link>

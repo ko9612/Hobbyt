@@ -34,7 +34,7 @@ export default function SearchBar() {
         router.pathname === "/search" && "border-2 border-MainColor/50"
       }`}
     >
-      <BsSearch size="30px" className="p-1 block" />
+      <BsSearch size="30px" className="block p-1" />
       <SearchInput
         type="search"
         placeholder="게시물, 블로거, 태그"

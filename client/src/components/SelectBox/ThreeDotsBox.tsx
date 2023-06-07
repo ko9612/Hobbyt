@@ -7,13 +7,14 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+
 import EditModal from "../Modal/EditModal";
 import DelModal from "../Modal/DelModal";
 import { deleteBlogComment, deleteBlogContent } from "../../api/blogApi";
 import { deleteSaleContent } from "../../api/saleApi";
 import { UserIdState } from "../../state/UserState";
 
-const SelectBox = tw.div`bg-gray-300 p-4 absolute rounded-xl z-10 whitespace-nowrap text-base`;
+const SelectBox = tw.div`bg-gray-300 p-4 absolute left-2 rounded-xl z-10 whitespace-nowrap text-base sm:left-0`;
 
 interface ThreeDotsBoxType {
   id: number;
@@ -118,7 +119,7 @@ export default function ThreeDotsBox({
   };
 
   return (
-    <div>
+    <div className="sm:relative">
       {editModal === false ? null : (
         <EditModal content={commentData} id={id} setEditModal={setEditModal}>
           {children}

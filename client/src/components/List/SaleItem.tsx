@@ -4,17 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+
 import ThreeDotsBox from "../SelectBox/ThreeDotsBox";
 import saleDImage from "../../image/saleDImage.svg";
 import LikeCount from "../ViewLikeWrite/LikeCount";
 import DefaultProfileImage from "../Page/UserHome/DefaultProfileImg";
 import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
+import { BLTitle } from "./BlogItem";
 
-export const SLContent = tw.div`bg-gray-100 rounded-3xl justify-center items-center`;
-export const SLImage = tw.div`mb-2 relative h-auto overflow-hidden  aspect-square rounded-t-3xl`;
-export const SLProductInfo = tw.div`mx-4 `;
-const SLImageC = tw.div`absolute right-5 top-1`;
+// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
+// w-[14.5rem] sm:w-[13rem]`;
+// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
+// w-[10rem] sm:w-[13rem]`;
+export const SLContent = tw.div`bg-gray-100 rounded-3xl justify-center items-center relative`;
+export const SLImage = tw.div`mb-2 h-auto overflow-hidden aspect-square rounded-t-3xl`;
+export const SLProductInfo = tw.div`px-4`;
+const SLImageC = tw.div``;
 
 interface ListProps {
   list: SaleItemProps;
@@ -39,11 +45,6 @@ export default function SaleItem({ list }: ListProps) {
   return (
     <SLContent>
       <SLImage>
-        {writerId === userId && router.pathname.includes("/blog") ? (
-          <SLImageC>
-            <ThreeDotsBox item={list}>작품</ThreeDotsBox>
-          </SLImageC>
-        ) : null}
         <Image
           src={thumbnailImage !== null ? thumbnailImage : saleDImage}
           alt="img"
@@ -55,22 +56,31 @@ export default function SaleItem({ list }: ListProps) {
         />
       </SLImage>
       <SLProductInfo>
-        <Link href={`/blog/${writerId}/sale/${id}`}>
-          <h2 className="my-3 text-lg font-semibold truncate">{title}</h2>
-          <div className="flex items-center h-[2rem]">
-            <BsCalendar4 className="w-[1.5rem]" />
-            <div className="pl-2 text-sm">
-              {period !== null ? (
-                <div className="flex flex-wrap">
-                  <span>{startedAt?.substring(2)}</span>
-                  <span>~{endAt?.substring(2)}</span>
-                </div>
-              ) : (
-                "상시판매"
-              )}
+        <BLTitle>
+          <Link href={`/blog/${writerId}/sale/${id}`} className="w-5/6">
+            <div className="flex items-center mt-1 font-semibold">
+              <h2 className="text-lg font-semibold truncate">{title}</h2>
             </div>
-          </div>
-        </Link>
+          </Link>
+          {writerId === userId && router.pathname.includes("/blog") ? (
+            <SLImageC>
+              <ThreeDotsBox item={list}>작품</ThreeDotsBox>
+            </SLImageC>
+          ) : null}
+        </BLTitle>
+        <div className="flex items-center h-[2rem]">
+          <BsCalendar4 className="w-[1.5rem]" />
+          <p className="pl-2 text-sm">
+            {period !== null ? (
+              <div className="flex flex-wrap">
+                <span>{startedAt?.substring(2)}</span>
+                <span>~{endAt?.substring(2)}</span>
+              </div>
+            ) : (
+              "상시판매"
+            )}
+          </p>
+        </div>
         <div className="flex items-center justify-between py-2 text-sm md:text-base h-[3rem]">
           {profileImage !== undefined && (
             <Link
@@ -87,7 +97,9 @@ export default function SaleItem({ list }: ListProps) {
                   sale
                 </DefaultProfileImage>
               </div>
-              <div className="max-[369px]:w-full max-[450px]:w-16 truncate">{nickname}</div>
+              <div className="max-[369px]:w-full max-[450px]:w-16 truncate">
+                {nickname}
+              </div>
             </Link>
           )}
           <div className="flex items-center ml-auto">

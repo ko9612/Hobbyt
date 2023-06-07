@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useRouter } from "next/router";
+
 import SubmitButton from "../../Button/SubmitButton";
 import { getBlogLoginProfile, patchBlogProfile } from "../../../api/profileApi";
 import {
@@ -49,7 +50,8 @@ export default function ProfileEdit() {
   }, [router.isReady]);
 
   // 자기소개 글자수 카운팅
-  const [count, setCount] = useState("");
+  const [count, setCount] = useState(description);
+  console.log("description.length", description.length);
 
   // 헤더 이미지 변경 함수
   const handleChangeHeaderImage = async (e: any) => {
@@ -97,7 +99,7 @@ export default function ProfileEdit() {
   ) => {
     const data = e.target.value;
 
-    if (data) {
+    if (data !== undefined) {
       setDescription(data);
       setCount(data);
     } else if (data === "") {
