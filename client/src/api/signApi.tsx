@@ -78,7 +78,7 @@ export const getOauthInfo = async () => {
 };
 
 // 비밀번호 재설정링크 이메일 전송
-export const postRePwLinkBut = async (data: {email: string}) => {
+export const postRePwLinkBut = async (data: { email: string }) => {
   try {
     const emailData = await axios.post("/api/password", data);
     return emailData;
@@ -88,9 +88,12 @@ export const postRePwLinkBut = async (data: {email: string}) => {
 };
 
 // 비밀번호 재설정 api
-export const patchRePassword = async (data: {password:string}, token:any) => {
+export const patchRePassword = async (
+  data: { password: string },
+  token: any,
+) => {
   try {
-    const passwordData = await axios.patch("/api/members/password", data,{ 
+    const passwordData = await axios.patch("/api/members/password", data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
