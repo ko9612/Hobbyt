@@ -43,7 +43,7 @@ export interface PatchPasswordProps {
   checkPassword: string;
 }
 
-export interface PasswordProps extends PatchPasswordProps{
+export interface PasswordProps extends PatchPasswordProps {
   oldPassword: string;
 }
 
