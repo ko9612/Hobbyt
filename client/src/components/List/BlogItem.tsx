@@ -18,7 +18,7 @@ export const BLContainer = tw.div`m-auto`;
 export const BLComponent = tw.div`flex m-auto bg-gray-100 rounded-3xl sm:rounded-xl
 sm:w-[35rem] md:w-[42rem] relative max-sm:flex-col items-center pb-2 sm:p-3`;
 
-export const BLImage = tw.div`aspect-square object-cover w-full h-full sm:w-[8rem] sm:h-[8rem] rounded-t-3xl sm:rounded-xl`;
+export const BLImage = tw.div`aspect-square w-full sm:w-[8rem] overflow-hidden sm:h-[8rem] rounded-t-3xl sm:rounded-xl`;
 
 export const BLContent = tw.div`sm:px-5 w-4/5 h-[5rem] sm:h-[8rem] flex flex-col justify-between`;
 export const BLTitle = tw.div`flex justify-between text-lg sm:text-xl md:text-2xl pt-2`;
