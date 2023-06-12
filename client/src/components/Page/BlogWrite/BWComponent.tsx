@@ -114,7 +114,7 @@ export default function BlogWriteComponent() {
   };
 
   return (
-    <>
+    <div className="">
       {showModal && <MsgModal msg={blogMsg} setOpenModal={setShowModal} />}
       <TitleInput />
       <ThumbnailInput />
@@ -123,6 +123,6 @@ export default function BlogWriteComponent() {
       <SubmitButton id="postSubmitBut" onClick={() => onSubmitClick()}>
         저장
       </SubmitButton>
-    </>
+    </div>
   );
 }

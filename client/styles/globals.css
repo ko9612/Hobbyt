@@ -53,6 +53,9 @@
   .alarm-list {
     @apply border-2 border-blue-500 bg-MainColor p-2 rounded-xl text-center mb-2 z-50;
   }
+  .follow-text {
+    @apply w-full text-sm font-semibold md:text-xl;
+  }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,

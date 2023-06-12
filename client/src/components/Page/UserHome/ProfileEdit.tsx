@@ -15,7 +15,7 @@ import { postImageUpload } from "../../../api/blogApi";
 import MsgModal from "../../Modal/MsgModal";
 import { imageErrorHandler } from "../../../util/ErrorHandler";
 
-const ProfileContainer = tw.div`w-[40rem] m-auto`;
+const ProfileContainer = tw.div`md:w-[40rem] m-auto mb-10`;
 const ProfileContent = tw.div`mb-20`;
 const ImageEdit = tw.div`flex items-center mt-14`;
 
@@ -135,7 +135,9 @@ export default function ProfileEdit() {
       <ProfileContent>
         <h1 className="mt-10 text-2xl font-bold">프로필 수정</h1>
         <ImageEdit>
-          <h3 className="text-xl font-semibold mr-7">헤더 이미지 수정</h3>
+          <h3 className="text-base font-semibold md:text-xl mr-7">
+            헤더 이미지 수정
+          </h3>
           <input
             type="file"
             id="headerImage"
@@ -145,7 +147,9 @@ export default function ProfileEdit() {
           />
         </ImageEdit>
         <ImageEdit>
-          <h3 className="mr-4 text-xl font-semibold">프로필 이미지 수정</h3>
+          <h3 className="mr-4 text-base font-semibold md:text-xl">
+            프로필 이미지 수정
+          </h3>
           <input
             type="file"
             id="profileImage"
@@ -154,8 +158,8 @@ export default function ProfileEdit() {
             onChange={handleChangeProfileImage}
           />
         </ImageEdit>
-        <h3 className="text-xl font-semibold mt-14">닉네임</h3>
-        <p className="text-gray-400">
+        <h3 className="text-base font-semibold md:text-xl mt-14">닉네임</h3>
+        <p className="text-sm text-gray-400 md:text-base">
           &#42; 닉네임은 최대 6글자까지 가능합니다.
         </p>
         <input
@@ -166,8 +170,8 @@ export default function ProfileEdit() {
           onChange={hadleChangeName}
           maxLength={6}
         />
-        <h3 className="mt-10 text-xl font-semibold">자기소개</h3>
-        <p className="text-gray-400">
+        <h3 className="mt-10 text-base font-semibold md:text-xl">자기소개</h3>
+        <p className="text-sm text-gray-400 md:text-base">
           &#42; 현재 글자수{count.length} | 최대 글자수 50
         </p>
         <textarea

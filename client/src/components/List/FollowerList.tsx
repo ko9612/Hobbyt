@@ -107,17 +107,17 @@ export default function Following() {
             {item.contents &&
               item.contents.map((el: any) => (
                 <List key={el.id}>
-                  <Link href={`/blog/${el.id}`} className="flex">
+                  <Link href={`/blog/${el.id}`} className="flex w-4/5">
                     <Image
                       src={el.profileImage || DefalutImage}
                       width={50}
                       height={50}
                       alt="유저 이미지"
-                      className="w-[4rem] h-[4rem] rounded-full object-cover"
+                      className="w-[3rem] h-[3rem] md:w-[4rem] md:h-[4rem] rounded-full object-cover"
                     />
                     <Content className="ml-3">
-                      <p className="text-xl font-semibold">{el.nickname}</p>
-                      <p className="w-[32rem] truncate text-gray-400">
+                      <p className="follow-text">{el.nickname}</p>
+                      <p className="follow-text md:w-[32rem] text-gray-400">
                         {el.description}
                       </p>
                     </Content>

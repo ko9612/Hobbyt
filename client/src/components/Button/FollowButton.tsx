@@ -7,7 +7,7 @@ interface FButtonProps extends DefaultProps {
 
 const FButton = tw.button`
  rounded-lg text-white duration-100 whitespace-nowrap
-disabled:bg-gray-400 w-[6rem] h-[3rem] m-auto
+disabled:bg-gray-400 md:w-[6rem] md:h-[3rem] m-auto text-sm md:text-base w-[4rem] h-[2.5rem]
 `;
 
 export default function FollowButton({
