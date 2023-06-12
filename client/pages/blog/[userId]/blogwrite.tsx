@@ -12,7 +12,7 @@ import BlogWriteComponent from "../../../src/components/Page/BlogWrite/BWCompone
 import UrlAccessControl from "../../../src/util/UrlAccessControl";
 import { UserIdState } from "../../../src/state/UserState";
 
-export const EditorContent = tw.div`w-[43rem] m-auto`;
+export const EditorContent = tw.div`md:w-[43rem] m-auto`;
 
 export default function BlogWrite() {
   const router = useRouter();

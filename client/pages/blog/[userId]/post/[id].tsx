@@ -8,7 +8,7 @@ import UserProfileImage from "../../../../src/components/Page/UserHome/UserProfi
 import { Content, BlogContent, UserContent, UserInfo } from "../../[userId]";
 import BlogPostDetail from "../../../../src/components/Page/BlogWrite/BlogPostDetail";
 
-const BlogDetails = tw.div`w-[43rem] m-auto`;
+const BlogDetails = tw.div`md:w-[43rem] m-auto`;
 
 export default function BlogDetail() {
   return (

@@ -7,8 +7,8 @@ import { postBlogComment } from "../../../api/blogApi";
 import MsgModal from "../../Modal/MsgModal";
 import { LoginState } from "../../../state/UserState";
 
-const Content = tw.div`border-2 border-2 rounded-xl`;
-const Textarea = tw.textarea`m-3 resize-none outline-none`;
+const Content = tw.div`border-2 border-2 rounded-xl w-full`;
+const Textarea = tw.textarea`p-4 resize-none outline-none`;
 const Text = tw.p`text-sm text-gray-300`;
 const Send = tw.div`flex justify-between pl-3 pr-4 pb-3 items-center cursor-pointer`;
 
@@ -79,10 +79,10 @@ export default function CommentInput() {
       <Content>
         <Textarea
           rows={3}
-          cols={83}
           onChange={onChangeCommet}
           value={comment}
-          className="w-[41rem]"
+          className="w-full"
+          maxLength={150}
         />
         <Send>
           <Text>현재 글자수 {comment.length}/ 최대 글자수 150</Text>

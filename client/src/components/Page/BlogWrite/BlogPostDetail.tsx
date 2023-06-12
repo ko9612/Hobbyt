@@ -32,7 +32,7 @@ export const VWInfo = tw.div`flex`;
 const Main = tw.main`mt-2`;
 const Content = tw.main`mb-10 inline-flex break-all`;
 const Like = tw.div`w-12 m-auto my-8 text-center cursor-pointer`;
-const Comment = tw.div``;
+const Comment = tw.div`border-4 border-purple-400`;
 
 export default function BlogPostDetail() {
   const router = useRouter();
@@ -121,7 +121,7 @@ export default function BlogPostDetail() {
   }, [router.isReady]);
 
   return (
-    <>
+    <div className="border-2 border-red-500 BlogPostDetail">
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
       {showMsgModal && (
         <DelModal
@@ -142,7 +142,7 @@ export default function BlogPostDetail() {
         <Info>
           <TagList>
             {getNewData?.tags?.map((tag: any, idx: number) => (
-              <Tag key={idx} className="mr-2">
+              <Tag key={idx} className="mb-2 mr-2">
                 #{tag}
               </Tag>
             ))}
@@ -203,6 +203,6 @@ export default function BlogPostDetail() {
           <CommentList comments={getNewData?.comments} />
         </Comment>
       </Detail>
-    </>
+    </div>
   );
 }

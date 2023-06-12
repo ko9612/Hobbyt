@@ -11,9 +11,9 @@ import FollowButton from "../Button/FollowButton";
 import { LoginState } from "../../state/UserState";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
-export const Container = tw.ul`mt-6 h-screen`;
-export const List = tw.li`flex mb-3`;
-export const Content = tw.div`w-[32rem]`;
+export const Container = tw.ul`mt-6`;
+export const List = tw.li`flex mb-3 w-full`;
+export const Content = tw.div``;
 
 export default function FollowingList() {
   // 불러온 데이터 저장
@@ -111,17 +111,17 @@ export default function FollowingList() {
             {item.contents &&
               item.contents.map((el: any) => (
                 <List key={el.id}>
-                  <Link href={`/blog/${el.id}`} className="flex">
+                  <Link href={`/blog/${el.id}`} className="flex w-4/5">
                     <Image
                       src={el.profileImage || DefalutImage}
                       width={50}
                       height={50}
                       alt="유저 이미지"
-                      className="w-[4rem] h-[4rem] rounded-full object-cover"
+                      className="w-[3rem] h-[3rem] md:w-[4rem] md:h-[4rem] rounded-full object-cover"
                     />
                     <Content className="ml-3">
-                      <p className="text-xl font-semibold">{el.nickname}</p>
-                      <p className="w-[32rem] truncate text-gray-400">
+                      <p className="follow-text">{el.nickname}</p>
+                      <p className="follow-text md:w-[32rem] text-gray-400">
                         {el.description}
                       </p>
                     </Content>
