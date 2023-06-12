@@ -44,24 +44,22 @@ export default function SalesManagementList() {
     <>
       <MyPageCategory Menus={SaleManagementMenus} />
       <PContent>
-        <div className="h-[45rem]">
+        <div className="h-[54rem]">
           {data?.data &&
             data?.data.map((product: SaleManagememtType) => (
-              <div         key={product.orderId}>
-                <ul
-                  className="flex items-center justify-between p-[1rem] text-center"
-                >
+              <div key={product.orderId}>
+                <ul className="flex items-center justify-between p-[1rem] text-center text-sm md:text-base">
                   <Link
                     href={`/mypage/${userId}/orderdetail/${product.sellerId}/ordermanagement/${product.orderId}`}
                   >
-                    <li className="w-[8rem] mr-[3.5rem] text-center truncate">
+                    <li className="w-16 md:w-[8rem] md:mr-[3.5rem] text-center truncate">
                       {product.title}
                     </li>
                   </Link>
-                  <li className="w-[8rem] mr-[4rem] truncate text-center">
+                  <li className="w-18 md:w-[8rem] md:mr-[4rem] truncate text-center">
                     {product.nickname}
                   </li>
-                  <li className="w-[8rem] mr-[4rem] text-center">
+                  <li className="w-22 md:w-[8rem] md:mr-[4rem] text-center">
                     {product.createdAt && getParsedDate(product.createdAt)}
                   </li>
                   <div>
@@ -76,7 +74,7 @@ export default function SalesManagementList() {
               </div>
             ))}
         </div>
-        <div className="flex justify-center mt-20">
+        <div className="myInfo-pagenation-box">
           {totalPages && (
             <Stack spacing={2}>
               <Pagination
