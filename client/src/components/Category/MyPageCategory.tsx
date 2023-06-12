@@ -1,13 +1,14 @@
 import tw from "tailwind-styled-components";
 
-const Container = tw.div`
-flex bg-MainColor w-[52rem] p-4 justify-between items-center m-auto mt-10 rounded-2xl text-white
-`;
 interface ICategory {
   Menus: {
     title: string;
   }[];
 }
+
+const Container = tw.div`
+flex bg-MainColor p-4 justify-between items-center m-auto mt-10 rounded-2xl text-white
+`;
 
 export default function MyPageCategory({ Menus }: ICategory) {
   return (
@@ -16,7 +17,7 @@ export default function MyPageCategory({ Menus }: ICategory) {
         <li
           role="presentation"
           key={index}
-          className="justify-between px-16 text-lg font-semibold list-none"
+          className="justify-between px-2 font-semibold list-none text-md md:text-lg md:pl-12 md:pr-10"
         >
           {category.title}
         </li>

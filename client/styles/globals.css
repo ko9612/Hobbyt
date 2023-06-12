@@ -56,6 +56,9 @@
   .follow-text {
     @apply w-full text-sm font-semibold md:text-xl;
   }
+  .myInfo-pagenation-box {
+    @apply flex justify-center mt-16 md:mt-0;
+  }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,

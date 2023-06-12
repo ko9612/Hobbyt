@@ -115,17 +115,17 @@ export default function ProgressCategory({
   return (
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
-      <div className="relative flex flex-col border-2 p-1 w-[7rem]">
+      <div className="relative flex flex-col border-2 p-1 md:w-[7rem] w-20">
         <button
           ref={popRef}
           onClick={spreadOnClickHandler}
-          className="flex justify-evenly p-1 pr-2 w-[7rem] text-sm items-center"
+          className="flex justify-evenly p-1 pr-2 w-20 md:w-[7rem] md:text-sm items-center truncate text-xs"
         >
           {clcikName && getStatus(clcikName)}
           {categorySpread ? <AiFillCaretUp /> : <AiFillCaretDown />}
         </button>
         {categorySpread && (
-          <div className="absolute z-10 w-[7rem] p-1 overflow-hidden text-sm bg-gray-100 border-2 top-9 left-0">
+          <div className="absolute z-10 w-20 md:w-[7rem] p-1 overflow-hidden text-xs md:text-sm bg-gray-100 border-2 md:top-9 top-8 -left-0.5">
             {(isCanceled ? RefundArr : progressArr).map((progress, idx) => (
               <button
                 className="flex py-1 m-auto "
