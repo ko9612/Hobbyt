@@ -51,7 +51,7 @@
     @apply rounded-full bg-white/50;
   }
   .alarm-list {
-    @apply border-2 border-blue-500 bg-MainColor p-2 rounded-xl text-center mb-2 z-50;
+    @apply bg-MainColor hover:bg-SubColor p-2 rounded-xl text-center mb-2 z-50;
   }
   .follow-text {
     @apply w-full text-sm font-semibold md:text-xl;

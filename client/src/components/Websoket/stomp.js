@@ -1,11 +1,15 @@
 import * as StompJS from "@stomp/stompjs";
 
-const token = localStorage.getItem("authorization");
+let token;
 
-const webSocket = new WebSocket("wss://hobbyt.saintho.dev/websocket");
-webSocket.onopen = function () {
-  console.log("웹소켓 연결 성공");
-};
+if (typeof window !== "undefined") {
+  token = localStorage.getItem("authorization");
+
+  const webSocket = new WebSocket("wss://hobbyt.saintho.dev/websocket");
+  webSocket.onopen = function () {
+    console.log("웹소켓 연결 성공");
+  };
+}
 
 const client = new StompJS.Client({
   brokerURL: "wss://hobbyt.saintho.dev/websocket",
