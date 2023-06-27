@@ -1,13 +1,10 @@
 // 로그인 form
 import tw from "tailwind-styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-// import { EventSourcePolyfill } from "event-source-polyfill";
-// import SockJS from "sockjs-client";
-import * as StompJs from "@stomp/stompjs";
-// import { CompatClient, Stomp } from "@stomp/stompjs";
+
 import { emailRegex, passwordRegex } from "../../../util/Regex";
 import SubmitButton from "../../Button/SubmitButton";
 import {
@@ -21,23 +18,12 @@ import {
 import { postSignin } from "../../../api/signApi";
 import MsgModal from "../../Modal/MsgModal";
 import { SigninInputs } from "../../../type/userTypes";
-// import { getSSE } from "../../../api/noticeApi";
 import { getBlogProfile } from "../../../api/profileApi";
-// import { NoticeState } from "../../../state/Socket";
-import NoticeModal from "../../Modal/NoticeModal";
 
-export const Input = tw.div`
-  my-6
-`;
-
-export const LoginInput = tw.input`
-w-full px-4 py-2 text-gray-700 placeholder-gray-400 input
-bg-white border border-slate-300 rounded-lg focus:border-MainColor focus:outline-none focus:ring focus:ring-MainColor/40 duration-200
-`;
-
-export const ErrMsg = tw.p`
-  text-sm text-MainColor p-1
-`;
+export const Input = tw.div`my-6`;
+export const LoginInput = tw.input`w-full px-4 py-2 text-gray-700 placeholder-gray-400 input
+bg-white border border-slate-300 rounded-lg focus:border-MainColor focus:outline-none focus:ring focus:ring-MainColor/40 duration-200`;
+export const ErrMsg = tw.p`text-sm text-MainColor p-1`;
 
 export default function SigninForm() {
   const router = useRouter();
@@ -48,8 +34,6 @@ export default function SigninForm() {
   const setNavProfileImg = useSetRecoilState(UserProfileState);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
-  // 알림 왔는 지 안 왔는지 상태 저장
-  // const [notice, setNotice] = useState();
 
   const {
     register,

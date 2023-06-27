@@ -1,5 +1,6 @@
 import { ComponentProps } from "react";
 import { useRecoilState } from "recoil";
+
 import { phoneNumRegex } from "../../../util/Regex";
 import {
   UserRecipientPhoneState,
@@ -65,7 +66,7 @@ export default function AddressInfo() {
           </InputDiv>
         </EditList>
         <EditList>
-          <InputLabel className="pt-2 items-baseline">주소</InputLabel>
+          <InputLabel className="items-baseline pt-2">주소</InputLabel>
           <InputDiv>
             {/* 우편번호 검색 & 주소 */}
             <AddressApi />

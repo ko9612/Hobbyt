@@ -1,5 +1,5 @@
-// 블로그 게시글 상세 페이지
 import tw from "tailwind-styled-components";
+
 import Navbar from "../../../../src/components/Nav/NavBar";
 import Header from "../../../../src/components/Page/UserHome/Header";
 import Footer from "../../../../src/components/Footer/Footer";

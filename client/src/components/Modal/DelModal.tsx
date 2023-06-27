@@ -12,17 +12,11 @@ export interface DelModalProps {
   afterClick(): void;
 }
 
-export const Msg = tw.div`
-font-semibold mb-3
-`;
+export const Msg = tw.div`font-semibold mb-3`;
 
-export const SubMsg = tw.div`
-w-60 text-sm text-center
-`;
+export const SubMsg = tw.div`w-60 text-sm text-center`;
 
-export const ButtonDiv = tw.div`
-flex
-`;
+export const ButtonDiv = tw.div`flex`;
 
 export default function DelModal({
   setOpenModal,

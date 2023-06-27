@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { ComponentProps, useState } from "react";
 import { useRouter } from "next/router";
+
 import { OLISection, OLITitle, OLIItem, ItemTitle } from "./SellerInfo";
 import AddressApi from "../../../util/AddressApi";
 import { InputDiv, Input } from "../UserInfo/InfoStyle";
@@ -83,7 +84,7 @@ export default function PurchaserEditInfo({ isData }: IDataProps) {
 
   return (
     <OLISection>
-      <OLITitle className="flex items-center flex-wrap">
+      <OLITitle className="flex flex-wrap items-center">
         <div className="pr-10">
           배송{isData?.payMethod !== "CARD" && "/환불"} 정보
         </div>

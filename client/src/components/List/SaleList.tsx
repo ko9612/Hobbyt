@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
+
 import { getSaleList } from "../../api/tabApi";
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import SaleItem from "./SaleItem";
@@ -14,7 +15,6 @@ export const SLContainer = tw.div`m-auto`;
 export const SLComponent = tw.div`grid grid-cols-1 min-[370px]:grid-cols-2 sm:grid-cols-3 mt-4 gap-3`;
 
 export default function SaleList() {
-  // const userID = useRecoilValue(UserIdState);
   const router = useRouter();
   const homeId = Number(router.query.userId);
 

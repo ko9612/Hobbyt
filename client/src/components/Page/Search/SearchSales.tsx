@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+
 import FilterButton from "../../Button/FilterButton";
 import { SLContainer } from "../../List/SaleList";
 import { SearchSaleDataProps, SaleItemProps } from "../../../type/saleType";
@@ -11,14 +12,9 @@ import SaleItem from "../../List/SaleItem";
 import { getSearchSaleList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
 
-export const Content = tw.article`
-flex items-center mb-14
-`;
+export const Content = tw.article`flex items-center mb-14`;
 
-export const Item = tw.div`
-mx-auto
-grid grid-cols-1 min-[370px]:grid-cols-2 gap-6 sm:grid-cols-3
-`;
+export const Item = tw.div`mx-auto grid grid-cols-1 min-[370px]:grid-cols-2 gap-6 sm:grid-cols-3`;
 
 export default function SearchSales() {
   const router = useRouter();

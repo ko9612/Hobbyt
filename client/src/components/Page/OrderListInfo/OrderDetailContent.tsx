@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+
 import { getOrderDetail } from "../../../api/orderApi";
 import { OrderStatus } from "../../../state/OrderState";
 import {
@@ -82,7 +83,7 @@ export default function OrderDetailContent() {
   return (
     <>
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
-      <BackButton/>
+      <BackButton />
       {isData?.status && <OrderProgress isData={isData} />}
       <SellerInfo isData={isData} />
       {router.pathname.includes("/ordermanagement") ? (

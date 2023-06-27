@@ -13,10 +13,6 @@ import { SaleItemProps } from "../../type/saleType";
 import { UserIdState } from "../../state/UserState";
 import { BLTitle } from "./BlogItem";
 
-// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
-// w-[14.5rem] sm:w-[13rem]`;
-// export const SLContent = tw.div`inline-block bg-gray-100 rounded-3xl justify-center items-center
-// w-[10rem] sm:w-[13rem]`;
 export const SLContent = tw.div`bg-gray-100 rounded-3xl justify-center items-center relative`;
 export const SLImage = tw.div`mb-2 h-auto overflow-hidden aspect-square rounded-t-3xl`;
 export const SLProductInfo = tw.div`px-4`;

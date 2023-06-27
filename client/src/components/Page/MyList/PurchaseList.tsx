@@ -3,6 +3,7 @@ import Link from "next/link";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useRecoilValue } from "recoil";
+
 import MyPageCategory from "../../Category/MyPageCategory";
 import { PurchaseMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
@@ -13,6 +14,7 @@ import {
   PurchaseListType,
   PurchaseType,
 } from "../../../type/userTypes";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 export default function PurchaseList() {
   const [data, setData] = useState<PurchaseListType[]>([]);
@@ -34,10 +36,6 @@ export default function PurchaseList() {
     };
     getData();
   }, [page]);
-
-  // 날짜 바꿔주는 함수
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
 
   // 진행사항 함수
   const getStatus = (status: string) => {
@@ -68,6 +66,7 @@ export default function PurchaseList() {
     if (status === "CANCEL") {
       return "미입금취소";
     }
+    return status;
   };
 
   return (
@@ -93,7 +92,7 @@ export default function PurchaseList() {
                     {product.nickname}
                   </li>
                   <li className="w-24 md:w-36 md:mr-[6rem] text-center ">
-                    {product.createdAt && getParsedDate(product.createdAt)}
+                    {product.createdAt && ParseDateFC(product.createdAt)}
                   </li>
                   <li className="w-14 md:w-32 md:mr-[1rem] text-center ">
                     {product.status && getStatus(product.status)}

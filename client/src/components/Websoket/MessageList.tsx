@@ -1,11 +1,12 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+// import { BsEnvelope } from "react-icons/bs";
 // import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import ChatRoom from "./ChatRoom";
-import { getChatRoomMessage } from "../../api/chatApi";
+import { getChatRoomMessage } from "../../api/websocketApi";
 
 const MContainer = tw.div`flex w-[62rem] content-start`;
 const List = tw.li`flex m-auto mb-6 w-[22rem] border-2`;
@@ -23,26 +24,48 @@ export default function MessageList({ chatRoomList }: any) {
   const [curIndex, setIndex] = useState(0);
   const router = useRouter();
   // 불러온 메세지 내역 저장
-  const [oldMsg, setOldMsg] = useState();
+  const [oldChatMsg, setOldChatMsg] = useState();
 
   // 채팅 내역 조회 api
   const getMessage = async (roomId: number) => {
     const res = await getChatRoomMessage(roomId);
     const listRes = (res as any).data;
-    setOldMsg(listRes);
-  };
-
-  // 채팅방 리스트에서 클릭한 채팅방의 idx와 roomId를 저장하고,
-  // 저장한 roomId를 채팅 내역 조회 api 함수의 매개변수로 넘겨줘서 내역을 조회하게 함
-  const onClickHandler = (index: number, roomId: number) => {
-    setIndex(index);
-    getMessage(roomId);
+    setOldChatMsg(listRes);
   };
 
   // 클릭한 채팅방 chatRoomId 저장
   // const onClickChatRoom = (idx: number) => {
   //   setIndex(idx);
   // };
+
+  // // 채팅방 구독하기
+  // const chatRoomSubscibe = () => {
+  //   //   client.onConnect = () => {
+  //   console.log("STOMP Connection");
+
+  //   client.subscribe(`/chat/${chatRoomList[curIndex].chatRoomId}`, message => {
+  //     const datas = JSON.parse(message.body);
+  //     console.log("채팅방 연결 완료");
+  //     console.log("채팅방 구독?", datas);
+  //   });
+  // };
+  // // // 연결 실패했을 때 실행할 함수
+  // // client.onStompError = frame => {
+  // //   console.log(`========> Broker reported error`, frame.headers.message);
+  // //   console.log(`========> Additional details:${frame.body}`);
+  // // };
+
+  // // // 클라이언트 활성화
+  // // client.activate();
+  // // };
+
+  // 채팅방 리스트에서 클릭한 채팅방의 idx와 roomId를 저장하고,
+  // 저장한 roomId를 채팅 내역 조회 api 함수의 매개변수로 넘겨줘서 내역을 조회하게 함
+  const onClickHandler = (index: number, roomId: number) => {
+    setIndex(index);
+    getMessage(roomId);
+    // chatRoomSubscibe();
+  };
 
   useEffect(() => {}, [router.isReady]);
 
@@ -86,13 +109,27 @@ export default function MessageList({ chatRoomList }: any) {
       </MList>
       <HR />
       <MContent>
-        <ChatRoom chatRoomList={chatRoomList[curIndex]} oldMsg={oldMsg} />
+        <ChatRoom
+          chatRoomList={chatRoomList[curIndex]}
+          oldChatMsg={oldChatMsg}
+        />
         {/* {chatRoomList[curIndex].chatRoomId === curIndex ? (
           <ChatRoom />
-        ) : (
-          <DefaultMessage />
+        ) : ({DefaultMessageText()}
         )} */}
       </MContent>
     </MContainer>
   );
 }
+
+// function DefaultMessageText() {
+//   return (
+//     <div>
+//       <BsEnvelope size={100} color="#B37DD1" className="m-auto" />
+//       <p className="text-gray-500">
+//         기존의 메세지를 선택하거나 <br />
+//         팔로우하는 유저 페이지를 통해 새로운 메세지를 전송하세요.
+//       </p>
+//     </div>
+//   );
+// }

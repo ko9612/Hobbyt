@@ -3,12 +3,8 @@ import { useRouter } from "next/router";
 import tw from "tailwind-styled-components";
 import { BsSearch } from "react-icons/bs";
 
-const SearchForm = tw.form`
-flex items-center text-MainColor mt-6 p-2 bg-white/90 rounded-md hover:bg-white
-`;
-const SearchInput = tw.input`
-w-full bg-transparent placeholder:text-MainColor/60 focus:outline-none px-2 text-sm sm:text-base
-`;
+const SearchForm = tw.form`flex items-center text-MainColor mt-6 p-2 bg-white/90 rounded-md hover:bg-white`;
+const SearchInput = tw.input`w-full bg-transparent placeholder:text-MainColor/60 focus:outline-none px-2 text-sm sm:text-base`;
 
 export default function SearchBar() {
   const [keywords, setKeywords] = useState("");

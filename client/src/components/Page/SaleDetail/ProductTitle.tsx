@@ -1,5 +1,6 @@
 import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
+
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { SaleDetailProps } from "../../../type/saleType";
@@ -7,9 +8,7 @@ import { SaleDetailState } from "../../../state/SaleState";
 import { Info, Tag, TagList, Title, VWInfo } from "../BlogWrite/BlogPostDetail";
 import BackButton from "../../Button/BackButton";
 
-const PdTitle = tw.div`
-block py-5 border-b-4 border-MainColor/50
-`;
+const PdTitle = tw.div`block py-5 border-b-4 border-MainColor/50`;
 
 export default function ProductTitle() {
   const [SaleData] = useRecoilState<SaleDetailProps>(SaleDetailState);
@@ -27,7 +26,7 @@ export default function ProductTitle() {
               <Tag className="mr-2" key={idx}>{`#${tag}`}</Tag>
             ))}
           </TagList>
-          <VWInfo className="text-sm py-2">
+          <VWInfo className="py-2 text-sm">
             <ViewCount>{SaleData.viewCount}</ViewCount>
             <WriteDate>{SaleData.createdAt.slice(0, 10)}</WriteDate>
           </VWInfo>

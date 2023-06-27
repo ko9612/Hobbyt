@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { ChangeEvent, useCallback } from "react";
+
 import DefalutTogle from "../Togle/DefalutTogle";
 import { TitleState } from "../../state/BlogPostState";
 

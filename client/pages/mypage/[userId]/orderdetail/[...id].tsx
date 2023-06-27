@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { useState } from "react";
+
 import Navbar from "../../../../src/components/Nav/NavBar";
 import Footer from "../../../../src/components/Footer/Footer";
 import { Main, MainContent } from "../../../index";

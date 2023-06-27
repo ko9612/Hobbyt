@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { IBlogDetailData } from "../../../type/blogType";
 import ThreeDotsBox from "../../SelectBox/ThreeDotsBox";
 import { UserIdState } from "../../../state/UserState";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 const Container = tw.div`flex my-5 w-full border-b-2 pb-2`;
 const Content = tw.div`ml-3 w-[38.5rem]`;
@@ -14,9 +15,6 @@ const User = tw.div`flex`;
 export default function CommentList({ comments }: IBlogDetailData) {
   const userId = useRecoilValue(UserIdState);
   const router = useRouter();
-
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
 
   // 댓글 순서 거꾸로
   const newComment = comments?.reverse();
@@ -47,7 +45,7 @@ export default function CommentList({ comments }: IBlogDetailData) {
                   {item.nickname}
                 </button>
                 <p className="ml-2 text-gray-400">
-                  {item.createdAt && getParsedDate(item.createdAt)}
+                  {item.createdAt && ParseDateFC(item.createdAt)}
                 </p>
                 <div className="ml-auto">
                   {userId === item.writerId ? (
