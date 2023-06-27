@@ -87,7 +87,7 @@ function BlogList({ posts }: BlogTabProps) {
         listData.map((item: any, index: number) => (
           <div
             key={index}
-            className="grid grid-cols-2 gap-3 mb-2 sm:grid-cols-none"
+            className="grid grid-cols-2 gap-3 mb-2 border-4 border-purple-500 sm:grid-cols-none"
           >
             {item.posts &&
               item.posts.map((el: any) => (

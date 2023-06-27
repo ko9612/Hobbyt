@@ -9,7 +9,7 @@ import { BlogMenus } from "../../src/components/Tab/TabArr";
 import Footer from "../../src/components/Footer/Footer";
 
 export const Content = tw.main`flex mr-auto`;
-export const BlogContent = tw.main`w-full m-auto sm:w-[35rem] md:w-[42rem] lg:w-[48rem] lg:ml-[17.5rem] max-w-[48rem] px-4 md:px-6`;
+export const BlogContent = tw.main`w-full mx-auto sm:w-[35rem] md:w-[42rem] lg:w-[48rem] lg:ml-[17.5rem] max-w-[48rem] px-4 md:px-6`;
 export const BlogTab = tw.div`max-w-[41rem] sm:max-w-[41rem] m-auto`;
 export const UserContent = tw.aside`min-w-[15rem] max-w-[15rem] h-full justify-center items-center relative -top-32 max-md:hidden`;
 export const UserInfo = tw.div`sm:hidden md:block lg:block`;
