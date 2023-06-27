@@ -6,11 +6,9 @@ import Footer from "../src/components/Footer/Footer";
 import { Main } from "./index";
 import { Title, HR } from "./notice";
 import MessageList from "../src/components/Websoket/MessageList";
-import { getChatRoomList } from "../src/api/chatApi";
+import { getChatRoomList } from "../src/api/websocketApi";
 
-const MContent = tw.div`
-w-full m-auto flex items-start content-start
-`;
+const MContent = tw.div`w-full m-auto flex items-start content-start`;
 
 export default function Message() {
   const router = useRouter();
@@ -32,7 +30,7 @@ export default function Message() {
         // 구현 완료 후, 삭제
         alert("업데이트 중인 기능입니다.");
         router.back();
-        // getData();
+        getData();
       } else {
         setIsLogin(false);
         alert("로그인이 필요한 페이지입니다");

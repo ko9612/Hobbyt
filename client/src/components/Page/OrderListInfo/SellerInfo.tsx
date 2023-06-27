@@ -1,21 +1,10 @@
 import tw from "tailwind-styled-components";
 import { IDataProps } from "./OrderProgress";
 
-export const OLISection = tw.section`
-border-t-2 py-10
-`;
-
-export const OLITitle = tw.ul`
-font-semibold text-lg sm:text-xl
-`;
-
-export const OLIItem = tw.li`
-flex pt-4 max-w-[35rem] text-base
-`;
-
-export const ItemTitle = tw.div`
-w-1/3 mr-3
-`;
+export const OLISection = tw.section`border-t-2 py-10`;
+export const OLITitle = tw.ul`font-semibold text-lg sm:text-xl`;
+export const OLIItem = tw.li`flex pt-4 max-w-[35rem] text-base`;
+export const ItemTitle = tw.div`w-1/3 mr-3`;
 
 export default function SellerInfo({ isData }: IDataProps) {
   return (

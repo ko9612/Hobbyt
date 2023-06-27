@@ -1,11 +1,9 @@
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import mainLogo from "src/image/mainLogo.png";
 import Link from "next/link";
+import mainLogo from "src/image/mainLogo.png";
 
-export const LogoDiv = tw.div`
-flex justify-center
-`;
+export const LogoDiv = tw.div`flex justify-center`;
 
 export default function Logo() {
   return (

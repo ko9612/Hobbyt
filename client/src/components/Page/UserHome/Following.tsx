@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+
 import { postFollowing } from "../../../api/tabApi";
 import { LoginState, UserIdState } from "../../../state/UserState";
 import DMButton from "../../Button/DMButton";

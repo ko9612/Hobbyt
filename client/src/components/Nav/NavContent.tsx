@@ -11,6 +11,7 @@ import {
 } from "react-icons/ai";
 import { BsBellFill, BsEnvelopeFill } from "react-icons/bs";
 import { FaBlogger } from "react-icons/fa";
+
 import {
   EmailState,
   LoginState,
@@ -25,19 +26,10 @@ import DelModal from "../Modal/DelModal";
 import { postSignout } from "../../api/signApi";
 import DefaultProfileImg from "../Page/UserHome/DefaultProfileImg";
 
-export const Logo = tw.div`
-inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]
-`;
-
-export const NavList = tw.ul`
-min-[340px]:px-2 pt-6
-`;
-
-export const List = tw.li`
-my-3 text-white/80 flex items-center gap-x-4 p-2
-hover:bg-white/40  rounded-md mt-6 
-transitions duration-300 text-xl hover:text-white hover:font-bold
-`;
+export const Logo = tw.div`inline-flex ml-2 p-3 rounded-full hover:bg-white/40 transitions duration-300 w-[4.5rem]`;
+export const NavList = tw.ul`min-[340px]:px-2 pt-6`;
+export const List = tw.li`my-3 text-white/80 flex items-center gap-x-4 p-2hover:bg-white/40  rounded-md mt-6 
+transitions duration-300 text-xl hover:text-white hover:font-bold`;
 
 export default function NavContent() {
   const router = useRouter();

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { RiImageAddFill } from "react-icons/ri";
 import { MdRemoveCircle } from "react-icons/md";
 import { useRecoilState } from "recoil";
+
 import {
   PostWriteContent,
   PostWriteList,
@@ -146,10 +147,13 @@ export default function ProductInfoInput() {
             <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
           )}
           <ImgBox>
-            <label htmlFor="itemImg" className="cursor-pointer text-MainColor absolute">
+            <label
+              htmlFor="itemImg"
+              className="absolute cursor-pointer text-MainColor"
+            >
               <RiImageAddFill
                 size="3rem"
-                className="hover:text-SubColor bg-white/50 rounded-md"
+                className="rounded-md hover:text-SubColor bg-white/50"
               />
               <input
                 type="file"
@@ -181,27 +185,27 @@ export default function ProductInfoInput() {
               />
             </SubLabel>
             <div className="flex">
-            <SubLabel className="w-2/5 mr-2">
-              <PostInput
-                type="number"
-                id="stockQuantity"
-                min="0"
-                placeholder="수량"
-                value={stockQuantity}
-                onChange={e => setStockQuantity(Number(e.target.value))}
-              />
-            </SubLabel>
-            <SubLabel className="w-3/5">
-              <PostInput
-                type="number"
-                id="price"
-                min="0"
-                max="9999999"
-                placeholder="가격"
-                value={price}
-                onChange={e => setPrice(Number(e.target.value))}
-              />
-            </SubLabel>
+              <SubLabel className="w-2/5 mr-2">
+                <PostInput
+                  type="number"
+                  id="stockQuantity"
+                  min="0"
+                  placeholder="수량"
+                  value={stockQuantity}
+                  onChange={e => setStockQuantity(Number(e.target.value))}
+                />
+              </SubLabel>
+              <SubLabel className="w-3/5">
+                <PostInput
+                  type="number"
+                  id="price"
+                  min="0"
+                  max="9999999"
+                  placeholder="가격"
+                  value={price}
+                  onChange={e => setPrice(Number(e.target.value))}
+                />
+              </SubLabel>
             </div>
           </div>
         </InfoContent>
@@ -234,11 +238,11 @@ export default function ProductInfoInput() {
             <ImgBox>
               <label
                 htmlFor={`ListitemImg${index}`}
-                className="cursor-pointer text-MainColor absolute"
+                className="absolute cursor-pointer text-MainColor"
               >
                 <RiImageAddFill
                   size="3rem"
-                  className="hover:text-SubColor bg-white/50 rounded-md"
+                  className="rounded-md hover:text-SubColor bg-white/50"
                 />
                 <input
                   type="file"
@@ -277,36 +281,36 @@ export default function ProductInfoInput() {
                   onChange={e => editItemHandler(index, e)}
                 />
               </SubLabel>
-               <div className="flex">
-              <SubLabel className="w-2/5 mr-2">
-                <PostInput
-                  type="number"
-                  id="stockQuantity"
-                  min="0"
-                  placeholder="수량"
-                  value={item.stockQuantity}
-                  onChange={e => editItemHandler(index, e)}
-                />
-              </SubLabel>
-              <SubLabel className="w-3/5">
-                <PostInput
-                  type="number"
-                  id="price"
-                  min="0"
-                  max="9999999"
-                  placeholder="가격"
-                  value={item.price}
-                  onChange={e => editItemHandler(index, e)}
-                />
-              </SubLabel>
+              <div className="flex">
+                <SubLabel className="w-2/5 mr-2">
+                  <PostInput
+                    type="number"
+                    id="stockQuantity"
+                    min="0"
+                    placeholder="수량"
+                    value={item.stockQuantity}
+                    onChange={e => editItemHandler(index, e)}
+                  />
+                </SubLabel>
+                <SubLabel className="w-3/5">
+                  <PostInput
+                    type="number"
+                    id="price"
+                    min="0"
+                    max="9999999"
+                    placeholder="가격"
+                    value={item.price}
+                    onChange={e => editItemHandler(index, e)}
+                  />
+                </SubLabel>
               </div>
             </div>
-              <MdRemoveCircle
-                role="button"
-                onClick={() => handleProductRemove(index)}
-                size="2rem"
-                className="absolute top-3 right-3 text-MainColor hover:text-SubColor focus:text-SubColor"
-              />
+            <MdRemoveCircle
+              role="button"
+              onClick={() => handleProductRemove(index)}
+              size="2rem"
+              className="absolute top-3 right-3 text-MainColor hover:text-SubColor focus:text-SubColor"
+            />
           </InfoContent>
         ))}
       </PostWriteList>

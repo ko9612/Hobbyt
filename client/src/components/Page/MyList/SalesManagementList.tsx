@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
 import MyPageCategory from "../../Category/MyPageCategory";
 import { SaleManagementMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
@@ -14,6 +15,7 @@ import {
   SaleManagementListType,
   SaleManagememtType,
 } from "../../../type/userTypes";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 export default function SalesManagementList() {
   const [data, setData] = useState<SaleManagementListType[]>([]);
@@ -36,10 +38,6 @@ export default function SalesManagementList() {
     getData();
   }, [page]);
 
-  // 날짜 바꿔주는 함수
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
-
   return (
     <>
       <MyPageCategory Menus={SaleManagementMenus} />
@@ -60,7 +58,7 @@ export default function SalesManagementList() {
                     {product.nickname}
                   </li>
                   <li className="w-22 md:w-[8rem] md:mr-[4rem] text-center">
-                    {product.createdAt && getParsedDate(product.createdAt)}
+                    {product.createdAt && ParseDateFC(product.createdAt)}
                   </li>
                   <div>
                     <ProgressCategory

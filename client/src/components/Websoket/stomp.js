@@ -22,7 +22,7 @@ const client = new StompJS.Client({
   debug(str) {
     console.log(`str`, str);
   },
-  reconnectDelay: 15000, // 자동 재연결
+  reconnectDelay: 1000, // 자동 재연결
   heartbeatIncoming: 4000,
   heartbeatOutgoing: 4000,
 });

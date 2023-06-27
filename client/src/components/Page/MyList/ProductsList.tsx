@@ -12,6 +12,7 @@ import {
   ProductListType,
   ProductType,
 } from "../../../type/userTypes";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 export const PContent = tw.div` block justify-center items-center m-auto md:h-[60rem]`;
 
@@ -36,10 +37,6 @@ export default function ProductstList() {
     getData();
   }, [page]);
 
-  // 날짜 바꿔주는 함수
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
-
   return (
     <>
       <MyPageCategory Menus={ProductMenus} />
@@ -62,7 +59,7 @@ export default function ProductstList() {
                       {product.salesVolume}
                     </li>
                     <li className="w-1/4 md:w-[8rem] text-center">
-                      {product.createdAt && getParsedDate(product.createdAt)}
+                      {product.createdAt && ParseDateFC(product.createdAt)}
                     </li>
                   </ul>
                 </Link>

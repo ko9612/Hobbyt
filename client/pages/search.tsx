@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components";
+
 import Footer from "../src/components/Footer/Footer";
 import Navbar from "../src/components/Nav/NavBar";
 import Tab from "../src/components/Tab/Tab";
@@ -13,7 +14,7 @@ export default function search() {
     <>
       <Navbar />
       <Main>
-        <MainContent className=" flex flex-col items-center">
+        <MainContent className="flex flex-col items-center ">
           <div className="w-4/5 mt-8 sm:mt-[5rem]">
             <SearchBar />
           </div>

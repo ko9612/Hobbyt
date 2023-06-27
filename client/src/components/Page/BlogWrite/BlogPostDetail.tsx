@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
+
 import ViewCount from "../../ViewLikeWrite/ViewCount";
 import WriteDate from "../../ViewLikeWrite/WriteDate";
 import { HR } from "../../../../pages/notice";
@@ -14,15 +15,15 @@ import {
   getBlogDetailAnons,
   postLikePlus,
 } from "../../../api/blogApi";
-import { IBlogDetailData } from "../../../type/blogType";
+import { IAxiosBlogDetailDataType } from "../../../type/blogType";
 import { LoginState, UserIdState } from "../../../state/UserState";
 import LikeHandle from "../../ViewLikeWrite/LikeHandle";
 import LikeHover from "../../ViewLikeWrite/LikeHover";
 import MsgModal from "../../Modal/MsgModal";
 import DelModal from "../../Modal/DelModal";
 import BackButton from "../../Button/BackButton";
+import ParseDateFC from "../../../util/ParseDateFC";
 
-const Detail = tw.div`mt-6`;
 export const Title = tw.div`text-lg sm:text-xl md:text-2xl font-bold my-4 inline-flex`;
 export const Info = tw.div`flex justify-between items-center flex-wrap`;
 export const TagList = tw.div`text-sm flex mr-1`;
@@ -31,14 +32,13 @@ export const VWInfo = tw.div`flex`;
 const Main = tw.main`mt-2`;
 const Content = tw.main`mb-10 inline-flex break-all`;
 const Like = tw.div`w-12 m-auto my-8 text-center cursor-pointer`;
-const Comment = tw.div``;
 
 export default function BlogPostDetail() {
   const router = useRouter();
   const pid = Number(router.query.id);
   const uid = Number(router.query.userId);
 
-  const [getNewData, setGetNewData] = useState<IBlogDetailData[]>();
+  const [getNewData, setGetNewData] = useState<IAxiosBlogDetailDataType[]>();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showMsgModal, setShowMsgModal] = useState(false);
@@ -53,7 +53,6 @@ export default function BlogPostDetail() {
     if (typeof window !== undefined) {
       if (!isLogin) {
         const blogDetail = await getBlogDetailAnons(pid);
-
         if (blogDetail.status === 200) {
           if (blogDetail.data.writer.id !== uid) {
             setErrMsg("존재하지 않는 게시글입니다.");
@@ -92,13 +91,11 @@ export default function BlogPostDetail() {
     ssr: false,
   });
 
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
-
   // like api 요청
   const LikeApi = async () => {
     const plusLike = await postLikePlus(pid);
     router.reload();
+    return plusLike;
   };
 
   // 하트 클릭 함수
@@ -119,6 +116,8 @@ export default function BlogPostDetail() {
     }
   }, [router.isReady]);
 
+  console.log("getNewData", getNewData);
+
   return (
     <div className="BlogPostDetail">
       {showModal && <MsgModal msg={errMsg} setOpenModal={setShowModal} />}
@@ -133,7 +132,7 @@ export default function BlogPostDetail() {
           }}
         />
       )}
-      <Detail id="viewer">
+      <div id="viewer" className="mt-6">
         <Title>
           <BackButton />
           <div>{getNewData?.title}</div>
@@ -149,7 +148,7 @@ export default function BlogPostDetail() {
           <VWInfo>
             <ViewCount>{getNewData?.viewCount}</ViewCount>
             <WriteDate>
-              {getNewData?.createdAt && getParsedDate(getNewData?.createdAt)}
+              {getNewData?.createdAt && ParseDateFC(getNewData?.createdAt)}
             </WriteDate>
           </VWInfo>
         </Info>
@@ -197,11 +196,11 @@ export default function BlogPostDetail() {
             </div>
           )}
         </Main>
-        <Comment>
+        <div id="Comment">
           <CommentInput />
           <CommentList comments={getNewData?.comments} />
-        </Comment>
-      </Detail>
+        </div>
+      </div>
     </div>
   );
 }

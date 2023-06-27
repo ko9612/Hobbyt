@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
+
 import { getBlogProfile } from "../src/api/profileApi";
 import { getOauthInfo } from "../src/api/signApi";
 import MsgModal from "../src/components/Modal/MsgModal";
@@ -57,7 +58,7 @@ function Oauth() {
   }, [router.isReady]);
 
   return (
-    <div className="h-full w-full absolute z-50 flex justify-center items-center">
+    <div className="absolute z-50 flex items-center justify-center w-full h-full">
       {showModal && (
         <MsgModal
           msg="로그인할 수 없는 계정입니다"

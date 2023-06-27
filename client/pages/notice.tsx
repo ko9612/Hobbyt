@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import Navbar from "../src/components/Nav/NavBar";
 import NoticeList from "../src/components/List/NoticeList";
 import Footer from "../src/components/Footer/Footer";

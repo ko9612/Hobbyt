@@ -3,6 +3,7 @@ import { ComponentProps, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
+
 import ProductTitle from "./ProductTitle";
 import ProductContent from "./ProductContent";
 import ProductGuide from "./ProductGuide";
@@ -391,7 +392,7 @@ export default function SaleDetailContent() {
                   {...register("account.bank")}
                 />
               </PurInputDiv>
-              <div className="py-2 w-full">
+              <div className="w-full py-2">
                 <Input
                   type="text"
                   id="accountNumber"

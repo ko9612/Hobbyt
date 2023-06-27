@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import TitleInput from "../../ToastUI/TitleInput";
 import DefalutTag from "../../Tag/DefalutTag";
 import {
@@ -114,7 +115,7 @@ export default function BlogWriteComponent() {
   };
 
   return (
-    <div className="">
+    <div>
       {showModal && <MsgModal msg={blogMsg} setOpenModal={setShowModal} />}
       <TitleInput />
       <ThumbnailInput />

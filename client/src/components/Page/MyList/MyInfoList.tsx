@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
+
 import AccountInfo from "../UserInfo/AccountInfo";
 import PasswordInfo from "../UserInfo/PasswordInfo";
 import AddressInfo from "../UserInfo/AddressInfo";
@@ -22,9 +23,7 @@ import {
 } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 
-const InfoContent = tw.main`
-justify-center items-center mx-auto
-`;
+const InfoContent = tw.main`justify-center items-center mx-auto`;
 
 export default function MyInfoList() {
   const [isPhoneNum, setPhoneNum] =

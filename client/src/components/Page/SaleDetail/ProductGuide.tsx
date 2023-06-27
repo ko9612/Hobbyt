@@ -9,6 +9,7 @@ import {
   BsExclamationTriangleFill,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
+
 import { PdContent } from "./ProductContent";
 import { SaleDetailProps } from "../../../type/saleType";
 import { SaleDetailState } from "../../../state/SaleState";
@@ -20,9 +21,7 @@ import { UserIdState } from "../../../state/UserState";
 import MsgModal from "../../Modal/MsgModal";
 
 const PdGuideSeaction = tw.section`w-full`;
-
 const ListTitle = tw.div`flex items-center`;
-
 const TitleText = tw.div`pl-2`;
 
 interface IdProps {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
+
 import BlogList from "../List/BlogList";
 import SaleList from "../List/SaleList";
 import MyCommentList from "../List/Comment/MyCommentList";
@@ -95,7 +96,7 @@ export default function Tab({ Menus }: TabProps) {
   }, []);
 
   return (
-    <>
+    <div className="h-screen">
       <TabMenu>
         {Menus.map((section, index: number) => (
           <li
@@ -134,6 +135,6 @@ export default function Tab({ Menus }: TabProps) {
         {Menus[curIndex].name === "팔로잉" ? <FollowingList /> : null}
         {Menus[curIndex].name === "팔로워" ? <FollowerList /> : null}
       </TabContent>
-    </>
+    </div>
   );
 }

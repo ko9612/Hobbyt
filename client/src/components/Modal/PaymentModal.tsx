@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
 import Head from "next/head";
+
 import { ModalContainer, ModalBackdrop, ModalView } from "./MsgModal";
 import CreateOrderNum from "../../util/OrederNumber";
 import { OrderState } from "../../state/OrderState";
@@ -19,37 +20,14 @@ import {
 import Payment from "../../util/Payment";
 import { SaleDetailState, totalState } from "../../state/SaleState";
 
-const ModalContent = tw.section`
-p-8 sm:p-14
-`;
-
-const ModalTitle = tw.div`
-flex flex-col items-center text-center my-2
-`;
-
-const PayContent = tw.div`
-  py-5
-`;
-
-const PayTitle = tw.h3`
-font-semibold border-b pb-2 border-gray-700
-`;
-
-const PayButtonDiv = tw.div`
-flex justify-center mt-8
-`;
-
-const PayButton = tw.button`
-bg-gray-200 w-[15rem] h-16 px-2 mx-2 sm:mx-auto rounded-full hover:bg-gray-300 focus:bg-gray-300 text-sm sm:text-base
-`;
-
-const BankTFInfo = tw.ul`
-pt-5 text-sm sm:text-base
-`;
-
-const InfoList = tw.li`
-  flex
-`;
+const ModalContent = tw.section`p-8 sm:p-14`;
+const ModalTitle = tw.div`flex flex-col items-center text-center my-2`;
+const PayContent = tw.div`py-5`;
+const PayTitle = tw.h3`font-semibold border-b pb-2 border-gray-700`;
+const PayButtonDiv = tw.div`flex justify-center mt-8`;
+const PayButton = tw.button`bg-gray-200 w-[15rem] h-16 px-2 mx-2 sm:mx-auto rounded-full hover:bg-gray-300 focus:bg-gray-300 text-sm sm:text-base`;
+const BankTFInfo = tw.ul`pt-5 text-sm sm:text-base`;
+const InfoList = tw.li`flex`;
 
 export interface PaymentModalProps {
   setOpenModal(state: boolean): void;

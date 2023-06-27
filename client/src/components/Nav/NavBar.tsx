@@ -2,9 +2,7 @@ import tw from "tailwind-styled-components";
 import MobileNav, { Nav } from "./MobileNav";
 import NavContent from "./NavContent";
 
-export const NavBar = tw.div`
-  flex
-`;
+export const NavBar = tw.div`flex`;
 
 function Navbar() {
   return (

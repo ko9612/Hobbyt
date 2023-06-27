@@ -56,7 +56,6 @@ export default function StompAlarmSubscibe() {
           }
         }
         alarms?.appendChild(alarm);
-        // className이 아니라 class로 적어야 됨...
         alarm.setAttribute("class", "alarm-list");
         console.log("alarmList", alarmList.length);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define

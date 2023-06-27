@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsChatLeftDots } from "react-icons/bs";
-import { postChatRoomId } from "../../api/chatApi";
+import { postChatRoomId } from "../../api/websocketApi";
 
 interface DMPropsType {
   children: string;
