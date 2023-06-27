@@ -96,7 +96,7 @@ export default function Tab({ Menus }: TabProps) {
   }, []);
 
   return (
-    <div className="h-auto">
+    <div className="h-screen">
       <TabMenu>
         {Menus.map((section, index: number) => (
           <li

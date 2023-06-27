@@ -2,13 +2,21 @@ import Link from "next/link";
 import { RiGithubFill } from "react-icons/ri";
 import tw from "tailwind-styled-components";
 
-const FooterDiv = tw.footer`flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem] mt-20 mb-auto`;
+const FooterDiv = tw.footer`
+flex justify-between items-center flex-wrap text-gray-400 lg:ml-[18rem] mt-20
+`;
 
-const Text = tw.span`my-1 hover:text-purple-400 text-sm sm:text-base`;
+const Text = tw.span`
+my-1 hover:text-purple-400
+`;
 
-const FooterContent = tw.div`py-3`;
+const FooterContent = tw.div`
+py-3
+`;
 
-const Content = tw.div`inline-flex mx-3`;
+const Content = tw.div`
+inline-flex mx-3
+`;
 
 export default function Footer() {
   const member = [
