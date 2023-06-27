@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
+
 import { getBlogLoginProfile, getBlogProfile } from "../../../api/profileApi";
 import { LoginState } from "../../../state/UserState";
 import {

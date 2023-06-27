@@ -1,22 +1,17 @@
 import { atom } from "recoil";
-import { CommentType } from "../type/blogType";
+import { AxiosDataType } from "../type/blogType";
 
-export const TitleState = atom<string | undefined>({
+export const TitleState = atom<string>({
   key: "BlogTitleState",
   default: "",
 });
-
-// export const ThumbnailState = atom<File | null>({
-//   key: "ThumbnailState",
-//   default: null,
-// });
 
 export const ThumbnailState = atom<string | null>({
   key: "ThumbnailState",
   default: null,
 });
 
-export const ContentState = atom<string | undefined>({
+export const ContentState = atom<string>({
   key: "BlogContentState",
   default: "",
 });
@@ -26,7 +21,7 @@ export const TagState = atom<string[] | undefined>({
   default: [],
 });
 
-export const PublicState = atom<boolean | undefined>({
+export const PublicState = atom<boolean>({
   key: "BlogPublicState",
   default: true,
 });
@@ -36,7 +31,7 @@ export const ListState = atom<string[] | undefined>({
   default: [],
 });
 
-export const BlogEditState = atom<CommentType | undefined>({
+export const BlogEditState = atom<AxiosDataType | undefined>({
   key: "BlogEditListState",
   default: undefined,
 });

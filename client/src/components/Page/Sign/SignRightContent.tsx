@@ -2,8 +2,7 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import sideImg from "src/image/header_ex.jpg";
 
-export const Content = tw.article`
-hidden md:block w-full`;
+export const Content = tw.article`hidden md:block w-full`;
 
 export default function RightContent() {
   return (

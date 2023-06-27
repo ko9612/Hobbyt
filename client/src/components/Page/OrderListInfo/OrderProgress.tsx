@@ -9,9 +9,10 @@ import {
   RiCheckDoubleFill,
 } from "react-icons/ri";
 import Image from "next/image";
-import example from "src/image/pictureDefalut.svg";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+
+import example from "src/image/pictureDefalut.svg";
 import { DButton } from "../../Button/DefalutButton";
 import { deleteOrder, patchOrderState } from "../../../api/orderApi";
 import DelModal from "../../Modal/DelModal";
@@ -22,26 +23,12 @@ import { orderErrorHandler } from "../../../util/ErrorHandler";
 import MsgModal from "../../Modal/MsgModal";
 import DMButton from "../../Button/DMButton";
 
-const IconDiv = tw.span`
-bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center 
-justify-center border-2 border-white max-sm:h-[3rem] max-sm:w-[3rem] max-sm:p-3
-`;
-
-const PgSection = tw.section`
-my-8
-`;
-
-const PgTitle = tw.div`
-flex items-center justify-between max-[500px]:flex-col
-`;
-
-const PgContent = tw.ul`
-flex justify-evenly items-center pt-[4rem] max-[420px]:flex-wrap
-`;
-
-const PgStatus = tw.li`
-flex flex-col items-center text-[12px] sm:text-base max-[420px]:w-1/3 pb-2
-`;
+const IconDiv = tw.span`bg-gray-300 h-[5rem] w-[5rem] rounded-full flex items-center 
+justify-center border-2 border-white max-sm:h-[3rem] max-sm:w-[3rem] max-sm:p-3`;
+const PgSection = tw.section`my-8`;
+const PgTitle = tw.div`flex items-center justify-between max-[500px]:flex-col`;
+const PgContent = tw.ul`flex justify-evenly items-center pt-[4rem] max-[420px]:flex-wrap`;
+const PgStatus = tw.li`flex flex-col items-center text-[12px] sm:text-base max-[420px]:w-1/3 pb-2`;
 
 const stateArr = [
   {
@@ -179,12 +166,12 @@ export default function OrderProgress({ isData }: IDataProps) {
                   width={150}
                   height={150}
                   alt="작품 이미지"
-                  className="w-full h-full object-fill rounded-md"
+                  className="object-fill w-full h-full rounded-md"
                 />
               </span>
-              <h2 className="px-5 text-lg font-bold sm:text-xl flex flex-wrap items-center overflow-hidden">
+              <h2 className="flex flex-wrap items-center px-5 overflow-hidden text-lg font-bold sm:text-xl">
                 <button
-                  className="hover:text-MainColor px-3"
+                  className="px-3 hover:text-MainColor"
                   onClick={() =>
                     router.push(
                       `/blog/${isData.sellerId}/sale/${isData.saleId}`,
@@ -194,7 +181,7 @@ export default function OrderProgress({ isData }: IDataProps) {
                   {isData.title}
                 </button>
                 {isData.status === "CANCEL" && (
-                  <span className="font-semibold text-red-400 px-3">
+                  <span className="px-3 font-semibold text-red-400">
                     [미입금 주문 취소]
                   </span>
                 )}

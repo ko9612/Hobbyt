@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components";
 import { useRecoilValue } from "recoil";
 import { useRouter } from "next/router";
 import { useState } from "react";
+
 import Navbar from "../../src/components/Nav/NavBar";
 import Tab from "../../src/components/Tab/Tab";
 import { SaleMenus } from "../../src/components/Tab/TabArr";
@@ -13,9 +14,7 @@ import UrlAccessControl from "../../src/util/UrlAccessControl";
 
 const MypageContent = tw.div`max-w-[52rem] m-auto`;
 
-const MypageTitle = tw.div`
-mt-5 sm:mt-20 mb-2
-  `;
+const MypageTitle = tw.div`mt-5 sm:mt-20 mb-2`;
 
 export default function Mypage() {
   const router = useRouter();

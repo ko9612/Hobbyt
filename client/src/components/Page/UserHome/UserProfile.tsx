@@ -2,9 +2,11 @@ import { BsCalendar4 } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+
 import Followig from "./Following";
 import TodayCount from "../../ViewLikeWrite/TodayCount";
 import { UserProfileDataState } from "../../../state/ProfileState";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 export default function UserProfile() {
   const handle = () => {};
@@ -12,8 +14,6 @@ export default function UserProfile() {
   const homeUserId = Number(router.query.userId);
 
   const userData = useRecoilValue(UserProfileDataState);
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
 
   return (
     <div className="items-center justify-center block m-auto text-center">
@@ -21,7 +21,7 @@ export default function UserProfile() {
       <div className="inline-flex mb-5">
         <BsCalendar4 className="mt-1" />
         <p className="ml-2 text-gray-400">
-          {userData?.createdAt && getParsedDate(userData.createdAt)}
+          {userData?.createdAt && ParseDateFC(userData.createdAt)}
         </p>
       </div>
       <p className="mb-7">{userData.description}</p>

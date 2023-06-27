@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
 import MyPageCategory from "../../Category/MyPageCategory";
 import { SaleManagementMenus } from "../../Category/CategoryArr";
 import { PContent } from "./ProductsList";
@@ -14,6 +15,7 @@ import {
   SaleManagementListType,
   SaleManagememtType,
 } from "../../../type/userTypes";
+import ParseDateFC from "../../../util/ParseDateFC";
 
 export default function SalesManagementList() {
   const [data, setData] = useState<SaleManagementListType[]>([]);
@@ -36,33 +38,27 @@ export default function SalesManagementList() {
     getData();
   }, [page]);
 
-  // 날짜 바꿔주는 함수
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
-
   return (
     <>
       <MyPageCategory Menus={SaleManagementMenus} />
       <PContent>
-        <div className="h-[45rem]">
+        <div className="h-[54rem]">
           {data?.data &&
             data?.data.map((product: SaleManagememtType) => (
-              <div         key={product.orderId}>
-                <ul
-                  className="flex items-center justify-between p-[1rem] text-center"
-                >
+              <div key={product.orderId}>
+                <ul className="flex items-center justify-between p-[1rem] text-center text-sm md:text-base">
                   <Link
                     href={`/mypage/${userId}/orderdetail/${product.sellerId}/ordermanagement/${product.orderId}`}
                   >
-                    <li className="w-[8rem] mr-[3.5rem] text-center truncate">
+                    <li className="w-16 md:w-[8rem] md:mr-[3.5rem] text-center truncate">
                       {product.title}
                     </li>
                   </Link>
-                  <li className="w-[8rem] mr-[4rem] truncate text-center">
+                  <li className="w-18 md:w-[8rem] md:mr-[4rem] truncate text-center">
                     {product.nickname}
                   </li>
-                  <li className="w-[8rem] mr-[4rem] text-center">
-                    {product.createdAt && getParsedDate(product.createdAt)}
+                  <li className="w-22 md:w-[8rem] md:mr-[4rem] text-center">
+                    {product.createdAt && ParseDateFC(product.createdAt)}
                   </li>
                   <div>
                     <ProgressCategory
@@ -76,7 +72,7 @@ export default function SalesManagementList() {
               </div>
             ))}
         </div>
-        <div className="flex justify-center mt-20">
+        <div className="myInfo-pagenation-box">
           {totalPages && (
             <Stack spacing={2}>
               <Pagination

@@ -2,9 +2,7 @@ import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
 import { TagState } from "../../state/BlogPostState";
 
-const TagInput = tw.div`
-mt-3 mb-10 flex border-2 rounded-lg px-3
-`;
+const TagInput = tw.div`mt-3 mb-10 flex border-2 rounded-lg px-3`;
 
 export default function DefalutTag() {
   const [tags, setTags] = useRecoilState(TagState);
@@ -36,7 +34,7 @@ export default function DefalutTag() {
         <ul className="tag-ul">
           {tags?.map((tag: string, idx: number) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li className="tag" key={idx}>
+            <li className="text-sm tag sm:text-base" key={idx}>
               <span className="tag-title">{tag}</span>
               <button
                 type="button"

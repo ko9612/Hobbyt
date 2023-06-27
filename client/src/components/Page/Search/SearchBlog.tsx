@@ -3,13 +3,13 @@ import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
+
 import BlogItem from "../../List/BlogItem";
 import FilterButton from "../../Button/FilterButton";
 import { SearchBlogDataProps, BlogItemProps } from "../../../type/blogType";
 import { BlogSelectState } from "../../../state/BlogPostState";
 import { getSearchBlogList } from "../../../api/searchApi";
 import ScrollRoader from "../../Scroll/ScrollRoader";
-import { Content, Item } from "./SearchSales";
 
 const SRContainer = tw.div``;
 

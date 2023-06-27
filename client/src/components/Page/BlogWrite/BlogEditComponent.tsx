@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+
 import {
   TitleState,
   ContentState,
@@ -32,10 +33,8 @@ export default function BlogEditComponent() {
 
   // 블로그 게시글 수정할 데이터 저장 상태
   const setEditData = useSetRecoilState(BlogEditState);
-
   const qid = Number(router.query.postId);
   const uid = Number(router.query.userId);
-
   const userId = useRecoilValue(UserIdState);
 
   // 메세지 모달 보이는지, 안 보이는 지 여부
@@ -57,8 +56,8 @@ export default function BlogEditComponent() {
   const GetData = async () => {
     try {
       const get = await getBlogDetail(qid);
-      if ((get as any).status === 200) {
-        if ((get as any).data.writer.id !== uid && userId !== uid) {
+      if (get.status === 200) {
+        if (get.data.writer.id !== uid && userId !== uid) {
           setErrMsg("접근할 수 없는 게시글입니다.");
           setShowModal(true);
         } else {
@@ -140,6 +139,7 @@ export default function BlogEditComponent() {
     ) {
       try {
         const EditSubmit = await patchBlogContent(data, qid);
+        console.log("EditSubmit", EditSubmit);
         switch (EditSubmit.status) {
           case 200:
             resetData();
@@ -152,6 +152,7 @@ export default function BlogEditComponent() {
         console.error(err);
       }
     }
+    return console.log();
   };
 
   return (

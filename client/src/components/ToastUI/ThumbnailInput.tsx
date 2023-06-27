@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import { useSetRecoilState } from "recoil";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
+
 import { ThumbnailState } from "../../state/BlogPostState";
 import { postThumbnailUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
@@ -47,7 +48,7 @@ export default function ThumbnailInput() {
 
   return (
     <Title>
-      <div className="flex items-center flex-wrap">
+      <div className="flex flex-wrap items-center">
         {showMsgModal && (
           <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />
         )}
@@ -57,7 +58,7 @@ export default function ThumbnailInput() {
           id="thumbnailImg"
           accept="image/jpeg, image/png, image/jpg"
           onChange={onChangeImage}
-          className="w-full p-2 my-2 border-2 rounded-lg border-slate-200 text-sm sm:text-base"
+          className="w-full p-2 my-2 text-sm border-2 rounded-lg border-slate-200 sm:text-base"
         />
       </div>
       {router.pathname.includes("edit") && (

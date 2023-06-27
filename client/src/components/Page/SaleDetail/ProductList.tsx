@@ -8,7 +8,6 @@ import { SelectdPdList } from "../../../state/SaleState";
 import exampleImg from "../../../image/pictureDefalut.svg";
 
 const ProductItem = tw.div`p-3 bg-gray-100 rounded-lg flex items-center relative`;
-
 const PMButton = tw.button`px-2 text-gray-300 font-semibold`;
 
 export default function ProductList() {
@@ -55,7 +54,7 @@ export default function ProductList() {
   return (
     <PdContent className="border-none">
       <div className="font-semibold">제품 선택</div>
-      <div className="pt-4 grid grid-cols-1 gap-5">
+      <div className="grid grid-cols-1 gap-5 pt-4">
         {selectItem &&
           selectItem.map((item, idx) => (
             <ProductItem key={idx}>
@@ -65,12 +64,12 @@ export default function ProductList() {
                   alt="제품이미지"
                   width={200}
                   height={200}
-                  className="object-fill w-full h-full rounded-lg border-2 border-white"
+                  className="object-fill w-full h-full border-2 border-white rounded-lg"
                 />
               </div>
               <div className="font-semibold max-[370px]:w-3/5">
-                <p className="line-clamp-1 truncate">{item.name}</p>
-                <p className="line-clamp-1 truncate">{item.price} 원</p>
+                <p className="truncate line-clamp-1">{item.name}</p>
+                <p className="truncate line-clamp-1">{item.price} 원</p>
                 {item.stockQuantity > 0 ? (
                   item.stockQuantity < 5 && (
                     <p className="text-sm text-red-500">품절임박</p>
@@ -79,7 +78,7 @@ export default function ProductList() {
                   <p className="text-sm text-red-500">품절</p>
                 )}
               </div>
-              <div className="text-center absolute right-2 bottom-2">
+              <div className="absolute text-center right-2 bottom-2">
                 <div className="max-[450px]:w-[4rem] w-[5rem] bg-white rounded-2xl py-1 flex justify-between">
                   <PMButton
                     disabled={item.quantity === 0}

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
+
 import {
   InfoSection,
   InfoTitle,
@@ -37,7 +38,6 @@ export default function PasswordInfo() {
 
   // 비밀번호 변경 핸들러
   const passwordEditSubmit = async (data: PasswordProps) => {
-    
     if (data.oldPassword === data.newPassword) {
       setMsg("현재 비밀번호와 다른 비밀번호를 입력해주세요.");
     } else {
@@ -63,7 +63,7 @@ export default function PasswordInfo() {
     <>
       {showModal && <MsgModal msg={msg} setOpenModal={setShowModal} />}
       <InfoSection>
-        <div className="flex items-center justify-between flex-wrap">
+        <div className="flex flex-wrap items-center justify-between">
           <InfoTitle>비밀번호 설정</InfoTitle>
           <p className="pb-1 text-sm text-gray-500">
             ※ 비밀번호는 8~15자의 영문 대/소문자, 숫자, 특수문자를 혼합해서
@@ -138,9 +138,9 @@ export default function PasswordInfo() {
                 )}
             </InputDiv>
           </EditList>
-          <div className="flex justify-end items-center">
+          <div className="flex items-center justify-end">
             {oauthLogin && (
-              <p className="text-sm text-red-400 px-6">
+              <p className="px-6 text-sm text-red-400">
                 소셜 로그인 회원은 비밀번호 변경이 불가합니다.
               </p>
             )}

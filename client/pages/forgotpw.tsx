@@ -1,4 +1,3 @@
-import tw from "tailwind-styled-components";
 import SignGuide from "../src/components/Page/Sign/SignGuide";
 import SignRightContent from "../src/components/Page/Sign/SignRightContent";
 import Logo from "../src/components/Page/Sign/SignLogo";
@@ -13,8 +12,8 @@ export default function ForgotPassword() {
         <LeftContent>
           <Logo />
           <InputDiv>
-          <ForgotPasswordForm/>
-          <SignGuide
+            <ForgotPasswordForm />
+            <SignGuide
               msg="아직 회원이 아니신가요?"
               sign="회원가입"
               href="/signup"

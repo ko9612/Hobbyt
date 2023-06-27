@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
-import { getNotice } from "../../api/noticeApi";
+import { getNotice } from "../../api/websocketApi";
 import ScrollRoader from "../Scroll/ScrollRoader";
 
 interface NoticeListType {
@@ -82,6 +82,19 @@ export default function NoticeList() {
     }
   };
 
+  const noticeTypeText = (type: string) => {
+    if (type === "POST_COMMENT") {
+      return <p>에 댓글을 남겼습니다.</p>;
+    }
+    if (type === "SALE_ORDER") {
+      return <p>상품을 주문하였습니다.</p>;
+    }
+    if (type === "ORDER_CANCEL") {
+      return <p>상품에 주문을 취소하였습니다.</p>;
+    }
+    return null;
+  };
+
   return (
     <div>
       {isLoding ? (
@@ -100,7 +113,11 @@ export default function NoticeList() {
                         className="w-full"
                       >
                         <div className="flex items-center justify-center w-full px-4 py-6 mb-5 text-xs bg-gray-100 rounded-lg sm:text-sm sm:p-8 sm:inline-flex md:text-base">
-                          <p className="flex mr-1 font-semibold text-MainColor">
+                          <p
+                            className={`flex mr-1 font-semibold truncate text-MainColor ${
+                              notice.sender.length > 6 ? "w-16" : ""
+                            }`}
+                          >
                             {notice.sender}
                           </p>
                           <p className="mr-2">님이</p>
@@ -113,17 +130,7 @@ export default function NoticeList() {
                           >
                             {notice.title}
                           </span>
-                          <p className="">
-                            {notice.type === "POST_COMMENT"
-                              ? "에 댓글을 남겼습니다."
-                              : null}
-                            {notice.type === "SALE_ORDER"
-                              ? "상품을 주문하였습니다."
-                              : null}
-                            {notice.type === "ORDER_CANCEL"
-                              ? "상품에 주문을 취소하였습니다."
-                              : null}
-                          </p>
+                          {noticeTypeText(notice.type)}
                         </div>
                       </button>
                     </div>

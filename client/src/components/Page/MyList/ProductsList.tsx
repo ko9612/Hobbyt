@@ -12,8 +12,9 @@ import {
   ProductListType,
   ProductType,
 } from "../../../type/userTypes";
+import ParseDateFC from "../../../util/ParseDateFC";
 
-export const PContent = tw.div`w-[50rem] block justify-center items-center m-auto h-[60rem]`;
+export const PContent = tw.div` block justify-center items-center m-auto md:h-[60rem]`;
 
 export default function ProductstList() {
   const [data, setData] = useState<ProductListType[]>([]);
@@ -36,33 +37,29 @@ export default function ProductstList() {
     getData();
   }, [page]);
 
-  // 날짜 바꿔주는 함수
-  const getParsedDate = (date: string) =>
-    new Date(date).toLocaleDateString("ko-KR");
-
   return (
     <>
       <MyPageCategory Menus={ProductMenus} />
       <PContent>
-        <div className="h-[45rem]">
+        <div className="h-[54rem]">
           {data.data &&
             data.data.map((product: ProductType, idx: number) => (
               <div key={idx}>
                 <Link href={`/blog/${product.sellerId}/sale/${product.saleId}`}>
-                  <ul className="flex items-center justify-between p-[1.5rem] text-center">
-                    <li className="w-[8rem] text-center truncate">
+                  <ul className="flex items-center justify-between p-[1.5rem] text-center text-sm md:text-base">
+                    <li className="w-1/6 md:w-[8rem] text-center truncate">
                       {product.productName}
                     </li>
-                    <li className="w-[12rem] mr-8 text-center">
+                    <li className="w-2/6 md:w-[12rem] md:mr-8 text-center">
                       {product.isAlwaysOnSale === true
                         ? "상시판매"
                         : `${product.period.startedAt} ~ ${product.period.endAt}`}
                     </li>
-                    <li className="w-[5rem] mr-14 text-center">
+                    <li className="w-1/6 md:w-[5rem] md:mr-14 text-center">
                       {product.salesVolume}
                     </li>
-                    <li className="w-[8rem] text-center">
-                      {product.createdAt && getParsedDate(product.createdAt)}
+                    <li className="w-1/4 md:w-[8rem] text-center">
+                      {product.createdAt && ParseDateFC(product.createdAt)}
                     </li>
                   </ul>
                 </Link>
@@ -70,7 +67,7 @@ export default function ProductstList() {
               </div>
             ))}
         </div>
-        <div className="flex justify-center mt-20">
+        <div className="myInfo-pagenation-box">
           {totalPages && (
             <Stack spacing={2}>
               <Pagination

@@ -1,12 +1,13 @@
 import tw from "tailwind-styled-components";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+
 import Navbar from "../../src/components/Nav/NavBar";
 import Footer from "../../src/components/Footer/Footer";
 import { Main } from "../index";
 import { Title, HR } from "../notice";
 import MessageList from "../../src/components/Websoket/MessageList";
-import { getChatRoomList } from "../../src/api/chatApi";
+import { getChatRoomList } from "../../src/api/websocketApi";
 
 const MContent = tw.div`
 w-full m-auto flex items-start content-start

@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  AxiosBlogPostSubmitType,
+  PostBlogEditRequestDataType,
+} from "../type/blogType";
 import { customAxios } from "../util/LoginRefresh";
 import ErrorHandler from "./errorHandler";
 
@@ -32,7 +36,10 @@ export const postBlogContent = async (data: any) => {
 };
 
 // 블로그 게시글 수정 api
-export const patchBlogContent = async (data: any, postId: number) => {
+export const patchBlogContent = async <T = AxiosBlogPostSubmitType,>(
+  data: PostBlogEditRequestDataType,
+  postId: number,
+): Promise<T> => {
   try {
     const blogContent = await customAxios.patch(`/api/posts/${postId}`, data);
     return blogContent;

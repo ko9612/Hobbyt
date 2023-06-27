@@ -1,9 +1,7 @@
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 
-const SignupText = tw.p`
-my-2 text-sm text-center text-gray-400
-`;
+const SignupText = tw.p`my-2 text-sm text-center text-gray-400`;
 
 interface SignProps {
   msg: string;
@@ -17,7 +15,7 @@ export default function SignupButton({ msg, sign, href }: SignProps) {
       {msg}
       <Link
         href={href}
-        className="text-MainColor focus:underline hover:underline ml-2"
+        className="ml-2 text-MainColor focus:underline hover:underline"
       >
         {sign}
       </Link>

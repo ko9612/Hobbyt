@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import { useRecoilState } from "recoil";
 import Image from "next/image";
+
 import { SaleDetailProps } from "../../../type/saleType";
 import { SaleDetailState } from "../../../state/SaleState";
 

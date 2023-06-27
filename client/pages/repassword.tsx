@@ -4,17 +4,16 @@ import Logo from "../src/components/Page/Sign/SignLogo";
 import PatchForgotPassword from "../src/components/Page/Sign/PatchForgotPassword";
 
 export default function resetPassword() {
-
   return (
-  <Main>
-    <Content className="flex-col items-center">
+    <Main>
+      <Content className="flex-col items-center">
         <LeftContent className=" sm:w-[30rem]">
-        <Logo/>
-        <InputDiv className="text-center">
-            <PatchForgotPassword/>
-        </InputDiv>
+          <Logo />
+          <InputDiv className="text-center">
+            <PatchForgotPassword />
+          </InputDiv>
         </LeftContent>
-    </Content>
-  </Main>
+      </Content>
+    </Main>
   );
 }

@@ -3,6 +3,7 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
+
 import { ContentState } from "../../state/BlogPostState";
 import { postImageUpload } from "../../api/blogApi";
 import MsgModal from "../Modal/MsgModal";
@@ -37,7 +38,7 @@ export default function TextEditor() {
     <div className="px-5">
       {showMsgModal && <MsgModal msg={errMsg} setOpenModal={setShowMsgModal} />}
       <Title>
-        <p className="font-semibold mb-1">
+        <p className="mb-1 font-semibold">
           본문 <span className="text-red-500">&#42;</span>
         </p>
         <p className="text-sm text-gray-400">

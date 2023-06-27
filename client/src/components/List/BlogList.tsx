@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+
 import BlogSaleInfo from "../Page/UserHome/BlogSaleInfo";
 import BlogItem from "./BlogItem";
 import ScrollRoader from "../Scroll/ScrollRoader";
@@ -90,7 +91,6 @@ function BlogList({ posts }: BlogTabProps) {
           >
             {item.posts &&
               item.posts.map((el: any) => (
-                // <div key={el.id} className="sm:w-[35rem] md:w-[42rem]">
                 <div key={el.id}>
                   <BlogItem list={el}>블로그</BlogItem>
                 </div>
