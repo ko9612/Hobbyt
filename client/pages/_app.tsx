@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import Script from "next/script";
 import Head from "next/head";
 import * as gtag from "../src/util/gtag";
+import TopButton from "../src/components/Button/TopButton";
+import Layout from "./layout";
+import StompAlarmSubscibe from "../src/components/Websoket/stompAlarmSubscibe";
 // import NoticeModal from "../src/components/Modal/NoticeModal";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -49,11 +52,16 @@ export default function App({ Component, pageProps }: AppProps) {
       {/* GA 설정 끝 */}
       <div
         className={`${
-          !router.pathname.includes("/oauth") && "max-w-[80rem]"
+          !router.pathname.includes("/oauth") &&
+          "max-w-[80rem] md:w-full sm:w-full h-screen"
         } m-auto`}
       >
         {/* <NoticeModal /> */}
+        <Layout>
+          <StompAlarmSubscibe />
+        </Layout>
         <Component {...pageProps} />
+        <TopButton />
       </div>
     </RecoilRoot>
   );
